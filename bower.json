@@ -1,0 +1,21 @@
+{
+  "name": "MEAN-basic-boilerplate",
+  "version": "0.0.0",
+  "homepage": "https://github.com/deini/MEAN-basic-boilerplate",
+  "authors": [
+    "Daniel Almaguer <danielalmaguer@gmail.com>"
+  ],
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.12",
+    "angular-route": "~1.2.12"
+  }
+}
