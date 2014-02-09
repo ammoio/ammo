@@ -1,5 +1,5 @@
 angular.module('testApp')
   
   .controller('MainController', function($scope) {
-    $scope.name = "Daniel";
+    $scope.welcome = "basic MEAN stack boilerplate";
   });
