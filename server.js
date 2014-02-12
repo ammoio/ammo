@@ -29,5 +29,5 @@ if ('development' == app.get('env')) {
 }
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Magic happens on port ' + app.get('port'));
+  console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
 });
