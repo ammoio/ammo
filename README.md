@@ -1,2 +1,2 @@
-MEAN-basic-boilerplate
+ammo.io
 ======================

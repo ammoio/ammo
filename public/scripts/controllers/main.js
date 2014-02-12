@@ -1,5 +1,9 @@
-angular.module('testApp')
+angular.module('ammoApp')
   
   .controller('MainController', function($scope) {
-    $scope.welcome = "basic MEAN stack boilerplate";
+    // $scope.welcome = "ammo";
+
+    $scope.search = function(userInput) {
+      $scope.results = userInput;
+    };
   });

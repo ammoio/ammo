@@ -1,5 +1,5 @@
 {
-  "name": "MEAN-basic-boilerplate",
+  "name": "ammo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "jade": "*",
-    "mongoose": "~3.8.7"
+    "jade": "*"
   }
 }

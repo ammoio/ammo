@@ -1,9 +1,9 @@
 {
-  "name": "MEAN-basic-boilerplate",
+  "name": "ammo",
   "version": "0.0.0",
-  "homepage": "https://github.com/deini/MEAN-basic-boilerplate",
+  "homepage": "https://github.com/ammoio/ammo",
   "authors": [
-    "Daniel Almaguer <danielalmaguer@gmail.com>"
+    "ammo.io <hackers@ammo.io>"
   ],
   "main": "app.js",
   "license": "MIT",
