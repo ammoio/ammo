@@ -18,9 +18,10 @@ module.exports = {
     }); 
     return d.promise;
   },
+
   getQueue: function(id){
     var d = Q.defer();
-    Models.Queue.find({shareId: }function(err, data){
+    Models.Queue.find({shareId: id}, function(err, data){
       if(err){
         d.reject(err); 
       } else {
