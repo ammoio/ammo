@@ -31,6 +31,8 @@ if ('development' == app.get('env')) {
 app.get('/queues', function(req, res){
   dbHelpers.getQueues().then(function(data){
     res.send(data);
+  }).fail(function (err) {
+    res.send(500, err);
   });
 });
 

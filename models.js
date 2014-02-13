@@ -17,13 +17,14 @@ var playlistSchema = mongoose.Schema({
 var songSchema = mongoose.Schema({
   url: String,
   service: String,
-  service_id: String,
+  serviceId: String,
   title: String,
   artist: String,
-  duration: Number (seconds)
+  duration: Number,
+  image: String
 });
 
 module.exports = {
-  Queue = mongoose.model('Queue', queueSchema),
-  Playlist = mongoose.model('Queue', playlistSchema)
+  Queue: mongoose.model('Queue', queueSchema),
+  Playlist: mongoose.model('Playlist', playlistSchema)
 };
