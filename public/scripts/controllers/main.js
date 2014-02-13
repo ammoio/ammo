@@ -2,8 +2,9 @@ angular.module('ammoApp')
   
   .controller('MainController', function($scope) {
     // $scope.welcome = "ammo";
+    $scope.songs = [];
 
-    $scope.search = function(userInput) {
-      $scope.results = userInput;
+    $scope.add = function(userInput) {
+      $scope.songs.push({name: userInput});
     };
   });
