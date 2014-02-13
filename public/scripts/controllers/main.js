@@ -7,9 +7,15 @@ angular.module('ammoApp')
 
     /* Share Button: when clicked, share button do a post request to /queues */
     $scope.share = function() {
-      $http({method: 'POST', url: '/queues'}).
+      var requestObj = {
+        name: "new queue",
+        passphrase: "secret",
+        currentSong: 0,
+        songs: $scope.songs
+      };
+      $http.post('/queues', requestObj).
       success(function(data, status, headers, config) {
-
+        console.log('posted');
       })
       .error(function(){
         console.log('post error');
@@ -32,12 +38,19 @@ angular.module('ammoApp')
       searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
 
       //GET request
-      $http({method: 'GET', url: searchUrl }).
+      $http.get(searchUrl).
       success(function(data, status, headers, config) {
         //add each returned track title to each list
         data.forEach(function(track) {
-          $scope.songs.push({ name: track.title, id: track.id });
+          $scope.songs.push({ 
+            url: track.uri,
+            service: 'soundcloud',
+            service_id: track.id,
+            title: track.title,
+            artist: track.user.username
+          });
         });
+        debugger;
       }).
       error(function(data, status, headers, config) {
         console.log('failed query');
