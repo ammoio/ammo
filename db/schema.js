@@ -10,9 +10,8 @@
 var Queue = {
   name: String,
   shareId: String,
+  passphrase: String,
   lastAccessed: Date,
   songs: Array,
   currentSong: Number,
-
-  
 };
