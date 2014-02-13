@@ -30,9 +30,23 @@ if ('development' == app.get('env')) {
 }
 
 // Server Routes
+app.get('/queues', function(req, res){
+  dbHelpers.getQueues().then(function(data){
+    res.send(data);
+  });
+});
+
+app.get('/queues/:id', function(req, res){
+});
+
 app.post('/queues', function (req, res) {
 
 });
+
+app.post('/queues/:id/add', function(req, res){
+
+});
+
 
 
 //Catch-all Route
