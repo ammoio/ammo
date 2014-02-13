@@ -15,11 +15,13 @@ angular.module('ammoApp')
       //q: query string
       //limit: number of results to return
       SC.get('/tracks', { q: userInput, limit: 3 }, function(tracks) {
-        for (var i = 0; i < tracks.length; i++) {
-          console.log(tracks[i]);
-          $scope.songs.push({name: tracks[i].title, id: tracks[i].id});
-        }
+        tracks.forEach(function(track){
+          console.log(track);
+          $scope.$apply(function() {
+            $scope.songs.push({name: track.title, id: track.id});
+          });
+        });
       });
-      $scope.showing = !$scope.showing;
+      // $scope.showing = !$scope.showing;
     };
   });
