@@ -1,0 +1,108 @@
+#Get All Queues
+method: GET
+url: /queues
+Example:
+  Response Data: [{Queue}, {Queue}, {Queue}]
+
+#Get Queue
+method: GET
+url: /queues/:id
+Example:
+  Response Data: {
+    _id: 38274hfdusygfds238hfds,
+    name: "New Queue",
+    shareId: "d4G5d8A",
+    lastAccessed: someDate,
+    songs: [...],
+    currentSong: 0
+  }
+
+#Create New Queue
+method: POST
+url: /queues
+Example:
+  Request Data: {
+    name: "New Queue",
+    passphrase: "secret",
+    songs: [...],
+    currentSong: 0
+  }
+
+  Response Data: {
+    _id: 38274hfdusygfds238hfds,
+    name: "New Queue",
+    shareId: "d4G5d8A",
+    passphrase: "secret",
+    lastAccessed: someDate,
+    songs: [...],
+    currentSong: 0
+  }
+
+#Update Queue
+method: PUT
+url: /queues/:id
+Example:
+  Request Data: {
+    anyKey: value
+  }
+
+#Add song to Queue
+method: POST
+url: /queues/:id/add
+(can either pass an array of song objects, or a single song object)
+Example:
+  Request Data: {
+    url: "http://youtube.com/watch?v=38942hghg...",
+    service: "youtube",
+    service_id: "38942hghg",
+    title: "Back in Black - Live...",
+    artist: null, //Optional param
+    duration: 180
+  }
+
+  Response Data: {
+    url: "http://youtube.com/watch?v=38942hghg...",
+    service: "youtube",
+    service_id: "38942hghg",
+    title: "Back in Black - Live...",
+    artist: null, //Optional param
+    duration: 180
+  }
+
+#Get All playlists
+method: GET
+url: /:user/playlists
+
+#Get playlist
+method: GET
+url: /user/playlists/:id
+
+#Create playlist
+method: POST
+url: /user/playlists
+Example:
+  Request Data: {
+    name: "New Playlist",
+    songs: [...]
+  }
+
+  Response Data: {
+    name: "New Playlist",
+    songs: [...]
+  }
+
+#Update playlist
+method: PUT
+url: /user/playlists/:id
+Example: {
+  anyKey: value
+}
+
+#Add song to playlist
+method: POST
+url: /user/playlists/:id/add
+(can either pass an array of song objects, or a single song object)
+Example:
+  see "Add song to Queue"
+
+

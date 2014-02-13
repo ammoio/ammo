@@ -13,7 +13,7 @@ var Queue = {
   passphrase: String,
   lastAccessed: Date,
   songs: Array,
-  currentSong: Number,
+  currentSong: Number
 };
 
 /*
@@ -27,5 +27,20 @@ var Queue = {
 var Playlist = {
   name: String,
   songs: Array
-  //private: Boolean //This could possibly be implemented to create private playlists.
+};
+
+/*
+ *Song
+ *
+ *Songs can have many different proprities depending on the service, but should include the following
+ *
+*/
+
+var Song = {
+  url: String,
+  service: String,
+  service_id: String,
+  title: String,
+  artist: String,
+  duration: Number (seconds)
 };
