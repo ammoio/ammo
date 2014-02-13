@@ -52,7 +52,7 @@ url: /queues/:id/add
 (can either pass an array of song objects, or a single song object)
 Example:
   Request Data: {
-    url: "http://youtube.com/watch?v=38942hghg...",
+    url: "http://youtube.com/watch?v=38942hghg",
     service: "youtube",
     service_id: "38942hghg",
     title: "Back in Black - Live...",
@@ -76,6 +76,11 @@ url: /:user/playlists
 #Get playlist
 method: GET
 url: /user/playlists/:id
+Example: 
+  Response Data: {
+    name: "New Playlist",
+    songs: [...]
+  }
 
 #Create playlist
 method: POST
