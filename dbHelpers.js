@@ -7,11 +7,11 @@ var Q = require('q');
 var Models = require('./models');
 
 module.exports = {
-  getQueues = function(){
+  getQueues: function(){
     var d = Q.defer();
     Models.Queue.find(); 
       
     return d.promise;
-  };
+  }
 
 };
