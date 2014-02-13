@@ -43,4 +43,5 @@ var Song = {
   title: String,
   artist: String,
   duration: Number (seconds)
+  image: String
 };

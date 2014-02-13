@@ -54,19 +54,19 @@ Example:
   Request Data: {
     url: "http://youtube.com/watch?v=38942hghg",
     service: "youtube",
-    service_id: "38942hghg",
+    serviceId: "38942hghg",
     title: "Back in Black - Live...",
     artist: null, //Optional param
-    duration: 180
+    duration: 180 //in Seconds
   }
 
   Response Data: {
     url: "http://youtube.com/watch?v=38942hghg...",
     service: "youtube",
-    service_id: "38942hghg",
+    serviceId: "38942hghg",
     title: "Back in Black - Live...",
     artist: null, //Optional param
-    duration: 180
+    duration: 180 //in Seconds
   }
 
 #Get All playlists
