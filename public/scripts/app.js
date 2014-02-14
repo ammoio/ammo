@@ -13,4 +13,8 @@ angular.module('ammoApp', ['ngRoute'])
         templateUrl: '/views/search.html',
         controller: 'SearchController'
       });
+      .when('/search', {
+        templateUrl: '/views/search.html',
+        controller: 'SearchController'
+      });
   });

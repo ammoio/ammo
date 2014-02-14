@@ -18,3 +18,17 @@ dbHelpers.createQueue(queue).then(function(data){
   });
 });
 
+var user = {
+  username: "alex",
+  playlists: []
+};
+
+dbHelpers.createUser(user).then(function(user){
+  console.log("Successfully Created: ", user);
+}).fail(function(err){
+  console.log("Err creating user: ", err);
+});
+
+
+
+
