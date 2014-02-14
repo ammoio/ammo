@@ -14,6 +14,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      "http://connect.soundcloud.com/sdk.js",
+      "bower_components/jquery/jquery.min.js",
       'public/bower_components/angular/angular.js',
       'public/bower_components/angular-route/angular-route.js',
       'spec/lib/angular/angular-mocks.js',
