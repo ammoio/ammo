@@ -22,7 +22,7 @@ angular.module('ammoApp')
     };
 
     $scope.passToPlay = function(index){
-      QueueService.setCurrentIndex(index);
+      QueueService.setCurrentSongIndex(index);
       $scope.play(index, 'q');
     };
   });
