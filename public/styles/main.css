@@ -87,7 +87,12 @@ i {
   max-height:40px;
 }
 
-.playButton, .addToQueue {
+.addToQueue {
   float: right;
   height: 40px;
+}
+
+.songInfo {
+  width:80%;
+  float:left;
 }

@@ -4,6 +4,6 @@ angular.module('ammoApp')
     $scope.searchResults = SearchService.searchResults;
 
     $scope.addToQueue = function() {
-
+      console.log('adding to queue');
     };
   });
