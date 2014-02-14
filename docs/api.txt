@@ -78,7 +78,7 @@ Example: [{playlist}, {playlist}, {playlist}...]
 
 #Get playlist
 method: GET
-url: /user/playlists/:id
+url: /:user/playlists/:id
 Example:
   Response Data: {
     name: "New Playlist",
