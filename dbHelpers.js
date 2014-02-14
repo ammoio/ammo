@@ -64,8 +64,37 @@ module.exports = {
         }
         d.resolve(model);
       });
-    }); 
+    });
+
+    return d.promise;
+  },
+
+  addSongToQueue: function(id, song) {
+    var d = Q.defer();
+    Models.Queue.findOne({shareId: id}, function(err, model){
+      if(Array.isArray(song)){
+        model.songs.concat(song);
+      } else {
+        model.songs.push(song);
+      }
+      model.markModified('songs');
+      model.save(function(err, model){
+        if(err){
+          d.reject(err);
+        }
+        d.resolve(model);
+      });
+    });
 
     return d.promise;
   }
+
+
 };
+
+
+
+
+
+
+

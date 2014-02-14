@@ -26,6 +26,7 @@ var Queue = {
 
 var Playlist = {
   name: String,
+  id: String,
   songs: Array
 };
 
@@ -42,6 +43,6 @@ var Song = {
   service_id: String,
   title: String,
   artist: String,
-  duration: Number (seconds)
+  duration: Number (seconds),
   image: String
 };
