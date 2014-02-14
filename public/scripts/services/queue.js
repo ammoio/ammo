@@ -21,6 +21,7 @@ angular.module('ammoApp')
 
     this.enqueue = function(song){
       this.queue.push(song);
+      console.log(this.queue);
       if (this.live){
         var url = "/queues/" + this.id + "/add"
         $http.post(url, song)

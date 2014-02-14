@@ -1,9 +1,10 @@
 angular.module('ammoApp')
-  .controller('SearchController', function($scope, SearchService) {
+  .controller('SearchController', function($scope, $location, SearchService, QueueService) {
     //set searchResults on scope to reflect change in view
     $scope.searchResults = SearchService.searchResults;
 
-    $scope.addToQueue = function() {
-      console.log('adding to queue');
+    $scope.addToQueue = function(song) {
+      QueueService.enqueue(song);
+      $location.path('/');      
     };
   });
