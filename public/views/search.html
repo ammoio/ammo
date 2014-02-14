@@ -1,6 +1,6 @@
 <div id="search-container">
   <div ul class="searchDisplay">
-    <li class="song-container" ng-repeat="song in searchResults">
+    <li class="song-container" ng-repeat="song in searchResults" ng-click="play(song)">
       <div>
         {{ song.title }}
         <button class="playButton" ng-click="player.play(song)">Play</button>

@@ -7,8 +7,8 @@ angular.module('ammoApp', ['ngRoute'])
       .when('/', {
         templateUrl: '/views/queue.html',
         controller: 'QueueController'
-      }) 
-      //display search results in the search view
+      })
+      // display search results in the search view
       .when('/search', {
         templateUrl: '/views/search.html',
         controller: 'SearchController'
