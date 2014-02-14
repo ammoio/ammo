@@ -86,3 +86,13 @@ i {
   opacity:1;
   max-height:40px;
 }
+
+.addToQueue {
+  float: right;
+  height: 40px;
+}
+
+.songInfo {
+  width:80%;
+  float:left;
+}

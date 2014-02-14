@@ -2,7 +2,7 @@ angular.module('ammoApp')
   .service('QueueService', function($http){
     //TODO - Fix isse #33
 
-    this.queue = [{name: 'test1'}, {name: 'test2'}, {name: 'test3'}, {name: 'test4'}]; //queue service storage array SHOULD BE EMPTY
+    this.queue = []; 
     this.live = false; //flag for whether or not the queue is on the server
     this.id = null;
 
