@@ -11,7 +11,7 @@ var queueSchema = mongoose.Schema({
 
 var playlistSchema = mongoose.Schema({
   name: String,
-  songs: [] 
+  songs: []
 });
 
 var songSchema = mongoose.Schema({
