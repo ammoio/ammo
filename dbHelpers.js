@@ -148,12 +148,14 @@ module.exports = {
   createPlaylist: function(username, playlist){
     var d = Q.defer();
     playlist.id = crypto.randomBytes(4).toString('hex');
+    console.log("Loooking up: ", username);
     Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
       } else {
         user.playlists[playlist.id] = playlist;
         user.markModified("playlists");
+        console.log("Playlists for Alex: ", user.playlists);
         user.save(function(err, user){
           d.resolve(playlist);
         });
@@ -197,6 +199,8 @@ module.exports = {
         if(Array.isArray(song)){
           user.playlists[id].songs = user.playlists[id].songs.concat(song);
         } else {
+          console.log("id: ", id);
+          console.log("playlists: ", user.playlists);
           user.playlists[id].songs.push(song);
         }
         user.markModified("playlists");
@@ -238,12 +242,22 @@ module.exports = {
 
   createUser: function(user){
     var d = Q.defer();
-    var newUser = new Models.User(user);
-    newUser.save(function(err, user){
-      if (err) {
+    Models.User.findOne({username: user.username}, function(err, data){
+      if(err){
         d.reject(err);
       } else {
-        d.resolve(user);
+        if(data === null){
+          var newUser = new Models.User(user);
+          newUser.save(function(err, user){
+            if (err) {
+              d.reject(err);
+            } else {
+              d.resolve(user);
+            }
+          });
+        } else {
+          d.resolve(data);
+        }
       }
     });
 
