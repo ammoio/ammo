@@ -1,61 +1,28 @@
 angular.module('ammoApp')
   
-  .controller('MainController', function($scope, $http) {
+  .controller('MainController', function($scope, $http, Services) {
     // $scope.welcome = "ammo";
     $scope.songs = [];
+    $scope.searchResults = [];
     $scope.showing = true;
+
+
+    /************** search sound cloud *************/
+    $scope.add = function(userInput) {
+      //display on screen
+      $scope.songs.push({name: userInput});
+      //from services.js. GET request to soundcloud's api to search for songs
+      Services.soundcloudSearch(userInput, function(searchResult, song) {
+        $scope.searchResults.push(searchResult);
+        $scope.songs.push(song);
+      });
+    };
 
     /* Share Button: when clicked, share button do a post request to /queues */
     $scope.share = function() {
-      var requestObj = {
-        name: "new queue",
-        passphrase: "secret",
-        currentSong: 0,
-        songs: $scope.songs
-      };
-      $http.post('/queues', requestObj).
-      success(function(data, status, headers, config) {
-        console.log('posted');
-      })
-      .error(function(){
-        console.log('post error');
-      });
+      Services.saveQueue($scope.searchResults);
     };
 
-
-    $scope.add = function(userInput) {
-    /************** query sound cloud *************/
-
-      //limit: number of results to return
-      var limit = 3;
-
-      //clientId for soundcloud api authorization
-      var clientId = "456165005356d6638c4eabfc515d11aa";
-
-      //searchUrl: get request url for query
-      //"q" is the search query
-      var searchUrl = "http://api.soundcloud.com/tracks?";
-      searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
-
-      //GET request
-      $http.get(searchUrl).
-      success(function(data, status, headers, config) {
-        //add each returned track title to each list
-        data.forEach(function(track) {
-          $scope.songs.push({ 
-            url: track.uri,
-            service: 'soundcloud',
-            service_id: track.id,
-            title: track.title,
-            artist: track.user.username
-          });
-        });
-        debugger;
-      }).
-      error(function(data, status, headers, config) {
-        console.log('failed query');
-      });
-
+    /**********************************************/
       $scope.showing = !$scope.showing;
-    };
-  });
+    });
