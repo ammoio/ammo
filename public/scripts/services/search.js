@@ -33,4 +33,37 @@ angular.module('ammoApp')
         });
       });
     };
+
+    this.soundcloud = function(userInput, callback) {
+      //limit: number of results to return
+      var limit = 3;
+
+      //clientId for soundcloud api authorization
+      var clientId = "456165005356d6638c4eabfc515d11aa";
+
+      //searchUrl: get request url for query
+      //"q" is the search query
+      var searchUrl = "http://api.soundcloud.com/tracks?";
+      searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
+
+      $http.get(searchUrl).
+        success(function(data, status, headers, config) {
+          //add each returned track title to each list
+          data.forEach(function(track) {
+            //relevant data for each song
+            var searchResults = { 
+              url: track.uri,
+              service: 'soundcloud',
+              service_id: track.id,
+              title: track.title,
+              artist: track.user.username,
+              image: track.artwork_url
+            };
+            callback(searchResults, {name: track.title});
+          });
+        }).
+        error(function(data, status, headers, config) {
+          console.log('failed query');
+        }); 
+    };
   });
