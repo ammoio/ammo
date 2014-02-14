@@ -1,7 +1,8 @@
 angular.module('ammoApp')
   .service('QueueService', function($http){
+    //TODO - Fix isse #33
 
-    this.queue = []; //queue service storage array
+    this.queue = [{name: 'test1'}, {name: 'test2'}, {name: 'test3'}, {name: 'test4'}]; //queue service storage array SHOULD BE EMPTY
     this.live = false; //flag for whether or not the queue is on the server
     this.id = null;
 
@@ -102,10 +103,10 @@ angular.module('ammoApp')
     */
 
     //TODO - Fix issue #18
-    this.saveQueue = function() {
+    this.saveQueue = function(name, passphrase) {
       var newQueue = {
-        name: "new queue",
-        passphrase: "secret",
+        name: name,
+        passphrase: passphrase,
         currentSong: 0,
         songs: this.queue
       };
