@@ -18,7 +18,7 @@ angular.module('ammoApp')
     var that = this; //reference to service object
 
     this.youtube = function(userInput, callback){
-      $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&orderby=relevance&max-results=5&alt=json&v=2' })
+      $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&category=music&orderby=relevance&max-results=5&alt=json&v=2' })
       .then(function(results) {
         results.data.feed.entry.forEach(function(video) { 
           var service_id = video.media$group.yt$videoid.$t; // We need this here because we are using the service_id to generate the url

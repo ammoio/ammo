@@ -1,6 +1,7 @@
 <div id="search-container">
-    <div class="song-container" ng-repeat="song in searchResults" ng-click="play(song, 's')">
-      {{ song.title }}
-      <button class="addToQueue btn btn-default" ng-click="addToQueue(song)">Add To Queue</button>
-    </div>
+  <button class='queueButton btn btn-default' ng-click="returnToQueue()">Return to Queue</button>
+  <div class="song-container" ng-repeat="song in searchResults" ng-click="play(song, 's')">
+    {{ song.title }}
+    <button class="addToQueue btn btn-default" ng-click="addToQueue(song)">Add To Queue</button>
+  </div>
 </div>
