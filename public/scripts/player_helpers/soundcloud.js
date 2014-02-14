@@ -11,10 +11,10 @@ SC.stream("/tracks/293", function(sound){
 var scPlay = function(track) {
   SC.stream("/tracks/" + track, {
     autoPlay: true,
-    // onfinish: function() { 
-    //   var scope = angular.element(document.getElementById("songList")).scope();
-    //   scope.playNext();
-    // },
+    onfinish: function() { 
+      var scope = angular.element(document.getElementById("#youtube")).scope();
+      scope.playNext();
+    },
   }, function(sound) {
     scPlayer = sound;
   });
