@@ -29,17 +29,34 @@ if ('development' == app.get('env')) {
 
 // Server Routes
 app.get('/queues', function(req, res){
-  dbHelpers.getQueues().then(function(data){
-    res.send(data);
-  }).fail(function (err) {
+  dbHelpers.getQueues()
+  .then(function(queues){
+    res.send(queues);
+  })
+  .fail(function (err) {
     res.send(500, err);
   });
 });
 
 app.get('/queues/:id', function(req, res){
+  dbHelpers.getQueue(req.params.id)
+  .then(function(queue){
+    res.send(queue);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
 });
 
 app.post('/queues', function (req, res) {
+  console.log("Creating: ", req.body);
+  dbHelpers.createQueue(req.body)
+  .then(function(queue){
+    res.send(queue);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
 });
 
 app.post('/queues/:id/add', function(req, res){
