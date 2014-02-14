@@ -115,4 +115,14 @@ url: /user/playlists/:id/add
 Example:
   see "Add song to Queue"
 
+#Remove Song from playlist
+method: POST
+url: /:user/playlists/:id/remove
+Example:
+  Request Data: {
+  index: 5
+  }
 
+  Response: {
+    Song(That was deleted)
+  }
