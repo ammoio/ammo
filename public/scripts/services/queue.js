@@ -2,9 +2,10 @@ angular.module('ammoApp')
   .service('QueueService', function($http){
     //TODO - Fix isse #33
 
-    this.queue = [{name: 'test1'}, {name: 'test2'}, {name: 'test3'}, {name: 'test4'}]; //queue service storage array SHOULD BE EMPTY
+    this.queue = [{title: 'test1'}, {title: 'test2'}, {title: 'test3'}, {title: 'test4'}]; //queue service storage array SHOULD BE EMPTY
     this.live = false; //flag for whether or not the queue is on the server
     this.id = null;
+    this.currentSongIndex = this.queue.length ? 0 : null;
 
     /*
       ========== enqueue ==========
@@ -60,6 +61,9 @@ angular.module('ammoApp')
 
     this.getQueue = function(){
       return this.queue;
+      //need to pull this from the server if live,
+      //and reset current song index to the one from the db
+      //rethink and refactor this whole process
     }
 
     /*
@@ -121,4 +125,9 @@ angular.module('ammoApp')
         console.log('post error');
       });
     };
+
+    this.setCurrentSongIndex = function(index){
+      this.currentSongIndex = index;
+
+    }
   });
