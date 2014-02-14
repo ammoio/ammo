@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  
+
   /* 
   ========== SearchService ==========
   Search Service is divided by services functions (youtube, soundcloud) 
@@ -13,7 +13,10 @@ angular.module('ammoApp')
     callback
       - (function) When the http request gets a response it calls the callback with the song object generated when resolving the http request.
 */
-  .service('SearchService', function($http) {
+  .service('SearchService', function($http, QueueService) {
+    this.searchResults = []; // store search results
+    var that = this; //reference to service object
+
     this.youtube = function(userInput, callback){
       $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&orderby=relevance&max-results=5&alt=json&v=2' })
       .then(function(results) {
@@ -23,12 +26,12 @@ angular.module('ammoApp')
           var song = {
             title: video.title.$t,
             service: "youtube",
-            service_id: service_id,
+            serviceId: service_id,
             url: "http://youtu.be/" + service_id,
             image: video.media$group.media$thumbnail[3].url,
             duration: video.media$group.yt$duration.seconds
           };
-          callback(song);
+          that.searchResults.push(song);
         });
       });
     };
@@ -50,15 +53,15 @@ angular.module('ammoApp')
           //add each returned track title to each list
           data.forEach(function(track) {
             //relevant data for each song
-            var searchResults = { 
+            var song = { 
               url: track.uri,
               service: 'soundcloud',
-              service_id: track.id,
+              serviceId: track.id,
               title: track.title,
               artist: track.user.username,
               image: track.artwork_url
             };
-            callback(searchResults, {name: track.title});
+            that.searchResults.push(song);
           });
         }).
         error(function(data, status, headers, config) {
