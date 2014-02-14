@@ -20,4 +20,9 @@ angular.module('ammoApp')
     $scope.share = function(name, passphrase){
       QueueService.saveQueue(name, passphrase);
     };
+
+    $scope.passToPlay = function(index){
+      QueueService.setCurrentIndex(index);
+      $scope.play(index, 'q');
+    };
   });
