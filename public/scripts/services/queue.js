@@ -92,12 +92,14 @@ angular.module('ammoApp')
       ========== saveQueue ==========
       -Triggered from a click on the "share" button, saves the current queue (this.queue)
        by posting it to the server
+        -sets the queue name and passphrase to the arguments passed
         -On a successful save, the server will respond with a shareId
         -this.id gets set to shareID
         -this.live gets set to true
 
       Params: 
-        param1: searchResults (array)
+        param1: name (string)
+        param2: passphrase (string)
 
       Return: No return
     */
