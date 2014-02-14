@@ -102,7 +102,6 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    //TODO - Fix issue #18
     this.saveQueue = function(name, passphrase) {
       var newQueue = {
         name: name,
