@@ -27,16 +27,16 @@ i {
   margin-top: 10px;
 }
 
-#main-container {
+#main-container, #search-container {
   margin-top: 75px;
   overflow-y: scroll;
 }
 
-#main-container :first-child {
+#main-container :first-child, #search-container :first-child {
   border-top: 1px solid #ddd;
 }
 
-#main-container :nth-child(odd) {
+#main-container :nth-child(odd), #search-container :nth-child(odd) {
   background-color: #f9f9f9;
 }
 

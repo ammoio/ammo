@@ -1,7 +1,9 @@
 <div id="search-container">
   <div ul class="searchDisplay">
-    <li class="animate-repeat" ng-repeat="friend in friends | filter:q">
-      [{{$index + 1}}] {{friend.name}} who is {{friend.age}} years old.
+    <li class="song-container" ng-repeat="song in searchResults">
+      <div>
+        {{ song.title }}
+      </div>
     </li>
   </div>
 </div>
