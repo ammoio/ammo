@@ -16,6 +16,18 @@ angular.module('ammoApp')
     */
     $scope.addToQueue = function(song) {
       QueueService.enqueue(song);
+    };
+
+    /*
+      ========== returnToQueue ==========
+      Return to the queue controller and view
+
+      Params: 
+        -none
+
+      Return: No return
+    */
+    $scope.returnToQueue = function() {
       $location.path('/');      
     };
   });
