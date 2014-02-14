@@ -69,9 +69,10 @@ Example:
     duration: 180 //in Seconds
   }
 
-#Get All playlists
+#Get All playlists of a user
 method: GET
 url: /:user/playlists
+Example: [{playlist}, {playlist}, {playlist}...]
 
 #Get playlist
 method: GET
