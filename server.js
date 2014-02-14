@@ -70,6 +70,18 @@ app.post('/queues/:id/add', function(req, res){
   });
 });
 
+app.put('/queues/:id', function(req, res){
+  console.log("Updating Queue ", req.params.id);
+  console.dir("Updating with: ", data);
+  dbHelpers.updateQueue(req.params.id, req.body)
+  .then(function(queue){
+    res.send(queue);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
+});
+
 
 
 //Catch-all Route
