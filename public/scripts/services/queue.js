@@ -23,7 +23,7 @@ angular.module('ammoApp')
       if (this.live){
         var url = "/queues/" + this.id + "/add"
         $http.post(url, song)
-        .success(function(data, status, headers, config)){
+        .success(function(data, status, headers, config){
           console.log("song added to q on db");
         })
         .error(function(error){
@@ -78,7 +78,7 @@ angular.module('ammoApp')
       if (this.live){
         var url = "/queues/" + this.id
         $http.post(url, {data: this.queue})
-        .success(function(data, status, headers, config)){
+        .success(function(data, status, headers, config){
           console.log("q updated db");
         })
         .error(function(error){
