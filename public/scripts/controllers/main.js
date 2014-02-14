@@ -1,8 +1,9 @@
 angular.module('ammoApp')
   
-  .controller('MainController', function($scope, $http, ParseService, SearchService) {
+  .controller('MainController', function($scope, $http, ParseService, SearchService, QueueService) {
     $scope.songs = [];
     $scope.searchResults = [];
+
 
     $scope.add = function(userInput) {
       console.log($scope.searchResults);
@@ -24,8 +25,13 @@ angular.module('ammoApp')
       
       //Call SearchService for each of the services and pass pushResults as a callback 
       SearchService.youtube(userInput, pushResults);
+      SearchService.soundcloud(userInput, pushResults); 
     };
 
+    /* Share Button: when clicked, share button do a post request to /queues */
+    $scope.share = function() {
+      Services.saveQueue($scope.searchResults);
+    };
 
     /* 
       ========== pushResults ==========
@@ -39,6 +45,10 @@ angular.module('ammoApp')
     var pushResults = function(song) {
       $scope.searchResults.push(song);
     };
+    SearchService.youtube('hello', pushResults);
+    SearchService.soundcloud('hello', pushResults);
+
+    setTimeout(function() {
+      console.log($scope.searchResults);
+    }, 3000);
   });
-
-
