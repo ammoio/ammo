@@ -8,4 +8,8 @@ angular.module('ammoApp', ['ngRoute'])
         templateUrl: '/views/queue.html',
         controller: 'QueueController'
       });
+      .when('/search', {
+        templateUrl: '/views/search.html',
+        controller: 'SearchController'
+      });
   });
