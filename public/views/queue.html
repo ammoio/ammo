@@ -1,6 +1,6 @@
 <!-- Songs Container -->
 <div id="main-container">
-  <div class ="song-container" ng-repeat="song in songs" ng-click="passToPlay($index)">
+  <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
     {{ song.title }}
   </div>
   <!-- share button to make current queue live -->
