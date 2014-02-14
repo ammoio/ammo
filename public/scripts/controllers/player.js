@@ -7,8 +7,6 @@ angular.module('ammoApp')
 
 
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
-      console.log("Playing");
-      console.log(songOrIndex);
       var song;
 
       if(queueOrSearch === 'q') {
@@ -19,6 +17,7 @@ angular.module('ammoApp')
         else {
           $scope.currentSong = null;
           $scope.playing = false;
+          return;
         }
       } 
       else if(queueOrSearch === 's') {
