@@ -5,11 +5,11 @@
       <a class="navbar-brand" href="#">Ammo</a>
     </div>
 
-    <form class="navbar-form navbar-right" role="add">
+    <form id="search" class="navbar-form navbar-right" role="search">
       <div class="form-group">
-        <input ng-model="userInput" type="text" class="form-control" placeholder="Song Url">
+        <input ng-model="userInput" type="text" class="form-control" placeholder="Search">
       </div>
-      <button ng-click="add(userInput)" class="btn btn-default">Add</button>
+      <button ng-click="search(userInput)" class="btn btn-default">Search</button>
     </form>
   </div><!-- /.container-fluid -->
 </nav>
