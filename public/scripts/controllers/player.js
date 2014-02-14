@@ -1,12 +1,20 @@
 angular.module('ammoApp')
 
-  .controller('PlayerController', function($scope) {
+  .controller('PlayerController', function($scope, QueueService) {
     $scope.playing = false;
     $scope.currentSong = null;
+    $scope.currentSongIndex = null;
 
 
-    $scope.play = function(song) {
-      console.log(song);
+    $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
+      var song;
+
+      if(queueOrSearch === 'q') {
+        song = QueueService.queue[songOrIndex];
+      } 
+      else if(queueOrSearch === 's') {
+        song = songOrIndex;
+      }
       $scope.stopAll();
       $scope.currentSong = song;
       $scope.playing = true;
@@ -42,25 +50,14 @@ angular.module('ammoApp')
       }
     };
 
-    // TODO: Issue #27
+    // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      console.log("Play Next!");
+      $scope.currentSongIndex = QueueService.setCurrentSongIndex(currentSongIndex + 1);
+      $scope.play($scope.currentSongIndex, "q");
     };
 
-    //TODO: Issue #28
     $scope.playPrev = function() {
-      console.log("Play Prev!");
+      $scope.currentSongIndex = QueueService.setCurrentSongIndex(currentSongIndex - 1);
+      $scope.play($scope.currentSongIndex, "q");
     };
-
-    var song = 
-    {
-      url: "http://www.youtube.com/watch?v=vBmUOt8ErJg",
-      service: "youtube",
-      serviceId: "vBmUOt8ErJg",
-      title: "Random Title",
-      artist: null, //Optional param
-      duration: 180 //in Seconds
-    };
-
-    setTimeout(function() { $scope.play(song); }, 6000);
 });
