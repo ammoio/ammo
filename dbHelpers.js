@@ -94,6 +94,31 @@ module.exports = {
     return d.promise;
   },
 
+  removeSongFromQueue: function(id, index){
+    var d = Q.defer();
+    Models.Queue.findOne({shareId: id}, function(err, model){
+      if(err){
+        d.reject(err);
+      } else {
+        if (index > -1) {
+          var removed = model.songs.splice(index, 1)[0];
+          model.markModified('songs');
+          model.save(function(err, model){
+            if(err){
+              d.reject(err);
+            } else {
+              d.resolve(removed[0]);
+            }
+          });
+        } else {
+          d.reject("Index out of Bounds!", index);
+        }
+      }
+    });
+
+    return d.promise;
+  },
+
 
 /* ======== Playlist Helpers ======== */
   getUserPlaylists: function(username){
@@ -182,6 +207,30 @@ module.exports = {
             d.resolve(song);
           }
         });
+      }
+    });
+    return d.promise;
+  },
+
+  removeSongFromPlaylist: function(username, id, index){
+    var d = Q.defer();
+    Models.User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        if (index > -1) {
+          var removed = user.playlists[id].songs.splice(index, 1);
+          user.markModified("playlists");
+          user.save(function(err, user){
+            if(err){
+              d.reject(err);
+            } else {
+              d.resolve(removed[0]);
+            }
+          });
+        } else {
+          d.reject("Index out of Bounds!", index);
+        }
       }
     });
     return d.promise;
