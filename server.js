@@ -60,7 +60,14 @@ app.post('/queues', function (req, res) {
 });
 
 app.post('/queues/:id/add', function(req, res){
-
+  console.log("Adding song(s)", req.body);
+  dbHelpers.addSongToQueue(req.params.id, req.body)
+  .then(function(song){
+    res.send(song);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
 });
 
 

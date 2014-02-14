@@ -46,6 +46,8 @@ Example:
     anyKey: value
   }
 
+  Response Data: {Queue}
+
 #Add song to Queue
 method: POST
 url: /queues/:id/add
