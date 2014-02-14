@@ -81,8 +81,9 @@ module.exports = {
       model.save(function(err, model){
         if(err){
           d.reject(err);
+        } else {
+          d.resolve(song);
         }
-        d.resolve(model);
       });
     });
 
