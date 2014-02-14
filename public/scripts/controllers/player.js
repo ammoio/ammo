@@ -7,10 +7,19 @@ angular.module('ammoApp')
 
 
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
+      console.log("Playing");
+      console.log(songOrIndex);
       var song;
 
       if(queueOrSearch === 'q') {
-        song = QueueService.queue[songOrIndex];
+        if(songOrIndex !== null) {
+          song = QueueService.queue[songOrIndex];
+          $scope.currentSongIndex = songOrIndex;
+        }
+        else {
+          $scope.currentSong = null;
+          $scope.playing = false;
+        }
       } 
       else if(queueOrSearch === 's') {
         song = songOrIndex;
@@ -52,12 +61,12 @@ angular.module('ammoApp')
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      $scope.currentSongIndex = QueueService.setCurrentSongIndex(currentSongIndex + 1);
+      $scope.currentSongIndex = QueueService.setCurrentSongIndex($scope.currentSongIndex + 1);
       $scope.play($scope.currentSongIndex, "q");
     };
 
     $scope.playPrev = function() {
-      $scope.currentSongIndex = QueueService.setCurrentSongIndex(currentSongIndex - 1);
+      $scope.currentSongIndex = QueueService.setCurrentSongIndex($scope.currentSongIndex - 1);
       $scope.play($scope.currentSongIndex, "q");
     };
 });
