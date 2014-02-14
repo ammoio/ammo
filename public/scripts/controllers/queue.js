@@ -2,10 +2,9 @@ angular.module('ammoApp')
 
   .controller('QueueController', function($scope, QueueService) {
     
-    $scope.songs = QueueService.queue;
+    $scope.songs = QueueService.queue; //Sets the scopes songs to the current q from qservice
 
-    $scope.play = function(song){
-      console.log(song);
-    }
-
+    $scope.share = function(name, passphrase){
+      QueueService.saveQueue(name, passphrase);
+    };
   });
