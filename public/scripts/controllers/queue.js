@@ -20,4 +20,20 @@ angular.module('ammoApp')
     $scope.share = function(name, passphrase){
       QueueService.saveQueue(name, passphrase);
     };
+
+    /*
+      ========== passToPlay ==========
+      -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
+      then passes it along to the play function.
+      
+      Params: 
+        param1: index (number)
+
+      Return: No return
+    */
+
+    $scope.passToPlay = function(index){
+      QueueService.setCurrentSongIndex(index);
+      $scope.play(index, 'q');
+    };
   });

@@ -5,6 +5,7 @@ angular.module('ammoApp')
     this.queue = []; 
     this.live = false; //flag for whether or not the queue is on the server
     this.id = null;
+    this.currentSongIndex = null;
 
     /*
       ========== enqueue ==========
@@ -20,9 +21,10 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
+      //if the queue is empty, set currentSongIndex to 0
       this.queue.push(song);
       if (this.live){
-        var url = "/queues/" + this.id + "/add"
+        var url = "/queues/" + this.id + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
           console.log("song added to q on db");
@@ -60,7 +62,10 @@ angular.module('ammoApp')
 
     this.getQueue = function(){
       return this.queue;
-    }
+      //need to pull this from the server if live,
+      //and reset current song index to the one from the db
+      //rethink and refactor this whole process
+    };
 
     /*
       ========== setQueue ==========
@@ -77,7 +82,7 @@ angular.module('ammoApp')
     this.setQueue = function(newQueue){
       this.queue = newQueue;
       if (this.live){
-        var url = "/queues/" + this.id
+        var url = "/queues/" + this.id;
         $http.post(url, {data: this.queue})
         .success(function(data, status, headers, config){
           console.log("q updated db");
@@ -86,7 +91,7 @@ angular.module('ammoApp')
           console.log(error);
         });
       }
-    }
+    };
 
      /*
       ========== saveQueue ==========
@@ -120,5 +125,26 @@ angular.module('ammoApp')
       .error(function(){
         console.log('post error');
       });
+    };
+
+    /*
+      ========== setCurrentSongIndex ==========
+      -Checks to see if the index passed in is within bounds of this.queue.
+      If it is, it sets the currentSongIndex to the new index, and returns the index.
+      Else it returns null
+
+      Params: 
+        param1: index (number)
+
+      Return: No return
+    */
+
+    this.setCurrentSongIndex = function(index){
+      if (index >=0 && index < this.queue.length){
+        this.currentSongIndex = index;
+        return index;
+      }else{
+        return null;
+      }
     };
   });
