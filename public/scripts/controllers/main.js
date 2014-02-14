@@ -45,10 +45,5 @@ angular.module('ammoApp')
     var pushResults = function(song) {
       $scope.searchResults.push(song);
     };
-    SearchService.youtube('hello', pushResults);
-    SearchService.soundcloud('hello', pushResults);
 
-    setTimeout(function() {
-      console.log($scope.searchResults);
-    }, 3000);
   });
