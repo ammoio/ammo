@@ -82,6 +82,18 @@ app.put('/queues/:id', function(req, res){
   });
 });
 
+//POST: Delete Song at index
+app.post('/queues/:id/remove', function(req, res){
+  dbHelpers.removeSongFromQueue(req.params.id, req.body)
+  .then(function(song){
+    res.send(song);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
+});
+
+
 
 /* ======== Playlist Routes ========*/
 //GET: all user playlists
@@ -133,6 +145,17 @@ app.post('/:user/playlists', function(req, res){
   dbHelpers.createPlaylist(req.params.user, req.body)
   .then(function(playlist){
     res.send(playlist);
+  })
+  .fail(function (err) {
+    res.send(500, err);
+  });
+});
+
+//POST: Delete Song at index
+app.post('/:user/playlists/:id/remove', function(req, res){
+  dbHelpers.removeSongFromPlaylist(req.params.user, req.params.id, req.body)
+  .then(function(song){
+    res.send(song);
   })
   .fail(function (err) {
     res.send(500, err);
