@@ -1,8 +1,8 @@
 angular.module('ammoApp')
 
-  .controller('FrameController', function($scope, $http, ParseService, SearchService, QueueService) {
+  .controller('FrameController', function($scope, $http, ParseService, $location, SearchService, QueueService) {
     $scope.songs = [];
-    $scope.searchResults = [];
+    $scope.searchResults = []; //maybe redundant
 
 
     $scope.add = function(userInput) {
@@ -24,6 +24,7 @@ angular.module('ammoApp')
       //Call SearchService for each of the services and pass pushResults as a callback 
       SearchService.youtube(userInput, pushResults);
       SearchService.soundcloud(userInput, pushResults); 
+      $location.path('/search');
     };
 
     /* Share Button: when clicked, share button do a post request to /queues */
