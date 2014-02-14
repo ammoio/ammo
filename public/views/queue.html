@@ -1,10 +1,13 @@
 <!-- Songs Container -->
 <div id="main-container">
-  <div class ="song-container" ng-repeat="song in songs">
+  <div class ="song-container" ng-repeat="song in songs" ng-click="player.play(song)">
     {{ song.name }}
   </div>
   <!-- share button to make current queue live -->
-  <!-- TODO - Fix issue #18 -->
-  <!-- TODO - issue #31 prompt for queue name and passphrase using modal when share clicked -->
-  <button class="share btn btn-default" ng-click="share()">Share</button>
+  
+  <form id="share"> 
+    <input type="text" placeholder="name..." ng-model="queueName">
+    <input type="text" placeholder="passphrase..." ng-model="passphrase">
+    <input class="share btn btn-default" type="submit" value="SHARE" ng-click="share(queueName, passphrase)">
+  </form>
 </div>
