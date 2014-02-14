@@ -12,8 +12,9 @@ var scPlay = function(track) {
   SC.stream("/tracks/" + track, {
     autoPlay: true,
     onfinish: function() { 
-      var scope = angular.element(document.getElementById("#youtube")).scope();
+      var scope = angular.element(document.getElementById("youtube")).scope();
       scope.playNext();
+      scope.$apply();
     },
   }, function(sound) {
     scPlayer = sound;
