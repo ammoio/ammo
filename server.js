@@ -40,7 +40,6 @@ app.get('/queues/:id', function(req, res){
 });
 
 app.post('/queues', function (req, res) {
-  res.send('need to implement post');
 });
 
 app.post('/queues/:id/add', function(req, res){

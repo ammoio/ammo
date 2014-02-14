@@ -6,7 +6,6 @@ angular.module('ammoApp')
 
 
     $scope.add = function(userInput) {
-      console.log($scope.searchResults);
       $scope.songs.push({name: userInput});
     };
 
@@ -30,7 +29,7 @@ angular.module('ammoApp')
 
     /* Share Button: when clicked, share button do a post request to /queues */
     $scope.share = function() {
-      Services.saveQueue($scope.searchResults);
+      QueueService.saveQueue($scope.searchResults);
     };
 
     /* 

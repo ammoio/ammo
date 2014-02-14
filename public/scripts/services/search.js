@@ -59,7 +59,6 @@ angular.module('ammoApp')
               artist: track.user.username,
               image: track.artwork_url
             };
-            console.log(searchResults);
             callback(searchResults, {name: track.title});
           });
         }).
