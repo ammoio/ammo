@@ -14,7 +14,6 @@ angular.module('ammoApp')
       - (function) When the http request gets a response it calls the callback with the song object generated when resolving the http request.
 */
   .service('SearchService', function($http) {
-
     this.youtube = function(userInput, callback){
       $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&orderby=relevance&max-results=5&alt=json&v=2' })
       .then(function(results) {
