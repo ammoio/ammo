@@ -86,3 +86,8 @@ i {
   opacity:1;
   max-height:40px;
 }
+
+.playButton, .addToQueue {
+  float: right;
+  height: 40px;
+}
