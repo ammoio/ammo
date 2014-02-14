@@ -14,7 +14,7 @@ var queueSchema = mongoose.Schema({
   shareId: String,
   passphrase: String,
   lastAccessed: Date,
-  songs: [],
+  songs: {type: [], default: []},
   currentSong: Number
 });
 
@@ -35,7 +35,7 @@ var playlistSchema = mongoose.Schema({
  *Song
  *
  *Songs can have many different proprities depending on the service, but should include the following
- *
+ *This is currently not implemented.
 */
 var songSchema = mongoose.Schema({
   url: String,
