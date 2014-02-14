@@ -10,8 +10,8 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var youtube;
 function onYouTubeIframeAPIReady() {
   youtube = new YT.Player('youtube', {
-    height: '0',
-    width: '0',
+    height: '200',
+    width: '200',
     videoId: '',
     events: {
       'onReady': onPlayerReady,
@@ -26,8 +26,9 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
   if(event.data === YT.PlayerState.ENDED) {
-    // var scope = angular.element(document.getElementById("songList")).scope();
-    // scope.playNext();
+    var scope = angular.element(document.getElementById("youtube")).scope();
+    scope.playNext();
+    scope.$apply();
   }
 }
 function stopVideo() {
