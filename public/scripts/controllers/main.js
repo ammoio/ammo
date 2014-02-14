@@ -1,25 +1,44 @@
 angular.module('ammoApp')
   
-  .controller('MainController', function($scope, $http, ParseService) {
-    // $scope.welcome = "ammo";
+  .controller('MainController', function($scope, $http, ParseService, SearchService) {
     $scope.songs = [];
-    $scope.showing = true;
     $scope.searchResults = [];
 
     $scope.add = function(userInput) {
+      console.log($scope.searchResults);
       $scope.songs.push({name: userInput});
-      $scope.showing = !$scope.showing;
+    };
 
-      $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&orderby=relevance&max-results=5&alt=json&v=2' })
-        .then(function(results) {
-          console.log(results);
-          results.data.feed.entry.forEach(function(video) { 
-            $scope.searchResults.push({
-              title: video.title.$t,
-              service: "youtube",
-              service_id: ParseService.youtube(video.link[0].href)
-            });
-          });
-        });
-    };    
+
+    /* 
+      ========== $scope.search ==========
+      Gets called when user clicks or hits enter on the search bar/button
+
+      Params: 
+        userInput
+          - Whathever is currently on the search box (inside form #search)
+    */
+    $scope.search = function(userInput) {
+      // Clearing past search results
+      $scope.searchResults = [];
+      
+      //Call SearchService for each of the services and pass pushResults as a callback 
+      SearchService.youtube(userInput, pushResults);
+    };
+
+
+    /* 
+      ========== pushResults ==========
+      Gets called as a callback from SearchService to be able to push results
+      to $scope.searchResults since they are in different scopes.
+
+      Params: 
+        song
+          - song object returned by SearchService $http 'GET' request
+    */
+    var pushResults = function(song) {
+      $scope.searchResults.push(song);
+    };
   });
+
+
