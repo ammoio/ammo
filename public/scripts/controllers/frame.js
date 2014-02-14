@@ -1,6 +1,6 @@
 angular.module('ammoApp')
-  
-  .controller('MainController', function($scope, $http, ParseService, SearchService, QueueService) {
+
+  .controller('FrameController', function($scope, $http, ParseService, SearchService, QueueService) {
     $scope.songs = [];
     $scope.searchResults = [];
 
@@ -21,7 +21,6 @@ angular.module('ammoApp')
     $scope.search = function(userInput) {
       // Clearing past search results
       $scope.searchResults = [];
-      
       //Call SearchService for each of the services and pass pushResults as a callback 
       SearchService.youtube(userInput, pushResults);
       SearchService.soundcloud(userInput, pushResults); 

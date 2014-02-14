@@ -5,7 +5,7 @@ angular.module('ammoApp', ['ngRoute'])
     $routeProvider
 
       .when('/', {
-        templateUrl: '/views/main.html',
-        controller: 'MainController'
+        templateUrl: '/views/queue.html',
+        controller: 'QueueController'
       });
   });
