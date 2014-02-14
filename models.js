@@ -19,6 +19,18 @@ var queueSchema = mongoose.Schema({
 });
 
 /*
+ *User
+ *
+ *Users contain playlists
+ *
+*/
+var userSchema = mongoose.Schema({
+  username: String,
+  playlists: {type: {}, default: {}}
+});
+
+
+/*
  *Playlist
  *
  *Playlists are simple song lists. They simply provide a way for users to save lists
@@ -27,6 +39,7 @@ var queueSchema = mongoose.Schema({
 */
 var playlistSchema = mongoose.Schema({
   name: String,
+  id: String,
   songs: []
 });
 
@@ -49,5 +62,6 @@ var songSchema = mongoose.Schema({
 
 module.exports = {
   Queue: mongoose.model('Queue', queueSchema),
-  Playlist: mongoose.model('Playlist', playlistSchema)
+  // Playlist: mongoose.model('Playlist', playlistSchema),
+  User: mongoose.model('User', userSchema)
 };

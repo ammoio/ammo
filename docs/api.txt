@@ -82,7 +82,7 @@ url: /:user/playlists/:id
 Example:
   Response Data: {
     name: "New Playlist",
-    _id: "7483957238402",
+    id: "7483957238402",
     songs: [...]
   }
 
@@ -97,7 +97,7 @@ Example:
 
   Response Data: {
     name: "New Playlist",
-    _id: "7483957238402",
+    id: "7483957238402",
     songs: [...]
   }
 
