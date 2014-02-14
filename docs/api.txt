@@ -71,6 +71,18 @@ Example:
     duration: 180 //in Seconds
   }
 
+#Remove Song from Queue
+method: POST
+url: /queues/:id/remove
+Example:
+  Request Data: {
+    index: 5
+  }
+
+  Response: {
+    Song(That was deleted)
+  }
+
 #Get All playlists of a user
 method: GET
 url: /:user/playlists
