@@ -48,4 +48,23 @@ module.exports = {
     return d.promise;
   },
 
+  updateQueue: function(id, obj) {
+    var d = Q.defer();
+    Models.Queue.findOne({shareId: id}, function(err, model){
+      for(key in obj){
+        if( obj.hasOwnProperty(key) ) {
+          model[key] = obj[key]; 
+        } 
+      }
+      model.markModified('songs');
+      model.save(function(err, model){
+        if(err){
+          d.reject(err);
+        }
+        d.resolve(model);
+      });
+    }); 
+
+    return d.promise;
+  },
 };

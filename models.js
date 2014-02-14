@@ -20,7 +20,7 @@ var songSchema = mongoose.Schema({
   serviceId: String,
   title: String,
   artist: String,
-  duration: Number,
+  duration: Number, //in seconds
   image: String
 });
 
