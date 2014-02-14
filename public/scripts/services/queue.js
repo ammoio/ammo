@@ -5,7 +5,7 @@ angular.module('ammoApp')
     this.queue = [{title: 'test1'}, {title: 'test2'}, {title: 'test3'}, {title: 'test4'}]; //queue service storage array SHOULD BE EMPTY
     this.live = false; //flag for whether or not the queue is on the server
     this.id = null;
-    this.currentSongIndex = this.queue.length ? 0 : null;
+    this.currentSongIndex = null;
 
     /*
       ========== enqueue ==========
@@ -21,9 +21,10 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
+      //if the queue is empty, set currentSongIndex to 0
       this.queue.push(song);
       if (this.live){
-        var url = "/queues/" + this.id + "/add"
+        var url = "/queues/" + this.id + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
           console.log("song added to q on db");
@@ -64,7 +65,7 @@ angular.module('ammoApp')
       //need to pull this from the server if live,
       //and reset current song index to the one from the db
       //rethink and refactor this whole process
-    }
+    };
 
     /*
       ========== setQueue ==========
@@ -81,7 +82,7 @@ angular.module('ammoApp')
     this.setQueue = function(newQueue){
       this.queue = newQueue;
       if (this.live){
-        var url = "/queues/" + this.id
+        var url = "/queues/" + this.id;
         $http.post(url, {data: this.queue})
         .success(function(data, status, headers, config){
           console.log("q updated db");
@@ -90,7 +91,7 @@ angular.module('ammoApp')
           console.log(error);
         });
       }
-    }
+    };
 
      /*
       ========== saveQueue ==========
@@ -127,7 +128,11 @@ angular.module('ammoApp')
     };
 
     this.setCurrentSongIndex = function(index){
-      this.currentSongIndex = index;
-
-    }
+      if (index >=0 && index < this.queue.length){
+        this.currentSongIndex = index;
+        return index;
+      }else{
+        return null;
+      }
+    };
   });
