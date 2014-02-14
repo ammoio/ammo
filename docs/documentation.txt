@@ -1,0 +1,20 @@
+How to Document
+
+
+FUNCTIONS: 
+  Use this template above the function, don't forget to 
+  write extra comments inside of the function when needed.
+/* 
+  ========== Function Name ==========
+  Function description
+
+  Params: 
+    param1
+      - param1 description
+
+    param2
+      - param 2 description
+
+  Return: (optional a.k.a if you are returning something)
+    Explain what is returning.
+*/
