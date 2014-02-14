@@ -76,9 +76,10 @@ url: /:user/playlists
 #Get playlist
 method: GET
 url: /user/playlists/:id
-Example: 
+Example:
   Response Data: {
     name: "New Playlist",
+    _id: "7483957238402",
     songs: [...]
   }
 
