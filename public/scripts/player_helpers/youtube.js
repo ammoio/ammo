@@ -26,8 +26,9 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
   if(event.data === YT.PlayerState.ENDED) {
-    // var scope = angular.element(document.getElementById("songList")).scope();
-    // scope.playNext();
+    var scope = angular.element(document.getElementById("youtube")).scope();
+    scope.playNext();
+    scope.$apply();
   }
 }
 function stopVideo() {
