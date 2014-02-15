@@ -7,8 +7,9 @@ angular.module('ammoApp')
   methods:
     
   */
-  .controller('ShareController', function($scope, $location, SearchService, QueueService) {
-    QueueService.getQueue($location.path().slice(1)).then(function(queue){ //Sets the scopes songs to the current q from qservice
+  .controller('ShareController', function($scope, $location, $routeParams, SearchService, QueueService) {
+    QueueService.getQueue($routeParams.id)
+    .then(function(queue){ //Sets the scopes songs to the current q from qservice
       $scope.songs = queue.songs;
     });
   });

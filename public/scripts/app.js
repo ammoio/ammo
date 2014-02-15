@@ -5,16 +5,40 @@ angular.module('ammoApp', ['ngRoute'])
     $routeProvider
 
       .when('/', {
-        templateUrl: '/views/queue.html',
-        controller: 'QueueController'
+        redirectTo: '/listen'
       })
       // display search results in the search view
       .when('/search', {
         templateUrl: '/views/search.html',
         controller: 'SearchController'
       })
+      .when('/listen', {
+        templateUrl: '/views/queue.html',
+        controller: 'QueueController'
+      })
+      .when('/listen/:id', {
+        templateUrl: '/views/queue.html',
+        controller: 'QueueController'
+      })
+      .when('/:id', {
+        templateUrl: '/views/share.html',
+        controller: 'ShareController'
+      })
       .otherwise({
         templateUrl: '/views/share.html',
         controller: 'ShareController'
       });
+  })
+
+  .run(function ($rootScope, $location) {
+    var history = [];
+
+    $rootScope.$on('$routeChangeSuccess', function() {
+      history.push($location.$$path);
+    });
+
+    $rootScope.back = function () {
+      var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+      $location.path(prevUrl);
+    };
   });
