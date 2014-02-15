@@ -22,23 +22,49 @@ angular.module('ammoApp')
       //emptying searchResults. Cannot assign empty array because controller/view will lose reference
       this.searchResults.splice(0, this.searchResults.length); // store search results
       
-      $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&category=music&orderby=relevance&max-results=5&alt=json&v=2' })
+      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
-        results.data.feed.entry.forEach(function(video) { 
-          var service_id = video.media$group.yt$videoid.$t; // We need this here because we are using the service_id to generate the url
+        results.data.items.forEach(function(video) { 
+          var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
 
           var song = {
-            title: video.title.$t,
+            title: video.snippet.title,
             service: "youtube",
             serviceId: service_id,
             url: "http://youtu.be/" + service_id,
-            image: video.media$group.media$thumbnail[3].url,
-            duration: video.media$group.yt$duration.seconds
+            image: video.snippet.thumbnails.high.url
           };
-          that.searchResults.push(song);
+
+          $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
+          .then(function(newResults) {
+            console.log(newResults);
+            var duration = newResults.data.items[0].contentDetails.duration;
+            console.log(duration);
+            
+            var array = duration.match(/(\d+)(?=[MHS])/ig)||[]; 
+
+            var formatted = array.map(function(item){
+              if(item.length<2) return '0'+item;
+              return item;
+            });
+
+            if(formatted.length === 3) {
+              duration = (parseInt(formatted[0]) * 60 * 60) + parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
+            }
+            else if(formatted.length === 2) {
+              duration = parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
+            }
+            else if(formatted.length === 1) {
+              duration = parseInt(formatted[2]);
+            }
+
+            that.searchResults.push(song);
+
+          });
         });
       });
     };
+
 
     this.soundcloud = function(userInput) {
       //limit: number of results to return
