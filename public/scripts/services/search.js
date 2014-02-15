@@ -4,22 +4,24 @@ angular.module('ammoApp')
   ========== SearchService ==========
   Search Service is divided by services functions (youtube, soundcloud) 
 
-  Each function receives the following paramteres...  
-
   Params: 
     userInput
       - whatever the user typed on the search box, used to create the url used in the ‘GET’ request
+  Return:
+    none.
+    async GET returns an argument with a set of properties. See var song for reference.
 
-    callback
-      - (function) When the http request gets a response it calls the callback with the song object generated when resolving the http request.
-*/
+  */
   .service('SearchService', function($http, QueueService) {
     this.searchResults = []; // store search results
 
     var that = this; //reference to service object
 
     this.youtube = function(userInput){
+
+      //emptying searchResults. Cannot assign empty array because controller/view will lose reference
       this.searchResults.splice(0, this.searchResults.length); // store search results
+      
       $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&category=music&orderby=relevance&max-results=5&alt=json&v=2' })
       .then(function(results) {
         results.data.feed.entry.forEach(function(video) { 

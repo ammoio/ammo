@@ -118,8 +118,10 @@ angular.module('ammoApp')
       };
       $http.post('/queues', newQueue)
       .success(function(data, status, headers, config) {
-        console.log('posted');
+        console.log(data);
         this.id = data.shareId;
+        this.currentSongIndex = data.currentSong;
+        debugger;
         this.live = true;
       })
       .error(function(){
