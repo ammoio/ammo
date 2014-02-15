@@ -15,9 +15,11 @@ angular.module('ammoApp')
 */
   .service('SearchService', function($http, QueueService) {
     this.searchResults = []; // store search results
+
     var that = this; //reference to service object
 
-    this.youtube = function(userInput, callback){
+    this.youtube = function(userInput){
+      this.searchResults.splice(0, this.searchResults.length); // store search results
       $http({ method: 'GET', url: 'https://gdata.youtube.com/feeds/api/videos?q=' + userInput + '&category=music&orderby=relevance&max-results=5&alt=json&v=2' })
       .then(function(results) {
         results.data.feed.entry.forEach(function(video) { 
@@ -36,7 +38,7 @@ angular.module('ammoApp')
       });
     };
 
-    this.soundcloud = function(userInput, callback) {
+    this.soundcloud = function(userInput) {
       //limit: number of results to return
       var limit = 3;
 
