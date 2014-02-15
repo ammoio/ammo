@@ -119,7 +119,6 @@ angular.module('ammoApp')
       var that = this;
       $http.post('/queues', newQueue)
       .success(function(data, status, headers, config) {
-        console.log(data);
         that.id = data.shareId;
         that.currentSongIndex = data.currentSong;
         that.live = true;
