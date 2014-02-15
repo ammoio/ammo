@@ -20,14 +20,14 @@ angular.module('ammoApp')
           $scope.songs = queue.songs;
         });
       }
-    //If the path did not include an ID
+    //else, the path did not include an ID
     } else {
-      //Check if the current queue is live
+      //if the current queue is live
       if(QueueService.live){
-        //if so, reset the queue to a default
+        //reset the queue to a default
         $scope.songs = QueueService.resetQueue().songs;
       } else {
-        //if its not live, keep the existing songs loaded
+        //else, keep the existing songs loaded
         $scope.songs = QueueService.queue.songs;
       }
     }
