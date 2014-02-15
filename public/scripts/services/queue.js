@@ -113,7 +113,7 @@ angular.module('ammoApp')
       var newQueue = {
         name: name,
         passphrase: passphrase,
-        currentSong: 0,
+        currentSong: this.currentSongIndex,
         songs: this.queue
       };
       var that = this;
