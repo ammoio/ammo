@@ -18,20 +18,20 @@ describe('PlayerController', function() {
     }));
 
     it('should set $scope.playing to true when play is called', function(){
+        waitsFor(function(){
+            return scPlayer;
+        });
+
         runs(function() {
+            youtube = {
+                pauseVideo: function(){},
+                stopVideo: function(){},
+                playVideo: function(){}
+            };
             var controller = createController();
             expect($scope.playing).toBe(false);
             $scope.play(0, 's');
-            // expect($scope.playing).toBe(true);
-        }),
-        waitsFor(function(){
-            console.log(scPlayer);
-            return scPlayer;
-        }, "scPlayer should be defined")
-
-        runs(function(){
-            expect(scPlayer).toBeDefined();
+            expect($scope.playing).toBe(true);
         });
-
     });
 });
