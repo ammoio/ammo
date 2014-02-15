@@ -11,7 +11,7 @@ describe('QueueService', function() {
 
     }));
 
-    it('should have a methods to enqueue and dequeue', function() {
+    it('should have methods to enqueue and dequeue', function() {
         expect($service.enqueue).toBeDefined();
         expect($service.dequeue).toBeDefined();
     });
