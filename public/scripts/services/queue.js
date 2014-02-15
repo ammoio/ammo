@@ -95,9 +95,13 @@ angular.module('ammoApp')
 
     this.getQueue = function(shareId){
       var d =  $q.defer();
+      if(shareId){
+        this.live = true;
+      }
 
       var that = this;
       if(this.live){
+        console.log("Requesting ", shareId);
         $http.get('/queues/' + shareId)
         .success(function(queue){
           console.log("Retreived Queue from server: ", queue);
