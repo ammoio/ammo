@@ -51,7 +51,6 @@ angular.module('ammoApp')
       //"q" is the search query
       var searchUrl = "http://api.soundcloud.com/tracks?";
       searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
-
       $http.get(searchUrl).
         success(function(data, status, headers, config) {
           //add each returned track title to each list
@@ -63,8 +62,10 @@ angular.module('ammoApp')
               serviceId: track.id,
               title: track.title,
               artist: track.user.username,
-              image: track.artwork_url
+              image: track.artwork_url,
+              duration: Math.floor(track.duration/1000)
             };
+            console.log(song.duration);
             that.searchResults.push(song);
           });
         }).
