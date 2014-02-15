@@ -14,7 +14,8 @@ angular.module('ammoApp')
 
       Return: No return
     */
-    $scope.addToQueue = function(song) {
+    $scope.addToQueue = function($event, song) {
+      $event.stopPropagation();
       QueueService.enqueue(song);
     };
 
