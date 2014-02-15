@@ -1,0 +1,13 @@
+<!-- Songs Container -->
+<div id="main-container">
+  <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
+    {{ song.title }}
+  </div>
+  <!-- share button to make current queue live -->
+  
+  <form id="share"> 
+    <input type="text" placeholder="name..." ng-model="queueName">
+    <input type="text" placeholder="passphrase..." ng-model="passphrase">
+    <input class="share btn btn-default" type="submit" value="SHARE" ng-click="share(queueName, passphrase)">
+  </form>
+</div>
