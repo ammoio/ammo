@@ -52,6 +52,9 @@ angular.module('ammoApp')
       else if(queueOrSearch === 's') {
         song = songOrIndex;
       }
+      else {
+        return;
+      }
       $scope.stopAll();
       $scope.currentSong = song;
       $scope.playing = true;
@@ -80,17 +83,20 @@ angular.module('ammoApp')
       Toggles play/pause
     */
     $scope.togglePause = function() {
-      if($scope.playing) {
-        $scope.stopAll();
-      }
-      else {
-        $scope.playing = true;
-
-        if($scope.currentSong.service === 'youtube') {
-          youtube.playVideo();
+      // If queue is not empty.
+      if($scope.currentSong !== null) {
+        if($scope.playing) {
+          $scope.stopAll();
         }
-        else if($scope.currentSong.service === 'soundcloud') {
-          scPlayer.play();
+        else {
+          $scope.playing = true;
+
+          if($scope.currentSong.service === 'youtube') {
+            youtube.playVideo();
+          }
+          else if($scope.currentSong.service === 'soundcloud') {
+            scPlayer.play();
+          }
         }
       }
     };
