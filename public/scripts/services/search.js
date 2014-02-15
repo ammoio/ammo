@@ -37,10 +37,7 @@ angular.module('ammoApp')
 
           $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
           .then(function(newResults) {
-            console.log(newResults);
             var duration = newResults.data.items[0].contentDetails.duration;
-            console.log(duration);
-            
             var array = duration.match(/(\d+)(?=[MHS])/ig)||[]; 
 
             var formatted = array.map(function(item){
@@ -49,13 +46,13 @@ angular.module('ammoApp')
             });
 
             if(formatted.length === 3) {
-              duration = (parseInt(formatted[0]) * 60 * 60) + parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
+              song.duration = (parseInt(formatted[0]) * 60 * 60) + parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
             }
             else if(formatted.length === 2) {
-              duration = parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
+              song.duration = parseInt(formatted[0]) * 60 + parseInt(formatted[1]);
             }
             else if(formatted.length === 1) {
-              duration = parseInt(formatted[2]);
+              song.duration = parseInt(formatted[0]);
             }
 
             that.searchResults.push(song);

@@ -133,6 +133,18 @@ angular.module('ammoApp')
       }
     };
 
+    $scope.fixTime = function(seconds) {
+      if(!seconds) { 
+        return "0:00";
+      }
+      var mins = (seconds / 60) | 0;
+      var secs = seconds % 60;
+
+      if(secs < 10) {
+        secs = "0" + secs;
+      }
+      return mins + ":" + secs;
+    };
 
     // ---------- Progress Bar Logic ----------
     // ========================================
