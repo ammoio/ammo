@@ -25,10 +25,21 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+  var scope = angular.element(document.getElementById("youtube")).scope();
+
   if(event.data === YT.PlayerState.ENDED) {
-    var scope = angular.element(document.getElementById("youtube")).scope();
     scope.playNext();
     scope.$apply();
+  }
+  else if(event.data === YT.PlayerState.BUFFERING) {
+    scope.buffering = true; 
+  }
+  else if(event.data === YT.PlayerState.PLAYING) {
+    scope.buffering = false;
+    scope.ready = true;
+  }
+  else if(event.data === YT.PlayerState.PAUSED) {
+    scope.detectYoutubeAd();
   }
 }
 function stopVideo() {
