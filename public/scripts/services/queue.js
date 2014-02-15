@@ -133,8 +133,27 @@ angular.module('ammoApp')
 
     this.setQueue = function(newQueue){
       this.queue = newQueue;
-      this.setCurrentSongIndex(this.queue.currentSong);
+      return this.queue;
+    };
 
+    /*
+      ========== resetQueue ==========
+      Replaces the current queue with a default empty queue.
+
+      Params:
+        none
+
+      Return: return the queue that has been set
+    */
+
+    this.resetQueue = function(){
+      this.queue = {
+        name: "New Queue",
+        shareId: null,
+        passphrase: null,
+        songs: [],
+        currentSong: null
+      };
       return this.queue;
     };
 
