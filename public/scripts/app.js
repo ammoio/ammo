@@ -14,7 +14,7 @@ angular.module('ammoApp', ['ngRoute'])
         controller: 'SearchController'
       })
       .otherwise({
-        templateUrl: '/views/share/html',
+        templateUrl: '/views/share.html',
         controller: 'ShareController'
       });
   });
