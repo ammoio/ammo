@@ -116,13 +116,13 @@ angular.module('ammoApp')
         currentSong: 0,
         songs: this.queue
       };
+      var that = this;
       $http.post('/queues', newQueue)
       .success(function(data, status, headers, config) {
         console.log(data);
-        this.id = data.shareId;
-        this.currentSongIndex = data.currentSong;
-        debugger;
-        this.live = true;
+        that.id = data.shareId;
+        that.currentSongIndex = data.currentSong;
+        that.live = true;
       })
       .error(function(){
         console.log('post error');

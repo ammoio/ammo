@@ -1,4 +1,17 @@
 angular.module('ammoApp')
+
+  /* 
+  ========== SearchController ==========
+  This controller is subordinate to FrameController. This is set as the controller when the url is /search
+  variables:
+    searchResults: array of search results from api queries
+
+  methods:
+    addToQueue: 
+      when addToQueue button clicked. Add this song to queue
+    returnToQueue:
+      when returnToQueue button clicked, change url to home
+  */
   .controller('SearchController', function($scope, $location, SearchService, QueueService) {
     //set searchResults on scope to reflect change in view
     $scope.searchResults = SearchService.searchResults;
