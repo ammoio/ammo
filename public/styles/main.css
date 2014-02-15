@@ -11,7 +11,8 @@ a {
   color: #bbbbbb;
   position: fixed;
   bottom: 0;
-  height: 85px;
+  /*height: 85px;*/
+  height: 120px;
   width: 100%;
   border-top: solid #bbbbbb;
   border-top-width: 2px;

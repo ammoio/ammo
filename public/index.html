@@ -35,6 +35,11 @@
       <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
       <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span>
       <div> {{ currentSong.title }} </div>
+      <!-- <progressbar class="progress-striped active" type="success" value="timer * 100 / currentSong.duration"></progressbar> -->
+      <div>
+        {{ fixTime(timer) }} / {{ fixTime(currentSong.duration) }}
+        <progressbar class="progress-striped active" type="success" max="1000" value="timer * 1000 / currentSong.duration"></progressbar>
+      </div>
     </div>
   </div>
 
@@ -43,6 +48,7 @@
   <script src="/scripts/player_helpers/youtube.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="/bower_components/jquery/jquery.min.js"></script>
   <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
 
