@@ -12,5 +12,9 @@ angular.module('ammoApp', ['ngRoute'])
       .when('/search', {
         templateUrl: '/views/search.html',
         controller: 'SearchController'
+      })
+      .otherwise({
+        templateUrl: '/views/share.html',
+        controller: 'ShareController'
       });
   });
