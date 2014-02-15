@@ -30,11 +30,11 @@
 
     <div id="youtube"></div>
     <div class="player text-center"> <!-- Player -->
-      <span><i class="fa fa-fast-backward fa-3x "></i></span>
-      <span><i class="fa fa-pause fa-3x "></i></span>
-      <span><i class="fa fa-play fa-3x "></i></span>
-      <span><i class="fa fa-fast-forward fa-3x "></i></span>
-      <div> Artist - Songname </div>
+      <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
+      <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
+      <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
+      <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span>
+      <div> {{ currentSong.title }} </div>
     </div>
   </div>
 

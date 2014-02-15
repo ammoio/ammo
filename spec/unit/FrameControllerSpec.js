@@ -16,11 +16,10 @@ describe('FrameController', function() {
         };
     }));
 
-    it('should have a method to check if the path is active', function() {
-        $location.path('/about');
+    it('should have a method called share', function() {
+        // $location.path('/about');
         // console.log(window.location);
         var x = createController();
-        // console.log($scope);
         expect($scope.share).toBeDefined();
     });
 });
