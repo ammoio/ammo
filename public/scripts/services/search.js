@@ -55,17 +55,19 @@ angular.module('ammoApp')
         success(function(data, status, headers, config) {
           //add each returned track title to each list
           data.forEach(function(track) {
-            //relevant data for each song
-            var song = { 
-              url: track.uri,
-              service: 'soundcloud',
-              serviceId: track.id,
-              title: track.title,
-              artist: track.user.username,
-              image: track.artwork_url,
-              duration: Math.floor(track.duration/1000)
-            };
-            that.searchResults.push(song);
+            if (track.streamable) { //*******if not streamable will throw error
+              //relevant data for each song
+              var song = {
+                url: track.uri,
+                service: 'soundcloud',
+                serviceId: track.id,
+                title: track.title,
+                artist: track.user.username,
+                image: track.artwork_url,
+                duration: Math.floor(track.duration/1000)
+              };
+              that.searchResults.push(song);
+            }
           });
         }).
         error(function(data, status, headers, config) {
