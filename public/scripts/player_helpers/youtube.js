@@ -36,6 +36,7 @@ function onPlayerStateChange(event) {
   }
   else if(event.data === YT.PlayerState.PLAYING) {
     scope.buffering = false;
+    scope.ready = true;
   }
   else if(event.data === YT.PlayerState.PAUSED) {
     scope.detectYoutubeAd();

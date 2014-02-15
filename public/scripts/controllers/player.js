@@ -19,6 +19,7 @@ angular.module('ammoApp')
     $scope.currentSongIndex = null;
     $scope.buffering = false;
     $scope.timer = 0;
+    $scope.ready = false;
 
     /* 
       ========== $scope.play ==========
@@ -40,6 +41,7 @@ angular.module('ammoApp')
     */
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
       var song;
+      $scope.ready = false;
 
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
@@ -70,7 +72,6 @@ angular.module('ammoApp')
         scPlay(song.serviceId);
       }
 
-      console.log(song);
       $scope.stopTimer();
       $scope.startTimer();
     };
@@ -136,7 +137,7 @@ angular.module('ammoApp')
     // ---------- Progress Bar Logic ----------
     // ========================================
     $scope.onTimeout = function() {
-      if($scope.playing && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+      if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
         $scope.timer++;
       }
       timerTimeout = $timeout($scope.onTimeout, 1000);
