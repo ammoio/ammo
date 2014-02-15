@@ -2,32 +2,42 @@ angular.module('ammoApp')
 
   .controller('QueueController', function($scope, QueueService) {
     
-    $scope.songs = QueueService.getQueue(); //Sets the scopes songs to the current q from qservice
-            $('#myModal').modal('show');
+    $('#myModal').modal('show');
+
+    QueueService.getQueue().then(function(queue){ //Sets the scopes songs to the current q from qservice
+      $scope.songs = queue.songs;
+    });
 
     /*
       ========== share ==========
-      -Triggered from a click on the "share" button, passes the inputs name and passphrase
-      to the queueService saveQueue function, the end result of which should be a post to the 
-      server
+      -Triggered from a click on the "share" button. Displays modal to prompt for playlist name and passphrase.
+        When modal is submitted, trigger QueueService.saveQueue with those inputs.
 
-      Params: 
-        param1: name (string)
-        param2: passphrase (string)
+      Params:
+        None
 
       Return: No return
     */
 
-    $scope.share = function(name, passphrase){
-      QueueService.saveQueue(name, passphrase);
+    $scope.share = function() {
+      $('#shareRequestModal').modal();
+      $('.shareNow').on('click', function() {
+        QueueService.saveQueue($scope.queueName, $scope.passphrase)
+        .then(function(queue) {
+          $('#shareResponseModal').modal();
+          $('.tweetLink').on('click', function() {
+              
+          });
+        });
+      });
     };
 
     /*
       ========== passToPlay ==========
       -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
       then passes it along to the play function.
-      
-      Params: 
+
+      Params:
         param1: index (number)
 
       Return: No return

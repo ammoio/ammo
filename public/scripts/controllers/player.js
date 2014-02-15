@@ -40,7 +40,7 @@ angular.module('ammoApp')
 
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
-          song = QueueService.queue[songOrIndex];
+          song = QueueService.queue.songs[songOrIndex];
           $scope.currentSongIndex = songOrIndex;
         }
         else {

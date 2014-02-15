@@ -29,7 +29,9 @@ angular.module('ammoApp')
     */
     $scope.addToQueue = function($event, song) {
       $event.stopPropagation();
-      QueueService.enqueue(song);
+      QueueService.enqueue(song).then(function(song){
+        console.log(song);
+      });
     };
 
     /*
