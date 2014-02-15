@@ -7,6 +7,7 @@ describe('SearchService', function() {
         $rootScope = $injector.get('$rootScope');
         $scope = $rootScope.$new();
 
+
         $service = $injector.get('SearchService');
 
     }));
@@ -16,10 +17,17 @@ describe('SearchService', function() {
     });
 
     xit('should add search results to the array after querying youtube', function() {
-        var before = $service.searchResults.length;
-        $service.youtube("Back in Black");
+        runs(function(){
+            var before = $service.searchResults.length;
+            $service.youtube("Back in Black");
+        });
+        waitsFor(function(){
+            console.log($service.searchResults.length);
+            return $service.searchResults.length;
+        });
 
-        //console.log($service.searchResults);
-        //expect(before).toBeLessThan($service.searchResults.length);
+        runs(function(){
+            expect(before).toBeLessThan($service.searchResults.length);
+        });
     });
 });
