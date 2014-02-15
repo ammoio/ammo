@@ -60,8 +60,20 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    this.getQueue = function(){
-      return this.queue;
+    this.getQueue = function(shareId){
+      var this = that;
+      if(this.live){
+        $http.get('/queues/' + shareId)
+        .success(function(queue){
+          console.log("Retreived Queue from server: ")
+          that.setQueue(queue);
+        })
+        .error(function(err){
+          console.log("error fetching queue", err);
+        });
+      } else {
+        return this.queue;        
+      }
       //need to pull this from the server if live,
       //and reset current song index to the one from the db
       //rethink and refactor this whole process
@@ -83,7 +95,7 @@ angular.module('ammoApp')
       this.queue = newQueue;
       if (this.live){
         var url = "/queues/" + this.id;
-        $http.post(url, {data: this.queue})
+        $http.put(url, {data: this.queue})
         .success(function(data, status, headers, config){
           console.log("q updated db");
         })
