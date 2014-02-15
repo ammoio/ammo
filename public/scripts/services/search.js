@@ -65,7 +65,6 @@ angular.module('ammoApp')
               image: track.artwork_url,
               duration: Math.floor(track.duration/1000)
             };
-            console.log(song.duration);
             that.searchResults.push(song);
           });
         }).
