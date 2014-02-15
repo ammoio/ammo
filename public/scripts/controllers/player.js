@@ -11,11 +11,14 @@ angular.module('ammoApp')
       - $scope.togglePause();
       - $scope.playNext();
       - $scope.playPrev();
+      - $scope.detectYoutubeAd();
   */
-  .controller('PlayerController', function($scope, QueueService) {
+  .controller('PlayerController', function($scope, $timeout, QueueService) {
     $scope.playing = false;
     $scope.currentSong = null;
     $scope.currentSongIndex = null;
+    $scope.buffering = false;
+    $scope.timer = 0;
 
     /* 
       ========== $scope.play ==========
@@ -66,6 +69,10 @@ angular.module('ammoApp')
       else if (song.service === "soundcloud") {
         scPlay(song.serviceId);
       }
+
+      console.log(song);
+      $scope.stopTimer();
+      $scope.startTimer();
     };
 
     /* 
@@ -110,5 +117,39 @@ angular.module('ammoApp')
     $scope.playPrev = function() {
       $scope.currentSongIndex = QueueService.setCurrentSongIndex($scope.currentSongIndex - 1);
       $scope.play($scope.currentSongIndex, "q");
+    };
+
+
+    /* 
+      ========== $scope.detectYoutubeAd ==========
+      This function detects if a YoutubeAd is playing, is a callback of YouTube player state
+      PAUSE which is the state of the player when there is an ad, but also is the sate of 
+      a normal pause. So if this functino is called and $scope.playing = true then it's an ad
+    */
+    $scope.detectYoutubeAd = function() {
+      if($scope.playing) {
+        // There is a YouTube ad
+      }
+    };
+
+
+    // ---------- Progress Bar Logic ----------
+    // ========================================
+    $scope.onTimeout = function() {
+      if($scope.playing && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+        $scope.timer++;
+      }
+      timerTimeout = $timeout($scope.onTimeout, 1000);
+    };
+
+    var timerTimeout;
+
+    $scope.startTimer = function() {
+      $timeout($scope.onTimeout, 1000);
+    };
+
+    $scope.stopTimer = function() {
+      $timeout.cancel(timerTimeout);
+      $scope.timer = 0;
     };
 });
