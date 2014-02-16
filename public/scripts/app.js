@@ -28,6 +28,11 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap'])
         templateUrl: '/views/share.html',
         controller: 'ShareController'
       });
+
+
+    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
+   
+
   })
 
   .run(function ($rootScope, $location) {

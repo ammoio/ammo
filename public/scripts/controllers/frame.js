@@ -19,7 +19,19 @@ angular.module('ammoApp')
     /* Share Button: when clicked, share button do a post request to /queues */
     $scope.share = function() {
       QueueService.saveQueue($scope.searchResults);
-    };
+    }; 
+
+    //  OAuth.popup('facebook', function(err, res) {
+    //   if(err) {
+    //     console.log(err);
+    //     return;
+    //   }
+    //   console.log(res);
+    //   $http.get('https://graph.facebook.com/me?access_token=' + res.access_token)
+    //   .then(function (resp) {
+    //     console.log(resp);
+    //   });
+    // });
 
 
         /*
