@@ -21,7 +21,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  console.log("Ready");
+  // console.log("Ready");
 }
 
 function onPlayerStateChange(event) {
