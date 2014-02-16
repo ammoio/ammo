@@ -1,6 +1,6 @@
 angular.module('ammoApp') 
   .controller('FrameController', function($scope, $http, ParseService, $location, SearchService, QueueService) {
-
+    $scope.QueueService = QueueService;
     /* 
       ========== $scope.search ==========
       Gets called when user clicks or hits enter on the search bar/button
@@ -35,9 +35,9 @@ angular.module('ammoApp')
       QueueService.saveQueue($scope.queueName, $scope.passphrase)
       .then(function(queue) {
         $('#shareResponseModal').modal(); //show response modal
-        var shareLink = 'http://localhost/share/' + queue.shareId;
+        $scope.shareLink = 'http://localhost/share/' + queue.shareId;
         $('.twitter-share-button').attr({
-          'data-url': shareLink,
+          'data-url': $scope.shareLink,
           'data-text': "Hey, checkout this playlist I made!\n"
         }); //dynamically set the url
       });
