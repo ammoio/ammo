@@ -1,7 +1,10 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, QueueService) {
-
+  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService) {
+    var lastRoute = $route.current;
+    $scope.$on('$locationChangeSuccess', function(event) {
+      $route.current = lastRoute;
+    });
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -32,25 +35,43 @@ angular.module('ammoApp')
       }
     }
 
-
-
     /*
       ========== share ==========
-      -Triggered from a click on the "share" button, passes the inputs name and passphrase
-      to the queueService saveQueue function, the end result of which should be a post to the 
-      server
+      -Triggered from a click on the "share" button. Displays modal to prompt for playlist name and passphrase.
 
       Params:
-        param1: name (string)
-        param2: passphrase (string)
+        None
 
       Return: No return
     */
 
-    $scope.share = function(name, passphrase){
-      QueueService.saveQueue(name, passphrase);
+    $scope.share = function() {
+      $('#shareRequestModal').modal();
     };
 
+    
+    /*
+      ========== shareRequestModal ==========
+      -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted, trigger QueueService.saveQueue with those inputs.
+
+      Params:
+        None
+
+      Return: No return
+    */
+    $scope.shareRequestModal = function() {
+      QueueService.saveQueue($scope.queueName, $scope.passphrase)
+      .then(function(queue) {
+        $('#shareResponseModal').modal(); //show response modal
+        $scope.shareLink = 'http://localhost/share/' + queue.shareId;
+        $('.twitter-share-button').attr({
+        'data-url': $scope.shareLink,
+        'data-text': "Hey, checkout this playlist I made!\n"
+        }); //dynamically set the url
+        $location.path("/listen/" + queue.shareId);
+      });
+    };
+    
     /*
       ========== passToPlay ==========
       -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
