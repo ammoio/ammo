@@ -38,7 +38,7 @@ module.exports = {
 
   createQueue: function(obj){
     var d = Q.defer();
-    obj.shareId = crypto.randomBytes(3).toString('hex');
+    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4);
     queue = new Models.Queue(obj);
     queue.save(function(err, data){
       console.log("Saved");
