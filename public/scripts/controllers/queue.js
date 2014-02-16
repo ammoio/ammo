@@ -1,7 +1,10 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, QueueService) {
-
+  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService) {
+    var lastRoute = $route.current;
+    $scope.$on('$locationChangeSuccess', function(event) {
+      $route.current = lastRoute;
+    });
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -65,6 +68,7 @@ angular.module('ammoApp')
         'data-url': $scope.shareLink,
         'data-text': "Hey, checkout this playlist I made!\n"
         }); //dynamically set the url
+        $location.path("/listen/" + queue.shareId);
       });
     };
     
