@@ -21,4 +21,26 @@ angular.module('ammoApp')
       QueueService.saveQueue($scope.searchResults);
     };
 
+
+        /*
+      ========== shareRequestModal ==========
+      -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted, trigger QueueService.saveQueue with those inputs.
+
+      Params:
+        None
+
+      Return: No return
+    */
+    $scope.shareRequestModal = function() {
+      QueueService.saveQueue($scope.queueName, $scope.passphrase)
+      .then(function(queue) {
+        $('#shareResponseModal').modal(); //show response modal
+        var shareLink = 'http://localhost/share/' + queue.shareId;
+        $('.twitter-share-button').attr({
+          'data-url': shareLink,
+          'data-text': "Hey, checkout this playlist I made!\n"
+        }); //dynamically set the url
+      });
+    };
+
   });
