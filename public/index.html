@@ -1,10 +1,9 @@
 <html>
 <head>
   <title>ammo</title>
-  <link rel="stylesheet" href="/styles/main.css">
   <link rel="stylesheet" href="/bower_components/bootstrap-css/css/bootstrap.css">
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
-
+  <link rel="stylesheet" href="/styles/main.css">
 </head>
 
 <body ng-app='ammoApp' ng-controller="FrameController">
@@ -26,7 +25,16 @@
   </nav>
 
   <div ng-controller="PlayerController">  <!-- Give Access to the Player Controller to all our views -->
-    <div ng-view></div> <!-- Views are loaded here -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          test
+        </div>
+        <div class="col-md-9">
+          <div ng-view></div> <!-- Views are loaded here -->
+        </div>
+      </div>
+    </div>
 
     <div id="youtube"></div>
     <div class="player text-center"> <!-- Player -->
