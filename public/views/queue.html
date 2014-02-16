@@ -31,7 +31,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="shareNow btn btn-default" data-dismiss="modal">Share Now!</button>
+        <button type="button" class="shareNow btn btn-default" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</button>
       </div>
     </div>
   </div>
@@ -48,11 +48,11 @@
       </div>
       <div class="modal-body">
         <p>Here's the link to your queue: </p>
-        <div ng-model="shareLink"></div>
+        <div>{{ shareLink }}</div>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://dev.twitter.com" data-url="http://localhost/share/" data-lang="en">Tweet It!</a>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="tweetLink btn btn-default" data-dismiss="modal">Tweet Link!</button>
       </div>
     </div>
   </div>
