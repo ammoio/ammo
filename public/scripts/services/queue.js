@@ -219,7 +219,7 @@ angular.module('ammoApp')
         $location.path("/listen/" + data.shareId);
         that.queue = data;
         that.live = true;
-        d.resolve(this.queue);
+        d.resolve(that.queue);
       })
       .error(function(err){
         console.log('post error', err);
