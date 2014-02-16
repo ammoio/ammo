@@ -40,22 +40,12 @@ angular.module('ammoApp')
           $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
           .then(function(newResults) {
             var duration = newResults.data.items[0].contentDetails.duration;
-            var array = duration.match(/(\d+)(?=[MHS])/ig)||[]; 
+            // var array = duration.match(/(\d+)(?=[MHS])/ig)||[]; 
+            var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
+            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
+            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
 
-            var formatted = array.map(function(item){
-              if(item.length<2) return '0'+item;
-              return item;
-            });
-
-            if(formatted.length === 3) {
-              song.duration = (parseInt(formatted[0]) * 60 * 60) + parseInt(formatted[1]) * 60 + parseInt(formatted[2]);
-            }
-            else if(formatted.length === 2) {
-              song.duration = parseInt(formatted[0]) * 60 + parseInt(formatted[1]);
-            }
-            else if(formatted.length === 1) {
-              song.duration = parseInt(formatted[0]);
-            }
+            song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
 
             that.searchResults.push(song);
 
