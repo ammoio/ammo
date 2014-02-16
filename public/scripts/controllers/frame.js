@@ -1,6 +1,11 @@
 angular.module('ammoApp') 
-  .controller('FrameController', function($scope, $http, $location, ParseService, SearchService, QueueService) {
+  .controller('FrameController', function($scope, $http, $location, ParseService, SearchService, QueueService, ngProgress) {
     $scope.QueueService = QueueService;
+
+    //ngProgress is the top loading bar shown when first loading the page
+    ngProgress.color('#2d9');
+    ngProgress.start();
+
     /* 
       ========== $scope.search ==========
       Gets called when user clicks or hits enter on the search bar/button
@@ -52,6 +57,10 @@ angular.module('ammoApp')
           'data-text': "Hey, checkout this playlist I made!\n"
         }); //dynamically set the url
       });
+    };
+
+    $scope.stopLoadingBar = function () {
+      ngProgress.complete();
     };
 
   });
