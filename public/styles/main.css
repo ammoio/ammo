@@ -29,7 +29,7 @@ i {
 }
 
 #main-container, #search-container {
-  margin-top: 75px;
+  margin-top: 15px;
   overflow-y: scroll;
 }
 
@@ -37,7 +37,7 @@ i {
   border-top: 1px solid #ddd;
 }
 
-#main-container :nth-child(odd), #search-container :nth-child(odd) {
+#main-container :nth-child(even), #search-container :nth-child(even) {
   background-color: #f9f9f9;
 }
 
@@ -78,6 +78,8 @@ i {
   background-color: gray;
   height: 100%;
   overflow-y: scroll;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 #content {
@@ -85,4 +87,13 @@ i {
   height: 100%;
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.queueButton {
+  padding-bottom: 5px;
+  margin-left: 5px;
+}
+
+#share {
+  margin-left: 5px;
 }

@@ -20,6 +20,7 @@ angular.module('ammoApp')
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
+    $scope.songs = QueueService.queue.songs;
 
     /* 
       ========== $scope.play ==========
@@ -164,5 +165,21 @@ angular.module('ammoApp')
     $scope.stopTimer = function() {
       $timeout.cancel(timerTimeout);
       $scope.timer = 0;
+    };
+
+    /*
+      ========== passToPlay ==========
+      -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
+      then passes it along to the play function.
+
+      Params:
+        param1: index (number)
+
+      Return: No return
+    */
+
+    $scope.playFromSidebar = function(index){
+      QueueService.setCurrentSongIndex(index);
+      $scope.play(index, 'q');
     };
 });

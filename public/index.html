@@ -28,6 +28,9 @@
     <div class="container">
       <div class="row">
         <div id="sidebar" class="col-md-3">
+          <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="playFromSidebar($index)">
+            {{ song.title }}
+          </div>
         </div>
         <div id="content" class="col-md-9">
           <div ng-view></div> <!-- Views are loaded here -->
