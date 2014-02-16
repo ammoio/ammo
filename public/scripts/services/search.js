@@ -20,7 +20,7 @@ angular.module('ammoApp')
     this.youtube = function(userInput){
 
       //emptying searchResults. Cannot assign empty array because controller/view will lose reference
-      this.searchResults.splice(0, this.searchResults.length); // store search results
+      this.searchResults = []; //.splice(0, this.searchResults.length); // store search results
       
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
