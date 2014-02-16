@@ -111,13 +111,23 @@ angular.module('ammoApp')
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      $scope.currentSongIndex = QueueService.setCurrentSongIndex($scope.currentSongIndex + 1);
-      $scope.play($scope.currentSongIndex, "q");
+      QueueService.setCurrentSongIndex($scope.currentSongIndex + 1)
+        .then(function(index) {
+          $scope.play(index, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
+        });
     };
 
     $scope.playPrev = function() {
-      $scope.currentSongIndex = QueueService.setCurrentSongIndex($scope.currentSongIndex - 1);
-      $scope.play($scope.currentSongIndex, "q");
+      QueueService.setCurrentSongIndex($scope.currentSongIndex - 1)
+        .then(function(index) {
+          $scope.play(index, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
+        });
     };
 
 

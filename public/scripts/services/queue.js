@@ -231,12 +231,9 @@ angular.module('ammoApp')
 
     /*
       ========== setCurrentSongIndex ==========
-      -Checks to see if the index passed in is within bounds of this.queue.
+      Checks to see if the index passed in is within bounds of this.queue.
       If it is, it sets the currentSong to the new index, and returns the index.
       Else it returns null
-
-      Params:
-        param1: index (number)
 
       Return: Promise that resolves with the new song index
     */
@@ -244,7 +241,7 @@ angular.module('ammoApp')
     this.setCurrentSongIndex = function(index){
       var d = $q.defer();
 
-      if (index >=0 && index < this.queue.length){
+      if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
         if(this.live){
           this.updateQueue({currentSong: index})
@@ -257,7 +254,7 @@ angular.module('ammoApp')
         } else {
           d.resolve(this.queue.currentSong);
         }
-      }else{
+      } else {
         d.reject("Should pass in a valid index");
       }
 
