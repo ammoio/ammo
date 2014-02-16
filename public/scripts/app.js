@@ -1,4 +1,4 @@
-angular.module('ammoApp', ['ngRoute', 'ui.bootstrap'])
+angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress'])
 
   .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -29,9 +29,7 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap'])
         controller: 'ShareController'
       });
 
-
-    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
-   
+    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798'); 
 
   })
 

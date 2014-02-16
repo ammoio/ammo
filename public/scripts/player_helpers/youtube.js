@@ -21,7 +21,8 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  // console.log("Ready");
+  var scope = angular.element(document.getElementById("search")).scope();
+  scope.stopLoadingBar();
 }
 
 function onPlayerStateChange(event) {
