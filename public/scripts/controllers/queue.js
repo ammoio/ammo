@@ -1,10 +1,6 @@
 angular.module('ammoApp')
 
   .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService) {
-    var lastRoute = $route.current;
-    $scope.$on('$locationChangeSuccess', function(event) {
-      $route.current = lastRoute;
-    });
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -50,27 +46,6 @@ angular.module('ammoApp')
     };
 
     
-    /*
-      ========== shareRequestModal ==========
-      -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted, trigger QueueService.saveQueue with those inputs.
-
-      Params:
-        None
-
-      Return: No return
-    */
-    $scope.shareRequestModal = function() {
-      QueueService.saveQueue($scope.queueName, $scope.passphrase)
-      .then(function(queue) {
-        $('#shareResponseModal').modal(); //show response modal
-        $scope.shareLink = 'http://localhost/share/' + queue.shareId;
-        $('.twitter-share-button').attr({
-        'data-url': $scope.shareLink,
-        'data-text': "Hey, checkout this playlist I made!\n"
-        }); //dynamically set the url
-        $location.path("/listen/" + queue.shareId);
-      });
-    };
     
     /*
       ========== passToPlay ==========

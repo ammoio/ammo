@@ -216,9 +216,9 @@ angular.module('ammoApp')
       $http.post('/queues', this.queue)
       .success(function(data, status, headers, config) {
         console.log("Created Live Queue: ", data);
-        // $location.path("/listen/" + data.shareId);
         that.queue = data;
         that.live = true;
+        $location.path("/listen/" + data.shareId);
         d.resolve(that.queue);
       })
       .error(function(err){
