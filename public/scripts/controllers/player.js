@@ -40,6 +40,7 @@ angular.module('ammoApp')
             and 's' for search.
     */
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
+      $scope.buffering = true;
       var song;
       $scope.ready = false;
 
