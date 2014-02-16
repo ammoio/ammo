@@ -19,10 +19,12 @@ angular.module('ammoApp')
 
     this.youtube = function(userInput){
 
-      //emptying searchResults. Cannot assign empty array because controller/view will lose reference
+      // emptying searchResults. Cannot assign empty array because controller/view will lose reference
       this.searchResults = []; //.splice(0, this.searchResults.length); // store search results
+
+      var limit = 5;
       
-      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
+      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
         results.data.items.forEach(function(video) { 
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
