@@ -82,6 +82,11 @@ i {
   padding-right: 0;
 }
 
+#sidebar .song-container {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
 #content {
   overflow-y: scroll;
   height: 100%;
