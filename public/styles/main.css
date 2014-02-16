@@ -57,5 +57,32 @@ i {
   float: right;
   margin-top: 5px;
   margin-right: 5px;
-  line-height: 45px;
+  line-height: 20px;
+}
+
+.container {
+  position: fixed;
+  width: 100%;
+  top: 51px;
+  bottom: 120px;
+  overflow:scroll;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+#sidebar {
+  background-color: gray;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#content {
+  overflow-y: scroll;
+  height: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
 }
