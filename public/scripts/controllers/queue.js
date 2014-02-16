@@ -42,7 +42,17 @@ angular.module('ammoApp')
     */
 
     $scope.share = function() {
-      $('#shareRequestModal').modal();
+      if (QueueService.live) {
+        var shareLink = 'http://localhost/' + QueueService.queue.shareId;
+        $('.twitter-share-button').attr({
+          'data-url': shareLink,
+          'data-text': "Hey, checkout this playlist I made!\n"
+        }); //dynamically set the url
+
+        $('#shareResponseModal').modal(); //show response modal
+      } else {
+        $('#shareRequestModal').modal();
+      }
     };
 
     
