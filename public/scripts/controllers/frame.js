@@ -1,5 +1,5 @@
 angular.module('ammoApp') 
-  .controller('FrameController', function($scope, $http, $location, ParseService, $location, SearchService, QueueService) {
+  .controller('FrameController', function($scope, $http, $location, ParseService, SearchService, QueueService) {
     $scope.QueueService = QueueService;
     /* 
       ========== $scope.search ==========
