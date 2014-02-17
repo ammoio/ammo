@@ -19,9 +19,10 @@ angular.module('ammoApp')
           - Whathever is currently on the search box (inside form #search)
     */
     $scope.search = function(userInput) {
-      //Call SearchService for each of the services and pass pushResults as a callback 
+      //Call SearchService for each of the services
       SearchService.youtube(userInput);
-      SearchService.soundcloud(userInput); 
+      SearchService.soundcloud(userInput);
+      $scope.userInput = "";
       // SearchService.deezer(userInput);
       $location.path('/search');
     };
