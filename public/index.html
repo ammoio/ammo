@@ -95,7 +95,10 @@
         <div class="modal-body">
           <p>Here's the link to your queue: </p>
           <div>http://localhost/{{ QueueService.queue.shareId }}</div>
-          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://ammo.io/{{ QueueService.queue.shareId }}/&via=ammo" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!</a>
+          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
+          </a>
+          <div class="fb-share-button" data-href="http://ammo.io/" data-width="100" data-type="button_count"></div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
