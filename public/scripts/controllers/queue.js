@@ -69,14 +69,7 @@ angular.module('ammoApp')
     */
 
     $scope.passToPlay = function(index){
-      // QueueService.setCurrentSongIndex(index);
-      // $scope.play(index, 'q');
-      QueueService.setCurrentSongIndex(index)
-        .then(function(ind) {
-          $scope.play(ind, "q");
-        })
-        .catch(function(err) {
-          console.log("Error: ", err);
-        });
+      QueueService.setCurrentSongIndex(index);
+      $scope.play(index, 'q');
     };
   });
