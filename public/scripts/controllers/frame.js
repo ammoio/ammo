@@ -58,10 +58,10 @@ angular.module('ammoApp')
       QueueService.saveQueue($scope.queueName, $scope.passphrase)
       .then(function(queue) {
         $('#shareResponseModal').modal(); //show response modal
-        $('.twitter-share-button').attr({
-          'data-url': $location.host + $scope.QueueService.queue.shareId,
-          'data-text': "Hey, checkout this playlist I made!\n"
-        }); //dynamically set the url
+        // $('.twitter-share-button').attr({
+        //   'data-url': $location.host + $scope.QueueService.queue.shareId,
+        //   'data-text': "Hey, checkout this playlist I made!\n"
+        // }); //dynamically set the url in the tweet
       });
     };
 
