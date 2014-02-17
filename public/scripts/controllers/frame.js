@@ -19,12 +19,30 @@ angular.module('ammoApp')
           - Whathever is currently on the search box (inside form #search)
     */
     $scope.search = function(userInput) {
-      //Call SearchService for each of the services
-      SearchService.youtube(userInput);
-      SearchService.soundcloud(userInput);
-      $scope.userInput = "";
-      // SearchService.deezer(userInput);
+      //Call SearchService for each of the services and pass pushResults as a callback 
+      $scope.userInput = ""; // clearing the input box
+
+      if(isUrl(userInput)) {
+        if(userInput.indexOf("youtu") !== -1) {
+          ParseService.youtube(userInput);
+        }
+        else if(userInput.indexOf("soundcloud") !== -1) {
+          ParseService.soundcloud(userInput);
+        }
+        else if(userInput.indexOf("deezer") !== -1) {
+
+        }
+      } else {
+        SearchService.youtube(userInput);
+        SearchService.soundcloud(userInput); 
+        // SearchService.deezer(userInput);
+      }
       $location.path('/search');
+    };
+
+    var isUrl = function isUrl(s) {
+      var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+      return regexp.test(s);
     };
 
     /* Share Button: when clicked, share button do a post request to /queues */

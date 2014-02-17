@@ -69,7 +69,7 @@ angular.module('ammoApp')
         success(function(data, status, headers, config) {
           //add each returned track title to each list
           data.forEach(function(track) {
-            if (track.streamable) { //*******if not streamable will throw error
+            if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
               //relevant data for each song
               var song = {
                 url: track.uri,
@@ -114,5 +114,9 @@ angular.module('ammoApp')
             that.searchResults.push(song);
           });
         });
+    };
+
+    this.url = function(song) {
+      that.searchResults.push(song);
     };
   });

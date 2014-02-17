@@ -12,15 +12,36 @@ angular.module('ammoApp')
 //    then you need to resolve the promise and it returns a song object, you can see an example of a resolved one here:
 //    http://api.soundcloud.com/tracks/82964169.json?client_id=456165005356d6638c4eabfc515d11aa
 
-  .service('ParseService', function($http) {
+  .service('ParseService', function($http, SearchService) {
     this.youtube = function(url){
       var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
       var match = url.match(regExp);
 
       if (match && match[1].length === 11){
-        return match[1];
+        // return match[1];
+        var id = match[1];
+
+        $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&part=snippet,contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
+          .then(function(results) {
+            var duration = results.data.items[0].contentDetails.duration;
+            var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
+            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
+            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
+
+            var song = {
+              duration: parseInt(hours) * 60 * 60 + parseInt(minutes) * 60 + parseInt(seconds),
+              service: "youtube",
+              serviceId: id,
+              title: results.data.items[0].snippet.title,
+              image: results.data.items[0].snippet.thumbnails.high.url,
+              url: "http://youtu.be/" + id
+            };
+
+            SearchService.url(song);
+          });
+
       } else {
-        return null;
+        console.log("YouTube url not vaild");
       }
     };
 
@@ -29,6 +50,25 @@ angular.module('ammoApp')
     };
 
     this.soundcloud = function(url) {
-      return $http({ method: 'GET', url: 'http://api.soundcloud.com/resolve.json?url=' + url + '&client_id=456165005356d6638c4eabfc515d11aa'});
+      $http({ method: 'GET', url: 'http://api.soundcloud.com/resolve.json?url=' + url + '&client_id=456165005356d6638c4eabfc515d11aa'})
+        .then(function(track) {
+
+          if(!track.data.streamable || track.data.sharing !== 'public') {
+            alert("Track not streamable");
+            console.log("Track not streamable");
+            return;
+          }
+          var song = {
+            url: track.data.permalink_url,
+            service: 'soundcloud',
+            serviceId: track.data.id,
+            title: track.data.title,
+            artist: track.data.user.username,
+            image: track.data.artwork_url,
+            duration: (track.data.duration/1000) | 0
+          };
+
+          SearchService.url(song);
+        });
     };
   });
