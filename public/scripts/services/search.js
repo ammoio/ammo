@@ -19,8 +19,7 @@ angular.module('ammoApp')
 
     this.youtube = function(userInput){
 
-      // emptying searchResults. Cannot assign empty array because controller/view will lose reference
-      this.searchResults = []; //.splice(0, this.searchResults.length); // store search results
+      this.searchResults = [];
 
       var limit = 5;
       
@@ -88,5 +87,32 @@ angular.module('ammoApp')
         error(function(data, status, headers, config) {
           console.log('failed query');
         }); 
+    };
+
+    ///http://api.deezer.com/search?q=30stm&TRACK_DESC=undefined&nb_items=5&access_token=nyQdxmpdz753014065a933dDCMwwUSM53014065a9376Q8d9ojo
+    ///http://api.deezer.com/search?q=eminem&TRACK_DESC=undefined&nb_items=5&access_token=nyQdxmpdz753014065a933dDCMwwUSM53014065a9376Q8d9ojo
+
+    this.deezer = function(userInput, access_token) {
+      var limit = 5;
+      access_token = "nyEmIZFFIK530171471e73bQR96KnJd530171471e777c3KmNh";
+      // https://connect.deezer.com/oauth/auth.php?app_id=132563&redirect_uri=http://www.ammo.io&response_type=token&perms=offline_access
+      // This access_token is necesary because Deezer is not available in the US ... but will be this year, querying their API with my 
+      // access code will get results as of being in Mexico. (Viva Mexico!)
+
+      $http.jsonp('http://api.deezer.com/search?q=' + userInput + '&TRACK_DESC=undefined&nb_items=' + limit +'&access_token='+access_token+'&output=jsonp&callback=JSON_CALLBACK')
+        .success(function(results) {
+          results.data.forEach(function(result) {
+            var song = {
+              artist: result.artist.name,
+              title: result.title,
+              duration: result.duration,
+              service: "deezer",
+              serviceId: result.id,
+              url: result.link,
+              image: result.album.cover
+            };
+            that.searchResults.push(song);
+          });
+        });
     };
   });

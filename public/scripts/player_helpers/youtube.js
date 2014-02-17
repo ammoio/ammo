@@ -5,9 +5,10 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
 var youtube;
+
 function onYouTubeIframeAPIReady() {
   youtube = new YT.Player('youtube', {
     height: '0',
@@ -43,6 +44,8 @@ function onPlayerStateChange(event) {
     scope.detectYoutubeAd();
   }
 }
+
+// fun function xD
 function stopVideo() {
   youtube.stopVideo();
 }
