@@ -6,6 +6,10 @@ angular.module('ammoApp')
     ngProgress.color('#2d9');
     ngProgress.start();
 
+    // This variable is used to know when youtube 
+    // and deezer are loaded ($scope.stopLoadingBar())
+    $scope.assetsLoaded = 0; 
+
     /* 
       ========== $scope.search ==========
       Gets called when user clicks or hits enter on the search bar/button
@@ -18,6 +22,7 @@ angular.module('ammoApp')
       //Call SearchService for each of the services and pass pushResults as a callback 
       SearchService.youtube(userInput);
       SearchService.soundcloud(userInput); 
+      // SearchService.deezer(userInput);
       $location.path('/search');
     };
 
@@ -60,7 +65,9 @@ angular.module('ammoApp')
     };
 
     $scope.stopLoadingBar = function () {
-      ngProgress.complete();
+      $scope.assetsLoaded++;
+      if($scope.assetsLoaded === 2) {
+        ngProgress.complete();
+      }
     };
-
   });

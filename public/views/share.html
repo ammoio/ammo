@@ -3,6 +3,6 @@
   <div>Welcome to the Share View</div>
 
   <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
-    {{ song.title }}
+    {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
   </div>
 </div>

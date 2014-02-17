@@ -1,7 +1,7 @@
 <!-- Songs Container -->
 <div id="main-container">
   <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
-    {{ song.title }}
+    {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
   </div>
   <!-- share button to make current queue live -->  
   <button id="share" class="share btn btn-default" type="submit" value="SHARE" ng-click="share()">Share!</button>

@@ -73,6 +73,9 @@ angular.module('ammoApp')
       else if (song.service === "soundcloud") {
         scPlay(song.serviceId);
       }
+      else if (song.service === "deezer") {
+        DZ.player.playTracks([song.serviceId]);
+      }
 
       $scope.stopTimer();
       $scope.startTimer();
@@ -86,6 +89,7 @@ angular.module('ammoApp')
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
+      DZ.player.pause();
     };
 
     /* 
@@ -106,6 +110,9 @@ angular.module('ammoApp')
           }
           else if($scope.currentSong.service === 'soundcloud') {
             scPlayer.play();
+          }
+          else if($scope.currentSong.service === 'deezer') {
+            DZ.player.play();
           }
         }
       }
@@ -179,7 +186,7 @@ angular.module('ammoApp')
     };
 
     /*
-      ========== passToPlay ==========
+      ========== playFromSidebar ==========
       -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
       then passes it along to the play function.
 
@@ -190,7 +197,12 @@ angular.module('ammoApp')
     */
 
     $scope.playFromSidebar = function(index){
-      QueueService.setCurrentSongIndex(index);
-      $scope.play(index, 'q');
+      QueueService.setCurrentSongIndex(index)
+        .then(function(ind) {
+          $scope.play(ind, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
+        });
     };
 });

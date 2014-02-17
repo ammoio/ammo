@@ -30,7 +30,7 @@
       <div class="row">
         <div id="sidebar" class="col-md-3">
           <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="playFromSidebar($index)">
-            {{ song.title }}
+            {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
           </div>
         </div>
         <div id="content" class="col-md-9">
@@ -40,12 +40,13 @@
     </div>
 
     <div id="youtube"></div>
+    <div id="dz-root"></div>
     <div class="player text-center"> <!-- Player -->
       <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
       <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
       <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
       <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span>
-      <div> {{ currentSong.title }} </div>
+      <div>{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</div> <!-- Song name not displaying -->
       <div>
         <span ng-hide="buffering">{{ fixTime(timer) }} / {{ fixTime(currentSong.duration) }}</span>
         <span ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></span>
@@ -104,6 +105,7 @@
   </div>
 
   <script src="http://connect.soundcloud.com/sdk.js"></script> 
+  <script src="/scripts/player_helpers/deezer.js"></script>
   <script src="/scripts/player_helpers/soundcloud.js"></script>
   <script src="/scripts/player_helpers/youtube.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
@@ -112,6 +114,7 @@
   <script src="/bower_components/jquery/jquery.min.js"></script>
   <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
   <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
+
 
   <script src="/scripts/app.js"></script>
   <script src="/scripts/oauth.min.js"></script>
