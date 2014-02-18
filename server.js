@@ -72,7 +72,7 @@ app.post('/queues/:id/add', function(req, res){
 
 app.put('/queues/:id', function(req, res){
   console.log("Updating Queue ", req.params.id);
-  console.dir("Updating with: ", data);
+  console.dir("Updating with: ", req.body);
   dbHelpers.updateQueue(req.params.id, req.body)
   .then(function(queue){
     res.send(queue);
@@ -82,9 +82,10 @@ app.put('/queues/:id', function(req, res){
   });
 });
 
-//POST: Delete Song at index
-app.post('/queues/:id/remove', function(req, res){
-  dbHelpers.removeSongFromQueue(req.params.id, req.body)
+//DELETE: Delete Song at index 
+//Changed this from POST to DELETE and pass in index as last part of url
+app.delete('/queues/:id/:index', function(req, res){ 
+  dbHelpers.removeSongFromQueue(req.params.id, req.params.index)
   .then(function(song){
     res.send(song);
   })

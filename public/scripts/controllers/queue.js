@@ -31,6 +31,21 @@ angular.module('ammoApp')
       }
     }
 
+
+    /*
+      ========== removSong ==========
+      -Triggered from a click on the "removeSong" button. Call QueueService's removeSongAtIndex.
+
+      Params:
+        index: the index of the song in queue using $index
+
+      Return: No return
+    */
+    $scope.removeSong = function(index) {
+      QueueService.removeSongAtIndex(index);
+    };
+
+
     /*
       ========== share ==========
       -Triggered from a click on the "share" button. Displays modal to prompt for playlist name and passphrase.

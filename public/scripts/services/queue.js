@@ -64,12 +64,12 @@ angular.module('ammoApp')
     */
 
     this.removeSongAtIndex = function(index){
-      var d = $q.promise;
+      var d = $q.defer();
 
       var removed = this.queue.songs.splice(index, 1);
 
       if(this.live){
-        $http.post('/queues/' + this.queue.shareId + '/remove')
+        $http.delete('/queues/' + this.queue.shareId + '/' + index)
         .success(function(data){
           d.resolve(data);
         })
