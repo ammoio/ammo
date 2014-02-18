@@ -33,6 +33,7 @@ angular.module('ammoApp')
     }, 200);
     
 
+
     /* 
       ========== $scope.play ==========
       This functino is in charge of playing songs from all the services.
@@ -87,6 +88,9 @@ angular.module('ammoApp')
       else if (song.service === "deezer") {
         DZ.player.playTracks([song.serviceId]);
       }
+      else if (song.service === 'rdio') {
+        rdio.play(song.serviceId);
+      }
 
       $scope.stopTimer();
       $scope.startTimer();
@@ -101,6 +105,7 @@ angular.module('ammoApp')
       youtube.pauseVideo();
       scPlayer.pause();
       DZ.player.pause();
+      rdio.pause();
     };
 
     /* 
@@ -124,6 +129,9 @@ angular.module('ammoApp')
           }
           else if($scope.currentSong.service === 'deezer') {
             DZ.player.play();
+          }
+          else if($scope.currentSong.service === 'rdio') {
+            rdio.play();
           }
         }
       }
