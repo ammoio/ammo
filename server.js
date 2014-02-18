@@ -73,7 +73,7 @@ app.post('/queues/:id/add', function(req, res){
 app.put('/queues/:id', function(req, res){
   console.log("Updating Queue ", req.params.id);
   console.dir("Updating with: ", req.body);
-  dbHelpers.updateQueue(req.params.id, req.body)
+  dbHelpers.updateQueue(req.params.id, req.body.data)
   .then(function(queue){
     res.send(queue);
   })
