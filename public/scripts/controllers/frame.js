@@ -32,6 +32,9 @@ angular.module('ammoApp')
         else if(userInput.indexOf("deezer") !== -1) {
 
         }
+        else if(userInput.indexOf("spotify") !== -1) {
+          ParseService.spotify(userInput);
+        }
       } else {
         SearchService.youtube(userInput);
         SearchService.soundcloud(userInput); 

@@ -46,7 +46,13 @@ angular.module('ammoApp')
     };
 
     this.spotify = function(url) {
-      return "spotify:track:" + url.substring(url.lastIndexOf('/') + 1);
+      var id = "spotify:track:" + url.substring(url.lastIndexOf('/') + 1);
+
+      $http({ method: 'GET', url: 'http://ws.spotify.com/lookup/1/.json?uri=' + id})
+        .success(function(data, status) {
+          var title = data.track.artists[0].name + " - " + data.track.name;
+          SearchService.youtube(title, 1);
+        });
     };
 
     this.soundcloud = function(url) {
