@@ -13,7 +13,7 @@
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Ammo</a>
+        <a class="navbar-brand" href="/">Ammo</a>
       </div>
 
       <form id="search" class="navbar-form navbar-right" role="search">
@@ -84,6 +84,16 @@
   </div>
 
 
+  <!-- FB SDK -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=494083244033470";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
    <!-- shareResponseModal -->
   <div class="modal fade" id="shareResponseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -95,7 +105,13 @@
         <div class="modal-body">
           <p>Here's the link to your queue: </p>
           <div>http://localhost/{{ QueueService.queue.shareId }}</div>
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://dev.twitter.com" data-url="http://localhost/share/" data-lang="en">Tweet It!</a>
+          <div>
+          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
+          </a>
+          </div>
+          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">
+ Share on Facebook
+</a>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -103,6 +119,7 @@
       </div>
     </div>
   </div>
+
 
   <script src="http://connect.soundcloud.com/sdk.js"></script> 
   <script src="/scripts/player_helpers/deezer.js"></script>
