@@ -17,11 +17,11 @@ angular.module('ammoApp')
 
     var that = this; //reference to service object
 
-    this.youtube = function(userInput){
+    this.youtube = function(userInput, limit){
 
       this.searchResults = [];
 
-      var limit = 5;
+      limit = limit || 5;
       
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
