@@ -12,7 +12,7 @@ angular.module('ammoApp')
     async GET returns an argument with a set of properties. See var song for reference.
 
   */
-  .service('SearchService', function($http, QueueService) {
+  .service('SearchService', function($http, $rootScope, QueueService) {
     this.searchResults = []; // store search results
 
     var that = this; //reference to service object
@@ -33,8 +33,8 @@ angular.module('ammoApp')
           var track = title.length > 1 ? title[1]: title[0];
 
           var song = {
-            title: track, //
-            artist: artist,//
+            title: track,
+            artist: artist,
             service: "youtube",
             serviceId: service_id,
             url: "http://youtu.be/" + service_id,
@@ -44,7 +44,7 @@ angular.module('ammoApp')
           $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
           .then(function(newResults) {
             var duration = newResults.data.items[0].contentDetails.duration;
-            // var array = duration.match(/(\d+)(?=[MHS])/ig)||[]; 
+
             var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
             var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
             var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
@@ -81,8 +81,10 @@ angular.module('ammoApp')
                 artist: track.artist,
                 image: track.icon,
                 duration: track.duration
-              };  
-              that.searchResults.push(song);
+              };
+              $rootScope.$apply(function() {
+                that.searchResults.push(song);
+              });
             }
           });
         },
