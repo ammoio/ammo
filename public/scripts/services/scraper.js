@@ -1,20 +1,13 @@
 angular.module('ammoApp')
-//  This service is inteded to resolve the ID's of any given valid url
-//  
-//  === Important Note === 
-//  soundcloud resolver is async returns a promise 
-//
-//  Examples: 
-//    ParseService.youtube("http://www.youtube.com/watch?v=11Y6Tqw17BM") ->  "11Y6Tqw17BM"
-//    ParseService.youtube("http://youtu.be/11Y6Tqw17BM")                ->  "11Y6Tqw17BM"
-//    ParseService.spotify("http://open.spotify.com/track/5jmFq0Mlx1eV6h1UhtT3iU") -> "spotify:track:5jmFq0Mlx1eV6h1UhtT3iU"   
-//    ParseService.soundcloud("https://soundcloud.com/madeon/madeon-live-triple-j-mix") -> Promise 
-//    then you need to resolve the promise and it returns a song object, you can see an example of a resolved one here:
-//    http://api.soundcloud.com/tracks/82964169.json?client_id=456165005356d6638c4eabfc515d11aa
+//  This service is inteded to resolve the scrape www.theAudioDb.com for a given artist.
+//  It calls the /scrape/:artist route on our server (needs to be done there to avoid cross-origin)
+//  and receives an object which it will store in the storage object this.scraped.
+
+//  Scrape theaudiodb.com
+//  e.g. http://www.theaudiodb.com/api/v1/json/1/search.php?s=lionel%20Richie
+
 
   .service('ScraperService', function($http, $q) {
-    //Scrape theaudiodb.com
-    //http://www.theaudiodb.com/api/v1/json/1/search.php?s=lionel%20Richie
     
     this.scraped = {}; //local storage object
 
@@ -25,28 +18,34 @@ angular.module('ammoApp')
       the response to a key (artist) in the this.scraped object. 
 
       Params:
-        param1: song (object)
-          - a single song object
+        param1: artist (string)
 
       Return:
         A promise that is resolved when the q is updated on the server
-        The song that was added is passed to the promise.
+        The promise resolve with either true or false depending on whether the
+        results were relevant or not
     */
 
-    this.scrape = function(artist){ //CURRENTLY ONLY WORKS FOR SOUNDCLOUD AS YOUTUBE DOESNT HAVE ARTISTS
+    this.scrape = function(artist){
       var d = $q.defer();
       var that = this;
       var artistNoSpace = artist.replace(/\s/g,"%20");
       //var url = "/scrape/" + artistNoSpace; //REPLACE API KEY "1"
-      var url = "/scrape/creed"// JUST FOR TESTINg
+      var url = "/scrape/" + artistNoSpace;// JUST FOR TESTINg
+      console.log(url);
 
 
       $http.get(url)
       .success(function(info){
         console.log(info);
-        that.scraped[artist] = info.artists[0];
-        console.log(artist + " info scraped");
-        d.resolve(that.scraped);
+        if (info.artists !== null){
+          that.scraped[artist] = info.artists[0];
+          console.log(artist + " info scraped");
+          d.resolve(true);
+        }else {
+          console.log("no scraping data found for " + artist);
+          d.resolve(false);
+        }
       })
       .error(function(err){
         console.log(artist + " info NOT scraped");
