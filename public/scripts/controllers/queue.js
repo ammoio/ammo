@@ -116,12 +116,10 @@ angular.module('ammoApp')
       //add functionality to display youtube image if no other image found
       if (ScraperService.scraped[artist]){
           $scope.setArtistImage(artist);
-          console.log($scope.artistImage);
       } else {
         ScraperService.scrape(artist)
         .then(function(data){
           $scope.setArtistImage(artist);
-          console.log($scope.artistImage);
         });
       }
     };
