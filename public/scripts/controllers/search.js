@@ -17,7 +17,6 @@ angular.module('ammoApp')
     $scope.SearchService = SearchService;
     $scope.searchResults = SearchService.searchResults;
     $scope.$watch("SearchService.searchResults", function( newValue, oldValue ) {
-        console.log('watching change');
         $scope.searchResults = SearchService.searchResults;
       }
     );
