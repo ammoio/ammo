@@ -86,7 +86,7 @@ angular.module('ammoApp')
         scPlay(song.serviceId);
       }
       else if (song.service === "deezer") {
-        DZ.player.playTracks([song.serviceId]);
+        // DZ.player.playTracks([song.serviceId]);
       }
       else if (song.service === 'rdio') {
         R.player.play({ source:song.serviceId });
@@ -107,7 +107,7 @@ angular.module('ammoApp')
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
-      DZ.player.pause();
+      // DZ.player.pause();
       R.player.pause();
     };
 
@@ -131,7 +131,7 @@ angular.module('ammoApp')
             scPlayer.play();
           }
           else if($scope.currentSong.service === 'deezer') {
-            DZ.player.play();
+            // DZ.player.play();
           }
           else if($scope.currentSong.service === 'rdio') {
             R.player.play();
