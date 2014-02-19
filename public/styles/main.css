@@ -28,7 +28,8 @@ i {
 }
 
 #main-container, #search-container {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
+  margin-top: -1px;
   overflow-y: scroll;
 }
 
@@ -101,4 +102,17 @@ i {
 
 #share {
   margin-left: 5px;
+}
+
+.img-container {
+  height: 50%;
+  width: 100%;
+  background-color: black;
+}
+
+.img-container img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
 }
