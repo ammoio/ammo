@@ -91,7 +91,7 @@ angular.module('ammoApp')
       QueueService.setCurrentSongIndex(index); //needs to happen before scraping
 
       if (QueueService.queue.songs[index].artist){
-        $scope.loadArtistImage(QueueService.queue.songs[index].artist);
+        $scope.loadArtistImages(QueueService.queue.songs[index].artist);
       }else{
         $scope.artistImage = QueueService.queue.songs[QueueService.queue.currentSong].image;
       }
@@ -100,7 +100,7 @@ angular.module('ammoApp')
     };
 
     /*
-      ========== loadArtistImage ==========
+      ========== loadArtistImages ==========
       -Checks the scraper service to see if the artist passed in has been scraped before. If it 
       has, it will set the $scope.artistImage to the previously scraped images. If the artists 
       has not been scraped, it will call the ScraperService.scrape(artist) function, will set
@@ -112,20 +112,39 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.loadArtistImage = function(artist){
+    $scope.loadArtistImages = function(artist){
       //add functionality to display youtube image if no other image found
       if (ScraperService.scraped[artist]){
-        if (ScraperService.scraped[artist].strArtistThumb){
-          $scope.artistImage = ScraperService.scraped[artist].strArtistThumb + "/preview";
-        } else {
-          console.log("Artist exists in DB, but has no image data");
-        }
-        
+          $scope.setArtistImage(artist);
       } else {
         ScraperService.scrape(artist)
         .then(function(data){
-          $scope.artistImage = data ? ScraperService.scraped[artist].strArtistThumb + "/preview" : QueueService.queue.songs[QueueService.queue.currentSong].image;
+          $scope.setArtistImage(artist);
         });
+      }
+    };
+
+    /*
+      ========== setArtistImage ==========
+      -sets the $scope.artistImage to a random image from the scraper, or the song.image
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
+    $scope.setArtistImage = function(artist){
+      var rand = Math.floor(Math.random()*4);
+      var scraped = ScraperService.scraped;
+      var songs = QueueService.queue.songs;
+      var cur = QueueService.queue.currentSong;
+      var currentImg = scraped[artist].images[rand]
+
+      if (currentImg === "" || currentImg === null){
+        $scope.artistImage = songs[cur].image;
+      }else {
+        $scope.artistImage = currentImg;
       }
     };
 
