@@ -210,112 +210,123 @@ module.exports = {
     return d.promise;
   },
 
-  getUserPlaylist: function(username, id){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        d.resolve(user.playlists[id]);
-      }
-    });
-    return d.promise;
-  },
+  // getUserPlaylist: function(username, id){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       d.resolve(user.playlists[id]);
+  //     }
+  //   });
+  //   return d.promise;
+  // },
 
   createPlaylist: function(username, playlist){
     var d = Q.defer();
-    playlist.id = crypto.randomBytes(4).toString('hex');
+    playlist.id = crypto.randomBytes(4).toString('base64').slice(0, 4);
     console.log("Loooking up: ", username);
     Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
       } else {
-        user.playlists[playlist.id] = playlist;
-        user.markModified("playlists");
-        console.log("Playlists for Alex: ", user.playlists);
-        user.save(function(err, user){
-          d.resolve(playlist);
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  updatePlaylist: function(username, id, playlist){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        for (var key in playlist) {
-          if( playlist.hasOwnProperty(key) ) {
-            if(key !== "id"){
-              user.playlists[id][key] = playlist[key];
-            }
-          }
-        }
-        user.markModified("playlists");
-        user.save(function(err, user){
-          if(err){
-            d.reject(err);
-          } else {
-            d.resolve(playlist);
-          }
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  addSongToPlaylist: function(username, id, song){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        if(Array.isArray(song)){
-          user.playlists[id].songs = user.playlists[id].songs.concat(song);
-        } else {
-          console.log("id: ", id);
-          console.log("playlists: ", user.playlists);
-          user.playlists[id].songs.push(song);
-        }
-        user.markModified("playlists");
-        user.save(function(err, user){
-          if(err){
-            d.reject(err);
-          } else {
-            d.resolve(song);
-          }
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  removeSongFromPlaylist: function(username, id, index){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        if (index > -1) {
-          var removed = user.playlists[id].songs.splice(index, 1);
+        playlist.isPrivate = true;
+        module.exports.createQueue(playlist).then(function(queue){
+          user.playlists.push({shareId: queue.shareId, name: queue.name});
           user.markModified("playlists");
+          // console.log("Playlists for ", user.name);
+          // console.log(user.playlists);
           user.save(function(err, user){
             if(err){
               d.reject(err);
             } else {
-              d.resolve(removed[0]);
+              d.resolve(queue);
             }
           });
-        } else {
-          d.reject("Index out of Bounds!", index);
-        }
+        })
+        .fail(function(err){
+          d.reject(err);
+        });
       }
     });
     return d.promise;
   },
+
+  // updatePlaylist: function(username, id, playlist){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       for (var key in playlist) {
+  //         if( playlist.hasOwnProperty(key) ) {
+  //           if(key !== "id"){
+  //             user.playlists[id][key] = playlist[key];
+  //           }
+  //         }
+  //       }
+  //       user.markModified("playlists");
+  //       user.save(function(err, user){
+  //         if(err){
+  //           d.reject(err);
+  //         } else {
+  //           d.resolve(playlist);
+  //         }
+  //       });
+  //     }
+  //   });
+  //   return d.promise;
+  // },
+
+  // addSongToPlaylist: function(username, id, song){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       if(Array.isArray(song)){
+  //         user.playlists[id].songs = user.playlists[id].songs.concat(song);
+  //       } else {
+  //         console.log("id: ", id);
+  //         console.log("playlists: ", user.playlists);
+  //         user.playlists[id].songs.push(song);
+  //       }
+  //       user.markModified("playlists");
+  //       user.save(function(err, user){
+  //         if(err){
+  //           d.reject(err);
+  //         } else {
+  //           d.resolve(song);
+  //         }
+  //       });
+  //     }
+  //   });
+  //   return d.promise;
+  // },
+
+  // removeSongFromPlaylist: function(username, id, index){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       if (index > -1) {
+  //         var removed = user.playlists[id].songs.splice(index, 1);
+  //         user.markModified("playlists");
+  //         user.save(function(err, user){
+  //           if(err){
+  //             d.reject(err);
+  //           } else {
+  //             d.resolve(removed[0]);
+  //           }
+  //         });
+  //       } else {
+  //         d.reject("Index out of Bounds!", index);
+  //       }
+  //     }
+  //   });
+  //   return d.promise;
+  // },
 
   createUser: function(user){
     var d = Q.defer();

@@ -123,8 +123,7 @@ app.put('/queues/:id', function(req, res){
   });
 });
 
-//DELETE: Delete Song at index 
-//Changed this from POST to DELETE and pass in index as last part of url
+//DELETE: Delete Song at index //Changed this from POST to DELETE and pass in index as last part of url
 app.delete('/queues/:id/:index', function(req, res){
   dbHelpers.removeSongFromQueue(req.params.id, req.params.index)
   .then(function(song){
@@ -149,37 +148,40 @@ app.get('/:user/playlists', function(req, res){
   });
 });
 
-//GET: user playlist by id
+//GET: user playlist by id //DEPRECATED -- use queue endpoint
 app.get('/:user/playlists/:id', function(req, res){
-  dbHelpers.getUserPlaylist(req.params.user, req.params.id)
-  .then(function(playlist){
-    res.send(playlist);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
+  res.send(410);
+  // dbHelpers.getUserPlaylist(req.params.user, req.params.id)
+  // .then(function(playlist){
+  //   res.send(playlist);
+  // })
+  // .fail(function (err) {
+  //   res.send(500, err);
+  // });
 });
 
-//POST: Add song to playlist
+//POST: Add song to playlist //DEPRECATED, use queue endpoint
 app.post('/:user/playlists/:id', function(req, res){
-  dbHelpers.addSongToPlaylist(req.params.user, req.params.id, req.body)
-  .then(function(song){
-    res.send(song);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
+  res.send(410);
+  // dbHelpers.addSongToPlaylist(req.params.user, req.params.id, req.body)
+  // .then(function(song){
+  //   res.send(song);
+  // })
+  // .fail(function (err) {
+  //   res.send(500, err);
+  // });
 });
 
-//PUT: Update Playlist
+//PUT: Update Playlist //DEPRECATED, use queue endpoint
 app.put('/:user/playlists/:id', function(req, res){
-  dbHelpers.updatePlaylist(req.params.user, req.params.id, req.body)
-  .then(function(playlist){
-    res.send(playlist);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
+  res.send(410);
+  // dbHelpers.updatePlaylist(req.params.user, req.params.id, req.body)
+  // .then(function(playlist){
+  //   res.send(playlist);
+  // })
+  // .fail(function (err) {
+  //   res.send(500, err);
+  // });
 });
 
 //POST: Create Playlist
@@ -194,19 +196,24 @@ app.post('/:user/playlists', function(req, res){
     res.send(playlist);
   })
   .fail(function (err) {
-    res.send(500, err);
+    if(err === "not logged in"){
+      res.send(401);
+    } else {
+      res.send(500, err);
+    }
   });
 });
 
-//POST: Delete Song at index
+//POST: Delete Song at index //DEPRECATED, use queue endpoint
 app.post('/:user/playlists/:id/remove', function(req, res){
-  dbHelpers.removeSongFromPlaylist(req.params.user, req.params.id, req.body)
-  .then(function(song){
-    res.send(song);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
+  res.send(410);
+  // dbHelpers.removeSongFromPlaylist(req.params.user, req.params.id, req.body)
+  // .then(function(song){
+  //   res.send(song);
+  // })
+  // .fail(function (err) {
+  //   res.send(500, err);
+  // });
 });
 
 //GET: scrape----------------------------------------------------------------------------------
