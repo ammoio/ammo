@@ -89,15 +89,7 @@ angular.module('ammoApp')
         DZ.player.playTracks([song.serviceId]);
       }
       else if (song.service === 'rdio') {
-        R.player.on('change:playState', function() {
-          if (R.player.playState() === 1) { //1 is playing. before buffer it is 2
-            $scope.buffering = false;
-            $scope.ready = true;
-          } else {
-            $scope.ready = false;
-          }
-        });
-        R.player.play({source:song.serviceId});
+        R.player.play({ source:song.serviceId });
       }
 
       $scope.stopTimer();
@@ -112,7 +104,7 @@ angular.module('ammoApp')
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
-      // DZ.player.pause();
+      DZ.player.pause();
       R.player.pause();
     };
 
@@ -139,7 +131,7 @@ angular.module('ammoApp')
             DZ.player.play();
           }
           else if($scope.currentSong.service === 'rdio') {
-            R.player.togglePause();
+            R.player.play();
           }
         }
       }

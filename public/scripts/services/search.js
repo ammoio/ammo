@@ -54,7 +54,7 @@ angular.module('ammoApp')
     };
 
     this.rdio = function(userInput, limit) {
-      var limit = limit || 3;
+      limit = limit || 5;
 
       R.request({
         method: "search",
@@ -85,7 +85,7 @@ angular.module('ammoApp')
           console.log("error: " + response.message);
         }
       });
-    },
+    };
 
     this.soundcloud = function(userInput) {
       //limit: number of results to return
@@ -98,8 +98,8 @@ angular.module('ammoApp')
       //"q" is the search query
       var searchUrl = "http://api.soundcloud.com/tracks?";
       searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
-      $http.get(searchUrl).
-        success(function(data, status, headers, config) {
+      $http.get(searchUrl)
+        .success(function(data, status, headers, config) {
           //add each returned track title to each list
           data.forEach(function(track) {
             if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
@@ -116,14 +116,11 @@ angular.module('ammoApp')
               that.searchResults.push(song);
             }
           });
-        }).
-        error(function(data, status, headers, config) {
+        })
+        .error(function(data, status, headers, config) {
           console.log('failed query');
         }); 
     };
-
-    ///http://api.deezer.com/search?q=30stm&TRACK_DESC=undefined&nb_items=5&access_token=nyQdxmpdz753014065a933dDCMwwUSM53014065a9376Q8d9ojo
-    ///http://api.deezer.com/search?q=eminem&TRACK_DESC=undefined&nb_items=5&access_token=nyQdxmpdz753014065a933dDCMwwUSM53014065a9376Q8d9ojo
 
     this.deezer = function(userInput, access_token) {
       var limit = 5;
