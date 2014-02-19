@@ -124,6 +124,16 @@ angular.module('ammoApp')
       }
     };
 
+    /*
+      ========== setArtistImage ==========
+      -sets the $scope.artistImage to a random image from the scraper, or the song.image
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
     $scope.setArtistImage = function(artist){
       var rand = Math.floor(Math.random()*4);
       var scraped = ScraperService.scraped;
