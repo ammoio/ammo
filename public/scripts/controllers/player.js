@@ -90,13 +90,14 @@ angular.module('ammoApp')
       }
       else if (song.service === 'rdio') {
         R.player.on('change:playState', function() {
-          if (R.player.playState() === 1) {
+          if (R.player.playState() === 1) { //1 is playing. before buffer it is 2
             $scope.buffering = false;
             $scope.ready = true;
+          } else {
+            $scope.ready = false;
           }
         });
         R.player.play({source:song.serviceId});
-        // rdio.play(song.serviceId);
       }
 
       $scope.stopTimer();

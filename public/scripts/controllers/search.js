@@ -15,6 +15,12 @@ angular.module('ammoApp')
   .controller('SearchController', function($scope, $location, SearchService, QueueService) {
     //set searchResults on scope to reflect change in view
     $scope.SearchService = SearchService;
+    $scope.searchResults = SearchService.searchResults;
+    $scope.$watch("SearchService.searchResults", function( newValue, oldValue ) {
+        console.log('watching change');
+        $scope.searchResults = SearchService.searchResults;
+      }
+    );
 
     /*
       ========== addToQueue ==========

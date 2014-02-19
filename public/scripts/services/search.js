@@ -53,8 +53,8 @@ angular.module('ammoApp')
       });
     };
 
-    this.rdio = function(userInput) {
-      var limit = 3;
+    this.rdio = function(userInput, limit) {
+      var limit = limit || 3;
 
       R.request({
         method: "search",
