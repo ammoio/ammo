@@ -19,6 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
@@ -26,6 +28,17 @@ app.use(app.router);
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+/* ======== User Routes ========*/
+app.post('/login', function(req, res){
+  loginHelpers.validateSession(req.body.sessionId).then(function(sessionId){
+    console.log("Validated Session", sessionId);
+    res.send("Successfully added Session", sessionId);
+  })
+  .fail(function(err){
+    res.send(401);
+  });
+});
 
 /* ======== Queue Routes ========*/
 app.get('/queues', function(req, res){
