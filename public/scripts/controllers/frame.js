@@ -1,4 +1,4 @@
-angular.module('ammoApp') 
+angular.module('ammoApp')
   .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
     $scope.UserService = UserService;
 
@@ -14,7 +14,7 @@ angular.module('ammoApp')
 
     $http({ method: 'GET', url: '/user'})
       .success(function(user) {
-        UserService.setUser(user); 
+        UserService.setUser(user);
         UserService.setLogged(true);
       })
       .error(function(err) {
@@ -31,15 +31,15 @@ angular.module('ammoApp')
     ngProgress.color('#2d9');
     ngProgress.start();
 
-    // This variable is used to know when youtube 
+    // This variable is used to know when youtube
     // and deezer are loaded ($scope.stopLoadingBar())
-    $scope.assetsLoaded = 0; 
+    $scope.assetsLoaded = 0;
 
-    /* 
+    /*
       ========== $scope.search ==========
       Gets called when user clicks or hits enter on the search bar/button
 
-      Params: 
+      Params:
         userInput
           - Whathever is currently on the search box (inside form #search)
     */
@@ -80,11 +80,11 @@ angular.module('ammoApp')
     /* Share Button: when clicked, share button do a post request to /queues */
     $scope.share = function() {
       QueueService.saveQueue($scope.searchResults);
-    }; 
+    };
 
 
     $scope.login = function() {
-      if($scope.isLogged()) {
+      if(UserService.user.loggedIn) {
         $http({ method: 'GET', url: '/logout'})
         .success(function(){
           $cookies.sessionId = "";

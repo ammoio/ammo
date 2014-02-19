@@ -1,10 +1,10 @@
 angular.module('ammoApp')
 
-  /* 
+  /*
   ========== SearchService ==========
-  Search Service is divided by services functions (youtube, soundcloud) 
+  Search Service is divided by services functions (youtube, soundcloud)
 
-  Params: 
+  Params:
     userInput
       - whatever the user typed on the search box, used to create the url used in the ‘GET’ request
   Return:
@@ -22,10 +22,10 @@ angular.module('ammoApp')
       this.searchResults = [];
 
       limit = limit || 5;
-      
+
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
-        results.data.items.forEach(function(video) { 
+        results.data.items.forEach(function(video) {
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
 
           var title = video.snippet.title.split(" - ");
@@ -45,9 +45,9 @@ angular.module('ammoApp')
           .then(function(newResults) {
             var duration = newResults.data.items[0].contentDetails.duration;
 
-            var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
-            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
-            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
+            var hours = duration.match(/(\d+)(?=[H])/ig)||[0];
+            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0];
+            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
             song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
 
@@ -111,11 +111,11 @@ angular.module('ammoApp')
           data.forEach(function(track) {
             if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
               //relevant data for each song
-              
+
               var title = track.title.split(" - ");
               var artist = title.length > 1 ? title[0] : track.user.username;
               var trackName = title.length > 1 ? title[1]: title[0];
-              
+
               var song = {
                 url: track.uri,
                 service: 'soundcloud',
@@ -131,7 +131,7 @@ angular.module('ammoApp')
         })
         .error(function(data, status, headers, config) {
           console.log('failed query');
-        }); 
+        });
     };
 
     this.deezer = function(userInput, access_token) {
