@@ -1,6 +1,8 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService) {
+  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService, ScraperService) {
+    $scope.artistImage = "http://www.theaudiodb.com/images/media/artist/thumb/xxtwus1340291734.jpg";
+
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -84,7 +86,24 @@ angular.module('ammoApp')
     */
 
     $scope.passToPlay = function(index){
+      if (QueueService.queue.songs[index].artist){
+        $scope.loadArtistImage(QueueService.queue.songs[index].artist);
+      }
+      
       QueueService.setCurrentSongIndex(index);
       $scope.play(index, 'q');
     };
+
+    $scope.loadArtistImage = function(artist){
+      if (ScraperService.scraped[artist]){
+        $scope.artistImage = ScraperService.scraped[artist].strArtistThumb;
+      } else {
+        ScraperService.scrape(artist)
+        .then(function(data){
+          $scope.artistImage = ScraperService.scraped[artist].strArtistThumb;
+        });
+      }
+    };
+
+    
   });
