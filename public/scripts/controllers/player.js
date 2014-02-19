@@ -13,7 +13,7 @@ angular.module('ammoApp')
       - $scope.playPrev();
       - $scope.detectYoutubeAd();
   */
-  .controller('PlayerController', function($scope, $timeout, QueueService) {
+  .controller('PlayerController', function($scope, $interval, QueueService) {
     $scope.playing = false;
     $scope.currentSong = null;
     $scope.currentSongIndex = null;
@@ -145,7 +145,6 @@ angular.module('ammoApp')
         })
         .catch(function(err) {
           console.log("Error: ", err);
-          $scope.stopTimer();
         });
     };
 
@@ -156,7 +155,6 @@ angular.module('ammoApp')
         })
         .catch(function(err) {
           console.log("Error: ", err);
-          $scope.stopTimer();
         });
     };
 
@@ -189,21 +187,20 @@ angular.module('ammoApp')
 
     // ---------- Progress Bar Logic ----------
     // ========================================
-    $scope.onTimeout = function() {
-      if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
-        $scope.timer++;
-      }
-      timerTimeout = $timeout($scope.onTimeout, 1000);
-    };
-
-    var timerTimeout;
-
+    var intervals = []; //array to keep track of all set intervals
+ 
     $scope.startTimer = function() {
-      $timeout($scope.onTimeout, 1000);
+      intervals.push($interval( function() {
+        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+          $scope.timer++;
+        }
+      }, 1000));
     };
 
     $scope.stopTimer = function() {
-      $timeout.cancel(timerTimeout);
+      for (var i = 0; i < intervals.length; i++) { //clear all set intervals
+        $interval.cancel(intervals[i]);
+      }
       $scope.timer = 0;
     };
 
