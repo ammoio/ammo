@@ -1,8 +1,118 @@
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.player {
+  color: #bbbbbb;
+  position: fixed;
+  bottom: 0;
+  height: 120px;
+  width: 100%;
+  border-top: solid #bbbbbb;
+  border-top-width: 2px;
+  background-color: white;
+}
+
+table {
+  overflow: auto;
+}
+
+i {
+  margin: 5px;
+  margin-top: 10px;
+}
+
+#main-container, #search-container {
+  /*margin-top: 15px;*/
+  margin-top: -1px;
+  overflow-y: scroll;
+}
+
+#main-container :first-child, #search-container :first-child {
+  border-top: 1px solid #ddd;
+}
+
+#main-container :nth-child(even), #search-container :nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.song-container {
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  padding-left: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.song-container:hover{
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.addToQueue, .removeFromQueue {
+  float: right;
+  margin-top: 5px;
+  margin-right: 5px;
+  line-height: 20px;
+}
+
+.container {
+  position: fixed;
+  width: 100%;
+  top: 51px;
+  bottom: 120px;
+  overflow:scroll;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+#sidebar {
+  background-color: gray;
+  height: 100%;
+  overflow-y: scroll;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#sidebar .song-container {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
+#content {
+  overflow-y: scroll;
+  height: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.queueButton {
+  padding-bottom: 5px;
+  margin-left: 5px;
+}
+
+#share {
+  margin-left: 5px;
+}
+
+.img-container {
+  height: 50%;
+  width: 100%;
+  background-color: black;
+}
+
+.img-container img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
 }

@@ -1,0 +1,8 @@
+<!-- Songs Container -->
+<div id="main-container">
+  <div>Welcome to the Share View</div>
+
+  <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
+    {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+  </div>
+</div>
