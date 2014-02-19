@@ -2,7 +2,7 @@ var onPlayerLoaded = function() {
   var frameScope = angular.element(document.getElementById("search")).scope();
   var playerScope = angular.element(document.getElementById("youtube")).scope();
 
-  frameScope.stopLoadingBar();
+  frameScope.stopLoadingBar("Deezer");
   var currentPosition = 0;
   var currentDuration = 0;
 
