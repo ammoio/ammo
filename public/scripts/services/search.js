@@ -53,6 +53,39 @@ angular.module('ammoApp')
       });
     };
 
+    this.rdio = function(userInput) {
+      var limit = 3;
+
+      R.request({
+        method: "search",
+        content: {
+          query: userInput,
+          types: "track",
+          extras: 'duration, baseIcon, canStream',
+          count: limit
+        },
+        success: function(response) {
+          var results = response.result.results;
+          results.forEach(function(track) {
+            if (track.canStream && track.canSample) { //can stream and sample
+              var song = {
+                url: track.shortUrl,
+                service: 'rdio',
+                serviceId: track.radioKey,
+                title: track.name,
+                artist: track.artist,
+                image: track.icon,
+                duration: track.duration
+              };  
+              that.searchResults.push(song);
+            }
+          });
+        },
+        error: function(response) {
+          console.log("error: " + response.message);
+        }
+      });
+    },
 
     this.soundcloud = function(userInput) {
       //limit: number of results to return
