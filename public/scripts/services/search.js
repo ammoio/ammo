@@ -71,7 +71,7 @@ angular.module('ammoApp')
               var song = {
                 url: track.shortUrl,
                 service: 'rdio',
-                serviceId: track.radioKey,
+                serviceId: track.key,
                 title: track.name,
                 artist: track.artist,
                 image: track.icon,
