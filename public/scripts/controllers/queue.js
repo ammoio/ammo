@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService, ScraperService) {
+  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
     $scope.artistImage = "";
 
     /*
@@ -72,6 +72,31 @@ angular.module('ammoApp')
       }
     };
 
+
+    /* 
+      ======== saveToPlaylist ========
+      Save the current queue to a playlist.
+
+    */
+    $scope.saveToPlaylist = function() {
+      if(!UserService.user.loggedIn) {
+        console.log("Can't save playlist if user is not logged.");
+        return;
+      }
+
+      $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: {
+        name: "Placeholder name",
+        songs: $scope.songs
+        }
+      })
+      .success(function() {
+        console.log("Saved successfully");
+      })
+      .error(function() {
+        console.log("Error saving playlist");
+      });
+    };
+
     
     
     /*
@@ -139,7 +164,7 @@ angular.module('ammoApp')
       var scraped = ScraperService.scraped;
       var songs = QueueService.queue.songs;
       var cur = QueueService.queue.currentSong;
-      var currentImg = scraped[artist].images[rand]
+      var currentImg = scraped[artist].images[rand];
 
       if (currentImg === "" || currentImg === null){
         $scope.artistImage = songs[cur].image;
