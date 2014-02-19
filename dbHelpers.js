@@ -10,8 +10,85 @@ var Models = require('./models');
 mongoose.connect('mongodb://localhost/ammo');
 
 module.exports = {
+  /* ======== User Helpers ======== */
+  getUser: function (query) {
+    var d = Q.defer();
+    Models.User.findOne(query, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        if(!user) {
+          d.reject(user);
+        } else {
+          delete user.sessionId;
+          d.resolve(user);
+        }
+      }
+    });
 
-/* ======== Queue Helpers ======== */
+    return d.promise;
+  },
+
+  addSession: function (username, sessionId) {
+    var d = Q.defer();
+    Models.User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        user.sessionId = sessionId;
+        user.save(function(err, data){
+          if (err) {
+            d.reject(err);
+          } else {
+            delete data.sessionId;
+            d.resolve(data);
+          }
+        });
+      }
+    });
+
+    return d.promise;
+  },
+
+  getSession: function (username) {
+    var d = Q.defer();
+    Models.User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        d.resolve(user.sessionId);
+      }
+    });
+
+    return d.promise;
+  },
+
+  closeSession: function(query) {
+    var d = Q.defer();
+    Models.User.findOne(query, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        if(!user){
+          d.reject("User Doesnt Exist");
+        } else {
+          user.sessionId = null;
+          user.save(function(err, data){
+            if (err) {
+              d.reject(err);
+            } else {
+              d.resolve(data.sessionId);
+            }
+          });
+        }
+      }
+    });
+
+    return d.promise;
+  },
+
+
+  /* ======== Queue Helpers ======== */
   getQueues: function(){
     var d = Q.defer();
     Models.Queue.find(function(err, data){
@@ -120,7 +197,7 @@ module.exports = {
   },
 
 
-/* ======== Playlist Helpers ======== */
+  /* ======== Playlist Helpers ======== */
   getUserPlaylists: function(username){
     var d = Q.defer();
     Models.User.findOne({username: username}, function(err, user){

@@ -1,5 +1,30 @@
 angular.module('ammoApp') 
-  .controller('FrameController', function($scope, $http, $location, ParseService, SearchService, QueueService, ngProgress) {
+  .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+    $scope.UserService = UserService;
+
+    var S4 = function() {
+      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+
+    var guid = function () {
+      return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    };
+
+    $cookies.sessionId = $cookies.sessionId || guid();
+
+    $http({ method: 'GET', url: '/user'})
+      .success(function(user) {
+        UserService.setUser(user); 
+        UserService.setLogged(true);
+      })
+      .error(function(err) {
+        console.log(err);
+      });
+
+    $scope.isLogged = function() {
+      return UserService.isLogged();
+    };
+
     $scope.QueueService = QueueService;
 
     //ngProgress is the top loading bar shown when first loading the page
@@ -57,18 +82,41 @@ angular.module('ammoApp')
       QueueService.saveQueue($scope.searchResults);
     }; 
 
-    //  OAuth.popup('facebook', function(err, res) {
-    //   if(err) {
-    //     console.log(err);
-    //     return;
-    //   }
-    //   console.log(res);
-    //   $http.get('https://graph.facebook.com/me?access_token=' + res.access_token)
-    //   .then(function (resp) {
-    //     console.log(resp);
-    //   });
-    // });
 
+    $scope.login = function() {
+      if($scope.isLogged()) {
+        $http({ method: 'GET', url: '/logout'})
+        .success(function(){
+          $cookies.sessionId = "";
+          UserService.logout();
+        })
+        .error(function(){
+          console.log("error logging out");
+        });
+      } else {
+        $cookies.sessionId = guid();
+        OAuth.popup('facebook', { state: $cookies.sessionId }, function(err, res) {
+          if(err) {
+            console.log(err);
+            return;
+          }
+          console.log(res);
+
+          $http({ method: 'POST', url: '/login', data: { code: res.code }})
+            .success(function(userObj) {
+              UserService.setUser = userObj;
+              UserService.setLogged(true);
+            })
+            .error(function(err){
+              console.log(err);
+            });
+        // $http.get('https://graph.facebook.com/me?access_token=' + res.access_token)
+        // .then(function (resp) {
+        //   console.log(resp);
+        // });
+        });
+      }
+    };
 
         /*
       ========== shareRequestModal ==========

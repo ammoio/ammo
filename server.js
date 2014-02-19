@@ -8,6 +8,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var dbHelpers = require('./dbHelpers');
+var loginHelpers = require('./loginHelpers');
 
 var app = express();
 
@@ -19,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.session({secret: '1234567890QWERTY'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
@@ -26,6 +29,44 @@ app.use(app.router);
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
+
+/* ======== User Routes ========*/
+app.post('/login', function(req, res){
+  // console.log(req.body);
+  // console.log(req.cookies);
+  loginHelpers.validateUser(req.body.code, req.cookies.sessionId)
+  .then(function(user){
+    console.log("Validated Session", user);
+    res.send(user);
+  })
+  .fail(function(err){
+    res.send(418);
+  });
+});
+
+app.get('/logout', function(req, res){
+  loginHelpers.closeSession(req.cookies.sessionId)
+  .then(function(sessionId){
+    console.log("Canceled Session", sessionId);
+    req.cookies.sessionId = null;
+    res.send("Successfully cancelled Session", sessionId);
+  })
+  .fail(function(err){
+    res.send(401);
+  });
+});
+
+app.get('/user', function(req, res){
+  console.dir(req.cookies);
+  dbHelpers.getUser({sessionId: req.cookies.sessionId})
+  .then(function(user){
+    console.log(user);
+    res.send(user);
+  })
+  .fail(function(err){
+    res.send(418);
+  });
+});
 
 /* ======== Queue Routes ========*/
 app.get('/queues', function(req, res){
@@ -84,7 +125,7 @@ app.put('/queues/:id', function(req, res){
 
 //DELETE: Delete Song at index 
 //Changed this from POST to DELETE and pass in index as last part of url
-app.delete('/queues/:id/:index', function(req, res){ 
+app.delete('/queues/:id/:index', function(req, res){
   dbHelpers.removeSongFromQueue(req.params.id, req.params.index)
   .then(function(song){
     res.send(song);
@@ -143,7 +184,12 @@ app.put('/:user/playlists/:id', function(req, res){
 
 //POST: Create Playlist
 app.post('/:user/playlists', function(req, res){
-  dbHelpers.createPlaylist(req.params.user, req.body)
+  loginHelpers.validateSession(req.params.user, req.cookies.sessionId)
+  .then(function (response) {
+    console.log("Valid Session", req.params.user);
+    return true;
+  })
+  .then(dbHelpers.createPlaylist(req.params.user, req.body))
   .then(function(playlist){
     res.send(playlist);
   })
