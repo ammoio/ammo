@@ -36,7 +36,7 @@ angular.module('ammoApp')
               image: results.data.items[0].snippet.thumbnails.high.url,
               url: "http://youtu.be/" + id
             };
-
+            SearchService.searchResults = [];
             SearchService.url(song);
           });
 
@@ -50,8 +50,12 @@ angular.module('ammoApp')
 
       $http({ method: 'GET', url: 'http://ws.spotify.com/lookup/1/.json?uri=' + id})
         .success(function(data, status) {
-          var title = data.track.artists[0].name + " - " + data.track.name;
-          SearchService.youtube(title, 1);
+          SearchService.searchResults = [];
+          var youtubeKeyword = data.track.artists[0].name + " - " + data.track.name;
+          SearchService.youtube(youtubeKeyword, 1);
+
+          var rdioKeyword = data.track.artists[0].name + " " + data.track.name + " " + data.track.album.name;
+          SearchService.rdio(rdioKeyword, 1);
         });
     };
 
@@ -73,8 +77,16 @@ angular.module('ammoApp')
             image: track.data.artwork_url,
             duration: (track.data.duration/1000) | 0
           };
-
+          SearchService.searchResults = [];
           SearchService.url(song);
         });
+    };
+
+    this.rdio = function(url) {
+      var userInput = url.replace(/artist\/|album\/|track|_/g, " ").split('/');
+      userInput.splice(0,3);
+      userInput = userInput.join(" ");
+      SearchService.searchResults = [];
+      SearchService.rdio(userInput, 1);
     };
   });

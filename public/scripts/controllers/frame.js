@@ -19,7 +19,7 @@ angular.module('ammoApp')
           - Whathever is currently on the search box (inside form #search)
     */
     $scope.search = function(userInput) {
-      //Call SearchService for each of the services and pass pushResults as a callback 
+      //Call SearchService for each of the services
       $scope.userInput = ""; // clearing the input box
 
       if(isUrl(userInput)) {
@@ -35,9 +35,13 @@ angular.module('ammoApp')
         else if(userInput.indexOf("spotify") !== -1) {
           ParseService.spotify(userInput);
         }
+        else if (userInput.indexOf("rdio") !== -1) {
+          ParseService.rdio(userInput);
+        }
       } else {
         SearchService.youtube(userInput);
-        SearchService.soundcloud(userInput); 
+        SearchService.rdio(userInput);
+        SearchService.soundcloud(userInput);
         // SearchService.deezer(userInput);
       }
       $location.path('/search');
