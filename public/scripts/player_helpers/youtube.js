@@ -23,7 +23,7 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
   var scope = angular.element(document.getElementById("search")).scope();
-  scope.stopLoadingBar();
+  scope.stopLoadingBar("YouTube");
 }
 
 function onPlayerStateChange(event) {

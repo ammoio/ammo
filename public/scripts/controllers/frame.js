@@ -110,10 +110,6 @@ angular.module('ammoApp')
             .error(function(err){
               console.log(err);
             });
-        // $http.get('https://graph.facebook.com/me?access_token=' + res.access_token)
-        // .then(function (resp) {
-        //   console.log(resp);
-        // });
         });
       }
     };
@@ -134,8 +130,8 @@ angular.module('ammoApp')
       });
     };
 
-    $scope.stopLoadingBar = function () {
-      // console.log("asset");
+    $scope.stopLoadingBar = function (asset) {
+      // console.log("Loaded: ", asset);
       $scope.assetsLoaded++;
       if($scope.assetsLoaded === 3) {
         ngProgress.complete();
