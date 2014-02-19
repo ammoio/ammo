@@ -76,7 +76,7 @@ module.exports = {
         if (validSessionId && validSessionId === sessionId) {
           d.resolve(true);
         } else {
-          d.reject(false);
+          d.reject("not logged in");
         }
       })
       .fail(function(err){
