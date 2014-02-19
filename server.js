@@ -31,13 +31,13 @@ if ('development' == app.get('env')) {
 
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
-  loginHelpers.validateSession(req.body.code)
-  .then(function(sessionId){
+  loginHelpers.validateUser(req.body.code, req.session.sessionId)
+  .then(function(user){
     console.log("Validated Session", sessionId);
-    res.send("Successfully added Session", sessionId);
+    res.send(user);
   })
   .fail(function(err){
-    res.send(401);
+    res.send(418);
   });
 });
 
@@ -46,6 +46,7 @@ app.post('/logout', function(req, res){
   .then(function(sessionId){
     console.log("Canceled Session", sessionId);
     res.send("Successfully cancelled Session", sessionId);
+    req.session.sessionId = null;
   })
   .fail(function(err){
     res.send(401);
@@ -53,7 +54,13 @@ app.post('/logout', function(req, res){
 });
 
 app.get('/user', function(req, res){
-
+  dbHelpers.getUser({sessionId: req.session.sessionId})
+  .then(function(user){
+    res.send(user);
+  })
+  .fail(function(err){
+    res.send(418);
+  });
 });
 
 /* ======== Queue Routes ========*/
@@ -113,7 +120,7 @@ app.put('/queues/:id', function(req, res){
 
 //DELETE: Delete Song at index 
 //Changed this from POST to DELETE and pass in index as last part of url
-app.delete('/queues/:id/:index', function(req, res){ 
+app.delete('/queues/:id/:index', function(req, res){
   dbHelpers.removeSongFromQueue(req.params.id, req.params.index)
   .then(function(song){
     res.send(song);
@@ -172,7 +179,12 @@ app.put('/:user/playlists/:id', function(req, res){
 
 //POST: Create Playlist
 app.post('/:user/playlists', function(req, res){
-  dbHelpers.createPlaylist(req.params.user, req.body)
+  loginHelpers.validateSession(req.params.user, req.session.sessionId)
+  .then(function (response) {
+    console.log("Valid Session", req.params.user);
+    return true;
+  })
+  .then(dbHelpers.createPlaylist(req.params.user, req.body))
   .then(function(playlist){
     res.send(playlist);
   })

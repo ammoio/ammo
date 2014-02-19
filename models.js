@@ -26,7 +26,7 @@ var queueSchema = mongoose.Schema({
 */
 var userSchema = mongoose.Schema({
   username: String,
-  sessionId: String,
+  sessionId: {type: String, default: null},
   email: String,
   name: String,
   playlists: {type: {}, default: {"test": 12345}}

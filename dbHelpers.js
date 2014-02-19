@@ -11,6 +11,24 @@ mongoose.connect('mongodb://localhost/ammo');
 
 module.exports = {
   /* ======== User Helpers ======== */
+  getUser: function (query) {
+    var d = Q.defer();
+    User.findOne(query, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        if(!user) {
+          d.reject(user);
+        } else {
+          delete user.sessionId;
+          d.resolve(user);
+        }
+      }
+    });
+
+    return d.promise;
+  },
+
   addSession: function (username, sessionId) {
     var d = Q.defer();
     User.findOne({username: username}, function(err, user){
@@ -22,7 +40,41 @@ module.exports = {
           if (err) {
             d.reject(err);
           } else {
+            delete data.sessionId;
             d.resolve(data);
+          }
+        });
+      }
+    });
+
+    return d.promise;
+  },
+
+  getSession: function (username) {
+    var d = Q.defer();
+    User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        d.resolve(user.sessionId);
+      }
+    });
+
+    return d.promise;
+  },
+
+  closeSession: function(username) {
+    var d = Q.defer();
+    User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        user.sessionId = null;
+        user.save(function(err, data){
+          if (err) {
+            d.reject(err);
+          } else {
+            d.resolve(data.sessionId);
           }
         });
       }

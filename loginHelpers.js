@@ -8,7 +8,7 @@ var Q = require('q');
 
 
 module.exports = {
-    validateSession: function(code, sessionId){
+    validateUser: function(code, sessionId){
       var d = Q.defer();
 
       request.post({
@@ -19,34 +19,58 @@ module.exports = {
           secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"         // The secret key from oauth.io
         }
       }, function (err, req, body) {
-      var data = JSON.parse(body);
-      if ( !data.state ) {
-          res.send("Got error:" + body);
-          return;
-      }
-      if (data.state !== sessionId) {
-          res.send("Oups, state does not match !");
-          return;
-      }
+        var data = JSON.parse(body);
+        if ( !data.state ) {
+            d.reject("Got error:" + body);
+        }
+        if (data.state !== sessionId) {
+            d.reject("Oups, state does not match !");
+        }
 
-      dbHelpers.addSession("username", sessionId)
-      .then(function(sessionId){
-        d.resolve(sessionId + "Added Successfully");
-      })
-      .fail(function(err){
-        console.log("there was an error");
-        d.reject("There was a failure at the database");
-      });
+        dbHelpers.addSession("username", sessionId)
+        .then(function(user){
+          d.resolve(user);
+        })
+        .fail(function(err){
+          console.log("there was an error");
+          d.reject("There was a failure at the database");
+        });
 
-      console.log("Success:");
-      console.dir(data);
       });
 
       return d.promise;
     },
 
-    closeSession: function(sessionId){
+    validateSession: function(username, sessionId){
+      var d = Q.defer();
 
+      dbHelpers.getSession(username)
+      .then(function(validSessionId){
+        if (validSessionId && validSessionId === sessionId) {
+          d.resolve(true);
+        } else {
+          d.reject(false);
+        }
+      })
+      .fail(function(err){
+        d.reject(err);
+      });
+
+      return d.promise();
+    },
+
+    closeSession: function(sessionId){
+      var d = Q.defer();
+
+      dbHelpers.closeSession(username)
+      .then(function(data){
+          d.resolve(true);
+      })
+      .fail(function(err){
+        d.reject(err);
+      });
+
+      return d.promise();
     }
 
 };
