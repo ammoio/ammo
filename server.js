@@ -41,7 +41,7 @@ app.post('/login', function(req, res){
   });
 });
 
-app.post('/logout', function(req, res){
+app.get('/logout', function(req, res){
   loginHelpers.closeSession(req.session.sessionId)
   .then(function(sessionId){
     console.log("Canceled Session", sessionId);

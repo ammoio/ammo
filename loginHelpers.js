@@ -11,6 +11,18 @@ module.exports = {
     validateUser: function(code, sessionId){
       var d = Q.defer();
 
+      var addSession = function (user) {
+        dbHelpers.addSession(user.username, sessionId)
+        .then(function(user){
+          d.resolve(user);
+        })
+        .fail(function(err){
+          console.log("there was an error");
+          d.reject("There was a failure at the database");
+        });
+      };
+
+
       request.post({
         url: 'https://oauth.io/auth/access_token',
         form: {
@@ -27,15 +39,27 @@ module.exports = {
             d.reject("Oups, state does not match !");
         }
 
-        dbHelpers.addSession("username", sessionId)
-        .then(function(user){
-          d.resolve(user);
-        })
-        .fail(function(err){
-          console.log("there was an error");
-          d.reject("There was a failure at the database");
+        //Fetch username from facebook
+        request.get({
+          url: "https://graph.facebook.com/me?access_token=" + data.access_token
+        }, function(err, req, body){
+          var fbUser = JSON.parse(body);
+          dbHelpers.getUser({username: fbUser.username})
+          //The user exists in the DB
+          .then(function(user){
+            addSession(user);
+          })
+          //the user does not exist, create it
+          .fail(function(err){
+            dbHelpers.createUser(fbUser)
+            .then(function(user){
+              addSession(user);
+            })
+            .fail(function(err){
+              d.reject(err);
+            });
+          });
         });
-
       });
 
       return d.promise;
