@@ -21,6 +21,10 @@
     "font-awesome": "~4.0.3",
     "jquery": "~2.1.0",
     "angular-bootstrap": "~0.10.0",
-    "ngprogress": "~1.0.4"
+    "ngprogress": "~1.0.4",
+    "angular-cookies": "~1.2.13"
+  },
+  "resolutions": {
+    "angular": "~1.2.12"
   }
 }
