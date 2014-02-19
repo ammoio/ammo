@@ -134,7 +134,7 @@ angular.module('ammoApp')
     $scope.stopLoadingBar = function (asset) {
       // console.log("Loaded: ", asset);
       $scope.assetsLoaded++;
-      if($scope.assetsLoaded === 3) {
+      if($scope.assetsLoaded === 2) {
         ngProgress.complete();
       }
     };
