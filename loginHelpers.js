@@ -11,6 +11,9 @@ module.exports = {
     validateUser: function(code, sessionId){
       var d = Q.defer();
 
+      console.log(code);
+      console.log(sessionId);
+
       var addSession = function (user) {
         dbHelpers.addSession(user.username, sessionId)
         .then(function(user){
@@ -80,13 +83,13 @@ module.exports = {
         d.reject(err);
       });
 
-      return d.promise();
+      return d.promise;
     },
 
     closeSession: function(sessionId){
       var d = Q.defer();
 
-      dbHelpers.closeSession(username)
+      dbHelpers.closeSession({sessionId: sessionId})
       .then(function(data){
           d.resolve(true);
       })
@@ -94,28 +97,7 @@ module.exports = {
         d.reject(err);
       });
 
-      return d.promise();
+      return d.promise;
     }
 
 };
-
-request.post({
-        url: 'https://oauth.io/auth/access_token',
-        form: {
-            code: "leKPXXEZym1PnTFrDiiSHCWwpXU",
-            key: "YTaWoCjSvB9X8LcCyc8hn6sp798",            // The public key from oauth.io
-            secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"         // The secret key from oauth.io
-    }}, function (e,r,body) {
-    var data = JSON.parse(body);
-    req.session.csrf_tokens = req.session.csrf_tokens || [];
-    if ( ! data.state) {
-        res.send("Got error:" + body);
-        return next();
-    }
-    if (req.session.csrf_tokens.indexOf(data.state) == -1) {
-        res.send("Oups, state does not match !");
-        return next();
-    }
-    console.log("Success:");
-    console.dir(data);
-    });

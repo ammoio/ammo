@@ -13,7 +13,7 @@ module.exports = {
   /* ======== User Helpers ======== */
   getUser: function (query) {
     var d = Q.defer();
-    User.findOne(query, function(err, user){
+    Models.User.findOne(query, function(err, user){
       if(err){
         d.reject(err);
       } else {
@@ -31,7 +31,7 @@ module.exports = {
 
   addSession: function (username, sessionId) {
     var d = Q.defer();
-    User.findOne({username: username}, function(err, user){
+    Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
       } else {
@@ -52,7 +52,7 @@ module.exports = {
 
   getSession: function (username) {
     var d = Q.defer();
-    User.findOne({username: username}, function(err, user){
+    Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
       } else {
@@ -63,20 +63,24 @@ module.exports = {
     return d.promise;
   },
 
-  closeSession: function(username) {
+  closeSession: function(query) {
     var d = Q.defer();
-    User.findOne({username: username}, function(err, user){
+    Models.User.findOne(query, function(err, user){
       if(err){
         d.reject(err);
       } else {
-        user.sessionId = null;
-        user.save(function(err, data){
-          if (err) {
-            d.reject(err);
-          } else {
-            d.resolve(data.sessionId);
-          }
-        });
+        if(!user){
+          d.reject("User Doesnt Exist");
+        } else {
+          user.sessionId = null;
+          user.save(function(err, data){
+            if (err) {
+              d.reject(err);
+            } else {
+              d.resolve(data.sessionId);
+            }
+          });
+        }
       }
     });
 

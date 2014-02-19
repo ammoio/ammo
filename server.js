@@ -8,6 +8,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var dbHelpers = require('./dbHelpers');
+var loginHelpers = require('./loginHelpers');
 
 var app = express();
 
@@ -31,9 +32,11 @@ if ('development' == app.get('env')) {
 
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
-  loginHelpers.validateUser(req.body.code, req.session.sessionId)
+  // console.log(req.body);
+  // console.log(req.cookies);
+  loginHelpers.validateUser(req.body.code, req.cookies.sessionId)
   .then(function(user){
-    console.log("Validated Session", sessionId);
+    console.log("Validated Session", user);
     res.send(user);
   })
   .fail(function(err){
@@ -42,11 +45,11 @@ app.post('/login', function(req, res){
 });
 
 app.get('/logout', function(req, res){
-  loginHelpers.closeSession(req.session.sessionId)
+  loginHelpers.closeSession(req.cookies.sessionId)
   .then(function(sessionId){
     console.log("Canceled Session", sessionId);
+    req.cookies.sessionId = null;
     res.send("Successfully cancelled Session", sessionId);
-    req.session.sessionId = null;
   })
   .fail(function(err){
     res.send(401);
@@ -54,8 +57,10 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/user', function(req, res){
-  dbHelpers.getUser({sessionId: req.session.sessionId})
+  console.dir(req.cookies);
+  dbHelpers.getUser({sessionId: req.cookies.sessionId})
   .then(function(user){
+    console.log(user);
     res.send(user);
   })
   .fail(function(err){
@@ -179,7 +184,7 @@ app.put('/:user/playlists/:id', function(req, res){
 
 //POST: Create Playlist
 app.post('/:user/playlists', function(req, res){
-  loginHelpers.validateSession(req.params.user, req.session.sessionId)
+  loginHelpers.validateSession(req.params.user, req.cookies.sessionId)
   .then(function (response) {
     console.log("Valid Session", req.params.user);
     return true;

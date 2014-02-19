@@ -1,6 +1,6 @@
 angular.module('ammoApp') 
   .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
-
+    $scope.UserService = UserService;
 
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -81,8 +81,16 @@ angular.module('ammoApp')
 
     $scope.login = function() {
       if($scope.isLogged()) {
-
+        $http({ method: 'GET', url: '/logout'})
+        .success(function(){
+          $cookies.sessionId = "";
+          UserService.logout();
+        })
+        .error(function(){
+          console.log("error logging out");
+        });
       } else {
+        $cookies.sessionId = guid();
         OAuth.popup('facebook', { state: $cookies.sessionId }, function(err, res) {
           if(err) {
             console.log(err);
