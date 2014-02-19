@@ -1,7 +1,7 @@
 <div id="search-container">
   <div class='searchKeyword' ng-model="searchKeyword"></div>
   <button class='queueButton btn btn-default' ng-click="back()">Return to Queue</button>
-  <div class="song-container" ng-repeat="song in searchResults" ng-click="play(song, 's')">
+  <div class="song-container" ng-repeat="song in SearchService.searchResults" ng-click="play(song, 's')">
     {{ song.service}} | {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
     <button class="addToQueue btn btn-default" ng-click="addToQueue($event, song)">Add To Queue</button>
   </div>

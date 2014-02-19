@@ -16,7 +16,7 @@
         <a class="navbar-brand" href="/">Ammo</a>
       </div>
 
-      <button class="btn btn-default navbar-right" ng-click="login()">{{ LoggedIn() ? "Log Out" : "Log In" }}</button>
+      <button class="btn btn-default navbar-right" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</button>
 
       <form id="search" class="navbar-form navbar-right" role="search">
         <div class="form-group">

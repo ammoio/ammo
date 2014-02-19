@@ -64,7 +64,7 @@ app.get('/user', function(req, res){
     res.send(user);
   })
   .fail(function(err){
-    res.send(418);
+    res.send(401);
   });
 });
 
