@@ -12,17 +12,11 @@ angular.module('ammoApp')
 //    then you need to resolve the promise and it returns a song object, you can see an example of a resolved one here:
 //    http://api.soundcloud.com/tracks/82964169.json?client_id=456165005356d6638c4eabfc515d11aa
 
-  .service('ScraperService', function($http) {
+  .service('ScraperService', function($http, $q) {
     //Scrape theaudiodb.com
     //http://www.theaudiodb.com/api/v1/json/1/search.php?s=lionel%20Richie
     
     this.scraped = {}; //local storage object
-    var imgOptions = {
-      thumb: "strArtistThumb",
-      fanart: "strArtistFanart",
-      fanart2: "strArtistFanart2",
-      fanart3: "strArtistFanart3"
-    }
 
      /*
       ========== scrape ==========
@@ -39,61 +33,27 @@ angular.module('ammoApp')
         The song that was added is passed to the promise.
     */
 
-    this.scrape = function(artist){
-      artistNoSpace = artist.replace(/\s/g,"%20");
-      var url = "http://www.theaudiodb.com/api/v1/json/1/search.php?s=" + artistNoSpace; //REPLACE API KEY "1"
+    this.scrape = function(artist){ //CURRENTLY ONLY WORKS FOR SOUNDCLOUD AS YOUTUBE DOESNT HAVE ARTISTS
+      var d = $q.defer();
+      var that = this;
+      var artistNoSpace = artist.replace(/\s/g,"%20");
+      //var url = "/scrape/" + artistNoSpace; //REPLACE API KEY "1"
+      var url = "/scrape/creed"// JUST FOR TESTINg
 
-      $http({
-        method: 'GET',
-        url: url
-      }).then(function(info){
-        this.scraped[artist] = info;
-        this.scraped[artist].images = {};
-        this.getImages(artist);
+
+      $http.get(url)
+      .success(function(info){
+        console.log(info);
+        that.scraped[artist] = info.artists[0];
+        console.log(artist + " info scraped");
+        d.resolve(that.scraped);
+      })
+      .error(function(err){
+        console.log(artist + " info NOT scraped");
+        d.reject(err);
       });
+
+      return d.promise;
     };
-
-    this.getImages = function(artist){
-      for (var key in imgOptions){
-        var url = this.scraped[artist][imgOptions[key]];
-        $http({
-        method: 'GET',
-        url: url
-      }).then(function(img){
-        this.scraped[artist].images[imgOptions[key]] = img;
-      });
-      }
-    };
-
-
-
-
-
-
-
-
-
 
   });
-
-  $http({ method: 'GET', url: 'http://api.soundcloud.com/resolve.json?url=' + url + '&client_id=456165005356d6638c4eabfc515d11aa'})
-        .then(function(track) {
-
-          if(!track.data.streamable || track.data.sharing !== 'public') {
-            alert("Track not streamable");
-            console.log("Track not streamable");
-            return;
-          }
-          var song = {
-            url: track.data.permalink_url,
-            service: 'soundcloud',
-            serviceId: track.data.id,
-            title: track.data.title,
-            artist: track.data.user.username,
-            image: track.data.artwork_url,
-            duration: (track.data.duration/1000) | 0
-          };
-
-          SearchService.url(song);
-        });
-    };
