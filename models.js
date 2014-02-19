@@ -15,7 +15,8 @@ var queueSchema = mongoose.Schema({
   passphrase: String,
   lastAccessed: Date,
   songs: {type: [], default: []},
-  currentSong: Number
+  currentSong: Number,
+  isPrivate: {type: Boolean, default: false}
 });
 
 /*
@@ -29,7 +30,7 @@ var userSchema = mongoose.Schema({
   sessionId: {type: String, default: null},
   email: String,
   name: String,
-  playlists: {type: {}, default: {"test": 12345}}
+  playlists: {type: [], default: []}
 });
 
 
