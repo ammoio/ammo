@@ -10,8 +10,29 @@ var Models = require('./models');
 mongoose.connect('mongodb://localhost/ammo');
 
 module.exports = {
+  /* ======== User Helpers ======== */
+  addSession: function (username, sessionId) {
+    var d = Q.defer();
+    User.findOne({username: username}, function(err, user){
+      if(err){
+        d.reject(err);
+      } else {
+        user.sessionId = sessionId;
+        user.save(function(err, data){
+          if (err) {
+            d.reject(err);
+          } else {
+            d.resolve(data);
+          }
+        });
+      }
+    });
 
-/* ======== Queue Helpers ======== */
+    return d.promise;
+  },
+
+
+  /* ======== Queue Helpers ======== */
   getQueues: function(){
     var d = Q.defer();
     Models.Queue.find(function(err, data){
@@ -120,7 +141,7 @@ module.exports = {
   },
 
 
-/* ======== Playlist Helpers ======== */
+  /* ======== Playlist Helpers ======== */
   getUserPlaylists: function(username){
     var d = Q.defer();
     Models.User.findOne({username: username}, function(err, user){

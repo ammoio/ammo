@@ -52,6 +52,10 @@ app.post('/logout', function(req, res){
   });
 });
 
+app.get('/user', function(req, res){
+
+});
+
 /* ======== Queue Routes ========*/
 app.get('/queues', function(req, res){
   dbHelpers.getQueues()
