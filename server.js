@@ -31,9 +31,21 @@ if ('development' == app.get('env')) {
 
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
-  loginHelpers.validateSession(req.body.sessionId).then(function(sessionId){
+  loginHelpers.validateSession(req.body.code)
+  .then(function(sessionId){
     console.log("Validated Session", sessionId);
     res.send("Successfully added Session", sessionId);
+  })
+  .fail(function(err){
+    res.send(401);
+  });
+});
+
+app.post('/logout', function(req, res){
+  loginHelpers.closeSession(req.session.sessionId)
+  .then(function(sessionId){
+    console.log("Canceled Session", sessionId);
+    res.send("Successfully cancelled Session", sessionId);
   })
   .fail(function(err){
     res.send(401);
