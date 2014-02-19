@@ -81,7 +81,7 @@ angular.module('ammoApp')
                 artist: track.artist,
                 image: track.icon,
                 duration: track.duration
-              };  
+              };
               that.searchResults.push(song);
             }
           });

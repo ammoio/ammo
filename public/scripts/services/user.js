@@ -1,29 +1,29 @@
 angular.module('ammoApp')
 
   .service('UserService', function($http) {
-    var user = {
+    this.user = {
       username: null,
       name: null,
       email: null,
-      logged_in: false
+      loggedIn: false
     };
 
     this.setUser = function(userObj) {
-      user = userObj;
+      this.user = userObj;
     };
 
     this.setLogged = function(status) {
-      user.logged_in = status;
+      this.user.loggedIn = status;
     };
 
     this.isLogged = function() {
-      return user.logged_in;
+      return this.user.loggedIn;
     };
 
     this.logout = function() {
-      user.username = null;
-      user.name = null;
-      user.email = null;
-      user.logged_in = false;
+      this.user.username = null;
+      this.user.name = null;
+      this.user.email = null;
+      this.user.loggedIn = false;
     };
   });
