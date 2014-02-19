@@ -28,8 +28,13 @@ angular.module('ammoApp')
         results.data.items.forEach(function(video) { 
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
 
+          var title = video.snippet.title.split(" - ");
+          var artist = title.length > 1 ? title[0] : null;
+          var track = title.length > 1 ? title[1]: title[0];
+
           var song = {
-            title: video.snippet.title,
+            title: track, //
+            artist: artist,//
             service: "youtube",
             serviceId: service_id,
             url: "http://youtu.be/" + service_id,
@@ -104,12 +109,17 @@ angular.module('ammoApp')
           data.forEach(function(track) {
             if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
               //relevant data for each song
+              
+              var title = track.title.split(" - ");
+              var artist = title.length > 1 ? title[0] : track.user.username;
+              var trackName = title.length > 1 ? title[1]: title[0];
+              
               var song = {
                 url: track.uri,
                 service: 'soundcloud',
                 serviceId: track.id,
-                title: track.title,
-                artist: track.user.username,
+                title: trackName,
+                artist: artist,
                 image: track.artwork_url,
                 duration: Math.floor(track.duration/1000)
               };
