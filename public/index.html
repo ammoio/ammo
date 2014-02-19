@@ -16,6 +16,8 @@
         <a class="navbar-brand" href="/">Ammo</a>
       </div>
 
+      <button class="btn btn-default navbar-right" ng-click="login()">{{ isLogged() ? "Log Out" : "Log In" }}</button>
+
       <form id="search" class="navbar-form navbar-right" role="search">
         <div class="form-group">
           <input ng-model="userInput" type="text" class="form-control" placeholder="Search">
@@ -123,6 +125,7 @@
   <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
   <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
 
   <script src="/scripts/app.js"></script>
@@ -130,6 +133,7 @@
   <script src="/scripts/services/parser.js"></script>
   <script src="/scripts/services/search.js"></script>
   <script src="/scripts/services/queue.js"></script>
+  <script src="/scripts/services/user.js"></script>
   <script src="/scripts/controllers/frame.js"></script>
   <script src="/scripts/controllers/queue.js"></script>
   <script src="/scripts/controllers/search.js"></script>
