@@ -64,8 +64,8 @@ angular.module('ammoApp')
           ParseService.rdio(userInput);
         }
       } else {
-        SearchService.youtube(userInput);
         SearchService.rdio(userInput);
+        SearchService.youtube(userInput);
         SearchService.soundcloud(userInput);
         // SearchService.deezer(userInput);
       }

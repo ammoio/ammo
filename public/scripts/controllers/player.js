@@ -145,6 +145,7 @@ angular.module('ammoApp')
         })
         .catch(function(err) {
           console.log("Error: ", err);
+          $scope.stopTimer();
         });
     };
 
@@ -155,6 +156,7 @@ angular.module('ammoApp')
         })
         .catch(function(err) {
           console.log("Error: ", err);
+          $scope.stopTimer();
         });
     };
 
@@ -168,6 +170,7 @@ angular.module('ammoApp')
     $scope.detectYoutubeAd = function() {
       if($scope.playing) {
         // There is a YouTube ad
+        console.log("Youtube Ad detected.");
       }
     };
 
