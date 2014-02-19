@@ -163,6 +163,26 @@ app.post('/:user/playlists/:id/remove', function(req, res){
   });
 });
 
+//GET: scrape----------------------------------------------------------------------------------
+app.get('/scrape/:artist', function(req, res){
+  var url = "http://www.theaudiodb.com/api/v1/json/1/search.php?s=" + req.params.artist;
+  var data = '';
+  http.get(url, function(response) {
+    response.on('data', function (chunk) {
+      data += chunk;
+    });
+
+    response.on('end', function () {
+      //res.setHeader()
+      res.send(data);
+    });
+  })
+  .on('error', function(e) {
+    console.log("Error Scraping Song" + e.message);
+  });
+});
+//-------------------------------------------------------------------------------------------------
+
 
 //Catch-all Route
 app.get('*', function (req, res) {
