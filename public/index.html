@@ -96,7 +96,7 @@
         </div>
         <div class="modal-body">
           <p>Here's the link to your queue: </p>
-          <div>http://localhost/{{ QueueService.queue.shareId }}</div>
+          <div>http://{{ location }}/{{ QueueService.queue.shareId }}</div>
           <div>
           <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
           </a>
