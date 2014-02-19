@@ -231,6 +231,7 @@ module.exports = {
         d.reject(err);
       } else {
         playlist.isPrivate = true;
+        playlist.username = username;
         module.exports.createQueue(playlist).then(function(queue){
           user.playlists.push({shareId: queue.shareId, name: queue.name});
           user.markModified("playlists");
