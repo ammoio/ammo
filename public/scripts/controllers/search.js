@@ -12,8 +12,9 @@ angular.module('ammoApp')
     returnToQueue:
       when returnToQueue button clicked, change url to home
   */
-  .controller('SearchController', function($scope, $location, SearchService, QueueService) {
+  .controller('SearchController', function($http, $scope, $location, SearchService, QueueService, UserService) {
     //set searchResults on scope to reflect change in view
+    $scope.UserService = UserService;
     $scope.SearchService = SearchService;
     $scope.searchResults = SearchService.searchResults;
     $scope.$watch("SearchService.searchResults", function( newValue, oldValue ) {
@@ -41,6 +42,32 @@ angular.module('ammoApp')
           });
         }
       });
+    };
+
+
+    /*
+      ========== addTo ==========
+      Adds a song to either the queue or a specific
+
+      Params: 
+        destination: 
+          - 'queue' for the queue or a playlist object
+
+        song:
+          - a single song object
+
+        event:
+          - Event triggered with the ng-click so we can stop propagation
+    */
+    $scope.addTo = function(destination, song, event) {
+      event.stopPropagation();
+
+      if(destination === 'queue') {
+        $scope.addToQueue(event, song);
+      }
+      else {
+        $http({ method: 'POST', url: '/queues/' + destination.shareId + '/add', data: song });
+      }
     };
 
     /*
