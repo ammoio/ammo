@@ -145,10 +145,15 @@ angular.module('ammoApp')
     };
 
     $scope.changePlaylist = function(playlist) {
-      $http.get('/queues/' + playlist.shareId)
-        .success(function(playlistData) {
-          console.log(playlistData);
-          QueueService.queue = playlistData;
-        });
+      // $http.get('/queues/' + playlist.shareId)
+      //   .success(function(playlistData) {
+      //     console.log(playlistData);
+      //     QueueService.queue = playlistData;
+      //   });
+      $location.path('/playlist/' + playlist.shareId);
+    };
+
+    $scope.showQueue = function() {
+      $location.path('/listen');
     };
   });

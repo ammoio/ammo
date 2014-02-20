@@ -1,0 +1,11 @@
+<!-- Songs Container -->
+<div class="img-container">
+  <img ng-src="{{ artistImage }}"></img>
+</div>
+<div id="main-container">
+  <div class ="song-container" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
+    {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+
+  </div>
+  <button id="share" class="share btn btn-default" ng-click="share()">Share Playlist</button>
+</div>
