@@ -56,7 +56,11 @@ module.exports = {
       if(err){
         d.reject(err);
       } else {
-        d.resolve(user.sessionId);
+        if(!user){
+          d.reject("no user found");
+        } else {
+          d.resolve(user.sessionId);
+        }
       }
     });
 
