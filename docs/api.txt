@@ -72,8 +72,8 @@ Example:
   }
 
 #Remove Song from Queue
-method: POST
-url: /queues/:id/remove
+method: DELETE
+url: /queues/:id/:index
 Example:
   Request Data: {
     index: 5
