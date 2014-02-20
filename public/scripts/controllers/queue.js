@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
+  .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
     $scope.artistImage = "";
 
     /*
