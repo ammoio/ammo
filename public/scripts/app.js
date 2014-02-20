@@ -56,3 +56,10 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
       return items.slice().reverse();
     };
   });
+
+
+    var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
