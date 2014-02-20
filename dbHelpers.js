@@ -131,8 +131,8 @@ module.exports = {
 
   createQueue: function(obj){
     var d = Q.defer();
-    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4);
-    obj.listenId = crypto.randomBytes(10).toString('base64').slice(0, 16);
+    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4).replace('/', 'a').replace('+', 'z');
+    obj.listenId = crypto.randomBytes(16).toString('base64').slice(0, 16).replace('/', 'a').replace('+', 'z');
     queue = new Models.Queue(obj);
     queue.save(function(err, data){
       console.log("Saved");
