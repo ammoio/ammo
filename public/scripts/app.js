@@ -1,4 +1,4 @@
-angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies'])
+angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies', 'ui.sortable'])
 
   .config(function($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
