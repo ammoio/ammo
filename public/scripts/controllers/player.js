@@ -14,13 +14,14 @@ angular.module('ammoApp')
       - $scope.detectYoutubeAd();
   */
   .controller('PlayerController', function($scope, $interval, QueueService) {
+    $scope.QueueService = QueueService;
     $scope.playing = false;
     $scope.currentSong = null;
     $scope.currentSongIndex = null;
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
-    $scope.songs = [];
+    // $scope.songs = [];
 
     //TODO: #119
     //The below is a Hacky fix. It waits until the Queue controller has loaded the
@@ -29,9 +30,9 @@ angular.module('ammoApp')
     //if we called Qservice.getQueue() from here, it would need to be set on a 
     //timeout. 
 
-    setTimeout(function(){
-      $scope.songs = QueueService.queue.songs;
-    }, 200);
+    // setTimeout(function(){
+    //   $scope.songs = QueueService.queue.songs;
+    // }, 200);
     
 
 
