@@ -3,13 +3,13 @@
   <img ng-src="{{artistImage}}"></img>
 </div>
 <div id="main-container">
-  <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
+  <div class ="song-container" ng-repeat="song in QueueService.queue.songs track by $index" ng-click="passToPlay($index)">
     {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
     <button class="removeFromQueue btn btn-default" ng-click="removeSong($index)">Remove Song</button>
 
   </div>
   <!-- share button to make current queue live -->  
   <button id="share" class="share btn btn-default" type="submit" value="SHARE" ng-click="share()">Share!</button>
+  <input type="text" ng-model="playlistName"/>
   <button class="share btn btn-default" ng-click="saveToPlaylist()">Save to Playlist</button>
-
 </div>
