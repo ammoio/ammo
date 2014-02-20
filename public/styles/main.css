@@ -116,3 +116,7 @@ i {
   margin-right: auto;
   height: 100%;
 }
+
+.playlist-container, .songs-container {
+  height: 50%;
+}

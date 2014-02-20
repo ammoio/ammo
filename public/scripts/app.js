@@ -44,4 +44,11 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
       var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
       $location.path(prevUrl);
     };
+  })
+
+
+  .filter('reverse', function() {
+    return function(items) {
+      return items.slice().reverse();
+    };
   });
