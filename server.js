@@ -276,9 +276,10 @@ server.listen(app.get('port'), function(){
 
 //socket io logic
 var io = require('socket.io').listen(server);
+var clients = [];
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  console.log('url: ',socket.handshake.query);
+  socket.on('addSong', function(data) {
+    socket.broadcast.emit('newSongAdded', data);
   });
 });

@@ -50,7 +50,7 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
     };
   })
 
-
+  //for sorting the left panel next songs in reverse order
   .filter('reverse', function() {
     return function(items) {
       return items.slice().reverse();
@@ -58,8 +58,7 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
   });
 
 
-    var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
+  window.socket = io.connect('http://localhost');
+  socket.on('newSongAdded', function (data) {
     console.log(data);
-    socket.emit('my other event', { my: 'data' });
   });
