@@ -12,6 +12,7 @@ angular.module('ammoApp')
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
+    this.nextSongs = [];
 
     /*
       ========== enqueue ==========
@@ -244,6 +245,7 @@ angular.module('ammoApp')
 
       if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
+        this.setNextSongs(index);
         if(this.live){
           this.updateQueue({currentSong: index})
           .then(function(queue){
@@ -312,4 +314,15 @@ angular.module('ammoApp')
       }
     };
 
+
+    /*
+      ========== setNexts ==========
+      - Get the next 5 (or remaining) songs of the queue 
+
+      Params:
+        index: index of the current song playing
+    */
+    this.setNextSongs = function(index) {
+      this.nextSongs = this.queue.songs.slice(index + 1, index + 6); 
+    };
   });
