@@ -136,6 +136,12 @@ angular.module('ammoApp')
       });
     };
 
+    /* ========== $scope.stopLoadingBar ==========
+      In charge of stoping the top Loading Bar when all the players are loaded
+
+      Params:
+        asset: string with the name of the service player which is now ready
+    */
     $scope.stopLoadingBar = function (asset) {
       // console.log("Loaded: ", asset);
       $scope.assetsLoaded++;
@@ -144,11 +150,20 @@ angular.module('ammoApp')
       }
     };
 
+    /* ========== $scope.changePlaylist ==========
+      Redirects user to /playlist/:id who then will display the tracks of that playlist
+
+      Params:
+        playlist: playlist object getting passed when a user clicks to a playlist name on the sidebar
+    */
     $scope.changePlaylist = function(playlist) {
-      $http.get('/queues/' + playlist.shareId)
-        .success(function(playlistData) {
-          console.log(playlistData);
-          QueueService.queue = playlistData;
-        });
+      $location.path('/playlist/' + playlist.shareId);
+    };
+
+    /* ========== $scope.showQueue ==========
+      Redirects the user to /listen to load the queue
+    */
+    $scope.showQueue = function() {
+      $location.path('/listen');
     };
   });

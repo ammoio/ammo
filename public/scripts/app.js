@@ -24,6 +24,10 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
         templateUrl: '/views/share.html',
         controller: 'ShareController'
       })
+      .when('/playlist/:id', {
+        templateUrl: '/views/playlist.html',
+        controller: 'PlaylistController'
+      })
       .otherwise({
         templateUrl: '/views/share.html',
         controller: 'ShareController'
