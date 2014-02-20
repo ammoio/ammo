@@ -215,7 +215,9 @@ app.post('/:user/playlists', function(req, res){
     console.log("Valid Session", req.params.user);
     return true;
   })
-  .then(dbHelpers.createPlaylist(req.params.user, req.body))
+  .then(function () {
+    return dbHelpers.createPlaylist(req.params.user, req.body);
+  })
   .then(function(playlist){
     res.send(playlist);
   })
