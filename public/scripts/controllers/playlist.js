@@ -21,6 +21,12 @@ angular.module('ammoApp')
       if($scope.playlist.shareId !== QueueService.queue.shareId) {
         QueueService.setQueue($scope.playlist);
       }
-      $scope.play(index, 'q');
+      QueueService.setCurrentSongIndex(index)
+        .then(function(ind) {
+          $scope.play(ind, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
+        });
     };
   });
