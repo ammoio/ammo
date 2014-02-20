@@ -31,7 +31,11 @@
     <div class="container">
       <div class="row">
         <div id="sidebar" class="col-md-3">
-          <div class="playlist-container">Some playlists</div>
+          <div class="playlist-container">Some playlists
+            <div ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)">
+              {{ playlist.name }}  
+            </div>
+          </div>
           <div class="songs-container">Next Songs
             <div class ="song-container" ng-repeat="song in songs | reverse" ng-click="playFromSidebar($index)">
               {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
@@ -129,7 +133,6 @@
   <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
   <script src="/scripts/app.js"></script>
-  <script src="/scripts/filter/reverse.js"></script>
   <script src="/scripts/oauth.min.js"></script>
   <script src="/scripts/services/parser.js"></script>
   <script src="/scripts/services/search.js"></script>

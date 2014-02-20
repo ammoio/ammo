@@ -107,6 +107,11 @@ angular.module('ammoApp')
             .success(function(userObj) {
               UserService.setUser(userObj);
               UserService.setLogged(true);
+
+              $http.get(userObj.username + "/playlists")
+                .success(function(playlists) {
+                  UserService.user.playlists = playlists;
+              });
             })
             .error(function(err){
               console.log(err);
@@ -115,7 +120,7 @@ angular.module('ammoApp')
       }
     };
 
-        /*
+    /*
       ========== shareRequestModal ==========
       -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted, trigger QueueService.saveQueue with those inputs.
 
@@ -137,5 +142,13 @@ angular.module('ammoApp')
       if($scope.assetsLoaded === 2) {
         ngProgress.complete();
       }
+    };
+
+    $scope.changePlaylist = function(playlist) {
+      $http.get('/queues/' + playlist.shareId)
+        .success(function(playlistData) {
+          console.log(playlistData);
+          QueueService.queue = playlistData;
+        });
     };
   });

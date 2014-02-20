@@ -5,7 +5,8 @@ angular.module('ammoApp')
       username: null,
       name: null,
       email: null,
-      loggedIn: false
+      loggedIn: false,
+      playlists: null
     };
 
     this.setUser = function(userObj) {
@@ -25,5 +26,6 @@ angular.module('ammoApp')
       this.user.name = null;
       this.user.email = null;
       this.user.loggedIn = false;
+      this.user.playlists = null;
     };
   });
