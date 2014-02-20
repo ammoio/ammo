@@ -125,14 +125,6 @@ angular.module('ammoApp')
     $scope.passToPlay = function(index){
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
-          QueueService.currentImage = "";
-
-          if (QueueService.queue.songs[ind].artist){
-            QueueService.loadArtistImages(QueueService.queue.songs[ind].artist);
-          }else{
-            QueueService.artistImage = QueueService.queue.songs[ind].image;
-          }
-
           $scope.play(ind, "q");
         })
         .catch(function(err) {
