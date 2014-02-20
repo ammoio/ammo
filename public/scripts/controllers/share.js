@@ -9,7 +9,7 @@ angular.module('ammoApp')
   */
   .controller('ShareController', function($scope, $location, $routeParams, SearchService, QueueService) {
     //When the share ids match, then update view
-    $scope.socket.on('newSongAdded', function (data) {
+    $scope.socket.on('updateView', function (data) {
       if (data.shareId === QueueService.queue.shareId) {
         $scope.refresh();
       }

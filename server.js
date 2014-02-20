@@ -279,8 +279,8 @@ server.listen(app.get('port'), function(){
 //socket io logic
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
-  socket.on('addSong', function(data) {
+  socket.on('queueChanged', function(data) {
     //broadcast emit message to everyone but the original sender
-    socket.broadcast.emit('newSongAdded', data);
+    socket.broadcast.emit('updateView', data);
    });
 });
