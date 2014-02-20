@@ -31,9 +31,12 @@
     <div class="container">
       <div class="row">
         <div id="sidebar" class="col-md-3">
-          <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="playFromSidebar($index)">
-            {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
-          </div>
+          <div class="playlist-container">Some playlists</div>
+          <div class="songs-container">Next Songs
+            <div class ="song-container" ng-repeat="song in songs | reverse" ng-click="playFromSidebar($index)">
+              {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+            </div>
+          </div>  
         </div>
         <div id="content" class="col-md-9">
           <div ng-view></div> <!-- Views are loaded here -->
@@ -43,7 +46,6 @@
 
     <div id="youtube"></div>
     <div id="dz-root"></div>
-    <div id="apiswf"></div> <!-- Rdio -->
     <div class="player text-center"> <!-- Player -->
       <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
       <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
@@ -126,8 +128,8 @@
   <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
   <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
 
-
   <script src="/scripts/app.js"></script>
+  <script src="/scripts/filter/reverse.js"></script>
   <script src="/scripts/oauth.min.js"></script>
   <script src="/scripts/services/parser.js"></script>
   <script src="/scripts/services/search.js"></script>

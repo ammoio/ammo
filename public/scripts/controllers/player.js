@@ -20,6 +20,7 @@ angular.module('ammoApp')
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
+    $scope.songs = [];
 
     //TODO: #119
     //The below is a Hacky fix. It waits until the Queue controller has loaded the
@@ -29,7 +30,7 @@ angular.module('ammoApp')
     //timeout. 
 
     setTimeout(function(){
-      $scope.songs = QueueService.queue.songs;  
+      $scope.songs = QueueService.queue.songs;
     }, 200);
     
 
