@@ -8,7 +8,7 @@ angular.module('ammoApp')
       listenId: null,
       passphrase: null,
       songs: [],
-      currentSong: null
+      currentSong: null // an Index
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";

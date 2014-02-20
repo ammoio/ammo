@@ -223,7 +223,7 @@ angular.module('ammoApp')
     */
 
     $scope.playFromSidebar = function(index){
-      QueueService.setCurrentSongIndex(index)
+      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + index + 1)
         .then(function(ind) {
           $scope.updateImage(ind);
           $scope.play(ind, "q");

@@ -4,7 +4,6 @@
   <div class="song-container" ng-repeat="song in SearchService.searchResults" ng-click="play(song, 's')">
     {{ song.service}} | {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
 
-
     <span class="dropdown dropdown-menu-right">
       <a class="dropdown-toggle"><button class="addToQueue btn btn-default">Add To ...</button></a>
       <ul class="dropdown-menu">
@@ -13,7 +12,6 @@
           <a ng-click="addTo(choice, song, $event);">{{ choice.name }}</a>
         </li>
       </ul>
-    </div>
-    <!-- <button class="addToQueue btn btn-default" ng-click="addToQueue($event, song)">Add To Queue</button> -->
-  </span>
+    </span>
+  </div>
 </div>

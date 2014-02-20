@@ -29,4 +29,59 @@ angular.module('ammoApp')
           console.log("Error: ", err);
         });
     };
+
+
+     $scope.addToQueue = function($event, song) {
+      $event.stopPropagation();
+      QueueService.enqueue(song).then(function(song){
+        if (QueueService.queue.shareId) {
+          $scope.socket.emit('addSong', {
+            shareId: QueueService.queue.shareId
+          });
+        }
+      });
+    };
+
+
+    /*
+      ========== addTo ==========
+      Adds a song to either the queue or a specific
+
+      Params: 
+        destination: 
+          - 'queue' for the queue or a playlist object
+
+        song:
+          - a single song object
+
+        event:
+          - Event triggered with the ng-click so we can stop propagation
+    */
+    $scope.addTo = function(destination, song, event) {
+      event.stopPropagation();
+
+      if(destination === 'queue') {
+        $scope.addToQueue(event, song);
+      }
+      else {
+        $http({ method: 'POST', url: '/queues/' + destination.shareId + '/add', data: song });
+      }
+    };
+
+    $scope.remove = function(song, index, event) {
+      event.stopPropagation();
+
+      // url: /queues/:id/remove   
+      $http.delete('/queues/' + $scope.playlist.shareId + '/' + index);
+
+    };
   });
+
+
+
+
+
+
+
+
+

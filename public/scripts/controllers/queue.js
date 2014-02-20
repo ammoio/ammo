@@ -5,7 +5,7 @@ angular.module('ammoApp')
     $scope.QueueService = QueueService;
 
     //When the share ids match, then update view
-    $scope.socket.on('newSongAdded', function (data) {
+    $scope.socket.on('updateView', function (data) {
       if (data.shareId === QueueService.queue.shareId) {
         QueueService.getQueue(QueueService.queue.shareId);
       }
@@ -55,7 +55,13 @@ angular.module('ammoApp')
       Return: No return
     */
     $scope.removeSong = function(index) {
-      QueueService.removeSongAtIndex(index);
+      QueueService.removeSongAtIndex(index).then(function(song) {
+        if (QueueService.queue.shareId) {
+          $scope.socket.emit('queueChanged', {
+            shareId: QueueService.queue.shareId,
+          });
+        }
+      });
     };
 
 
@@ -105,9 +111,10 @@ angular.module('ammoApp')
       };
 
       $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
-      .success(function() {
+      .success(function(data) {
         console.log("Saved successfully");
-        UserService.user.playlists.push(playlistObj);
+        console.log(data);
+        UserService.user.playlists.push(data);
       })
       .error(function() {
         console.log("Error saving playlist");
