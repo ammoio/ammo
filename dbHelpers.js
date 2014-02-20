@@ -208,7 +208,11 @@ module.exports = {
       if(err){
         d.reject(err);
       } else {
-        d.resolve(user.playlists);
+        if (!user){
+          d.reject("no user found");
+        } else {
+          d.resolve(user.playlists);
+        }
       }
     });
     return d.promise;
@@ -234,24 +238,28 @@ module.exports = {
       if(err){
         d.reject(err);
       } else {
-        playlist.isPrivate = true;
-        playlist.username = username;
-        module.exports.createQueue(playlist).then(function(queue){
-          user.playlists.push({shareId: queue.shareId, name: queue.name});
-          user.markModified("playlists");
-          // console.log("Playlists for ", user.name);
-          // console.log(user.playlists);
-          user.save(function(err, user){
-            if(err){
-              d.reject(err);
-            } else {
-              d.resolve(queue);
-            }
+        if (!user) {
+          d.reject("no user found");
+        } else {
+          playlist.isPrivate = true;
+          playlist.username = username;
+          module.exports.createQueue(playlist).then(function(queue){
+            user.playlists.push({shareId: queue.shareId, name: queue.name});
+            user.markModified("playlists");
+            // console.log("Playlists for ", user.name);
+            // console.log(user.playlists);
+            user.save(function(err, user){
+              if(err){
+                d.reject(err);
+              } else {
+                d.resolve(queue);
+              }
+            });
+          })
+          .fail(function(err){
+            d.reject(err);
           });
-        })
-        .fail(function(err){
-          d.reject(err);
-        });
+        }
       }
     });
     return d.promise;
