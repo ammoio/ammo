@@ -135,3 +135,10 @@ i {
 .queueNameDiv {
   margin-top: 20px;
 }
+
+.player-options {
+  display: inline-block;
+  position: absolute;
+  margin-left: 15px;
+  top: 15%;
+}
