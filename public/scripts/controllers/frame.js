@@ -1,5 +1,12 @@
 angular.module('ammoApp')
   .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+    var stopClicks = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    };
+    document.addEventListener("click",stopClicks,true);
+
+
     $scope.UserService = UserService;
     $scope.location = $location;
     //initializing socket
@@ -149,6 +156,7 @@ angular.module('ammoApp')
       $scope.assetsLoaded++;
       if($scope.assetsLoaded === 2) {
         ngProgress.complete();
+        document.removeEventListener("click", stopClicks, true);
       }
     };
 
