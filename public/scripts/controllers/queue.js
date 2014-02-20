@@ -1,7 +1,7 @@
 angular.module('ammoApp')
 
   .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
-    $scope.artistImage = "";
+    //$scope.artistImage = QueueService.currentImage;
     $scope.QueueService = QueueService;
     /*
       This code checks if there was an ID included in the route. and
@@ -123,65 +123,21 @@ angular.module('ammoApp')
     */
 
     $scope.passToPlay = function(index){
-      QueueService.setCurrentSongIndex(index); //needs to happen before scraping
+      QueueService.setCurrentSongIndex(index)
+        .then(function(ind) {
+          QueueService.currentImage = "";
 
-      if (QueueService.queue.songs[index].artist){
-        $scope.loadArtistImages(QueueService.queue.songs[index].artist);
-      }else{
-        $scope.artistImage = QueueService.queue.songs[QueueService.queue.currentSong].image;
-      }
-      
-      $scope.play(index, 'q');
-    };
+          if (QueueService.queue.songs[ind].artist){
+            QueueService.loadArtistImages(QueueService.queue.songs[ind].artist);
+          }else{
+            QueueService.artistImage = QueueService.queue.songs[ind].image;
+          }
 
-    /*
-      ========== loadArtistImages ==========
-      -Checks the scraper service to see if the artist passed in has been scraped before. If it 
-      has, it will set the $scope.artistImage to the previously scraped images. If the artists 
-      has not been scraped, it will call the ScraperService.scrape(artist) function, will set
-      the scope.artistImage to the results, or if there are no results, then to the song.image. 
-
-      Params:
-        param1: artist(string)
-
-      Return: No return
-    */
-
-    $scope.loadArtistImages = function(artist){
-      //add functionality to display youtube image if no other image found
-      if (ScraperService.scraped[artist]){
-          $scope.setArtistImage(artist);
-      } else {
-        ScraperService.scrape(artist)
-        .then(function(data){
-          $scope.setArtistImage(artist);
+          $scope.play(ind, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
         });
-      }
     };
-
-    /*
-      ========== setArtistImage ==========
-      -sets the $scope.artistImage to a random image from the scraper, or the song.image
-
-      Params:
-        param1: artist(string)
-
-      Return: No return
-    */
-
-    $scope.setArtistImage = function(artist){
-      var rand = Math.floor(Math.random()*4);
-      var scraped = ScraperService.scraped;
-      var songs = QueueService.queue.songs;
-      var cur = QueueService.queue.currentSong;
-      var currentImg = scraped[artist].images[rand];
-
-      if (currentImg === "" || currentImg === null){
-        $scope.artistImage = songs[cur].image;
-      }else {
-        $scope.artistImage = currentImg;
-      }
-    };
-
     
   });
