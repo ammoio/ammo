@@ -11,15 +11,16 @@ angular.module('ammoApp')
 
 
     /* ========== $scope.passToPlay ==========
-      Sets the queue to the current playlist and plays the track clicked 
+      Sets the queue to the current playlist (if not set already) and plays the track clicked 
       (song gets played from the QUEUE)
 
       Params:
         index: index of the song clicked by the user on playlist view (playlist.html) 
     */
     $scope.passToPlay = function(index) {
-      QueueService.setQueue($scope.playlist);
-      console.log(QueueService.queue);
+      if($scope.playlist.shareId !== QueueService.queue.shareId) {
+        QueueService.setQueue($scope.playlist);
+      }
       $scope.play(index, 'q');
     };
   });
