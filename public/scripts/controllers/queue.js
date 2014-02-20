@@ -11,7 +11,7 @@ angular.module('ammoApp')
     //If there was a id included as part of the route
     if( $routeParams.id ){
       //Check if the id provided matches whats already loaded in the queue
-      if( $routeParams.id === QueueService.queue.shareId ){
+      if( $routeParams.id === QueueService.queue.listenId ){
         //We do not need to fetch the info from the server, as we already have it.
         $scope.songs = QueueService.queue.songs;
       } else {

@@ -107,14 +107,22 @@ module.exports = {
 
   getQueue: function(id){
     var d = Q.defer();
-    Models.Queue.findOne({shareId: id}, function(err, data){
+    var query;
+    if(id.length === 16){
+      query = {listenId: id};
+    } else if (id.length === 4) {
+      query = {shareId: id};
+    } else {
+      d.reject("invalid ID length");
+    }
+
+    Models.Queue.findOne(query, function(err, data){
       if(err){
         d.reject(err);
       } else {
         if(!data){
           d.reject("shareId not found");
         }
-        delete data.listenId;
         d.resolve(data);
       }
     });
