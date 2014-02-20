@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var queueSchema = mongoose.Schema({
   name: String,
   shareId: String,
+  listenId: String,
   passphrase: String,
   lastAccessed: Date,
   songs: {type: [], default: []},

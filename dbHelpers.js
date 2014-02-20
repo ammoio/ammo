@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 var Q = require('q');
-var crypto = require('crypto'); 
+var crypto = require('crypto');
 var Models = require('./models');
 
 mongoose.connect('mongodb://localhost/ammo');
@@ -107,10 +107,22 @@ module.exports = {
 
   getQueue: function(id){
     var d = Q.defer();
-    Models.Queue.findOne({shareId: id}, function(err, data){
+    var query;
+    if(id.length === 16){
+      query = {listenId: id};
+    } else if (id.length === 4) {
+      query = {shareId: id};
+    } else {
+      d.reject("invalid ID length");
+    }
+
+    Models.Queue.findOne(query, function(err, data){
       if(err){
         d.reject(err);
       } else {
+        if(!data){
+          d.reject("shareId not found");
+        }
         d.resolve(data);
       }
     });
@@ -119,7 +131,8 @@ module.exports = {
 
   createQueue: function(obj){
     var d = Q.defer();
-    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4);
+    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4).replace('/', 'a').replace('+', 'z');
+    obj.listenId = crypto.randomBytes(16).toString('base64').slice(0, 16).replace('/', 'a').replace('+', 'z');
     queue = new Models.Queue(obj);
     queue.save(function(err, data){
       console.log("Saved");

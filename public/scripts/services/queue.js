@@ -5,6 +5,7 @@ angular.module('ammoApp')
     this.queue = {
       name: "New Queue",
       shareId: null,
+      listenId: null,
       passphrase: null,
       songs: [],
       currentSong: null
@@ -218,7 +219,7 @@ angular.module('ammoApp')
         console.log("Created Live Queue: ", data);
         that.queue = data;
         that.live = true;
-        $location.path("/listen/" + data.shareId);
+        $location.path("/listen/" + data.listenId);
         d.resolve(that.queue);
       })
       .error(function(err){

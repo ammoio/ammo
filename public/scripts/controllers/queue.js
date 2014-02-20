@@ -9,9 +9,9 @@ angular.module('ammoApp')
     */
 
     //If there was a id included as part of the route
-    if( $routeParams.id ){
+    if( $routeParams.id && $routeParams.id.length === 16){
       //Check if the id provided matches whats already loaded in the queue
-      if( $routeParams.id === QueueService.queue.shareId ){
+      if( $routeParams.id === QueueService.queue.listenId ){
         //We do not need to fetch the info from the server, as we already have it.
         $scope.songs = QueueService.queue.songs;
       } else {
@@ -21,6 +21,10 @@ angular.module('ammoApp')
           $scope.songs = queue.songs;
         });
       }
+    //if there was in invalid ID
+    } else if ($routeParams.id) {
+      console.log($routeParams.id);
+      $location.path('/listen/');
     //else, the path did not include an ID
     } else {
       //if the current queue is live
