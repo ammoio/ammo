@@ -2,7 +2,6 @@ angular.module('ammoApp')
 
   .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
     $scope.artistImage = "";
-
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -84,8 +83,13 @@ angular.module('ammoApp')
         return;
       }
 
+      if(!$scope.playlistName) {
+        console.log("Playlist name can not be empty");
+        return;
+      }
+
       $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: {
-        name: "Placeholder name",
+        name: $scope.playlistName,
         songs: $scope.songs
         }
       })
@@ -95,9 +99,9 @@ angular.module('ammoApp')
       .error(function() {
         console.log("Error saving playlist");
       });
-    };
 
-    
+      $scope.playlistName = "";
+    };
     
     /*
       ========== passToPlay ==========
