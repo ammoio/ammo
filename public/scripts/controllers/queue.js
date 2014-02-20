@@ -105,9 +105,10 @@ angular.module('ammoApp')
       };
 
       $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
-      .success(function() {
+      .success(function(data) {
         console.log("Saved successfully");
-        UserService.user.playlists.push(playlistObj);
+        console.log(data);
+        UserService.user.playlists.push(data);
       })
       .error(function() {
         console.log("Error saving playlist");
