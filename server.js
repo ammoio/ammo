@@ -100,37 +100,53 @@ app.post('/queues', function (req, res) {
   });
 });
 
+//POST: add song to queue
 app.post('/queues/:id/add', function(req, res){
-  console.log("Adding song(s)", req.body);
-  dbHelpers.addSongToQueue(req.params.id, req.body)
+  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  .then(dbHelpers.addSongToQueue(req.params.id, req.body))
   .then(function(song){
     res.send(song);
   })
   .fail(function (err) {
-    res.send(500, err);
+    if(err === "not logged in"){
+      res.send(401);
+    } else {
+      res.send(500, err);
+    }
   });
 });
 
+//PUT update queue
 app.put('/queues/:id', function(req, res){
   console.log("Updating Queue ", req.params.id);
   console.dir("Updating with: ", req.body);
-  dbHelpers.updateQueue(req.params.id, req.body.data)
+  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  .then(dbHelpers.updateQueue(req.params.id, req.body.data))
   .then(function(queue){
     res.send(queue);
   })
   .fail(function (err) {
-    res.send(500, err);
+    if(err === "not logged in"){
+      res.send(401);
+    } else {
+      res.send(500, err);
+    }
   });
 });
 
-//DELETE: Delete Song at index //Changed this from POST to DELETE and pass in index as last part of url
+//DELETE: Delete Song at index
 app.delete('/queues/:id/:index', function(req, res){
-  dbHelpers.removeSongFromQueue(req.params.id, req.params.index)
+  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  .then(dbHelpers.removeSongFromQueue(req.params.id, req.params.index))
   .then(function(song){
     res.send(song);
   })
   .fail(function (err) {
-    res.send(500, err);
+    if(err === "not logged in"){
+      res.send(401);
+    } else {
+      res.send(500, err);
+    }
   });
 });
 

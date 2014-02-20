@@ -98,6 +98,27 @@ module.exports = {
       });
 
       return d.promise;
+    },
+
+    isAuthorized: function(shareId, sessionId){
+      var d = Q.defer();
+
+      dbHelpers.getQueue({shareId: shareId})
+      .then(function (queue){
+        if(queue.isPrivate){
+          return module.exports.validateSession(queue.username, sessionId);
+        } else {
+          return true;
+        }
+      })
+      .then(function(){
+        d.resolve(true);
+      })
+      .fail(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
     }
 
 };
