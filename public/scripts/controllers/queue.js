@@ -2,7 +2,7 @@ angular.module('ammoApp')
 
   .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
     $scope.artistImage = "";
-
+    $scope.QueueService = QueueService;
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
@@ -72,7 +72,6 @@ angular.module('ammoApp')
       }
     };
 
-
     /* 
       ======== saveToPlaylist ========
       Save the current queue to a playlist.
@@ -84,20 +83,27 @@ angular.module('ammoApp')
         return;
       }
 
-      $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: {
-        name: "Placeholder name",
+      if(!$scope.playlistName) {
+        console.log("Playlist name can not be empty");
+        return;
+      }
+
+      var playlistObj = {
+        name: $scope.playlistName,
         songs: $scope.songs
-        }
-      })
+      };
+
+      $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
       .success(function() {
         console.log("Saved successfully");
+        UserService.user.playlists.push(playlistObj);
       })
       .error(function() {
         console.log("Error saving playlist");
       });
-    };
 
-    
+      $scope.playlistName = "";
+    };
     
     /*
       ========== passToPlay ==========
