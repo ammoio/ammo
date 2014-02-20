@@ -1,9 +1,9 @@
 angular.module('ammoApp')
   .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
     $scope.UserService = UserService;
-    $scope.location = $location.host();
+    $scope.location = $location;
     //initializing socket
-    $scope.socket = io.connect($scope.location);
+    $scope.socket = io.connect($scope.location.host());
 
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);

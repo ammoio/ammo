@@ -51,7 +51,8 @@
 
     <div id="youtube"></div>
     <div id="dz-root"></div>
-    <div class="player text-center"> <!-- Player -->
+    <!-- hide the player control when in share view -->
+    <div class="player text-center" ng-hide="location.path().indexOf('playlist') === -1 && location.path().indexOf('listen') === -1"> <!-- Player -->
       <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
       <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
       <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
@@ -103,7 +104,7 @@
         </div>
         <div class="modal-body">
           <p>Here's the link to your queue: </p>
-          <div>http://{{ location }}/{{ QueueService.queue.shareId }}</div>
+          <div>http://{{ location.host() }}/{{ QueueService.queue.shareId }}</div>
           <div>
           <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
           </a>
