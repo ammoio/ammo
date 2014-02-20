@@ -10,6 +10,7 @@ var path = require('path');
 var dbHelpers = require('./dbHelpers');
 var loginHelpers = require('./loginHelpers');
 
+
 var app = express();
 
 // all environments
@@ -267,7 +268,17 @@ app.get('*', function (req, res) {
 
 
 
-
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
   console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
+});
+
+
+//socket io logic
+var io = require('socket.io').listen(server);
+io.sockets.on('connection', function (socket) {
+  socket.on('addSong', function(data) {
+    //broadcast emit message to everyone but the original sender
+    socket.broadcast.emit('newSongAdded', data);
+   });
 });

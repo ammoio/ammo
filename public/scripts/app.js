@@ -50,7 +50,7 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
     };
   })
 
-
+  //for sorting the left panel next songs in reverse order
   .filter('reverse', function() {
     return function(items) {
       return items.slice().reverse();
