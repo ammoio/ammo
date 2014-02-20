@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  .service('QueueService', function($http, $q, $location){
+  .service('QueueService', function($http, $q, $location, ScraperService){
     //TODO - Fix isse #33
 
     this.queue = {
@@ -261,4 +261,55 @@ angular.module('ammoApp')
 
       return d.promise;
     };
+
+    /*
+      ========== loadArtistImages ==========
+      -Checks the scraper service to see if the artist passed in has been scraped before. If it 
+      has, it will set the $scope.artistImage to the previously scraped images. If the artists 
+      has not been scraped, it will call the ScraperService.scrape(artist) function, will set
+      the scope.artistImage to the results, or if there are no results, then to the song.image. 
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
+    this.loadArtistImages = function(artist){
+      var that = this;
+
+      if (ScraperService.scraped[artist]){
+          that.setArtistImage(artist);
+      } else {
+        ScraperService.scrape(artist)
+        .then(function(data){
+          that.setArtistImage(artist);
+        });
+      }
+    };
+
+    /*
+      ========== setArtistImage ==========
+      -sets the $scope.artistImage to a random image from the scraper, or the song.image
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
+    this.setArtistImage = function(artist){
+      var rand = Math.floor(Math.random()*4);
+      var scraped = ScraperService.scraped;
+      var songs = this.queue.songs;
+      var cur = this.queue.currentSong;
+      var currentImg = scraped[artist].images[rand];
+
+      if (currentImg === "" || currentImg === null){
+        this.currentImage = currentImg;
+      }else {
+        this.currentImage = currentImg;
+      }
+    };
+
   });
