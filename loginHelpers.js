@@ -70,6 +70,8 @@ module.exports = {
 
     validateSession: function(username, sessionId){
       var d = Q.defer();
+      console.log("validating", username);
+      console.log("sessionId", sessionId);
 
       dbHelpers.getSession(username)
       .then(function(validSessionId){
@@ -102,9 +104,10 @@ module.exports = {
 
     isAuthorized: function(shareId, sessionId){
       var d = Q.defer();
-
-      dbHelpers.getQueue({shareId: shareId})
+      console.log("SessionId: ",sessionId);
+      dbHelpers.getQueue(shareId)
       .then(function (queue){
+        console.log("Private: ", queue.isPrivate);
         if(queue.isPrivate){
           return module.exports.validateSession(queue.username, sessionId);
         } else {

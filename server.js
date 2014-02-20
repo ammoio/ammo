@@ -1,5 +1,5 @@
 
-/**
+/*
  * Module dependencies.
  */
 
@@ -30,6 +30,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+//require('.////')(app)
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
   // console.log(req.body);
@@ -103,11 +104,15 @@ app.post('/queues', function (req, res) {
 //POST: add song to queue
 app.post('/queues/:id/add', function(req, res){
   loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
-  .then(dbHelpers.addSongToQueue(req.params.id, req.body))
+  .then(function(){
+    return dbHelpers.addSongToQueue(req.params.id, req.body);
+  })
   .then(function(song){
+    console.log("ADDED SONG");
     res.send(song);
   })
   .fail(function (err) {
+    console.log(err);
     if(err === "not logged in"){
       res.send(401);
     } else {
@@ -118,10 +123,10 @@ app.post('/queues/:id/add', function(req, res){
 
 //PUT update queue
 app.put('/queues/:id', function(req, res){
-  console.log("Updating Queue ", req.params.id);
-  console.dir("Updating with: ", req.body);
-  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
-  .then(dbHelpers.updateQueue(req.params.id, req.body.data))
+   loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  .then(function(){
+    return dbHelpers.updateQueue(req.params.id, req.body.data);
+  })
   .then(function(queue){
     res.send(queue);
   })
@@ -137,7 +142,9 @@ app.put('/queues/:id', function(req, res){
 //DELETE: Delete Song at index
 app.delete('/queues/:id/:index', function(req, res){
   loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
-  .then(dbHelpers.removeSongFromQueue(req.params.id, req.params.index))
+  .then(function(){
+    return dbHelpers.removeSongFromQueue(req.params.id, req.params.index);
+  })
   .then(function(song){
     res.send(song);
   })
