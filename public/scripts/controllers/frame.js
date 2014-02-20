@@ -105,7 +105,7 @@ angular.module('ammoApp')
 
           $http({ method: 'POST', url: '/login', data: { code: res.code }})
             .success(function(userObj) {
-              UserService.setUser = userObj;
+              UserService.setUser(userObj);
               UserService.setLogged(true);
             })
             .error(function(err){
