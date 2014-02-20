@@ -63,6 +63,7 @@ angular.module('ammoApp')
         if(songOrIndex !== null) {
           song = QueueService.queue.songs[songOrIndex];
           $scope.currentSongIndex = songOrIndex;
+          $scope.updateImage(songOrIndex);
         }
         else {
           $scope.currentSong = null;
@@ -146,6 +147,7 @@ angular.module('ammoApp')
     $scope.playNext = function() {
       QueueService.setCurrentSongIndex($scope.currentSongIndex + 1)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -156,6 +158,7 @@ angular.module('ammoApp')
     $scope.playPrev = function() {
       QueueService.setCurrentSongIndex($scope.currentSongIndex - 1)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -223,18 +226,21 @@ angular.module('ammoApp')
     $scope.playFromSidebar = function(index){
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
-          QueueService.currentImage = "";
-
-          if (QueueService.queue.songs[ind].artist){
-            QueueService.loadArtistImages(QueueService.queue.songs[ind].artist);
-          }else{
-            QueueService.artistImage = QueueService.queue.songs[ind].image;
-          }
-
+          $scope.updateImage(ind);
           $scope.play(ind, "q");
         })
         .catch(function(err) {
           console.log("Error: ", err);
         });
+    };
+
+    $scope.updateImage = function(index){
+      QueueService.currentImage = "";
+
+      if (QueueService.queue.songs[index].artist){
+        QueueService.loadArtistImages(QueueService.queue.songs[index].artist);
+      }else{
+        QueueService.artistImage = QueueService.queue.songs[index].image;
+      }
     };
 });
