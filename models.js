@@ -16,7 +16,8 @@ var queueSchema = mongoose.Schema({
   lastAccessed: Date,
   songs: {type: [], default: []},
   currentSong: Number,
-  isPrivate: {type: Boolean, default: false}
+  isPrivate: {type: Boolean, default: false},
+  username: {type: String, default: null}
 });
 
 /*
