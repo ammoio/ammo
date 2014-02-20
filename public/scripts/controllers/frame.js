@@ -5,6 +5,7 @@ angular.module('ammoApp')
         e.preventDefault();
     };
     document.addEventListener("click",stopClicks,true);
+    $('body').css('cursor', 'wait');
 
 
     $scope.UserService = UserService;
@@ -157,6 +158,7 @@ angular.module('ammoApp')
       if($scope.assetsLoaded === 2) {
         ngProgress.complete();
         document.removeEventListener("click", stopClicks, true);
+        $('body').css('cursor', 'auto');
       }
     };
 
