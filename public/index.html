@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="songs-container">Next Songs
-            <div class ="song-container" ng-repeat="song in QueueService.queue.songs | reverse" ng-click="playFromSidebar($index)">
+            <div class ="song-container" ng-repeat="song in QueueService.nextSongs" ng-click="playFromSidebar($index)">
               {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
             </div>
           </div>  
