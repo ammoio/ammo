@@ -276,10 +276,9 @@ server.listen(app.get('port'), function(){
 
 //socket io logic
 var io = require('socket.io').listen(server);
-var clients = [];
 io.sockets.on('connection', function (socket) {
-  console.log('url: ',socket.handshake.query.player);
   socket.on('addSong', function(data) {
+    //broadcast emit message to everyone but the original sender
     socket.broadcast.emit('newSongAdded', data);
-  });
+   });
 });

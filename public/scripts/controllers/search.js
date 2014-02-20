@@ -35,8 +35,11 @@ angular.module('ammoApp')
     $scope.addToQueue = function($event, song) {
       $event.stopPropagation();
       QueueService.enqueue(song).then(function(song){
-        window.socket.emit('addSong', song);
-        // console.log(song);
+        if (QueueService.queue.shareId) {
+          $scope.socket.emit('addSong', {
+            shareId: QueueService.queue.shareId
+          });
+        }
       });
     };
 

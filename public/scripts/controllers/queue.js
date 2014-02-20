@@ -3,6 +3,13 @@ angular.module('ammoApp')
   .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
     //$scope.artistImage = QueueService.currentImage;
     $scope.QueueService = QueueService;
+
+    //When the share ids match, then update view
+    $scope.socket.on('newSongAdded', function (data) {
+      if (data.shareId === QueueService.queue.shareId) {
+        QueueService.getQueue(QueueService.queue.shareId);
+      }
+    });
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.

@@ -103,7 +103,6 @@ angular.module('ammoApp')
 
       var that = this;
       if(this.live){
-        console.log("Requesting ", shareId);
         $http.get('/queues/' + shareId)
         .success(function(queue){
           console.log("Retreived Queue from server: ", queue);

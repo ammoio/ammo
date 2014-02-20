@@ -56,9 +56,3 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngProgress', 'ngCookies']
       return items.slice().reverse();
     };
   });
-
-
-  window.socket = io.connect('http://localhost');
-  socket.on('newSongAdded', function (data) {
-    console.log(data);
-  });
