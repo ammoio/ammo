@@ -10,6 +10,7 @@ angular.module('ammoApp')
       currentSong: null
     };
     this.live = false; //flag for whether or not the queue is on the server
+    this.currentImage = "";
 
     /*
       ========== enqueue ==========

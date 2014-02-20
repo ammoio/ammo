@@ -1,7 +1,7 @@
 angular.module('ammoApp')
 
   .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
-    $scope.artistImage = "";
+    $scope.artistImage = QueueService.currentImage;
     $scope.QueueService = QueueService;
     /*
       This code checks if there was an ID included in the route. and
@@ -174,8 +174,10 @@ angular.module('ammoApp')
 
       if (currentImg === "" || currentImg === null){
         $scope.artistImage = songs[cur].image;
+        QueueService.currentImage = currentImg;
       }else {
         $scope.artistImage = currentImg;
+        QueueService.currentImage = currentImg;
       }
     };
 
