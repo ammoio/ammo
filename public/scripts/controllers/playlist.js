@@ -71,11 +71,26 @@ angular.module('ammoApp')
     $scope.remove = function(song, index, event) {
       event.stopPropagation();
 
-      // url: /queues/:id/remove   
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index);
 
     };
-  });
+
+    $scope.updatePlaylist = function() {
+      if(QueueService.queue.shareId === $scope.playlist.shareId) {
+        var currentSong = $scope.currentSong;
+
+        for(var i = 0; i < $scope.playlist.songs.length; i++) {
+          if($scope.playlist.songs[i] === currentSong) {
+            QueueService.queue.currentSong = i;
+            QueueService.setNextSongs(i);
+            break;
+          }
+        }
+      }
+      $scope.$apply();
+      $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
+    };
+});
 
 
 

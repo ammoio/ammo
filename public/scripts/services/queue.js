@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  .service('QueueService', function($http, $q, $location, ScraperService){
+  .service('QueueService', function($http, $q, $location, $rootScope, ScraperService){
     //TODO - Fix isse #33
 
     this.queue = {

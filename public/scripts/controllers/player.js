@@ -17,7 +17,6 @@ angular.module('ammoApp')
     $scope.QueueService = QueueService;
     $scope.playing = false;
     $scope.currentSong = null;
-    $scope.currentSongIndex = null;
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
@@ -61,7 +60,7 @@ angular.module('ammoApp')
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
           song = QueueService.queue.songs[songOrIndex];
-          $scope.currentSongIndex = songOrIndex;
+          QueueService.queue.currentSong = songOrIndex;
           $scope.updateImage(songOrIndex);
         }
         else {
@@ -144,7 +143,7 @@ angular.module('ammoApp')
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex + 1)
+      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + 1)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
@@ -155,7 +154,7 @@ angular.module('ammoApp')
     };
 
     $scope.playPrev = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex - 1)
+      QueueService.setCurrentSongIndex(QueueService.queue.currentSong - 1)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
