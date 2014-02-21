@@ -126,7 +126,7 @@ app.post('/queues/:id/add', function(req, res){
 app.put('/queues/:id', function(req, res){
    loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
   .then(function(){
-    return dbHelpers.updateQueue(req.params.id, req.body.data);
+    return dbHelpers.updateQueue(req.params.id, req.body);
   })
   .then(function(queue){
     res.send(queue);
