@@ -245,6 +245,7 @@ angular.module('ammoApp')
     };
 
     $scope.shuffle = function(){
+      $scope.shuffled = $scope.shuffled ? false : true;
       var shuffled = [];
 
       for (var j=0; j<QueueService.queue.songs.length; j++){
@@ -261,6 +262,7 @@ angular.module('ammoApp')
       }
 
       QueueService.shuffleStore = shuffled;
+      QueueService.shuffledIndex = 0;
     }
 
 });
