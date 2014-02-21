@@ -16,6 +16,8 @@ angular.module('ammoApp')
   .controller('PlayerController', function($scope, $interval, QueueService) {
     $scope.QueueService = QueueService;
     $scope.playing = false;
+    $scope.shuffled = false;
+    $scope.looping = false;
     $scope.currentSong = null;
     $scope.buffering = false;
     $scope.timer = 0;
@@ -241,4 +243,24 @@ angular.module('ammoApp')
         QueueService.artistImage = QueueService.queue.songs[index].image;
       }
     };
+
+    $scope.shuffle = function(){
+      var shuffled = [];
+
+      for (var j=0; j<QueueService.queue.songs.length; j++){
+        shuffled.push(j);
+      }
+
+      var len = shuffled.length, temp, i;
+
+      while(len) {
+        i = Math.floor(Math.random() * len--);
+        temp = shuffled[len];
+        shuffled[len] = shuffled[i];
+        shuffled[i] = temp;
+      }
+
+      QueueService.shuffleStore = shuffled;
+    }
+
 });
