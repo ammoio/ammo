@@ -71,9 +71,19 @@ angular.module('ammoApp')
     $scope.remove = function(song, index, event) {
       event.stopPropagation();
 
-      // url: /queues/:id/remove   
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index);
 
+    };
+
+    $scope.updatePlaylist = function() {
+      console.log($scope.playlist.songs);
+      $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs })
+        .success(function(queue) {
+          console.log(queue);
+        })
+        .error(function(err) {
+          console.log("Error: ", err);
+        });
     };
   });
 
