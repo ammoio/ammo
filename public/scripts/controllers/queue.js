@@ -54,7 +54,8 @@ angular.module('ammoApp')
 
       Return: No return
     */
-    $scope.removeSong = function(index) {
+    $scope.removeSong = function($event, index) {
+      $event.stopPropagation();
       QueueService.removeSongAtIndex(index).then(function(song) {
         if (QueueService.queue.shareId) {
           $scope.socket.emit('queueChanged', {
