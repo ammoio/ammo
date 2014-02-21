@@ -31,7 +31,7 @@
     <!-- if it is a share view, assign css class shareViewContainer to get rid of bottom white space -->
     <div class="container" ng-class="{shareViewContainer: isShareView}">
       <div class="row">
-        <div id="sidebar" class="col-md-3" ng-hide="isMobile">
+        <div id="sidebar" class="col-md-3" ng-hide="isMobile && isShareView">
           <div class="playlist-container">Some playlists
             <div ng-click="showQueue()">Queue</div>
             <div ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)">
@@ -45,7 +45,7 @@
           </div>  
         </div>
         <!-- if share view, then this div will span the whole page -->
-        <div id="content" class="col-md-9" ng-class="{true:'col-md-12', false:'col-md-9'}[isMobile]">
+        <div id="content" class="col-md-9" ng-class="{true:'col-md-12', false:'col-md-9'}[isMobile && isShareView]">
           <div ng-view></div> <!-- Views are loaded here -->
         </div>
       </div>
