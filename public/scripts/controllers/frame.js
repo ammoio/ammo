@@ -1,7 +1,17 @@
 angular.module('ammoApp')
   .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+    var stopClicks = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    };
+    document.addEventListener("click",stopClicks,true);
+    $('body').css('cursor', 'wait');
+
+
     $scope.UserService = UserService;
     $scope.location = $location;
+    $scope.isShareView = $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
+    $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
 
@@ -149,6 +159,8 @@ angular.module('ammoApp')
       $scope.assetsLoaded++;
       if($scope.assetsLoaded === 2) {
         ngProgress.complete();
+        document.removeEventListener("click", stopClicks, true);
+        $('body').css('cursor', 'auto');
       }
     };
 
