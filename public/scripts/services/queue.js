@@ -13,6 +13,9 @@ angular.module('ammoApp')
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
     this.nextSongs = [];
+    this.isShuffled = false;
+    this.shuffleStore = [];
+    this.shuffledIndex = 0;
 
     /*
       ========== enqueue ==========
@@ -323,6 +326,14 @@ angular.module('ammoApp')
         index: index of the current song playing
     */
     this.setNextSongs = function(index) {
-      this.nextSongs = this.queue.songs.slice(index + 1, index + 6); 
+      if (this.isShuffled){
+        var temp = this.shuffleStore.slice(this.shuffledIndex + 1, this.shuffledIndex + 6);
+        for (var i = 0; i < temp.length; i++){
+          this.nextSongs[i] = this.queue.songs[temp[i]];
+        }
+
+      }else{
+        this.nextSongs = this.queue.songs.slice(index + 1, index + 6);
+      }
     };
   });

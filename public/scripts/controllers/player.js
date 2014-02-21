@@ -16,6 +16,8 @@ angular.module('ammoApp')
   .controller('PlayerController', function($scope, $interval, QueueService) {
     $scope.QueueService = QueueService;
     $scope.playing = false;
+    $scope.shuffled = QueueService.isShuffled;
+    $scope.looping = false;
     $scope.currentSong = null;
     $scope.buffering = false;
     $scope.timer = 0;
@@ -143,7 +145,16 @@ angular.module('ammoApp')
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + 1)
+      var next;
+
+      if ($scope.shuffled){
+        next = QueueService.shuffleStore[QueueService.shuffledIndex + 1]; //likely bug for last index
+        QueueService.shuffledIndex++;
+      } else {
+        next = QueueService.queue.currentSong + 1;
+      }
+
+      QueueService.setCurrentSongIndex(next)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
@@ -154,7 +165,16 @@ angular.module('ammoApp')
     };
 
     $scope.playPrev = function() {
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong - 1)
+      var prev;
+
+      if ($scope.shuffled){
+        prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1]; //likely bug for first index
+        QueueService.shuffledIndex--;
+      } else {
+        prev = QueueService.queue.currentSong - 1;
+      }
+
+      QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
@@ -221,8 +241,19 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.playFromSidebar = function(index){
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + index + 1)
+    $scope.playFromSidebar = function(index){ 
+      if (QueueService.isShuffled){
+        console.log(QueueService.shuffleStore);
+        console.log(QueueService.shuffledIndex);
+        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1
+        index = QueueService.shuffleStore[QueueService.shuffledIndex];
+        console.log(QueueService.shuffleStore);
+        console.log(QueueService.shuffledIndex);
+      }else {
+        index = QueueService.queue.currentSong + index + 1;
+      }
+
+      QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
           $scope.updateImage(ind);
           $scope.play(ind, "q");
@@ -241,4 +272,34 @@ angular.module('ammoApp')
         QueueService.artistImage = QueueService.queue.songs[index].image;
       }
     };
+
+    $scope.shuffle = function(){
+      QueueService.isShuffled = QueueService.isShuffled ? false : true;
+      $scope.shuffled = QueueService.isShuffled;
+
+      if ($scope.shuffled){
+        var shuffled = [];
+
+        for (var j=0; j<QueueService.queue.songs.length; j++){
+          shuffled.push(j);
+        }
+
+        var len = shuffled.length, temp, i;
+
+        while(len) {
+          i = Math.floor(Math.random() * len--);
+          temp = shuffled[len];
+          shuffled[len] = shuffled[i];
+          shuffled[i] = temp;
+        }
+
+        QueueService.shuffleStore = shuffled;
+        QueueService.shuffledIndex = 0;
+      } else {
+        QueueService.shuffleStore = [];
+      }
+      
+      QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs 
+    };
+
 });

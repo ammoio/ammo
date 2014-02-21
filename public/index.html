@@ -39,7 +39,7 @@
             </div>
           </div>
           <div class="songs-container">Next Songs
-            <div class ="song-container" ng-repeat="song in QueueService.nextSongs" ng-click="playFromSidebar($index)">
+            <div class ="song-container" ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
               {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
             </div>
           </div>  
@@ -53,12 +53,20 @@
 
     <div id="youtube"></div>
     <div id="dz-root"></div>
+
     <!-- hide the player control when in share view -->
     <div class="player text-center" ng-hide="isShareView"> <!-- Player -->
-      <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
-      <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
-      <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
-      <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span>
+      <div style="display: inline-block" class="text-center">
+        <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
+        <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
+        <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
+        <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span> 
+      </div>
+      <div class="player-options">
+          <span ng-click="shuffle()"><i class="fa fa-random" ng-class="{selected: shuffled}"></i></span>
+          <span ng-click="toggleLoop()"><i class="fa fa-undo" ng-class="{selected: looping}"></i></span>
+      </div>
+
       <div>{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</div> <!-- Song name not displaying -->
       <div>
         <span ng-hide="buffering">{{ fixTime(timer) }} / {{ fixTime(currentSong.duration) }}</span>
