@@ -142,3 +142,7 @@ i {
   margin-left: 15px;
   top: 15%;
 }
+
+.selected {
+  color: black;
+}

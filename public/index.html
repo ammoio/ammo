@@ -63,8 +63,8 @@
         <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span> 
       </div>
       <div class="player-options">
-          <span ng-click="shuffle()"><i class="fa fa-random" ng-class="selected: shuffled"></i></span>
-          <span ng-click="toggleLoop()"><i class="fa fa-undo" ng-class="selected: looping"></i></span>
+          <span ng-click="shuffle()"><i class="fa fa-random" ng-class="{selected: shuffled}"></i></span>
+          <span ng-click="toggleLoop()"><i class="fa fa-undo" ng-class="{selected: looping}"></i></span>
       </div>
 
       <div>{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</div> <!-- Song name not displaying -->
