@@ -28,9 +28,10 @@
   </nav>
 
   <div ng-controller="PlayerController">  <!-- Give Access to the Player Controller to all our views -->
-    <div class="container">
+    <!-- if it is a share view, assign css class shareViewContainer to get rid of bottom white space -->
+    <div class="container" ng-class="{shareViewContainer: isShareView}">
       <div class="row">
-        <div id="sidebar" class="col-md-3">
+        <div id="sidebar" class="col-md-3" ng-hide="isMobile && isShareView">
           <div class="playlist-container">Some playlists
             <div ng-click="showQueue()">Queue</div>
             <div ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)">
@@ -43,7 +44,8 @@
             </div>
           </div>  
         </div>
-        <div id="content" class="col-md-9">
+        <!-- if share view, then this div will span the whole page -->
+        <div id="content" class="col-md-9" ng-class="{true:'col-md-12', false:'col-md-9'}[isMobile && isShareView]">
           <div ng-view></div> <!-- Views are loaded here -->
         </div>
       </div>
@@ -52,7 +54,7 @@
     <div id="youtube"></div>
     <div id="dz-root"></div>
     <!-- hide the player control when in share view -->
-    <div class="player text-center" ng-hide="location.path().indexOf('playlist') === -1 && location.path().indexOf('listen') === -1"> <!-- Player -->
+    <div class="player text-center" ng-hide="isShareView"> <!-- Player -->
       <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
       <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
       <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
