@@ -19,6 +19,26 @@ angular.module('ammoApp')
         .then(function(queue){ //Sets the scopes songs to the current q from qservice
           $scope.songs = queue.songs;
         });
-      };
-      $scope.refresh();
+    };
+    
+    $scope.clone = function() {
+      console.log('inside clone');
+        var shareLink = 'http://localhost/' + QueueService.queue.shareId;
+        $('.twitter-share-button').attr({
+          'data-url': shareLink,
+          'data-text': "Hey, checkout this playlist I made!\n"
+        }); //dynamically set the url
+
+        //have to reset queue, or else server error
+        var oldQueue = QueueService.queue;
+        QueueService.queue = {
+          currentSong: oldQueue.currentSong,
+          listenId: null,
+          shareId: null,
+          songs: oldQueue.songs
+        };
+        $('#shareRequestModal').modal();
+    };
+
+    $scope.refresh();
   });
