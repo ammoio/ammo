@@ -14,6 +14,7 @@ angular.module('ammoApp')
     this.currentImage = "";
     this.nextSongs = [];
     this.shuffleStore = [];
+    this.shuffledIndex = 0;
 
     /*
       ========== enqueue ==========
