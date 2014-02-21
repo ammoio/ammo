@@ -13,6 +13,7 @@ angular.module('ammoApp')
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
     this.nextSongs = [];
+    this.isShuffled = false;
     this.shuffleStore = [];
     this.shuffledIndex = 0;
 

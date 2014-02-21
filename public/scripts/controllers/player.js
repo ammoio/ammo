@@ -16,7 +16,7 @@ angular.module('ammoApp')
   .controller('PlayerController', function($scope, $interval, QueueService) {
     $scope.QueueService = QueueService;
     $scope.playing = false;
-    $scope.shuffled = false;
+    $scope.shuffled = QueueService.isShuffled;
     $scope.looping = false;
     $scope.currentSong = null;
     $scope.buffering = false;
@@ -173,7 +173,7 @@ angular.module('ammoApp')
       } else {
         next = QueueService.queue.currentSong - 1;
       }
-      
+
       QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
           $scope.updateImage(index);
@@ -263,7 +263,8 @@ angular.module('ammoApp')
     };
 
     $scope.shuffle = function(){
-      $scope.shuffled = $scope.shuffled ? false : true;
+      QueueService.isShuffled = QueueService.isShuffled ? false : true;
+      $scope.shuffled = QueueService.isShuffled;
 
       if ($scope.shuffled){
         var shuffled = [];

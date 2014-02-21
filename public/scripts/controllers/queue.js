@@ -141,6 +141,11 @@ angular.module('ammoApp')
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
           $scope.play(ind, "q");
+          if (QueueService.isShuffled){
+            QueueService.shuffledIndex = QueueService.shuffleStore.indexOf(ind); //inefficient?
+            console.log("store" + QueueService.shuffleStore);
+            console.log("index" + QueueService.shuffledIndex);
+          }
         })
         .catch(function(err) {
           console.log("Error: ", err);
