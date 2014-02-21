@@ -246,23 +246,29 @@ angular.module('ammoApp')
 
     $scope.shuffle = function(){
       $scope.shuffled = $scope.shuffled ? false : true;
-      var shuffled = [];
 
-      for (var j=0; j<QueueService.queue.songs.length; j++){
-        shuffled.push(j);
+      if ($scope.shuffled){
+        var shuffled = [];
+
+        for (var j=0; j<QueueService.queue.songs.length; j++){
+          shuffled.push(j);
+        }
+
+        var len = shuffled.length, temp, i;
+
+        while(len) {
+          i = Math.floor(Math.random() * len--);
+          temp = shuffled[len];
+          shuffled[len] = shuffled[i];
+          shuffled[i] = temp;
+        }
+
+        QueueService.shuffleStore = shuffled;
+        QueueService.shuffledIndex = 0;
+      } else {
+        QueueService.shuffleStore = [];
       }
-
-      var len = shuffled.length, temp, i;
-
-      while(len) {
-        i = Math.floor(Math.random() * len--);
-        temp = shuffled[len];
-        shuffled[len] = shuffled[i];
-        shuffled[i] = temp;
-      }
-
-      QueueService.shuffleStore = shuffled;
-      QueueService.shuffledIndex = 0;
-    }
+        
+    };
 
 });
