@@ -18,6 +18,11 @@ a {
   background-color: white;
 }
 
+.noPlayer {
+  height: 0;
+  bottom: 0;
+}
+
 table {
   overflow: auto;
 }
@@ -69,6 +74,9 @@ i {
   overflow:scroll;
 }
 
+.shareViewContainer {
+  bottom: 0px !important;
+}
 @media (min-width: 1200px) {
   .container {
     max-width: 100%;

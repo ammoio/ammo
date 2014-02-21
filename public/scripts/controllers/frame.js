@@ -10,6 +10,8 @@ angular.module('ammoApp')
 
     $scope.UserService = UserService;
     $scope.location = $location;
+    $scope.isShareView = $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
+
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
 

@@ -92,7 +92,6 @@ angular.module('ammoApp')
       }
       else if (song.service === 'rdio') {
         R.player.play({ source:song.serviceId });
-        debugger;
         if (!R.currentUser.get('canStreamHere')) { //if not logged in
           $scope.currentSong.duration = 30;
         }
