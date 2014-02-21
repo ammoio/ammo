@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/styles/main.css">
 </head>
 
-<body ng-app='ammoApp' ng-controller="FrameController">
+<body ng-cloak ng-app='ammoApp' ng-controller="FrameController">
 
   <!-- Nav Bar -->
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -78,14 +78,10 @@
         </div>
         <div class="modal-body">
           <form id="queueForm">
-            <div class="input-group">
-              <span class="input-group-addon">Queue Name: </span>
-              <input type="text" class="queueName form-control" placeholder="Queue Name" ng-model="queueName">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">Passphrase: </span>
-              <input type="text" class="passPhrase form-control" placeholder="simple passphrase" ng-model="passphrase">
-            </div>
+            <span>Give this playlist a name! </span>
+            <span class="input-group queueNameDiv">
+              <input type="text" class="queueName form-control" placeholder="My Awesome Playlist!" ng-model="queueName">
+            </span>
           </form>
         </div>
         <div class="modal-footer">

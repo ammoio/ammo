@@ -19,6 +19,40 @@ angular.module('ammoApp')
         .then(function(queue){ //Sets the scopes songs to the current q from qservice
           $scope.songs = queue.songs;
         });
-      };
-      $scope.refresh();
+    };
+    
+
+
+    /*
+    ========== clone ==========
+    When on share view, clicking clone button will make a new instance of this queue
+    and give this user control. To do this, the queue must be reset
+    
+    params:
+      -none
+    return:
+      -none
+      
+    */
+    $scope.clone = function() {
+      console.log('inside clone');
+        var shareLink = 'http://localhost/' + QueueService.queue.shareId;
+        $('.twitter-share-button').attr({
+          'data-url': shareLink,
+          'data-text': "Hey, checkout this playlist I made!\n"
+        }); //dynamically set the url
+
+        //have to reset queue, or else server error
+        var oldQueue = QueueService.queue;
+        QueueService.queue = {
+          currentSong: oldQueue.currentSong,
+          listenId: null,
+          shareId: null,
+          songs: oldQueue.songs
+        };
+        //same process as share queue from this point on
+        $('#shareRequestModal').modal();
+    };
+
+    $scope.refresh();
   });
