@@ -145,7 +145,16 @@ angular.module('ammoApp')
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + 1)
+      var next;
+
+      if ($scope.shuffled){
+        next = QueueService.shuffleStore[QueueService.shuffledIndex + 1]; //likely bug for last index
+        QueueService.shuffledIndex++;
+      } else {
+        next = QueueService.queue.currentSong + 1;
+      }
+
+      QueueService.setCurrentSongIndex(next)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
@@ -156,7 +165,16 @@ angular.module('ammoApp')
     };
 
     $scope.playPrev = function() {
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong - 1)
+      var prev;
+
+      if ($scope.shuffled){
+        prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1]; //likely bug for first index
+        QueueService.shuffledIndex--;
+      } else {
+        next = QueueService.queue.currentSong - 1;
+      }
+      
+      QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
@@ -223,7 +241,7 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.playFromSidebar = function(index){
+    $scope.playFromSidebar = function(index){ 
       QueueService.setCurrentSongIndex(QueueService.queue.currentSong + index + 1)
         .then(function(ind) {
           $scope.updateImage(ind);
