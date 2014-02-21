@@ -76,16 +76,21 @@ angular.module('ammoApp')
     };
 
     $scope.updatePlaylist = function() {
-      console.log($scope.playlist.songs);
-      $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs })
-        .success(function(queue) {
-          console.log(queue);
-        })
-        .error(function(err) {
-          console.log("Error: ", err);
-        });
+      if(QueueService.queue.shareId === $scope.playlist.shareId) {
+        var currentSong = $scope.currentSong;
+
+        for(var i = 0; i < $scope.playlist.songs.length; i++) {
+          if($scope.playlist.songs[i] === currentSong) {
+            QueueService.queue.currentSong = i;
+            QueueService.setNextSongs(i);
+            break;
+          }
+        }
+      }
+      $scope.$apply();
+      $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
     };
-  });
+});
 
 
 

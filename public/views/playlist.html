@@ -3,7 +3,7 @@
   <img ng-src="{{ QueueService.currentImage }}"></img>
 </div>
 <div id="main-container">
-  <div ui-sortable="{ update: updatePlaylist }" ng-model="playlist.songs">
+  <div ui-sortable="{ stop: updatePlaylist }" ng-model="playlist.songs">
     <div class ="song-container" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
       {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
 
