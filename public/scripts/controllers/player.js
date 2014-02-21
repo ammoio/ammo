@@ -171,7 +171,7 @@ angular.module('ammoApp')
         prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1]; //likely bug for first index
         QueueService.shuffledIndex--;
       } else {
-        next = QueueService.queue.currentSong - 1;
+        prev = QueueService.queue.currentSong - 1;
       }
 
       QueueService.setCurrentSongIndex(prev)
@@ -287,7 +287,8 @@ angular.module('ammoApp')
       } else {
         QueueService.shuffleStore = [];
       }
-        
+      
+      QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs 
     };
 
 });

@@ -326,6 +326,14 @@ angular.module('ammoApp')
         index: index of the current song playing
     */
     this.setNextSongs = function(index) {
-      this.nextSongs = this.queue.songs.slice(index + 1, index + 6); 
+      if (this.isShuffled){
+        var temp = this.shuffleStore.slice(this.shuffledIndex + 1, this.shuffledIndex + 6);
+        for (var i = 0; i < temp.length; i++){
+          this.nextSongs[i] = this.queue.songs[temp[i]];
+        }
+
+      }else{
+        this.nextSongs = this.queue.songs.slice(index + 1, index + 6);
+      }
     };
   });
