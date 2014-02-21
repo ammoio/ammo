@@ -145,5 +145,4 @@ angular.module('ammoApp')
           console.log("Error: ", err);
         });
     };
-    
   });
