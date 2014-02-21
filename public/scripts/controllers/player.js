@@ -242,7 +242,18 @@ angular.module('ammoApp')
     */
 
     $scope.playFromSidebar = function(index){ 
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong + index + 1)
+      if (QueueService.isShuffled){
+        console.log(QueueService.shuffleStore);
+        console.log(QueueService.shuffledIndex);
+        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1
+        index = QueueService.shuffleStore[QueueService.shuffledIndex];
+        console.log(QueueService.shuffleStore);
+        console.log(QueueService.shuffledIndex);
+      }else {
+        index = QueueService.queue.currentSong + index + 1;
+      }
+
+      QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
           $scope.updateImage(ind);
           $scope.play(ind, "q");
