@@ -10,6 +10,13 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
       .when('/search', {
         templateUrl: '/views/search.html',
         controller: 'SearchController'
+      })
+      .when('/', {
+        controller: function(){
+          window.location.replace('http://localhost:3000');
+        }
+      }).otherwise({
+          redirectTo: '/'
       });
 
     OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798'); 
