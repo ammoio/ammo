@@ -140,6 +140,10 @@ angular.module('ammoApp')
             R.player.play();
           }
         }
+      } else {
+        if (QueueService.queue.songs.length){
+          $scope.play(0, 'q'); //if there are songs in the q and current song is null, play index 0
+        }
       }
     };
 
@@ -274,32 +278,40 @@ angular.module('ammoApp')
     };
 
     $scope.shuffle = function(){
-      QueueService.isShuffled = QueueService.isShuffled ? false : true;
-      $scope.shuffled = QueueService.isShuffled;
+      console.log(QueueService.queue.songs);
+      if(QueueService.queue.songs.length){
+        QueueService.isShuffled = QueueService.isShuffled ? false : true;
+        $scope.shuffled = QueueService.isShuffled;
 
-      if ($scope.shuffled){
-        var shuffled = [];
+        if ($scope.shuffled){
+          var shuffled = [];
 
-        for (var j=0; j<QueueService.queue.songs.length; j++){
-          shuffled.push(j);
+          for (var j=0; j<QueueService.queue.songs.length; j++){
+            shuffled.push(j);
+          }
+
+          var len = shuffled.length, temp, i;
+
+          while(len) {
+            i = Math.floor(Math.random() * len--);
+            temp = shuffled[len];
+            shuffled[len] = shuffled[i];
+            shuffled[i] = temp;
+          }
+
+          QueueService.shuffleStore = shuffled;
+          QueueService.shuffledIndex = 0;
+        } else {
+          QueueService.shuffleStore = [];
         }
 
-        var len = shuffled.length, temp, i;
-
-        while(len) {
-          i = Math.floor(Math.random() * len--);
-          temp = shuffled[len];
-          shuffled[len] = shuffled[i];
-          shuffled[i] = temp;
+        if (QueueService.queue.currentSong === null){
+          QueueService.setCurrentSongIndex(0); // updates the sidebar next songs   
+        }else{
+          QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs   
         }
-
-        QueueService.shuffleStore = shuffled;
-        QueueService.shuffledIndex = 0;
-      } else {
-        QueueService.shuffleStore = [];
-      }
-      
-      QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs 
+        
+      }     
     };
 
 });
