@@ -328,8 +328,9 @@ angular.module('ammoApp')
     this.setNextSongs = function(index) {
       if (this.isShuffled){
         var temp = this.shuffleStore.slice(this.shuffledIndex + 1, this.shuffledIndex + 6);
+        this.nextSongs = [];
         for (var i = 0; i < temp.length; i++){
-          this.nextSongs[i] = this.queue.songs[temp[i]];
+          this.nextSongs.push(this.queue.songs[temp[i]]);
         }
 
       }else{
