@@ -152,8 +152,10 @@ angular.module('ammoApp')
       var next;
 
       if ($scope.shuffled){
-        next = QueueService.shuffleStore[QueueService.shuffledIndex + 1]; //likely bug for last index
-        QueueService.shuffledIndex++;
+        if (QueueService.shuffledIndex !== QueueService.shuffleStore.length -1){//if not on last shuffled index
+          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
+          QueueService.shuffledIndex++;
+        }
       } else {
         next = QueueService.queue.currentSong + 1;
       }
@@ -172,8 +174,10 @@ angular.module('ammoApp')
       var prev;
 
       if ($scope.shuffled){
-        prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1]; //likely bug for first index
-        QueueService.shuffledIndex--;
+        if (QueueService.shuffledIndex !== 0){
+          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
+          QueueService.shuffledIndex--;
+        }
       } else {
         prev = QueueService.queue.currentSong - 1;
       }
@@ -278,7 +282,6 @@ angular.module('ammoApp')
     };
 
     $scope.shuffle = function(){
-      console.log(QueueService.queue.songs);
       if(QueueService.queue.songs.length){
         QueueService.isShuffled = QueueService.isShuffled ? false : true;
         $scope.shuffled = QueueService.isShuffled;
