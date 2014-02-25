@@ -13,7 +13,7 @@
 
   <!-- Nav Bar -->
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
+    <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="/">Ammo</a>
       </div>
@@ -31,7 +31,7 @@
 
   <div ng-controller="PlayerController">  <!-- Give Access to the Player Controller to all our views -->
     <!-- if it is a share view, assign css class shareViewContainer to get rid of bottom white space -->
-    <div class="container container-custom" ng-class="{shareViewContainer: isShareView}">
+    <div class="container" ng-class="{shareViewContainer: isShareView}">
       <div class="row">
         <div id="sidebar" class="col-md-3" ng-hide="isMobile && isShareView">
           <div class="playlist-container">Some playlists

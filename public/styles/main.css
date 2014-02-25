@@ -1,5 +1,5 @@
 body {
-  /*padding: 50px;*/
+  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -33,14 +33,14 @@ i {
 }
 
 #main-container, #search-container {
-  /*margin-top: 15px;*/
+/*  margin-top: 15px;*/
   margin-top: -1px;
-  overflow-y: scroll;
-}
+/*  overflow-y: scroll;
+*/}
 
 #main-container :first-child, #search-container :first-child {
-  border-top: 1px solid #ddd;
-}
+/*  border-top: 1px solid #ddd;
+*/}
 
 #main-container :nth-child(even), #search-container :nth-child(even) {
   background-color: #f9f9f9;
@@ -53,9 +53,9 @@ i {
   padding-left: 20px;
   border-bottom: 1px solid #ddd;
   position: relative;
-  overflow-x: hidden;
+/*  overflow-x: hidden;
   overflow-y: hidden;
-}
+*/}
 
 .song-container:hover{
   background-color: #f5f5f5;
@@ -103,8 +103,8 @@ i {
 }
 
 #content {
-  overflow-y: scroll;
-  height: 100%;
+/*  overflow-y: scroll;
+*/  height: 100%;
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -135,9 +135,6 @@ i {
   height: 50%;
 }
 
-.dropdown-menu {
-}
-
 .queueNameDiv {
   margin-top: 20px;
 }
@@ -161,3 +158,9 @@ i {
   padding-top: 51px;
 }
 
+ul.dropdown-menu{
+}
+
+.stuff{
+  opacity: 0;
+}
