@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
     var stopClicks = function(e) {
         e.stopPropagation();
         e.preventDefault();
@@ -77,10 +77,21 @@ angular.module('ammoApp')
           ParseService.rdio(userInput);
         }
       } else {
-        SearchService.rdio(userInput);
-        SearchService.youtube(userInput);
-        SearchService.soundcloud(userInput);
-        // SearchService.deezer(userInput);
+        // SearchService.rdio(userInput);
+
+        var youtube = [];
+        var rdio = [];
+        var soundcloud = [];
+
+        $q.all([
+          SearchService.rdio(userInput),
+          SearchService.youtube(userInput),
+          SearchService.soundcloud(userInput)
+        ])
+        .then(function(results) {
+          SearchService.searchResults = results[0].concat(results[1]).concat(results[2]);
+        });
+        // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
       }
       $location.path('/search');
     };
