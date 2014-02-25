@@ -25,11 +25,11 @@ angular.module('ammoApp')
       limit = limit || 5;
 
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
-      .then(function(results) {
-        var total = results.data.items.length;
+      .success(function(results) {
+        var total = results.items.length;
         var resultsSoFar = 0; 
 
-        results.data.items.forEach(function(video) {
+        results.items.forEach(function(video) {
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
 
           var title = video.snippet.title.split(" - ");
@@ -46,23 +46,28 @@ angular.module('ammoApp')
           };
 
           $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
-          .then(function(newResults) {
-            var duration = newResults.data.items[0].contentDetails.duration;
+          .success(function(newResults) {
+            var duration = newResults.items[0].contentDetails.duration;
 
             var hours = duration.match(/(\d+)(?=[H])/ig)||[0];
             var minutes = duration.match(/(\d+)(?=[M])/ig)||[0];
             var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
             song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
-            console.log('in search youtube service', song);
+            // console.log('in search youtube service', song);
             youtubeResults.push(song);
             resultsSoFar++;
             if(resultsSoFar === total) {
               d.resolve(youtubeResults);
             }
+          })
+          .error(function() {
+            d.resolve([]);
           });
         });
-        // d.resolve(youtubeResults);
+      })
+      .error(function() {
+        d.resolve([]);
       });
       return d.promise;
     };
@@ -103,6 +108,7 @@ angular.module('ammoApp')
         },
         error: function(response) {
           console.log("error: " + response.message);
+          d.resolve([]);
         }
       });
       return d.promise;
@@ -148,10 +154,13 @@ angular.module('ammoApp')
         })
         .error(function(data, status, headers, config) {
           console.log('failed query');
+          d.resolve([]);
         });
       return d.promise;
     };
 
+
+    // This function needs refactor to promises
     this.deezer = function(userInput, access_token) {
       var limit = 5;
       access_token = "nyEmIZFFIK530171471e73bQR96KnJd530171471e777c3KmNh";
