@@ -101,6 +101,11 @@ body {
   padding: 30px 20px;
 }
 
+.sidebar .now-playing {
+  color: #fff;
+  font-weight: bold;
+}
+
 .page-content {
   width: 80%;
   float: right;
