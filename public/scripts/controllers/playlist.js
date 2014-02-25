@@ -21,7 +21,7 @@ angular.module('ammoApp')
       if($scope.playlist.shareId !== QueueService.queue.shareId) {
         QueueService.setQueue($scope.playlist);
       }
-      
+
       if (QueueService.isShuffled){
         QueueService.shuffledIndex = QueueService.shuffleStore.indexOf(index); //inefficient?
       }

@@ -23,7 +23,7 @@
           <img src="../img/logo.png" alt="" class="logo">
         </div>
         <div class="column on-2">
-          <form ng-submit="search(userInput)">
+          <form id="search" ng-submit="search(userInput)">
             <input ng-model="userInput" type="text" placeholder="Search...">
             <input type="submit" style="position: absolute; left: -9999px;">
           </form>
@@ -34,97 +34,36 @@
       </div>
     </header>
 
-    <div ng-controller="PlayerController"class="row page">
-      <!-- SIDEBAR <a> tags might have to be <divs> -->
-      <aside class="sidebar">
-        <div class="playlist-list">
-          <h3>Your Playlists</h3>
-          <div ng-click="showQueue()">Queue</div>
-          <a ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)" href="#">
-              {{ playlist.name }} 
-            </a>
-        </div>
-        <div class="queue-songs">
-          <h3>On Deck</h3>
-          <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)" href="#">
-              {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
-            </a>
-        </div>
-      </aside>
+    <div ng-controller="PlayerController">
+      <div class="row page">
+        <!-- SIDEBAR <a> tags might have to be <divs> -->
+        <aside class="sidebar bottom-pad">
+          <div class="playlist-list">
+            <h3>Your Playlists</h3>
+            <div ng-click="showQueue()">Queue</div>
+            <a ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)" href="#">
+                {{ playlist.name }} 
+              </a>
+          </div>
+          <div class="queue-songs">
+            <h3>On Deck</h3>
+            <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)" href="#">
+                {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+              </a>
+          </div>
+        </aside>
 
-      <section ng-view class="page-content">
-        <!-- <div class="container row">
-          <div class="column-top on-2">
-            <h3 class="playlist-name">Playlist name</h3>
-            <span class="author">By <a href="#">Daniel Almaguer</a></span>
-            <span class="songs-number"><b>212</b> Songs</span>
-          </div>
-          <div class="column-top on-2">
-            <input class="search" placeholder="Search playlist songs..." type="text">
-            <a class="btn share" href="#">Share</a>
-          </div>
-        </div>
-        <div class="container-row">
-          <ul class="songs">
-            <li class="song">
-              <span class="icon spotify column"></span>
-              <div class="song-info column-top">
-                <h3 class="song-name column">Forcelassness</h3>
-                <span>—</span>
-                <h3 class="column">Sara Neufeld</h3>
-                <span class="time column">2:20</span>
-              </div>
-              <a class"column" href="#">Add Song</a>
-            </li>
-            <li class="song">
-              <span class="icon spotify column"></span>
-              <div class="song-info column-top">
-                <h3 class="song-name column">Forcelassness</h3>
-                <span>—</span>
-                <h3 class="column">Sara Neufeld</h3>
-                <span class="time column">2:20</span>
-              </div>
-              <a class"column" href="#">Add Song</a>
-            </li>
-            <li class="song">
-              <span class="icon spotify column"></span>
-              <div class="song-info column-top">
-                <h3 class="song-name column">Forcelassness</h3>
-                <span>—</span>
-                <h3 class="column">Sara Neufeld</h3>
-                <span class="time column">2:20</span>
-              </div>
-              <a class"column" href="#">Add Song</a>
-            </li>
-            <li class="song">
-              <span class="icon spotify column"></span>
-              <div class="song-info column-top">
-                <h3 class="song-name column">Forcelassness</h3>
-                <span>—</span>
-                <h3 class="column">Sara Neufeld</h3>
-                <span class="time column">2:20</span>
-              </div>
-              <a class"column" href="#">Add Song</a>
-            </li>
-            <li class="song">
-              <span class="icon spotify column"></span>
-              <div class="song-info column-top">
-                <h3 class="song-name column">Forcelassness</h3>
-                <span>—</span>
-                <h3 class="column">Sara Neufeld</h3>
-                <span class="time column">2:20</span>
-              </div>
-              <a class"column" href="#">Add Song</a>
-            </li>
-          </ul>
-        </div> -->
-      </section>
-      
+
+        <section ng-view class="page-content bottom-pad">
+        </section>
+
+
+      </div>
       <div id="youtube"></div>
       <div id="dz-root"></div>
 
       <footer class="player" ng-hide="isShareView">
-        <div class="column  on-4">
+        <div class="column on-4">
           <img src="http://static.designspiration.net/data/l/321949400685_87TZSAIX_l.jpg" alt="" class="artwork">
         </div>
         <div class="column-top song-player">

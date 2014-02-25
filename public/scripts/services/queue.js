@@ -144,6 +144,7 @@ angular.module('ammoApp')
     this.setQueue = function(newQueue){
       this.queue = newQueue;
       this.setNextSongs(this.queue.currentSong);
+      this.live = false;
       return this.queue;
     };
 
@@ -224,6 +225,7 @@ angular.module('ammoApp')
       this.queue.passphrase = passphrase || "";
 
       var that = this;
+      this.queue.isPrivate = false;
       $http.post('/queues', this.queue)
       .success(function(data, status, headers, config) {
         console.log("Created Live Queue: ", data);
