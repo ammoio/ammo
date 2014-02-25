@@ -73,11 +73,9 @@ angular.module('ammoApp')
       }
     };
 
-    $scope.remove = function(song, index, event) {
+    $scope.remove = function(index, event) {
       event.stopPropagation();
-
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index);
-
     };
 
     $scope.updatePlaylist = function() {
