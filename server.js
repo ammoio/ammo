@@ -129,6 +129,7 @@ app.put('/queues/:id', function(req, res){
     return dbHelpers.updateQueue(req.params.id, req.body);
   })
   .then(function(queue){
+    io.sockets.emit('updateView', {shareId: queue.shareId});
     res.send(queue);
   })
   .fail(function (err) {

@@ -6,6 +6,7 @@ angular.module('ammoApp')
 
     //When the share ids match, then update view
     $scope.socket.on('updateView', function (data) {
+      console.log('updated', data);
       if (data.shareId === QueueService.queue.shareId) {
         QueueService.getQueue(QueueService.queue.shareId);
       }
