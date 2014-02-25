@@ -16,6 +16,7 @@ angular.module('ammoApp')
     this.isShuffled = false;
     this.shuffleStore = [];
     this.shuffledIndex = 0;
+    this.looped = false;
 
     /*
       ========== enqueue ==========
@@ -245,6 +246,14 @@ angular.module('ammoApp')
 
     this.setCurrentSongIndex = function(index){
       var d = $q.defer();
+
+      if (this.looped){
+        if (index > this.queue.songs.length){
+          index = 0;
+        }else if (index < 0) {
+          index = this.queue.songs.length - 1;
+        }
+      }
 
       if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
