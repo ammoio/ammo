@@ -89,7 +89,9 @@ angular.module('ammoApp')
           SearchService.soundcloud(userInput)
         ])
         .then(function(results) {
-          SearchService.searchResults = results[0].concat(results[1]).concat(results[2]);
+          results.forEach(function(result) {
+            SearchService.searchResults = SearchService.searchResults.concat(result);
+          });
         });
         // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
       }
