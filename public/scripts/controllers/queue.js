@@ -55,6 +55,7 @@ angular.module('ammoApp')
       Return: No return
     */
     $scope.removeSong = function($event, index) {
+      console.log('removing song');
       $event.stopPropagation();
       QueueService.removeSongAtIndex(index).then(function(song) {
         if (QueueService.queue.shareId) {
