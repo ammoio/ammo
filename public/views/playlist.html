@@ -21,7 +21,7 @@
                 <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
                 <span class="time column">{{song.duration}}</span>
               </div>
-              <a class"column" href="#" ng-click="removeSong($event, $index)">Add To..</a>
+              <a class"column" href="#"  ng-click="addTo('queue', song, $event);">Add To..</a>
             </li>
 
           </ul>
