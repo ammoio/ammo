@@ -34,6 +34,10 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
+
+      ////////////////////thumbs
+      song.votes = 0;
+
       var d = $q.defer();
       //if the queue is empty, set currentSongIndex to 0
       if(this.queue.songs.length === 0){
@@ -300,6 +304,20 @@ angular.module('ammoApp')
           that.setArtistImage(artist);
         });
       }
+    };
+
+
+    this.rearrangeQueue = function() {
+      var newSongs;
+      if (this.queue.currentSong === null) {
+        newSongs = this.queue.songs.splice(0, this.queue.songs.length);
+      } else {
+        newSongs = this.queue.songs.splice(this.queue.currentSong + 1, this.queue.songs.length - this.queue.currentSong);
+      }
+      newSongs.sort(function(a,b) {
+        return b.votes - a.votes;
+      });
+      this.queue.songs = this.queue.songs.concat(newSongs);
     };
 
     /*
