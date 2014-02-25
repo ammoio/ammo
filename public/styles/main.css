@@ -52,6 +52,9 @@ i {
   line-height: 45px;
   padding-left: 20px;
   border-bottom: 1px solid #ddd;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .song-container:hover{
@@ -61,6 +64,9 @@ i {
 
 .addToQueue, .removeFromQueue {
   float: right;
+  top: 0;
+  right: 0;
+  position: absolute;
   margin-top: 5px;
   margin-right: 5px;
   line-height: 20px;
