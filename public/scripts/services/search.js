@@ -18,6 +18,7 @@ angular.module('ammoApp')
     var that = this; //reference to service object
 
     this.youtube = function(userInput, limit){
+      console.log('youtube');
       this.searchResults = [];
       var youtubeResults = [];
       var d = $q.defer();

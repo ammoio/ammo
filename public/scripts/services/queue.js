@@ -44,10 +44,12 @@ angular.module('ammoApp')
         this.setCurrentSongIndex(0);
       }
       this.queue.songs.push(song);
+      debugger;
       if (this.live){
         var url = "/queues/" + this.queue.shareId + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
+          debugger;
           console.log("song added to q on db");
           d.resolve(data);
         })
@@ -319,15 +321,19 @@ angular.module('ammoApp')
 
     this.rearrangeQueue = function() {
       var newSongs;
+      var startingIndex;
+      var oldSongs;
       if (this.queue.currentSong === null) {
-        newSongs = this.queue.songs.splice(0, this.queue.songs.length);
+        oldSongs = [];
+        newSongs = this.queue.songs.slice(0); //splice(0, this.queue.songs.length);
       } else {
-        newSongs = this.queue.songs.splice(this.queue.currentSong + 1, this.queue.songs.length - this.queue.currentSong);
+        oldSongs = this.queue.songs.slice(0, this.queue.currentSong + 1);
+        newSongs = this.queue.songs.slice(this.queue.currentSong + 1); //splice(this.queue.currentSong + 1, this.queue.songs.length - this.queue.currentSong);
       }
       newSongs.sort(function(a,b) {
         return b.votes - a.votes;
       });
-      this.queue.songs = this.queue.songs.concat(newSongs);
+      this.queue.songs = oldSongs.concat(newSongs);
     };
 
     /*

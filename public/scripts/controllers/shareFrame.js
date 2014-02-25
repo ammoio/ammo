@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
+  .controller('FrameController', function($q, $scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
 
     $scope.UserService = UserService;
     $scope.location = $location;
@@ -7,6 +7,10 @@ angular.module('ammoApp')
     $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
+
+    //always live
+    QueueService.live = true;
+    debugger;
 
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -48,7 +52,6 @@ angular.module('ammoApp')
     $scope.search = function(userInput) {
       //Call SearchService for each of the services
       $scope.userInput = ""; // clearing the input box
-
       if(isUrl(userInput)) {
         if(userInput.indexOf("youtu") !== -1) {
           ParseService.youtube(userInput);
@@ -66,10 +69,22 @@ angular.module('ammoApp')
           ParseService.rdio(userInput);
         }
       } else {
-        SearchService.rdio(userInput);
-        SearchService.youtube(userInput);
-        SearchService.soundcloud(userInput);
-        // SearchService.deezer(userInput);
+
+        var youtube = [];
+        var rdio = [];
+        var soundcloud = [];
+
+        $q.all([
+          SearchService.rdio(userInput),
+          SearchService.youtube(userInput),
+          SearchService.soundcloud(userInput)
+        ])
+        .then(function(results) {
+          results.forEach(function(result) {
+            SearchService.searchResults = SearchService.searchResults.concat(result);
+          });
+        });
+        // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
       }
       $location.path('/search');
     };
