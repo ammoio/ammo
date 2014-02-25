@@ -151,4 +151,20 @@ angular.module('ammoApp')
           console.log("Error: ", err);
         });
     };
+
+    $scope.updateQueue = function() {
+      if(QueueService.live) {
+        var currentSong = $scope.currentSong;
+
+        for(var i = 0; i < QueueService.queue.songs.length; i++) {
+          if(QueueService.queue.songs[i] === currentSong) {
+            QueueService.queue.currentSong = i;
+            QueueService.setNextSongs(i);
+            break;
+          }
+        }
+      }
+      $scope.$apply();
+      $http.put('/queues/' + QueueService.queue.shareId, { songs: QueueService.queue.songs });
+    };
   });
