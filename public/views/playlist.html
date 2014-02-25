@@ -1,24 +1,36 @@
-<!-- Songs Container -->
-<div class="img-container">
-  <img ng-src="{{ QueueService.currentImage }}"></img>
-</div>
-<div id="main-container">
-  <div ui-sortable="{ stop: updatePlaylist }" ng-model="playlist.songs">
-    <div class ="song-container" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
-      {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+<!--        <section class="page-content"> -->
+        <div class="container row">
+          <div class="column-top on-2">
+            <h3 class="playlist-name">{{playlist.name}}</h3>
+            <span class="author">By <a href="#">{{playlist.username}}</a></span>
+            <span class="songs-number"><b>{{playlist.songs.length}}</b> Songs</span>
+          </div>
+          <div class="column-top on-2">
+            <input class="search" placeholder="Search playlist songs..." type="text">
+            <a class="btn share" ng-click="share()" href="#">Share</a>
+          </div>
+        </div>
+        <div class="container-row">
+          <ul class="songs">
 
-<!--       <a class="dropdown-toggle"><button class="addToQueue btn btn-default">...</button></a>
+            <li class="song" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
+              <span class="icon spotify column"></span>
+              <div class="song-info column-top">
+                <h3 class="song-name column">{{ song.title }}</h3>
+                <span>{{song.artist ? "-"  : "" }}</span>
+                <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+                <span class="time column">{{song.duration}}</span>
+              </div>
+              <a class"column" href="#" ng-click="removeSong($event, $index)">Add To..</a>
+            </li>
 
-      <div class="dropdown dropdown-menu-right">
-        <ul class="dropdown-menu">
-          <li><a ng-click="addTo('queue', song, $event);">Queue</a></li>
-          <li ng-repeat="choice in UserService.user.playlists">
-            <a ng-click="addTo(choice, song, $event);">{{ choice.name }}</a>
-          </li>
-          <li><a ng-click="remove(song, $index, $event)">Remove Song</a></li>
-        </ul>
-      </div> -->
+          </ul>
+        </div>
+<!--       </section> -->
 
+
+
+<!-- "Add to queue" dropdown
     <div class="btn-group addToQueue">
       <button ng-click="addTo('queue', song, $event);" type="button" class="btn btn-default">Add To Queue</button>
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -36,9 +48,4 @@
 
       </ul>
     </div>
-
-
-    </div> 
-  </div>
-  <button id="share" class="share btn btn-default" ng-click="share()">Share Playlist</button>
-</div>
+-->
