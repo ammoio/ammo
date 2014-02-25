@@ -54,7 +54,6 @@ angular.module('ammoApp')
             var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
             song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
-            // console.log('in search youtube service', song);
             youtubeResults.push(song);
             resultsSoFar++;
             if(resultsSoFar === total) {
