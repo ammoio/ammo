@@ -17,7 +17,7 @@ angular.module('ammoApp')
     $scope.QueueService = QueueService;
     $scope.playing = false;
     $scope.shuffled = QueueService.isShuffled;
-    $scope.looping = false;
+    $scope.looping = QueueService.isLooping;
     $scope.currentSong = null;
     $scope.buffering = false;
     $scope.timer = 0;
@@ -315,6 +315,11 @@ angular.module('ammoApp')
         }
         
       }     
+    };
+
+    $scope.toggleLoop = function() {
+      QueueService.isLooping = QueueService.isLooping ? false : true;
+      $scope.looping = QueueService.isLooping;
     };
 
 });
