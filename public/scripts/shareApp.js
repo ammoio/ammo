@@ -8,13 +8,12 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
         controller: 'ShareController'
       })
       .when('/search', {
-        templateUrl: '/views/search.html',
+        templateUrl: '/views/shareSearch.html',
         controller: 'SearchController'
       })
       .when('/', {
         templateUrl: '/index.html',
         controller: function($window){
-          console.log("here");
           $window.location.href = 'http://localhost:3000/listen';
         }
       })
