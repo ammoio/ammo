@@ -25,29 +25,29 @@ angular.module('ammoApp')
 
     //TODO: #119
     //The below is a Hacky fix. It waits until the Queue controller has loaded the
-    //q via Qservice.getQueue() before setting $scope.songs. It can't be called from this controller as it 
+    //q via Qservice.getQueue() before setting $scope.songs. It can't be called from this controller as it
     //does not have access to the necessary routeParams on instantiation. Even
-    //if we called Qservice.getQueue() from here, it would need to be set on a 
-    //timeout. 
+    //if we called Qservice.getQueue() from here, it would need to be set on a
+    //timeout.
 
     // setTimeout(function(){
     //   $scope.songs = QueueService.queue.songs;
     // }, 200);
-    
 
 
-    /* 
+
+    /*
       ========== $scope.play ==========
       This functino is in charge of playing songs from all the services.
 
-      Params: 
+      Params:
         songsOrIndex
           - This variable depends of who cals the $scope.play() function, if
             the queue controller calls it then it's the index of the queue array
-            in the QueueService that contains all the queue songs. $scope.play() 
-            will play the song in that specific index of the queue array. 
-            
-            If the function is called from the search controller then it's a song 
+            in the QueueService that contains all the queue songs. $scope.play()
+            will play the song in that specific index of the queue array.
+
+            If the function is called from the search controller then it's a song
             object and this function will play it.
 
         queueOrSearch
@@ -70,7 +70,7 @@ angular.module('ammoApp')
           $scope.playing = false;
           return;
         }
-      } 
+      }
       else if(queueOrSearch === 's') {
         song = songOrIndex;
       }
@@ -84,7 +84,7 @@ angular.module('ammoApp')
       if(song.service === "youtube") {
         youtube.loadVideoById(song.serviceId, 0, "large");
         youtube.playVideo();
-      } 
+      }
       else if (song.service === "soundcloud") {
         scPlay(song.serviceId);
       }

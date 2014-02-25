@@ -122,7 +122,9 @@ module.exports = {
       } else {
         if(!data){
           d.reject("shareId not found");
+          return;
         }
+        delete data._id;
         d.resolve(data);
       }
     });
