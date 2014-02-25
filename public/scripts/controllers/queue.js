@@ -6,6 +6,7 @@ angular.module('ammoApp')
 
     //When the share ids match, then update view
     $scope.socket.on('updateView', function (data) {
+      console.log('updated', data);
       if (data.shareId === QueueService.queue.shareId) {
         QueueService.getQueue(QueueService.queue.shareId);
       }
@@ -150,5 +151,21 @@ angular.module('ammoApp')
         .catch(function(err) {
           console.log("Error: ", err);
         });
+    };
+
+    $scope.updateQueue = function() {
+      if(QueueService.live) {
+        var currentSong = $scope.currentSong;
+
+        for(var i = 0; i < QueueService.queue.songs.length; i++) {
+          if(QueueService.queue.songs[i] === currentSong) {
+            QueueService.queue.currentSong = i;
+            QueueService.setNextSongs(i);
+            break;
+          }
+        }
+      }
+      $scope.$apply();
+      $http.put('/queues/' + QueueService.queue.shareId, { songs: QueueService.queue.songs });
     };
   });

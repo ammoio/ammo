@@ -42,7 +42,8 @@ Example:
 method: PUT
 url: /queues/:id
 Example:
-  Request Data: {
+  Request Data
+  {
     anyKey: value
   }
 

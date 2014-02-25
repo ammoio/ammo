@@ -35,7 +35,6 @@ angular.module('ammoApp')
       
     */
     $scope.clone = function() {
-      console.log('inside clone');
         var shareLink = 'http://localhost/' + QueueService.queue.shareId;
         $('.twitter-share-button').attr({
           'data-url': shareLink,
