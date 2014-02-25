@@ -59,6 +59,7 @@ angular.module('ammoApp')
     $scope.search = function(userInput) {
       //Call SearchService for each of the services
       $scope.userInput = ""; // clearing the input box
+      $scope.searchResults = [];
 
       if(isUrl(userInput)) {
         if(userInput.indexOf("youtu") !== -1) {

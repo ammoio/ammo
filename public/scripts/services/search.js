@@ -18,7 +18,6 @@ angular.module('ammoApp')
     var that = this; //reference to service object
 
     this.youtube = function(userInput, limit){
-
       this.searchResults = [];
 
       limit = limit || 5;
