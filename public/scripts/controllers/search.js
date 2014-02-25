@@ -46,6 +46,7 @@ angular.module('ammoApp')
 
     $scope.addToQueueBack = function($event, song) {
       $event.stopPropagation();
+      QueueService.live = true;
       QueueService.enqueue(song).then(function(song){
         if (QueueService.queue.shareId) {
           $scope.socket.emit('queueChanged', {

@@ -8,7 +8,8 @@ angular.module('ammoApp')
       listenId: null,
       passphrase: null,
       songs: [],
-      currentSong: null // an Index
+      currentSong: null, // an Index
+      isPrivate: false
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
@@ -44,12 +45,10 @@ angular.module('ammoApp')
         this.setCurrentSongIndex(0);
       }
       this.queue.songs.push(song);
-      debugger;
       if (this.live){
         var url = "/queues/" + this.queue.shareId + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
-          debugger;
           console.log("song added to q on db");
           d.resolve(data);
         })

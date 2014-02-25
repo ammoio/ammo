@@ -8,10 +8,6 @@ angular.module('ammoApp')
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
 
-    //always live
-    QueueService.live = true;
-    debugger;
-
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     };
