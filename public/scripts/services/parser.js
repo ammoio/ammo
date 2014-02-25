@@ -51,11 +51,18 @@ angular.module('ammoApp')
       $http({ method: 'GET', url: 'http://ws.spotify.com/lookup/1/.json?uri=' + id})
         .success(function(data, status) {
           SearchService.searchResults = [];
+
           var youtubeKeyword = data.track.artists[0].name + " - " + data.track.name;
-          SearchService.youtube(youtubeKeyword, 1);
+          SearchService.youtube(youtubeKeyword, 1)
+          .then(function(song) {
+            SearchService.searchResults.push(song[0]);
+          });
 
           var rdioKeyword = data.track.artists[0].name + " " + data.track.name + " " + data.track.album.name;
-          SearchService.rdio(rdioKeyword, 1);
+          SearchService.rdio(rdioKeyword, 1)
+          .then(function(song) {
+            SearchService.searchResults.push(song[0]);
+          });
         });
     };
 
@@ -87,6 +94,9 @@ angular.module('ammoApp')
       userInput.splice(0,3);
       userInput = userInput.join(" ");
       SearchService.searchResults = [];
-      SearchService.rdio(userInput, 1);
+      SearchService.rdio(userInput, 1)
+      .then(function(song) {
+        SearchService.searchResults.push(song[0]);
+      });
     };
   });
