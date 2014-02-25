@@ -1,0 +1,269 @@
+@import "http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700)";
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background: url(../img/bg.jpg) center center no-repeat;
+  background-size: 100% 100%;
+  background-size: cover;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.column {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.column-top {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.page-content {
+  width: 100%;
+}
+
+.on-4 {
+  width: 20%;
+}
+
+.on-2 {
+  width: 49%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border: 3px solid #fff;
+  padding: 10px 20px;
+  border-radius: 3px;
+  opacity: 0.8;
+}
+.btn:hover {
+  opacity: 1;
+}
+
+.head {
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 0px;
+}
+.head input {
+  background: #232323;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  padding: 20px 25px;
+  border-radius: 4px;
+  color: #fff;
+}
+.head input:focus {
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.sidebar {
+  width: 20%%;
+  float: left;
+  height: 500px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sidebar a {
+  display: block;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+}
+.sidebar h3 {
+  color: #fff;
+  margin: 10px 0px;
+}
+.sidebar .playlist-list {
+  padding: 30px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.sidebar .queue-songs {
+  padding: 30px 20px;
+}
+
+.page-content {
+  width: 80%;
+  float: right;
+}
+.page-content .playlist-name {
+  color: #fff;
+  font-weight: 300;
+  font-size: 3em;
+}
+.page-content .author, .page-content .songs-number {
+  color: #fff;
+  margin-right: 10px;
+}
+.page-content .author a, .page-content .songs-number a {
+  color: #fff;
+  font-weight: 600;
+}
+.page-content .search {
+  background: #232323;
+  border: 0;
+  outline: 0;
+  padding: 20px 25px;
+  border-radius: 4px;
+  color: #fff;
+  width: 70%;
+  margin-top: 20px;
+}
+.page-content .share {
+  float: right;
+  margin-top: 20px;
+}
+.page-content .songs {
+  list-style: none;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 0px;
+}
+.page-content .song {
+  background: #181515;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 3px 0px;
+}
+.page-content .song:hover {
+  opacity: 0.8;
+}
+.page-content .song .icon {
+  width: 50px;
+  height: 50px;
+}
+.page-content .song .song-info {
+  margin-top: 14px;
+  position: relative;
+  width: 70%;
+}
+.page-content .song .spotify {
+  background: url(../img/spotify-icon.png) center center no-repeat;
+}
+.page-content .song .youtube {
+  background: url(../img/spotify-icon.png) center center no-repeat;
+}
+.page-content .song .soundcloud {
+  background: url(../img/spotify-icon.png) center center no-repeat;
+}
+.page-content .song .time {
+  float: right;
+}
+.page-content .song h3 {
+  font-weight: 300;
+}
+.page-content .song a {
+  background: #262626;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 19px 20px;
+  color: #fff;
+  text-decoration: none;
+  bottom: 0;
+}
+
+.player {
+  position: fixed;
+  width: 100%;
+  height: 200px;
+  bottom: 0;
+  background: #171717;
+  color: #fff;
+}
+.player .artwork {
+  width: 100%;
+  height: 300px;
+  background: #fff;
+}
+.player .song-player {
+  width: 79%;
+}
+.player .song-info {
+  text-align: center;
+  margin: 50px auto 0px auto;
+  display: block;
+}
+.player .song-info h3 {
+  font-weight: 300;
+}
+.player .song-info .song-name {
+  font-weight: 600;
+}
+.player .progressbar {
+  background: #2b2b2b;
+  width: 80%;
+  margin: 10px auto;
+  height: 5px;
+  overflow: hidden;
+}
+.player .progress-line {
+  background: #53b225;
+  width: 90%;
+  height: 5px;
+  display: block;
+}
+.player .time {
+  width: 80%;
+  margin: 0 auto;
+}
+.player .time span:last-child {
+  float: right;
+}
+.player .controls {
+  width: 118px;
+  margin: 0 auto;
+}
+.player .controls .back, .player .controls .next, .player .controls .play {
+  display: inline-block;
+  vertical-align: middle;
+}
+.player .controls .back:hover, .player .controls .next:hover, .player .controls .play:hover {
+  opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+  .column {
+    display: block;
+    text-align: center;
+  }
+
+  .on-2, .on-4 {
+    width: 100%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .page-content {
+    width: 100%;
+    float: right;
+  }
+
+  .song .column {
+    display: inline-block;
+  }
+}
