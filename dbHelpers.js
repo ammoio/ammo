@@ -124,7 +124,7 @@ module.exports = {
           d.reject("shareId not found");
           return;
         }
-        delete data._id;
+        data._id = undefined;
         d.resolve(data);
       }
     });
