@@ -5,5 +5,6 @@
 
   <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
     {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+    <button class="thumbs-up" ng-click="voteUp($index)">Vote Up</button>
   </div>
 </div>
