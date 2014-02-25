@@ -67,7 +67,7 @@ angular.module('ammoApp')
     */
     $scope.addTo = function(destination, song, event) {
       event.stopPropagation();
-
+      $('.open').dropdown('toggle');
       if(destination === 'queue') {
         $scope.addToQueue(event, song);
       }
@@ -78,6 +78,7 @@ angular.module('ammoApp')
 
     $scope.remove = function(index, event) {
       event.stopPropagation();
+      $('.open').dropdown('toggle');
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index)
       .then(function() {
         $scope.refreshPlaylist();
