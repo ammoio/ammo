@@ -6,7 +6,7 @@
   <div ui-sortable="{ stop: updatePlaylist }" ng-model="playlist.songs">
     <div class ="song-container" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
       {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
-      <a class="dropdown-toggle"><button class="addToQueue btn btn-default">...</button></a>
+<!--       <a class="dropdown-toggle"><button class="addToQueue btn btn-default">...</button></a>
 
       <div class="dropdown dropdown-menu-right">
         <ul class="dropdown-menu">
@@ -15,6 +15,21 @@
             <a ng-click="addTo(choice, song, $event);">{{ choice.name }}</a>
           </li>
           <li><a ng-click="remove(song, $index, $event)">Remove Song</a></li>
+        </ul>
+      </div> -->
+
+      <div class="btn-group addToQueue">
+        <button type="button" class="btn btn-default">Action</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span class="caret"></span><span class="stuff">.</span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
         </ul>
       </div>
 
