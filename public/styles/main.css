@@ -35,8 +35,8 @@ i {
 #main-container, #search-container {
 /*  margin-top: 15px;*/
   margin-top: -1px;
-/*  overflow-y: scroll;
-*/}
+  /* overflow-y: scroll; */
+}
 
 #main-container :first-child, #search-container :first-child {
 /*  border-top: 1px solid #ddd;
@@ -103,10 +103,11 @@ i {
 }
 
 #content {
-/*  overflow-y: scroll;
-*/  height: 100%;
+  overflow-y: scroll;
+  height: 100%;
   padding-left: 0px;
   padding-right: 0px;
+  padding-bottom: 120px;
 }
 
 .queueButton {
