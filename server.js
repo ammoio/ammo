@@ -34,8 +34,6 @@ if ('development' == app.get('env')) {
 //require('.////')(app)
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
-  // console.log(req.body);
-  // console.log(req.cookies);
   loginHelpers.validateUser(req.body.code, req.cookies.sessionId)
   .then(function(user){
     console.log("Validated Session", user);
@@ -109,7 +107,6 @@ app.post('/queues/:id/add', function(req, res){
     return dbHelpers.addSongToQueue(req.params.id, req.body);
   })
   .then(function(song){
-    console.log("ADDED SONG");
     res.send(song);
   })
   .fail(function (err) {
@@ -289,10 +286,8 @@ io.sockets.on('connection', function (socket) {
     socket.broadcast.emit('updateView', data);
    });
   socket.on('voteUp', function(data) {
-    console.log('heard voteUp');
     dbHelpers.updateQueue(data.shareId, data.songs)
     .then(function(data){
-      console.log('updateView broadcasted', data);
       io.sockets.emit('updateView', data);
     });
   });

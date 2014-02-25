@@ -188,7 +188,6 @@ angular.module('ammoApp')
         var url = "/queues/" + this.queue.shareId;
         $http.put(url, propertiesToUpdate)
         .success(function(data, status, headers, config){
-          console.log("Updated Q properties", propertiesToUpdate);
           this.queue = data;
           d.resolve(this.queue);
         })

@@ -113,7 +113,6 @@ angular.module('ammoApp')
             console.log(err);
             return;
           }
-          console.log(res);
 
           $http({ method: 'POST', url: '/login', data: { code: res.code }})
             .success(function(userObj) {

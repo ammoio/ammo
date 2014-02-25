@@ -248,7 +248,6 @@ module.exports = {
   createPlaylist: function(username, playlist){
     var d = Q.defer();
     playlist.id = crypto.randomBytes(4).toString('base64').slice(0, 4);
-    console.log("Loooking up: ", username);
     Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
@@ -261,8 +260,6 @@ module.exports = {
           module.exports.createQueue(playlist).then(function(queue){
             user.playlists.push({shareId: queue.shareId, name: queue.name});
             user.markModified("playlists");
-            // console.log("Playlists for ", user.name);
-            // console.log(user.playlists);
             user.save(function(err, user){
               if(err){
                 d.reject(err);
