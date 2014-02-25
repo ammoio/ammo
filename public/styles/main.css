@@ -134,6 +134,7 @@ i {
 }
 
 .playlist-container, .songs-container {
+  padding-top: 50px;
   height: 50%;
 }
 
