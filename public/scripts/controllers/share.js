@@ -5,7 +5,7 @@ angular.module('ammoApp')
   variables:
 
   methods:
-    
+
   */
   .controller('ShareController', function($scope, $location, $routeParams, SearchService, QueueService) {
     //When the share ids match, then update view

@@ -1,0 +1,98 @@
+<html>
+<head>
+  <title>ammo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/bower_components/bootstrap-css/css/bootstrap.css">
+  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body ng-app='ammoApp' ng-controller="FrameController">
+
+  <!-- Nav Bar -->
+<div class="navbar navbar-inverse navbar-static-top my-navbar">
+
+<button class="navbar-toggle visible-xs" data-target=".navbar-collapse" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"><!--empty--></span> <span class="icon-bar"><!--empty--></span> <span class="icon-bar"><!--empty--></span></button>
+
+<div class="container visible-xs">
+    <a class="navbar-brand" href="/">Ammo</a>
+</div>
+
+<div class="navbar-collapse collapse" id="mynavcollapse">
+    <div class="container">
+        <div class="row">
+            <form>
+                <div class="col-sm-2 hidden-xs">
+                    <a class="navbar-brand" href="/">Ammo</a>
+                </div>
+
+                <div class="col-sm-offset-6 col-sm-4">
+                  <form id="search" class="navbar-form form-inline" role="search">
+                    <div class="input-group">
+                        <input class='form-control' ng-model="userInput" placeholder="Search..." type='text'> <span class="input-group-btn">
+                        <button ng-click="search(userInput)" class="btn btn-default"><span class="input-group-btn">Search</span></button></span>
+                    </div>
+                  </form>
+                </div><!-- /col- -->
+            </form>
+        </div>
+    </div>
+ </div>
+</div>
+
+
+<!-- 
+  <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2 hidden-xs">
+            <a class="navbar-brand" href="/">Ammo</a>
+        </div>
+         <form id="search" class="navbar-form form-inline" role="search">
+              <div class="col-sm-6">
+            <div class="form-group">
+              <input ng-model="userInput" type="text" class="form-control" placeholder="Search">
+            </div>
+            <button ng-click="search(userInput)" class="btn btn-default">Search</button>
+
+          </div>
+
+
+          </form>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container">
+    <div class="row">
+        <div ng-view></div> <!-- Views are loaded here -->
+    </div>
+  </div>
+
+
+  <script src="https://www.rdio.com/api/api.js?helper=%2Fviews%2Fhelper.html&client_id=hrMFxa4bS9bb9Z09xcHJXw"></script>
+
+  <script src="/bower_components/socket.io-client/dist/socket.io.js"></script>
+  <script src="/bower_components/jquery/jquery.min.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
+  <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
+
+  <script src="/scripts/shareApp.js"></script>
+  <script src="/scripts/oauth.min.js"></script>
+  <script src="/scripts/services/parser.js"></script>
+  <script src="/scripts/services/search.js"></script>
+  <script src="/scripts/services/queue.js"></script>
+  <script src="/scripts/services/user.js"></script>
+  <script src="/scripts/services/scraper.js"></script>
+  <script src="/scripts/controllers/shareFrame.js"></script>
+  <script src="/scripts/controllers/queue.js"></script>
+  <script src="/scripts/controllers/search.js"></script>
+  <script src="/scripts/controllers/share.js"></script>
+  <script src="/scripts/controllers/playlist.js"></script>
+</body>
+</html>

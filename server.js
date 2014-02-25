@@ -264,6 +264,10 @@ app.get('/scrape/:artist', function(req, res){
 
 
 //Catch-all Route
+app.get('/q/:id', function (req, res) {
+  res.sendfile(__dirname + '/public/shareIndex.html');
+});
+
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });
