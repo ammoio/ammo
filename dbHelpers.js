@@ -201,7 +201,7 @@ module.exports = {
             if(err){
               d.reject(err);
             } else {
-              d.resolve(removed[0]);
+              d.resolve(removed);
             }
           });
         } else {
