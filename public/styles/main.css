@@ -135,7 +135,14 @@ i {
   height: 50%;
 }
 
-.dropdown-menu {
+.dropdown {
+  /*float: right;*/
+  top: 0;
+  left: 0;
+  position: absolute;
+  margin-top: 5px;
+  margin-right: 5px;
+  line-height: 20px;
 }
 
 .queueNameDiv {
