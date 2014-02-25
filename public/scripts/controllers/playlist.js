@@ -3,11 +3,14 @@ angular.module('ammoApp')
   .controller('PlaylistController', function($scope, $http, $routeParams, QueueService) {
     $scope.playlist = null;
 
-    $http.get("/queues/" + $routeParams.id)
-      .success(function(playlist){ 
-        $scope.playlist = playlist;
-      }
-    );
+    $scope.refreshPlaylist = function() {
+      $http.get("/queues/" + $routeParams.id)
+        .success(function(playlist){ 
+          $scope.playlist = playlist;
+        }
+      );
+    };
+    $scope.refreshPlaylist();
 
 
     /* ========== $scope.passToPlay ==========
@@ -75,7 +78,10 @@ angular.module('ammoApp')
 
     $scope.remove = function(index, event) {
       event.stopPropagation();
-      $http.delete('/queues/' + $scope.playlist.shareId + '/' + index);
+      $http.delete('/queues/' + $scope.playlist.shareId + '/' + index)
+      .then(function() {
+        $scope.refreshPlaylist();
+      });
     };
 
     $scope.updatePlaylist = function() {
@@ -90,7 +96,7 @@ angular.module('ammoApp')
           }
         }
       }
-      $scope.$apply();
+      // $scope.$apply();
       $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
     };
 });
