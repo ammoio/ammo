@@ -12,10 +12,13 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
         controller: 'SearchController'
       })
       .when('/', {
-        controller: function(){
-          window.location.replace('http://localhost:3000');
+        templateUrl: '/index.html',
+        controller: function($window){
+          console.log("here");
+          $window.location.href = 'http://localhost:3000/listen';
         }
-      }).otherwise({
+      })
+      .otherwise({
           redirectTo: '/'
       });
 
