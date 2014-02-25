@@ -152,9 +152,12 @@ angular.module('ammoApp')
       var next;
 
       if ($scope.shuffled){
-        if (QueueService.shuffledIndex !== QueueService.shuffleStore.length -1){//if not on last shuffled index
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){//if not on last shuffled index
           next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
           QueueService.shuffledIndex++;
+        } else if ($scope.looping) {
+          next = QueueService.shuffleStore[0];
+          QueueService.shuffledIndex = 0;
         }
       } else {
         next = QueueService.queue.currentSong + 1;
@@ -174,9 +177,12 @@ angular.module('ammoApp')
       var prev;
 
       if ($scope.shuffled){
-        if (QueueService.shuffledIndex !== 0){
+        if (QueueService.shuffledIndex > 0){
           prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
           QueueService.shuffledIndex--;
+        } else if ($scope.looping) {
+          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
+          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
         }
       } else {
         prev = QueueService.queue.currentSong - 1;
@@ -251,12 +257,8 @@ angular.module('ammoApp')
 
     $scope.playFromSidebar = function(index){ 
       if (QueueService.isShuffled){
-        console.log(QueueService.shuffleStore);
-        console.log(QueueService.shuffledIndex);
         QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1
         index = QueueService.shuffleStore[QueueService.shuffledIndex];
-        console.log(QueueService.shuffleStore);
-        console.log(QueueService.shuffledIndex);
       }else {
         index = QueueService.queue.currentSong + index + 1;
       }
