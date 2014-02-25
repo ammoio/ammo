@@ -1,5 +1,5 @@
 angular.module('ammoApp')
-  .service('QueueService', function($http, $q, $location, $rootScope, ScraperService){
+  .service('QueueService', function($window, $http, $q, $location, $rootScope, ScraperService){
     //TODO - Fix isse #33
 
     this.queue = {
@@ -231,8 +231,15 @@ angular.module('ammoApp')
         console.log("Created Live Queue: ", data);
         that.queue = data;
         that.live = true;
-        $location.path("/listen/" + data.listenId);
-        d.resolve(that.queue);
+
+        //if this is coming from a share view
+        if ($location.path().indexOf('/q/' !== -1) ) {
+          var url = 'http://' + $location.host() +':3000/listen/' + data.listenId; 
+          $window.location.href = url;
+        } else {
+          $location.path("/listen/" + data.listenId);
+          d.resolve(that.queue);
+        }
       })
       .error(function(err){
         console.log('post error', err);

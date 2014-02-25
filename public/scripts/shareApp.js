@@ -14,7 +14,7 @@ angular.module('ammoApp', ['ngRoute', 'ui.bootstrap', 'ngCookies'])
       .when('/', {
         templateUrl: '/index.html',
         controller: function($window){
-          $window.location.href = 'http://localhost:3000/listen';
+          $window.location.href = 'http://ammo.io/listen';
         }
       })
       .otherwise({

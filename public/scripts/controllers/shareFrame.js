@@ -131,7 +131,7 @@ angular.module('ammoApp')
       Return: No return
     */
     $scope.shareRequestModal = function() {
-      QueueService.saveQueue($scope.queueName, $scope.passphrase)
+      QueueService.saveQueue($scope.queueName)
       .then(function(queue) {
         $('#shareResponseModal').modal(); //show response modal
       });

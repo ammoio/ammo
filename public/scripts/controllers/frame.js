@@ -191,6 +191,10 @@ angular.module('ammoApp')
       Redirects the user to /listen to load the queue
     */
     $scope.showQueue = function() {
-      $location.path('/listen');
+      if (QueueService.live) {
+        $location.path('/listen/' + QueueService.queue.listenId);
+      } else {
+        $location.path('/listen/');
+      }
     };
   });
