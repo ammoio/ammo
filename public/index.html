@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="es">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -36,23 +36,21 @@
 
     <div ng-controller="PlayerController">
       <div class="row page">
-        <!-- SIDEBAR <a> tags might have to be <divs> -->
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
             <h3>Your Playlists</h3>
-            <div ng-click="showQueue()">Queue</div>
+            <a ng-click="showQueue()">Queue</a>
             <a ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
           </div>
           <div class="queue-songs">
             <h3>On Deck</h3>
-            <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)" href="#">
+            <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
                 {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
-              </a>
+            </a>
           </div>
         </aside>
-
 
         <section ng-view class="page-content bottom-pad">
         </section>
@@ -68,8 +66,8 @@
         </div>
         <div class="column-top song-player">
           <div class="song-info">
-            <h3 class="song-name">Far Nearer</h3>
-            <h3>Gold Panda</h3>
+            <h3 class="song-name">{{ currentSong.artist ? currentSong.artist : "" }}</h3>
+            <h3>{{ currentSong.title }}</h3>
           </div>
           <div class="progressbar">
             <div class="progress-line"></div>
@@ -79,9 +77,10 @@
             <span class="total">6:51</span>
           </div>
           <div class="controls">
-            <a href="#" class="back"><img src="img/prev.png" alt=""></a>
-            <a href="#" class="play"><img src="img/pause.png" alt=""></a>
-            <a href="#" class="next"><img src="img/next.png" alt=""></a>
+            <a ngclick="playPrev()" class="back"><img src="img/prev.png" alt=""></a>
+            <a ngclick="togglePause()" class="play"><img src="img/pause.png" alt=""></a>
+            <a ngclick="playNext()" class="next"><img src="img/next.png" alt=""></a>
+            <!-- SHUFFLE AND LOOP AND PLAY-->
           </div>
         </div>
       </footer>
