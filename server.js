@@ -288,4 +288,12 @@ io.sockets.on('connection', function (socket) {
     //broadcast emit message to everyone but the original sender
     socket.broadcast.emit('updateView', data);
    });
+  socket.on('voteUp', function(data) {
+    console.log('heard voteUp');
+    dbHelpers.updateQueue(data.shareId, data.songs)
+    .then(function(data){
+      console.log('updateView broadcasted', data);
+      io.sockets.emit('updateView', data);
+    });
+  });
 });

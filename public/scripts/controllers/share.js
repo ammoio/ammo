@@ -14,11 +14,23 @@ angular.module('ammoApp')
         $scope.refresh();
       }
     });
+
     $scope.refresh = function() {
       QueueService.getQueue($routeParams.id)
         .then(function(queue){ //Sets the scopes songs to the current q from qservice
           $scope.songs = queue.songs;
         });
+    };
+
+
+    $scope.voteUp = function(index) {
+      QueueService.queue.songs[index].votes++;
+      QueueService.rearrangeQueue();
+      $scope.socket.emit('voteUp', {
+        songs: {songs: QueueService.queue.songs},
+        shareId: QueueService.queue.shareId
+      });
+
     };
     
 
