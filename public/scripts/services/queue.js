@@ -1,15 +1,22 @@
 angular.module('ammoApp')
-  .service('QueueService', function($http, $q, $location){
+  .service('QueueService', function($http, $q, $location, $rootScope, ScraperService){
     //TODO - Fix isse #33
 
     this.queue = {
       name: "New Queue",
       shareId: null,
+      listenId: null,
       passphrase: null,
       songs: [],
-      currentSong: null
+      currentSong: null // an Index
     };
     this.live = false; //flag for whether or not the queue is on the server
+    this.currentImage = "";
+    this.nextSongs = [];
+    this.isShuffled = false;
+    this.shuffleStore = [];
+    this.shuffledIndex = 0;
+    this.isLooping = false;
 
     /*
       ========== enqueue ==========
@@ -27,6 +34,10 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
+
+      ////////////////////thumbs
+      song.votes = 0;
+
       var d = $q.defer();
       //if the queue is empty, set currentSongIndex to 0
       if(this.queue.songs.length === 0){
@@ -101,7 +112,6 @@ angular.module('ammoApp')
 
       var that = this;
       if(this.live){
-        console.log("Requesting ", shareId);
         $http.get('/queues/' + shareId)
         .success(function(queue){
           console.log("Retreived Queue from server: ", queue);
@@ -133,6 +143,7 @@ angular.module('ammoApp')
 
     this.setQueue = function(newQueue){
       this.queue = newQueue;
+      this.setNextSongs(this.queue.currentSong);
       return this.queue;
     };
 
@@ -173,7 +184,7 @@ angular.module('ammoApp')
 
       if (this.live){
         var url = "/queues/" + this.queue.shareId;
-        $http.put(url, {data: propertiesToUpdate})
+        $http.put(url, propertiesToUpdate)
         .success(function(data, status, headers, config){
           console.log("Updated Q properties", propertiesToUpdate);
           this.queue = data;
@@ -218,7 +229,7 @@ angular.module('ammoApp')
         console.log("Created Live Queue: ", data);
         that.queue = data;
         that.live = true;
-        $location.path("/listen/" + data.shareId);
+        $location.path("/listen/" + data.listenId);
         d.resolve(that.queue);
       })
       .error(function(err){
@@ -241,8 +252,17 @@ angular.module('ammoApp')
     this.setCurrentSongIndex = function(index){
       var d = $q.defer();
 
+      if (this.isLooping){
+        if (index >= this.queue.songs.length){
+          index = 0;
+        }else if (index < 0) {
+          index = this.queue.songs.length - 1;
+        }
+      }
+
       if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
+        this.setNextSongs(index);
         if(this.live){
           this.updateQueue({currentSong: index})
           .then(function(queue){
@@ -259,5 +279,90 @@ angular.module('ammoApp')
       }
 
       return d.promise;
+    };
+
+    /*
+      ========== loadArtistImages ==========
+      -Checks the scraper service to see if the artist passed in has been scraped before. If it 
+      has, it will set the $scope.artistImage to the previously scraped images. If the artists 
+      has not been scraped, it will call the ScraperService.scrape(artist) function, will set
+      the scope.artistImage to the results, or if there are no results, then to the song.image. 
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
+    this.loadArtistImages = function(artist){
+      var that = this;
+
+      if (ScraperService.scraped[artist]){
+          that.setArtistImage(artist);
+      } else {
+        ScraperService.scrape(artist)
+        .then(function(data){
+          that.setArtistImage(artist);
+        });
+      }
+    };
+
+
+    this.rearrangeQueue = function() {
+      var newSongs;
+      if (this.queue.currentSong === null) {
+        newSongs = this.queue.songs.splice(0, this.queue.songs.length);
+      } else {
+        newSongs = this.queue.songs.splice(this.queue.currentSong + 1, this.queue.songs.length - this.queue.currentSong);
+      }
+      newSongs.sort(function(a,b) {
+        return b.votes - a.votes;
+      });
+      this.queue.songs = this.queue.songs.concat(newSongs);
+    };
+
+    /*
+      ========== setArtistImage ==========
+      -sets the $scope.artistImage to a random image from the scraper, or the song.image
+
+      Params:
+        param1: artist(string)
+
+      Return: No return
+    */
+
+    this.setArtistImage = function(artist){
+      var rand = Math.floor(Math.random()*4);
+      var scraped = ScraperService.scraped;
+      var songs = this.queue.songs;
+      var cur = this.queue.currentSong;
+      var currentImg = scraped[artist] ? scraped[artist].images[rand] : songs[cur].image;
+
+      if (currentImg === "" || currentImg === null){
+        this.currentImage = songs[cur].image;
+      }else {
+        this.currentImage = currentImg;
+      }
+    };
+
+
+    /*
+      ========== setNexts ==========
+      - Get the next 5 (or remaining) songs of the queue 
+
+      Params:
+        index: index of the current song playing
+    */
+    this.setNextSongs = function(index) {
+      if (this.isShuffled){
+        var temp = this.shuffleStore.slice(this.shuffledIndex + 1, this.shuffledIndex + 6);
+        this.nextSongs = [];
+        for (var i = 0; i < temp.length; i++){
+          this.nextSongs.push(this.queue.songs[temp[i]]);
+        }
+
+      }else{
+        this.nextSongs = this.queue.songs.slice(index + 1, index + 6);
+      }
     };
   });

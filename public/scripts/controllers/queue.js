@@ -1,17 +1,25 @@
 angular.module('ammoApp')
 
-  .controller('QueueController', function($scope, $routeParams, $route, $location, QueueService, ScraperService) {
-    $scope.artistImage = "";
+  .controller('QueueController', function($scope, $http, $routeParams, $route, $location, QueueService, UserService, ScraperService) {
+    //$scope.artistImage = QueueService.currentImage;
+    $scope.QueueService = QueueService;
 
+    //When the share ids match, then update view
+    $scope.socket.on('updateView', function (data) {
+      console.log('updated', data);
+      if (data.shareId === QueueService.queue.shareId) {
+        QueueService.getQueue(QueueService.queue.shareId);
+      }
+    });
     /*
       This code checks if there was an ID included in the route. and
       handles the cases accordingly.
     */
 
     //If there was a id included as part of the route
-    if( $routeParams.id ){
+    if( $routeParams.id && $routeParams.id.length === 16){
       //Check if the id provided matches whats already loaded in the queue
-      if( $routeParams.id === QueueService.queue.shareId ){
+      if( $routeParams.id === QueueService.queue.listenId ){
         //We do not need to fetch the info from the server, as we already have it.
         $scope.songs = QueueService.queue.songs;
       } else {
@@ -21,6 +29,10 @@ angular.module('ammoApp')
           $scope.songs = queue.songs;
         });
       }
+    //if there was in invalid ID
+    } else if ($routeParams.id) {
+      console.log($routeParams.id);
+      $location.path('/listen/');
     //else, the path did not include an ID
     } else {
       //if the current queue is live
@@ -43,8 +55,16 @@ angular.module('ammoApp')
 
       Return: No return
     */
-    $scope.removeSong = function(index) {
-      QueueService.removeSongAtIndex(index);
+    $scope.removeSong = function($event, index) {
+      console.log('removing song');
+      $event.stopPropagation();
+      QueueService.removeSongAtIndex(index).then(function(song) {
+        if (QueueService.queue.shareId) {
+          $scope.socket.emit('queueChanged', {
+            shareId: QueueService.queue.shareId,
+          });
+        }
+      });
     };
 
 
@@ -72,7 +92,39 @@ angular.module('ammoApp')
       }
     };
 
-    
+    /* 
+      ======== saveToPlaylist ========
+      Save the current queue to a playlist.
+
+    */
+    $scope.saveToPlaylist = function() {
+      if(!UserService.user.loggedIn) {
+        console.log("Can't save playlist if user is not logged.");
+        return;
+      }
+
+      if(!$scope.playlistName) {
+        console.log("Playlist name can not be empty");
+        return;
+      }
+
+      var playlistObj = {
+        name: $scope.playlistName,
+        songs: $scope.songs
+      };
+
+      $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
+      .success(function(data) {
+        console.log("Saved successfully");
+        console.log(data);
+        UserService.user.playlists.push(data);
+      })
+      .error(function() {
+        console.log("Error saving playlist");
+      });
+
+      $scope.playlistName = "";
+    };
     
     /*
       ========== passToPlay ==========
@@ -88,46 +140,32 @@ angular.module('ammoApp')
     */
 
     $scope.passToPlay = function(index){
-      QueueService.setCurrentSongIndex(index); //needs to happen before scraping
-
-      if (QueueService.queue.songs[index].artist){
-        $scope.loadArtistImage(QueueService.queue.songs[index].artist);
-      }else{
-        $scope.artistImage = QueueService.queue.songs[QueueService.queue.currentSong].image;
+      if (QueueService.isShuffled){
+        QueueService.shuffledIndex = QueueService.shuffleStore.indexOf(index); //inefficient?
       }
-      
-      $scope.play(index, 'q');
-    };
 
-    /*
-      ========== loadArtistImage ==========
-      -Checks the scraper service to see if the artist passed in has been scraped before. If it 
-      has, it will set the $scope.artistImage to the previously scraped images. If the artists 
-      has not been scraped, it will call the ScraperService.scrape(artist) function, will set
-      the scope.artistImage to the results, or if there are no results, then to the song.image. 
-
-      Params:
-        param1: artist(string)
-
-      Return: No return
-    */
-
-    $scope.loadArtistImage = function(artist){
-      //add functionality to display youtube image if no other image found
-      if (ScraperService.scraped[artist]){
-        if (ScraperService.scraped[artist].strArtistThumb){
-          $scope.artistImage = ScraperService.scraped[artist].strArtistThumb + "/preview";
-        } else {
-          console.log("Artist exists in DB, but has no image data");
-        }
-        
-      } else {
-        ScraperService.scrape(artist)
-        .then(function(data){
-          $scope.artistImage = data ? ScraperService.scraped[artist].strArtistThumb + "/preview" : QueueService.queue.songs[QueueService.queue.currentSong].image;
+      QueueService.setCurrentSongIndex(index)
+        .then(function(ind) {
+          $scope.play(ind, "q");
+        })
+        .catch(function(err) {
+          console.log("Error: ", err);
         });
-      }
     };
 
-    
+    $scope.updateQueue = function() {
+      if(QueueService.live) {
+        var currentSong = $scope.currentSong;
+
+        for(var i = 0; i < QueueService.queue.songs.length; i++) {
+          if(QueueService.queue.songs[i] === currentSong) {
+            QueueService.queue.currentSong = i;
+            QueueService.setNextSongs(i);
+            break;
+          }
+        }
+      }
+      $scope.$apply();
+      $http.put('/queues/' + QueueService.queue.shareId, { songs: QueueService.queue.songs });
+    };
   });

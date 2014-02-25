@@ -12,19 +12,23 @@ angular.module('ammoApp')
     async GET returns an argument with a set of properties. See var song for reference.
 
   */
-  .service('SearchService', function($http, $rootScope, QueueService) {
+  .service('SearchService', function($http, $q, $rootScope, QueueService) {
     this.searchResults = []; // store search results
 
     var that = this; //reference to service object
 
     this.youtube = function(userInput, limit){
-
       this.searchResults = [];
+      var youtubeResults = [];
+      var d = $q.defer();
 
       limit = limit || 5;
 
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .then(function(results) {
+        var total = results.data.items.length;
+        var resultsSoFar = 0; 
+
         results.data.items.forEach(function(video) {
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
 
@@ -34,7 +38,7 @@ angular.module('ammoApp')
 
           var song = {
             title: track,
-            artist: artist,
+            artist: artist || 'unknown artist',
             service: "youtube",
             serviceId: service_id,
             url: "http://youtu.be/" + service_id,
@@ -50,16 +54,24 @@ angular.module('ammoApp')
             var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
             song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
-
-            that.searchResults.push(song);
-
+            console.log('in search youtube service', song);
+            youtubeResults.push(song);
+            resultsSoFar++;
+            if(resultsSoFar === total) {
+              d.resolve(youtubeResults);
+            }
           });
         });
+        // d.resolve(youtubeResults);
       });
+      return d.promise;
     };
 
     this.rdio = function(userInput, limit) {
       limit = limit || 5;
+
+      var rdioResults = [];
+      var d = $q.defer();
 
       R.request({
         method: "search",
@@ -78,25 +90,29 @@ angular.module('ammoApp')
                 service: 'rdio',
                 serviceId: track.key,
                 title: track.name,
-                artist: track.artist,
+                artist: track.artist || 'unknown artist',
                 image: track.icon,
                 duration: track.duration
               };
               $rootScope.$apply(function() {
-                that.searchResults.push(song);
+                rdioResults.push(song);
               });
             }
           });
+          d.resolve(rdioResults);
         },
         error: function(response) {
           console.log("error: " + response.message);
         }
       });
+      return d.promise;
     };
 
     this.soundcloud = function(userInput) {
       //limit: number of results to return
       var limit = 3;
+      var soundcloudResults = [];
+      var d = $q.defer();
 
       //clientId for soundcloud api authorization
       var clientId = "456165005356d6638c4eabfc515d11aa";
@@ -121,17 +137,19 @@ angular.module('ammoApp')
                 service: 'soundcloud',
                 serviceId: track.id,
                 title: trackName,
-                artist: artist,
+                artist: artist || 'unknown artist',
                 image: track.artwork_url,
                 duration: Math.floor(track.duration/1000)
               };
-              that.searchResults.push(song);
+              soundcloudResults.push(song);
             }
           });
+          d.resolve(soundcloudResults);
         })
         .error(function(data, status, headers, config) {
           console.log('failed query');
         });
+      return d.promise;
     };
 
     this.deezer = function(userInput, access_token) {

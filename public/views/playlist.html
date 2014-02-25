@@ -1,0 +1,44 @@
+<!-- Songs Container -->
+<div class="img-container">
+  <img ng-src="{{ QueueService.currentImage }}"></img>
+</div>
+<div id="main-container">
+  <div ui-sortable="{ stop: updatePlaylist }" ng-model="playlist.songs">
+    <div class ="song-container" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
+      {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+
+<!--       <a class="dropdown-toggle"><button class="addToQueue btn btn-default">...</button></a>
+
+      <div class="dropdown dropdown-menu-right">
+        <ul class="dropdown-menu">
+          <li><a ng-click="addTo('queue', song, $event);">Queue</a></li>
+          <li ng-repeat="choice in UserService.user.playlists">
+            <a ng-click="addTo(choice, song, $event);">{{ choice.name }}</a>
+          </li>
+          <li><a ng-click="remove(song, $index, $event)">Remove Song</a></li>
+        </ul>
+      </div> -->
+
+    <div class="btn-group addToQueue">
+      <button ng-click="addTo('queue', song, $event);" type="button" class="btn btn-default">Add To Queue</button>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span><span class="stuff">.</span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li><a ng-click="addTo('queue', song, $event);">Add To Queue</a></li>
+        <li class="divider"></li>
+        <li ng-repeat="choice in UserService.user.playlists">
+          <a ng-click="addTo(choice, song, $event);">Add To {{ choice.name }}</a>
+        </li>
+        <li><a ng-click="remove($index, $event)">Delete</a></li>
+
+
+      </ul>
+    </div>
+
+
+    </div> 
+  </div>
+  <button id="share" class="share btn btn-default" ng-click="share()">Share Playlist</button>
+</div>

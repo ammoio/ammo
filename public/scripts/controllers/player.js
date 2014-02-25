@@ -14,9 +14,11 @@ angular.module('ammoApp')
       - $scope.detectYoutubeAd();
   */
   .controller('PlayerController', function($scope, $interval, QueueService) {
+    $scope.QueueService = QueueService;
     $scope.playing = false;
+    $scope.shuffled = QueueService.isShuffled;
+    $scope.looping = QueueService.isLooping;
     $scope.currentSong = null;
-    $scope.currentSongIndex = null;
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
@@ -28,9 +30,9 @@ angular.module('ammoApp')
     //if we called Qservice.getQueue() from here, it would need to be set on a 
     //timeout. 
 
-    setTimeout(function(){
-      $scope.songs = QueueService.queue.songs;  
-    }, 200);
+    // setTimeout(function(){
+    //   $scope.songs = QueueService.queue.songs;
+    // }, 200);
     
 
 
@@ -60,7 +62,8 @@ angular.module('ammoApp')
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
           song = QueueService.queue.songs[songOrIndex];
-          $scope.currentSongIndex = songOrIndex;
+          QueueService.queue.currentSong = songOrIndex;
+          $scope.updateImage(songOrIndex);
         }
         else {
           $scope.currentSong = null;
@@ -86,10 +89,13 @@ angular.module('ammoApp')
         scPlay(song.serviceId);
       }
       else if (song.service === "deezer") {
-        DZ.player.playTracks([song.serviceId]);
+        // DZ.player.playTracks([song.serviceId]);
       }
       else if (song.service === 'rdio') {
         R.player.play({ source:song.serviceId });
+        if (!R.currentUser.get('canStreamHere')) { //if not logged in
+          $scope.currentSong.duration = 30;
+        }
       }
 
       $scope.stopTimer();
@@ -104,7 +110,7 @@ angular.module('ammoApp')
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
-      DZ.player.pause();
+      // DZ.player.pause();
       R.player.pause();
     };
 
@@ -128,19 +134,38 @@ angular.module('ammoApp')
             scPlayer.play();
           }
           else if($scope.currentSong.service === 'deezer') {
-            DZ.player.play();
+            // DZ.player.play();
           }
           else if($scope.currentSong.service === 'rdio') {
             R.player.play();
           }
+        }
+      } else {
+        if (QueueService.queue.songs.length){
+          $scope.play(0, 'q'); //if there are songs in the q and current song is null, play index 0
         }
       }
     };
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex + 1)
+      var next;
+
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){//if not on last shuffled index
+          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
+          QueueService.shuffledIndex++;
+        } else if ($scope.looping) {
+          next = QueueService.shuffleStore[0];
+          QueueService.shuffledIndex = 0;
+        }
+      } else {
+        next = QueueService.queue.currentSong + 1;
+      }
+
+      QueueService.setCurrentSongIndex(next)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -149,8 +174,23 @@ angular.module('ammoApp')
     };
 
     $scope.playPrev = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex - 1)
+      var prev;
+
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex > 0){
+          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
+          QueueService.shuffledIndex--;
+        } else if ($scope.looping) {
+          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
+          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+        }
+      } else {
+        prev = QueueService.queue.currentSong - 1;
+      }
+
+      QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -215,13 +255,73 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.playFromSidebar = function(index){
+    $scope.playFromSidebar = function(index){ 
+      if (QueueService.isShuffled){
+        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1
+        index = QueueService.shuffleStore[QueueService.shuffledIndex];
+      }else {
+        index = QueueService.queue.currentSong + index + 1;
+      }
+
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
+          $scope.updateImage(ind);
           $scope.play(ind, "q");
         })
         .catch(function(err) {
           console.log("Error: ", err);
         });
     };
+
+    $scope.updateImage = function(index){
+      QueueService.currentImage = "";
+
+      if (QueueService.queue.songs[index].artist){
+        QueueService.loadArtistImages(QueueService.queue.songs[index].artist);
+      }else{
+        QueueService.artistImage = QueueService.queue.songs[index].image;
+      }
+    };
+
+    $scope.shuffle = function(){
+      if(QueueService.queue.songs.length){
+        QueueService.isShuffled = QueueService.isShuffled ? false : true;
+        $scope.shuffled = QueueService.isShuffled;
+
+        if ($scope.shuffled){
+          var shuffled = [];
+
+          for (var j=0; j<QueueService.queue.songs.length; j++){
+            shuffled.push(j);
+          }
+
+          var len = shuffled.length, temp, i;
+
+          while(len) {
+            i = Math.floor(Math.random() * len--);
+            temp = shuffled[len];
+            shuffled[len] = shuffled[i];
+            shuffled[i] = temp;
+          }
+
+          QueueService.shuffleStore = shuffled;
+          QueueService.shuffledIndex = 0;
+        } else {
+          QueueService.shuffleStore = [];
+        }
+
+        if (QueueService.queue.currentSong === null){
+          QueueService.setCurrentSongIndex(0); // updates the sidebar next songs   
+        }else{
+          QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs   
+        }
+        
+      }     
+    };
+
+    $scope.toggleLoop = function() {
+      QueueService.isLooping = QueueService.isLooping ? false : true;
+      $scope.looping = QueueService.isLooping;
+    };
+
 });

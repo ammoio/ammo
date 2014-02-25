@@ -1,16 +1,9 @@
 angular.module('ammoApp')
-  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
-    var stopClicks = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-    };
-    document.addEventListener("click",stopClicks,true);
-    $('body').css('cursor', 'wait');
-
+  .controller('FrameController', function($scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
 
     $scope.UserService = UserService;
     $scope.location = $location;
-    $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
+    $scope.isShareView = $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
     $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
@@ -39,10 +32,6 @@ angular.module('ammoApp')
     };
 
     $scope.QueueService = QueueService;
-
-    //ngProgress is the top loading bar shown when first loading the page
-    ngProgress.color('#2d9');
-    ngProgress.start();
 
     // This variable is used to know when youtube
     // and deezer are loaded ($scope.stopLoadingBar())
@@ -77,21 +66,10 @@ angular.module('ammoApp')
           ParseService.rdio(userInput);
         }
       } else {
-        // SearchService.rdio(userInput);
-
-        var youtube = [];
-        var rdio = [];
-        var soundcloud = [];
-
-        $q.all([
-          SearchService.rdio(userInput),
-          SearchService.youtube(userInput),
-          SearchService.soundcloud(userInput)
-        ])
-        .then(function(results) {
-          SearchService.searchResults = results[0].concat(results[1]).concat(results[2]);
-        });
-        // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
+        SearchService.rdio(userInput);
+        SearchService.youtube(userInput);
+        SearchService.soundcloud(userInput);
+        // SearchService.deezer(userInput);
       }
       $location.path('/search');
     };
@@ -165,15 +143,7 @@ angular.module('ammoApp')
       Params:
         asset: string with the name of the service player which is now ready
     */
-    $scope.stopLoadingBar = function (asset) {
-      // console.log("Loaded: ", asset);
-      $scope.assetsLoaded++;
-      if($scope.assetsLoaded === 2) {
-        ngProgress.complete();
-        document.removeEventListener("click", stopClicks, true);
-        $('body').css('cursor', 'auto');
-      }
-    };
+
 
     /* ========== $scope.changePlaylist ==========
       Redirects user to /playlist/:id who then will display the tracks of that playlist

@@ -4,7 +4,7 @@
 
 var mongoose = require('mongoose');
 var Q = require('q');
-var crypto = require('crypto'); 
+var crypto = require('crypto');
 var Models = require('./models');
 
 mongoose.connect('mongodb://localhost/ammo');
@@ -56,7 +56,11 @@ module.exports = {
       if(err){
         d.reject(err);
       } else {
-        d.resolve(user.sessionId);
+        if(!user){
+          d.reject("no user found");
+        } else {
+          d.resolve(user.sessionId);
+        }
       }
     });
 
@@ -103,10 +107,22 @@ module.exports = {
 
   getQueue: function(id){
     var d = Q.defer();
-    Models.Queue.findOne({shareId: id}, function(err, data){
+    var query;
+    if(id.length === 16){
+      query = {listenId: id};
+    } else if (id.length === 4) {
+      query = {shareId: id};
+    } else {
+      d.reject("invalid ID length");
+    }
+
+    Models.Queue.findOne(query, function(err, data){
       if(err){
         d.reject(err);
       } else {
+        if(!data){
+          d.reject("shareId not found");
+        }
         d.resolve(data);
       }
     });
@@ -115,7 +131,8 @@ module.exports = {
 
   createQueue: function(obj){
     var d = Q.defer();
-    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4);
+    obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4).replace('/', 'a').replace('+', 'z');
+    obj.listenId = crypto.randomBytes(16).toString('base64').slice(0, 16).replace('/', 'a').replace('+', 'z');
     queue = new Models.Queue(obj);
     queue.save(function(err, data){
       console.log("Saved");
@@ -184,7 +201,7 @@ module.exports = {
             if(err){
               d.reject(err);
             } else {
-              d.resolve(removed[0]);
+              d.resolve(removed);
             }
           });
         } else {
@@ -204,118 +221,138 @@ module.exports = {
       if(err){
         d.reject(err);
       } else {
-        d.resolve(user.playlists);
+        if (!user){
+          d.reject("no user found");
+        } else {
+          d.resolve(user.playlists);
+        }
       }
     });
     return d.promise;
   },
 
-  getUserPlaylist: function(username, id){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        d.resolve(user.playlists[id]);
-      }
-    });
-    return d.promise;
-  },
+  // getUserPlaylist: function(username, id){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       d.resolve(user.playlists[id]);
+  //     }
+  //   });
+  //   return d.promise;
+  // },
 
   createPlaylist: function(username, playlist){
     var d = Q.defer();
-    playlist.id = crypto.randomBytes(4).toString('hex');
+    playlist.id = crypto.randomBytes(4).toString('base64').slice(0, 4);
     console.log("Loooking up: ", username);
     Models.User.findOne({username: username}, function(err, user){
       if(err){
         d.reject(err);
       } else {
-        user.playlists[playlist.id] = playlist;
-        user.markModified("playlists");
-        console.log("Playlists for Alex: ", user.playlists);
-        user.save(function(err, user){
-          d.resolve(playlist);
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  updatePlaylist: function(username, id, playlist){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        for (var key in playlist) {
-          if( playlist.hasOwnProperty(key) ) {
-            if(key !== "id"){
-              user.playlists[id][key] = playlist[key];
-            }
-          }
-        }
-        user.markModified("playlists");
-        user.save(function(err, user){
-          if(err){
-            d.reject(err);
-          } else {
-            d.resolve(playlist);
-          }
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  addSongToPlaylist: function(username, id, song){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        if(Array.isArray(song)){
-          user.playlists[id].songs = user.playlists[id].songs.concat(song);
+        if (!user) {
+          d.reject("no user found");
         } else {
-          console.log("id: ", id);
-          console.log("playlists: ", user.playlists);
-          user.playlists[id].songs.push(song);
-        }
-        user.markModified("playlists");
-        user.save(function(err, user){
-          if(err){
+          playlist.isPrivate = true;
+          playlist.username = username;
+          module.exports.createQueue(playlist).then(function(queue){
+            user.playlists.push({shareId: queue.shareId, name: queue.name});
+            user.markModified("playlists");
+            // console.log("Playlists for ", user.name);
+            // console.log(user.playlists);
+            user.save(function(err, user){
+              if(err){
+                d.reject(err);
+              } else {
+                d.resolve(queue);
+              }
+            });
+          })
+          .fail(function(err){
             d.reject(err);
-          } else {
-            d.resolve(song);
-          }
-        });
-      }
-    });
-    return d.promise;
-  },
-
-  removeSongFromPlaylist: function(username, id, index){
-    var d = Q.defer();
-    Models.User.findOne({username: username}, function(err, user){
-      if(err){
-        d.reject(err);
-      } else {
-        if (index > -1) {
-          var removed = user.playlists[id].songs.splice(index, 1);
-          user.markModified("playlists");
-          user.save(function(err, user){
-            if(err){
-              d.reject(err);
-            } else {
-              d.resolve(removed[0]);
-            }
           });
-        } else {
-          d.reject("Index out of Bounds!", index);
         }
       }
     });
     return d.promise;
   },
+
+  // updatePlaylist: function(username, id, playlist){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       for (var key in playlist) {
+  //         if( playlist.hasOwnProperty(key) ) {
+  //           if(key !== "id"){
+  //             user.playlists[id][key] = playlist[key];
+  //           }
+  //         }
+  //       }
+  //       user.markModified("playlists");
+  //       user.save(function(err, user){
+  //         if(err){
+  //           d.reject(err);
+  //         } else {
+  //           d.resolve(playlist);
+  //         }
+  //       });
+  //     }
+  //   });
+  //   return d.promise;
+  // },
+
+  // addSongToPlaylist: function(username, id, song){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       if(Array.isArray(song)){
+  //         user.playlists[id].songs = user.playlists[id].songs.concat(song);
+  //       } else {
+  //         console.log("id: ", id);
+  //         console.log("playlists: ", user.playlists);
+  //         user.playlists[id].songs.push(song);
+  //       }
+  //       user.markModified("playlists");
+  //       user.save(function(err, user){
+  //         if(err){
+  //           d.reject(err);
+  //         } else {
+  //           d.resolve(song);
+  //         }
+  //       });
+  //     }
+  //   });
+  //   return d.promise;
+  // },
+
+  // removeSongFromPlaylist: function(username, id, index){
+  //   var d = Q.defer();
+  //   Models.User.findOne({username: username}, function(err, user){
+  //     if(err){
+  //       d.reject(err);
+  //     } else {
+  //       if (index > -1) {
+  //         var removed = user.playlists[id].songs.splice(index, 1);
+  //         user.markModified("playlists");
+  //         user.save(function(err, user){
+  //           if(err){
+  //             d.reject(err);
+  //           } else {
+  //             d.resolve(removed[0]);
+  //           }
+  //         });
+  //       } else {
+  //         d.reject("Index out of Bounds!", index);
+  //       }
+  //     }
+  //   });
+  //   return d.promise;
+  // },
 
   createUser: function(user){
     var d = Q.defer();

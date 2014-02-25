@@ -40,6 +40,13 @@ angular.module('ammoApp')
         console.log(info);
         if (info.artists !== null){
           that.scraped[artist] = info.artists[0];
+
+          that.scraped[artist].images = [];
+          that.scraped[artist].images.push(that.scraped[artist].strArtistThumb);
+          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart);
+          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart2);
+          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart3);
+          
           console.log(artist + " info scraped");
           d.resolve(true);
         }else {
