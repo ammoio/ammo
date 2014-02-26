@@ -38,7 +38,7 @@ angular.module('ammoApp')
 
           var song = {
             title: track,
-            artist: artist || 'unknown artist',
+            artist: artist,
             service: "youtube",
             serviceId: service_id,
             url: "http://youtu.be/" + service_id,
@@ -94,7 +94,7 @@ angular.module('ammoApp')
                 service: 'rdio',
                 serviceId: track.key,
                 title: track.name,
-                artist: track.artist || 'unknown artist',
+                artist: track.artist,
                 image: track.icon,
                 duration: track.duration
               };
@@ -142,7 +142,7 @@ angular.module('ammoApp')
                 service: 'soundcloud',
                 serviceId: track.id,
                 title: trackName,
-                artist: artist || 'unknown artist',
+                artist: artist,
                 image: track.artwork_url,
                 duration: Math.floor(track.duration/1000)
               };
