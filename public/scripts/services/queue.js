@@ -143,6 +143,7 @@ angular.module('ammoApp')
     */
 
     this.setQueue = function(newQueue){
+      newQueue = jQuery.extend(true, {}, newQueue);
       this.queue = newQueue;
       this.setNextSongs(this.queue.currentSong);
       this.live = false;
