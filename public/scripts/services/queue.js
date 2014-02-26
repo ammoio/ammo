@@ -77,12 +77,13 @@ angular.module('ammoApp')
 
     this.removeSongAtIndex = function(index){
       var d = $q.defer();
-
+      var that = this;
       var removed = this.queue.songs.splice(index, 1);
 
       if(this.live || this.queue.shareId){
         $http.delete('/queues/' + this.queue.shareId + '/' + index)
         .success(function(data){
+          that.setNextSongs(that.queue.currentSong);
           d.resolve(data);
         })
         .error(function(err){
