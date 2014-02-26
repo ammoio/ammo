@@ -168,14 +168,17 @@ body {
   position: relative;
   width: 70%;
 }
-.page-content .song .spotify {
-  background: url(../img/spotify-icon.png) center center no-repeat;
+.page-content .song .rdio {
+  background: url(../img/rdio.png) center center no-repeat;
+  background-size: 39px 39px;
 }
 .page-content .song .youtube {
-  background: url(../img/spotify-icon.png) center center no-repeat;
+  background: url(../img/youtube.png) center center no-repeat;
+  background-size: 39px 39px;
 }
 .page-content .song .soundcloud {
-  background: url(../img/spotify-icon.png) center center no-repeat;
+  background: url(../img/soundcloud.png) center center no-repeat;
+  background-size: 45px 39px;
 }
 .page-content .song .time {
   float: right;
