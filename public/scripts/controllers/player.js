@@ -98,6 +98,20 @@ angular.module('ammoApp')
         }
       }
 
+      var color;
+      if($scope.currentSong.service === 'youtube'){
+        color = "#c22f2a";
+      } else if ($scope.currentSong.service === 'soundcloud'){
+        color = "#dea744";
+      } else if ($scope.currentSong.service === 'rdio'){
+        color = '#2d8dbb';
+      } else {
+        color = '#6beb2e';
+      }
+
+      $('.accentColor').css('color', color);
+      $('.accentBgColor').css('background-color', color);
+
       $scope.stopTimer();
       $scope.startTimer();
     };
