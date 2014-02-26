@@ -238,15 +238,29 @@ body {
   float: right;
 }
 .player .controls {
-  width: 118px;
+  width: 180px;
   margin: 0 auto;
 }
-.player .controls .back, .player .controls .next, .player .controls .play {
+.player .controls .back, .player .controls .next, .player .controls .play, .player .controls .loop, .player .controls .shuffle {
   display: inline-block;
   vertical-align: middle;
 }
-.player .controls .back:hover, .player .controls .next:hover, .player .controls .play:hover {
+.player .controls .back:hover, .player .controls .next:hover, .player .controls .play:hover, .player .controls .loop:hover, .player .controls .shuffle:hover {
   opacity: 0.5;
+}
+
+.fa {
+  color: white;
+  width: 20px;
+  height: 20px;
+}
+
+.shuffle {
+  padding-left: 6px;
+}
+
+.player .controls .selected {
+  color: #53b225;
 }
 
 @media (max-width: 600px) {
