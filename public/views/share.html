@@ -4,7 +4,7 @@
   <button class='clone' ng-click="clone()">Clone this playlist!</button>
 
   <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
-    {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+    {{ song.artist ? song.artist + "  -  " : "" }} {{ song.title }}
     <div class="addToQueue btn-group">
     <button class="thumbs-up btn btn-default" ng-click="voteUp($event, $index)">Vote Up <span class="badge">{{ song.votes }}</span> </button>
     </div>
