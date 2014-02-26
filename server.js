@@ -36,10 +36,11 @@ if ('development' == app.get('env')) {
 app.post('/login', function(req, res){
   loginHelpers.validateUser(req.body.code, req.cookies.sessionId)
   .then(function(user){
-    console.log("Validated Session", user);
+    console.log("Validated Session>>>>>>>>>>>>>", user);
     res.send(user);
   })
   .fail(function(err){
+    console.log('why the error', err);
     res.send(418);
   });
 });
