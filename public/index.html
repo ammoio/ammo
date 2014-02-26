@@ -47,9 +47,9 @@
           </div>
           <div class="queue-songs">
             <h3>On Deck</h3>
-            <span class="now-playing">{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</span>
+            <span class="now-playing">{{ currentSong.title }}</span>
             <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
-                {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+              {{ song.title }}
             </a>
           </div>
         </aside>
