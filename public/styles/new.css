@@ -407,9 +407,9 @@ body {
 
 .dot{
   position: absolute;
-  height: 7px;
-  width: 7px;
+  height: 8px;
+  width: 8px;
   top: 21px;
-  left: 107px;
+  left: 106px;
   border-radius: 50%;
 }

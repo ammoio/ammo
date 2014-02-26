@@ -274,7 +274,7 @@ angular.module('ammoApp')
       if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
         this.setNextSongs(index);
-        if(this.live || this.queue.shareId){
+        if(!this.queue.isPrivate && (this.live || this.queue.shareId)){
           this.updateQueue({currentSong: index})
           .then(function(queue){
             d.resolve(that.queue.currentSong);
