@@ -11,12 +11,13 @@ module.exports = {
     validateUser: function(code, sessionId){
       var d = Q.defer();
 
-      console.log(code);
-      console.log(sessionId);
+      console.log('code: ', code, '>>>>>>>>>>>>>>>>>>>');
+      console.log('sessionId', sessionId, '>>>>>>>>>>>>>>>>>>>');
 
       var addSession = function (user) {
         dbHelpers.addSession(user.username, sessionId)
         .then(function(user){
+          console.log('resolving with', user);
           d.resolve(user);
         })
         .fail(function(err){
