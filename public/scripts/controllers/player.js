@@ -102,7 +102,7 @@ angular.module('ammoApp')
       if($scope.currentSong.service === 'youtube'){
         color = "#c22f2a";
       } else if ($scope.currentSong.service === 'soundcloud'){
-        color = "#dea744";
+        color = "#e19f32";
       } else if ($scope.currentSong.service === 'rdio'){
         color = '#2d8dbb';
       } else {
