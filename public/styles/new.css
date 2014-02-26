@@ -386,13 +386,13 @@ body {
 }
 
 .createPlaylist{
-  margin: 7px 0 
+  margin: 7px 0;
 }
 
+/* ACCENT COLOR */
 .accentColor{
-  color: #53b225;
+  color: #6beb2e;
 }
-
 .accentBgColor {
-  background-color: #53b225;
+  background-color: #6beb2e;
 }
