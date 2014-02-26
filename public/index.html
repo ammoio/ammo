@@ -36,17 +36,24 @@
     </header>
 
     <div ng-controller="PlayerController">
+
       <div class="row page">
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
             <h3>Your Playlists</h3>
-            <a ng-click="showQueue()">Queue</a>
+<!--             <a ng-click="showQueue()">Queue</a> -->
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
+            <a class="createPlaylist" ng-click="togglePlaylistInput(); playlistName = '';" href="#">Create Playlist <span class="accentColor" >+</span></a>
+            
+            <form id="search" ng-submit="saveToPlaylist(playlistName)">
+              <input class="tb" ng-show="showPlaylistInput" ng-model="playlistName" type="text" placeholder="Playlist Name.." />
+            </form>
+
           </div>
           <div class="queue-songs">
-            <h3>On Deck</h3>
+            <h3 ng-click="showQueue()">On Deck</h3>
             <span class="now-playing">{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</span>
             <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
                 {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
@@ -73,7 +80,7 @@
             <h3 ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></h3>
           </div>
           <div class="progressbar">
-            <div class="progress-line"></div>
+            <div class="progress-line accentBgColor"></div>
           </div>
           <div class="time">
             <span class="spent">{{ fixTime(timer) }}</span>

@@ -229,7 +229,7 @@ body {
   overflow: hidden;
 }
 .player .progress-line {
-  background: #53b225;
+/*  background: #53b225;*/
   width: 0%;
   height: 5px;
   display: block;
@@ -370,4 +370,29 @@ body {
 .md-show.md-effect-5 .md-content {
     transform: scale(1) rotate(0deg);
     opacity: 1;
+}
+
+/*END MODAL CSS*/
+
+
+.tb {
+  background: #232323;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.createPlaylist{
+  margin: 7px 0 
+}
+
+.accentColor{
+  color: #53b225;
+}
+
+.accentBgColor {
+  background-color: #53b225;
 }
