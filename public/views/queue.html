@@ -7,6 +7,7 @@
   <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
     <div class="song-container" ng-repeat="song in QueueService.queue.songs track by $index" ng-click="passToPlay($index)">
       {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+      <span class="badge">{{ song.votes }}</span>
       <button class="removeFromQueue btn btn-default" ng-click="removeSong($event, $index)">Remove Song</button>
     </div>
   </div>

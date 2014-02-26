@@ -9,7 +9,7 @@ angular.module('ammoApp')
       passphrase: null,
       songs: [],
       currentSong: null, // an Index
-      isPrivate: false
+      isPrivate: false,
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
@@ -45,7 +45,7 @@ angular.module('ammoApp')
         this.setCurrentSongIndex(0);
       }
       this.queue.songs.push(song);
-      if (this.live){
+      if (this.live || this.queue.shareId){
         var url = "/queues/" + this.queue.shareId + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
@@ -80,7 +80,7 @@ angular.module('ammoApp')
 
       var removed = this.queue.songs.splice(index, 1);
 
-      if(this.live){
+      if(this.live || this.queue.shareId){
         $http.delete('/queues/' + this.queue.shareId + '/' + index)
         .success(function(data){
           d.resolve(data);
@@ -99,6 +99,7 @@ angular.module('ammoApp')
     /*
       ========== getQueue ==========
       Gets the queue from the server by shareId, and sets it to the current queue using the setQueue method.
+      The queue is always live when this is run
 
       Params: shareId - the shareId of the queue you want to get
 
@@ -112,20 +113,17 @@ angular.module('ammoApp')
       }
 
       var that = this;
-      if(this.live){
-        $http.get('/queues/' + shareId)
-        .success(function(queue){
-          console.log("Retreived Queue from server: ", queue);
-          that.setQueue(queue);
-          d.resolve(that.queue);
-        })
-        .error(function(err){
-          console.log("error fetching queue", err);
-          d.reject(err);
-        });
-      } else {
-        d.resolve(this.queue);
-      }
+      
+      $http.get('/queues/' + shareId)
+      .success(function(queue){
+        console.log("Retreived Queue from server: ", queue);
+        that.setQueue(queue);
+        d.resolve(that.queue);
+      })
+      .error(function(err){
+        console.log("error fetching queue", err);
+        d.reject(err);
+      }); 
 
       return d.promise;
     };
@@ -184,7 +182,7 @@ angular.module('ammoApp')
     this.updateQueue = function(propertiesToUpdate){
       var d = $q.defer();
 
-      if (this.live){
+      if (this.live || this.queue.shareId){
         var url = "/queues/" + this.queue.shareId;
         $http.put(url, propertiesToUpdate)
         .success(function(data, status, headers, config){
@@ -272,7 +270,7 @@ angular.module('ammoApp')
       if (index >=0 && index < this.queue.songs.length){
         this.queue.currentSong = index;
         this.setNextSongs(index);
-        if(this.live){
+        if(this.live || this.queue.shareId){
           this.updateQueue({currentSong: index})
           .then(function(queue){
             d.resolve(this.queue.currentSong);
