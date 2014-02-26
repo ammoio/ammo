@@ -42,7 +42,6 @@ app.post('/login', function(req, res){
   console.dir(req.sessionID);
   loginHelpers.validateUser(req.body.code, req.cookies['ammoio.sid'])
   .then(function(user){
-    console.log("Validated Session>>>>>>>>>>>>>", user);
     res.send(user);
   })
   .fail(function(err){
@@ -267,11 +266,17 @@ app.get('/scrape/:artist', function(req, res){
 //-------------------------------------------------------------------------------------------------
 
 
-//Catch-all Route
 app.get('/q/:id', function (req, res) {
-  res.sendfile(__dirname + '/public/shareIndex.html');
+  dbHelpers.getQueue(req.params.id)
+  .then(function(queue){
+    res.sendfile(__dirname + '/public/shareIndex.html');  
+  })
+  .fail(function (err) {
+    res.redirect('/');
+  })
 });
 
+//Catch-all Route
 app.get('*', function (req, res) {
   res.sendfile(__dirname + '/public/index.html');
 });

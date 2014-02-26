@@ -6,7 +6,7 @@
   <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="passToPlay($index)">
     {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
     <div class="addToQueue btn-group">
-    <button class="thumbs-up btn btn-default" ng-click="voteUp($index)">Vote Up <span class="badge">{{ song.votes }}</span> </button>
+    <button class="thumbs-up btn btn-default" ng-click="voteUp($event, $index)">Vote Up <span class="badge">{{ song.votes }}</span> </button>
     </div>
   </div>
 </div>

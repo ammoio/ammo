@@ -157,6 +157,7 @@ body {
 }
 .page-content .song:hover {
   opacity: 0.8;
+  cursor: pointer;
 }
 .page-content .song .icon {
   width: 50px;
