@@ -146,6 +146,8 @@ angular.module('ammoApp')
       this.queue = newQueue;
       this.setNextSongs(this.queue.currentSong);
       this.live = false;
+      this.queue.shareId = null;
+      this.queue.name = "Current Queue";
       return this.queue;
     };
 

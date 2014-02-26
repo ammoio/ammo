@@ -59,7 +59,7 @@
 
           </div>
           <div class="queue-songs">
-            <h3 ng-click="showQueue()">On Deck</h3>
+            <h3 ng-click="showQueue()">Now Playing</h3>
             <span class="now-playing">{{ currentSong.title }}</span>
             <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
               {{ song.title }}
@@ -77,7 +77,7 @@
 
       <footer class="player" ng-hide="isShareView">
         <div class="column on-4">
-          <img ng-src="{{QueueService.currentImage}}" alt="" class="artwork">
+          <img ng-src="{{QueueService.currentImage ? QueueService.currentImage : '/img/default-artwork.png'}}" alt="" class="artwork">
         </div>
         <div class="column-top song-player">
           <div class="song-info">
