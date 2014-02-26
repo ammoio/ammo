@@ -74,8 +74,8 @@
             <div class="progress-line"></div>
           </div>
           <div class="time">
-            <span class="spent">4:12</span>
-            <span class="total">6:51</span>
+            <span class="spent">{{ fixTime(timer) }}</span>
+            <span class="total">{{ fixTime(currentSong.duration) }}</span>
           </div>
           <div class="controls">
             <a ng-click="playPrev()" class="back"><img src="/img/prev.png" alt=""></a>
