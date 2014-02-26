@@ -22,7 +22,7 @@ angular.module('ammoApp')
       var youtubeResults = [];
       var d = $q.defer();
 
-      limit = limit || 5;
+      limit = limit || 4;
 
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .success(function(results) {
@@ -72,7 +72,7 @@ angular.module('ammoApp')
     };
 
     this.rdio = function(userInput, limit) {
-      limit = limit || 5;
+      limit = limit || 4;
 
       var rdioResults = [];
       var d = $q.defer();
@@ -115,7 +115,7 @@ angular.module('ammoApp')
 
     this.soundcloud = function(userInput) {
       //limit: number of results to return
-      var limit = 3;
+      var limit = 4;
       var soundcloudResults = [];
       var d = $q.defer();
 
@@ -161,7 +161,7 @@ angular.module('ammoApp')
 
     // This function needs refactor to promises
     this.deezer = function(userInput, access_token) {
-      var limit = 5;
+      var limit = 4;
       access_token = "nyEmIZFFIK530171471e73bQR96KnJd530171471e777c3KmNh";
       // https://connect.deezer.com/oauth/auth.php?app_id=132563&redirect_uri=http://www.ammo.io&response_type=token&perms=offline_access
       // This access_token is necesary because Deezer is not available in the US ... but will be this year, querying their API with my 
