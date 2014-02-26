@@ -8,6 +8,7 @@ angular.module('ammoApp')
 
   */
   .controller('ShareController', function($scope, $location, $routeParams, SearchService, QueueService) {
+    $scope.voted = false;
     //When the share ids match, then update view
     $scope.socket.on('updateView', function (data) {
       if (data.shareId === QueueService.queue.shareId) {
@@ -23,14 +24,14 @@ angular.module('ammoApp')
     };
 
 
-    $scope.voteUp = function(index) {
+    $scope.voteUp = function(event, index) {
+      event.currentTarget.disabled = true; //disable after click
       QueueService.queue.songs[index].votes++;
       QueueService.rearrangeQueue();
       $scope.socket.emit('voteUp', {
         songs: {songs: QueueService.queue.songs},
         shareId: QueueService.queue.shareId
       });
-
     };
     
 
