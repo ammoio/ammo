@@ -226,7 +226,7 @@ body {
 }
 .player .progress-line {
   background: #53b225;
-  width: 90%;
+  width: 0%;
   height: 5px;
   display: block;
 }

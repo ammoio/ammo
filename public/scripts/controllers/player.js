@@ -233,6 +233,7 @@ angular.module('ammoApp')
       intervals.push($interval( function() {
         if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
           $scope.timer++;
+          $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration) + "%" }); 
         }
       }, 1000));
     };
@@ -257,7 +258,7 @@ angular.module('ammoApp')
 
     $scope.playFromSidebar = function(index){ 
       if (QueueService.isShuffled){
-        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1
+        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1;
         index = QueueService.shuffleStore[QueueService.shuffledIndex];
       }else {
         index = QueueService.queue.currentSong + index + 1;

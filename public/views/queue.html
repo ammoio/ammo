@@ -6,7 +6,7 @@
             <span class="songs-number"><b>{{QueueService.queue.songs.length}}</b> Songs</span>
           </div>
           <div class="column-top on-2">
-            <input class="search" placeholder="Search playlist songs..." type="text">
+            <input class="search" ng-model="testFilter" placeholder="Search playlist songs..." type="text">
             <a class="btn share" ng-click="share()" href="#">Share</a>
           </div>
         </div>
@@ -14,13 +14,13 @@
           <ul class="songs">
             
             <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
-              <li class="song" ng-repeat="song in QueueService.queue.songs track by $index" ng-click="passToPlay($index)">
+              <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
                 <span class="icon spotify column"></span>
                 <div class="song-info column-top">
                   <h3 class="song-name column">{{ song.title }}</h3>
                   <span>{{song.artist ? "-"  : "" }}</span>
                   <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
-                  <span class="time column">{{song.duration}}</span>
+                  <span class="time column">{{ fixTime(song.duration) }}</span>
                 </div>
                 <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
               </li>

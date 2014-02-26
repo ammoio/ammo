@@ -74,8 +74,8 @@
             <div class="progress-line"></div>
           </div>
           <div class="time">
-            <span class="spent">4:12</span>
-            <span class="total">6:51</span>
+            <span class="spent">{{ fixTime(timer) }}</span>
+            <span class="total">{{ fixTime(currentSong.duration) }}</span>
           </div>
           <div class="controls">
             <a ng-click="playPrev()" class="back"><img src="/img/prev.png" alt=""></a>
@@ -96,8 +96,6 @@
   <script src="/scripts/player_helpers/youtube.js"></script>
   <script src="/scripts/player_helpers/rdio.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
-  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
   <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
   <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
   <script src="/bower_components/angular-ui-sortable/sortable.min.js"></script>
