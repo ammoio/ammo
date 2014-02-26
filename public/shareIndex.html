@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
 </head>
 
-<body ng-app='ammoApp' ng-controller="FrameController" ng-cloak>
+<body ng-escape="closeModal()" ng-app='ammoApp' ng-controller="FrameController" ng-cloak>
 
  <!-- for ng-cloak --> 
   <script src="/bower_components/jquery/jquery.min.js"></script>
@@ -35,7 +35,7 @@
     </div>
   </header>
     <div class="row page">
-      <section ng-view class="page-content bottom-pad">
+      <section ng-view class="share-view-page-content page-content bottom-pad">
       </section>
     </div>
       
@@ -92,6 +92,7 @@
 
   <script src="/scripts/shareApp.js"></script>
   <script src="/scripts/oauth.min.js"></script>
+  <script src="/scripts/directives/myDirective.js"></script>
   <script src="/scripts/services/parser.js"></script>
   <script src="/scripts/services/search.js"></script>
   <script src="/scripts/services/queue.js"></script>

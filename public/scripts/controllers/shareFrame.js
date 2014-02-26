@@ -172,6 +172,12 @@ angular.module('ammoApp')
       $location.path('/listen');
     };
 
+    
+    $scope.closeModal = function (selector){
+      console.log('in directive');
+      $('.md-show').removeClass('md-show');
+    }
+
     $scope.fixTime = function(seconds) {
       var mins = seconds / 60 | 0; 
       seconds = seconds % 60 | 0;

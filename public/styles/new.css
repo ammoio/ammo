@@ -17,6 +17,10 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+a {
+  cursor: pointer;
+}
+
 .column {
   display: inline-block;
   vertical-align: middle;
@@ -69,7 +73,7 @@ body {
   opacity: 1;
 }
 
-.head {
+.head, .share-view-page-content{
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0px;
@@ -125,6 +129,7 @@ body {
   color: #fff;
   font-weight: 300;
   font-size: 3em;
+  text-align: center;
 }
 .page-content .author, .page-content .songs-number {
   color: #fff;
@@ -286,6 +291,25 @@ body {
   color: #53b225;
 }
 
+.page-content .share-view-song:hover {
+  cursor: default;
+}
+
+.share-view-page-content{
+  width: 90%;
+  float: none;
+  margin: auto;
+}
+
+.share-title {
+  margin-bottom: 1.5em;
+}
+
+.song button {
+  cursor: pointer;
+  width: 150px;
+}
+
 @media (max-width: 600px) {
   .column {
     display: block;
@@ -380,4 +404,9 @@ body {
 .md-show.md-effect-5 .md-content {
     transform: scale(1) rotate(0deg);
     opacity: 1;
+}
+
+.song button {
+  cursor: pointer;
+  width: 120px;
 }

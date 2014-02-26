@@ -1,8 +1,8 @@
 <!-- Songs Container -->
 <div id="share-container">
-  <div class="container row">
+  <div class="container row share-title">
     <div class="column-top on-3">
-      <h3 class="share-view-welcome">Welcome to The Share View</h3>
+      <h3 class="share-view-welcome">Welcome to Share View</h3>
     </div>
     <div class="column-top on-1">
       <a class="md-trigger btn clone" ng-click="clone()" href="#">Clone</a>
@@ -10,8 +10,8 @@
   </div>
 
   <div class="container-row">
-    <ul class="songs">
-      <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index">
+    <ul class="share-view-songs">
+      <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index">
         <span class="icon spotify column"></span>
         <div class="song-info column-top">
           <h3 class="song-name column">{{ song.title }}</h3>
@@ -19,7 +19,7 @@
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
           <span class="time column">{{ fixTime(song.duration) }}</span>
         </div>
-        <button class"column" ng-click="voteUp($event, $index)">Vote Up <sup class="badge">{{ song.votes }}</sup></button>
+        <button class"column vote-up" ng-click="voteUp($event, $index)">Vote Up <sup class="badge">{{ song.votes }}</sup></button>
       </li>
     </ul>
   </div>

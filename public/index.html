@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
   </head>
-  <body ng-cloak ng-app='ammoApp' ng-controller="FrameController">
+  <body ng-escape="closeModal()" ng-cloak ng-app='ammoApp' ng-controller="FrameController">
 
     <script src="/bower_components/jquery/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
@@ -94,7 +94,7 @@
 
 <!-- Share Request Modal -->
 <div class="md-modal md-effect-5" id="shareRequestModal">
-    <div class="md-content">
+    <div ng-escape="closeModal()" class="md-content">
         <h3>Share this!</h3>
         <div class="md-content-inner">
            <form id="queueForm">
@@ -153,6 +153,7 @@
   <script src="/scripts/services/queue.js"></script>
   <script src="/scripts/services/user.js"></script>
   <script src="/scripts/services/scraper.js"></script>
+  <script src="/scripts/directives/myDirective.js"></script>
   <script src="/scripts/controllers/frame.js"></script>
   <script src="/scripts/controllers/queue.js"></script>
   <script src="/scripts/controllers/search.js"></script>
