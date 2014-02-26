@@ -35,13 +35,19 @@ module.exports = {
           secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"         // The secret key from oauth.io
         }
       }, function (err, req, body) {
+        if(err){
+          d.reject("Oauth Error; ", err);
+          return;
+        }
         var data = JSON.parse(body);
         if ( !data.state ) {
             d.reject("Got error:" + body);
+            return;
         }
         console.log("State: ", data.state);
         if (data.state !== sessionId) {
             d.reject("Oups, state does not match !");
+            return;
         }
 
         //Fetch username from facebook

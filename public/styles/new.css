@@ -399,3 +399,20 @@ body {
 .accentBgColor {
   background-color: #6beb2e;
 }
+
+.logo-wrapper{
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  height: 28px;
+  width: 146px;
+}
+
+.dot{
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  top: 21px;
+  left: 106px;
+  border-radius: 50%;
+}
