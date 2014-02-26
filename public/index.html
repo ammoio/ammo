@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="/favicon.ico" /> -->
     <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
   </head>
   <body ng-cloak ng-app='ammoApp' ng-controller="FrameController">
 
@@ -79,9 +80,12 @@
             <span class="total">{{ fixTime(currentSong.duration) }}</span>
           </div>
           <div class="controls">
+            <a ng-click="toggleLoop()"><i class="fa fa-undo loop" ng-class="{selected: looping}"></i></a>
             <a ng-click="playPrev()" class="back"><img src="/img/prev.png" alt=""></a>
-            <a ng-click="togglePause()" class="play"><img src="/img/pause.png" alt=""></a>
+            <a ng-show="playing" ng-click="togglePause()" class="play"><img src="/img/pause.png" alt=""></a>
+            <a ng-hide="playing" ng-click="togglePause()" class="play"><img src="/img/play.png" alt=""></a>
             <a ng-click="playNext()" class="next"><img src="/img/next.png" alt=""></a>
+            <span ng-click="shuffle()"><i class="fa fa-random shuffle" ng-class="{selected: shuffled}"></i></span>
             <!-- SHUFFLE AND LOOP AND PLAY-->
           </div>
         </div>
