@@ -118,6 +118,7 @@ angular.module('ammoApp')
       .success(function(queue){
         console.log("Retreived Queue from server: ", queue);
         that.setQueue(queue);
+        that.setNextSongs(that.queue.currentSong);
         d.resolve(that.queue);
       })
       .error(function(err){
@@ -181,13 +182,14 @@ angular.module('ammoApp')
 
     this.updateQueue = function(propertiesToUpdate){
       var d = $q.defer();
-
+      var that = this;
       if (this.live || this.queue.shareId){
         var url = "/queues/" + this.queue.shareId;
         $http.put(url, propertiesToUpdate)
         .success(function(data, status, headers, config){
-          this.queue = data;
-          d.resolve(this.queue);
+          that.queue = data;
+          that.setNextSongs(that.queue.currentSong);
+          d.resolve(that.queue);
         })
         .error(function(err){
           console.log(err);
@@ -258,6 +260,7 @@ angular.module('ammoApp')
 
     this.setCurrentSongIndex = function(index){
       var d = $q.defer();
+      var that = this;
 
       if (this.isLooping){
         if (index >= this.queue.songs.length){
@@ -273,13 +276,13 @@ angular.module('ammoApp')
         if(this.live || this.queue.shareId){
           this.updateQueue({currentSong: index})
           .then(function(queue){
-            d.resolve(this.queue.currentSong);
+            d.resolve(that.queue.currentSong);
           })
           .catch(function(err){
             d.reject(err);
           });
         } else {
-          d.resolve(this.queue.currentSong);
+          d.resolve(that.queue.currentSong);
         }
       } else {
         d.reject("Should pass in a valid index");
