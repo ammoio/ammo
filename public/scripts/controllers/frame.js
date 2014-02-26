@@ -132,7 +132,7 @@ angular.module('ammoApp')
               UserService.setUser(userObj);
               UserService.setLogged(true);
 
-              $http.get(userObj.username + "/playlists")
+              $http.get("/" + userObj.username + "/playlists")
                 .success(function(playlists) {
                   UserService.user.playlists = playlists;
               });

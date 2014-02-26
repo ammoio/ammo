@@ -42,7 +42,7 @@
           <div class="playlist-list">
             <h3>Your Playlists</h3>
             <a ng-click="showQueue()">Queue</a>
-            <a ng-repeat="playlist in UserService.user.playlists" ng-click="changePlaylist(playlist)" href="#">
+            <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
           </div>
