@@ -361,3 +361,20 @@ body {
     transform: scale(1) rotate(0deg);
     opacity: 1;
 }
+
+/*END MODAL CSS*/
+
+
+.tb {
+  background: #232323;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.createPlaylist{
+  margin: 7px 0 
+}
