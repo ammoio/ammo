@@ -171,4 +171,14 @@ angular.module('ammoApp')
     $scope.showQueue = function() {
       $location.path('/listen');
     };
+
+    $scope.fixTime = function(seconds) {
+      var mins = seconds / 60 | 0; 
+      seconds = seconds % 60 | 0;
+      if(seconds < 10) {
+        return mins + ":0" + seconds;
+      } else {
+        return mins + ":" + seconds;
+      }
+    };
   });
