@@ -127,7 +127,6 @@ angular.module('ammoApp')
             return;
           }
           console.log(res);
-
           $http({ method: 'POST', url: '/login', data: { code: res.code }})
             .success(function(userObj) {
               UserService.setUser(userObj);
