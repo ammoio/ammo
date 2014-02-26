@@ -4,7 +4,7 @@
         <div class="container row">
           <div class="column-top on-2">
             <h3 class="playlist-name">Search Results</h3>
-            <span class="songs-number"><b>{{playlist.songs.length}}</b> Songs</span>
+            <span class="songs-number"><b>{{ playlist.songs.length }}</b> Songs</span>
           </div>
           <div class="column-top on-2">
 <!--             <input class="search" placeholder="Search playlist songs..." type="text">
@@ -20,9 +20,9 @@
                 <span class="icon spotify column"></span>
                 <div class="song-info column-top">
                   <h3 class="song-name column">{{ song.title }}</h3>
-                  <span>{{song.artist ? "-"  : "" }}</span>
+                  <span>{{ song.artist ? "-"  : "" }}</span>
                   <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
-                  <span class="time column">{{song.duration}}</span>
+                  <span class="time column">{{ fixTime(song.duration) }}</span>
                 </div>
                 <a class"column" href="#"  ng-click="addTo('queue', song, $event);">Add To..</a>
               </li>
