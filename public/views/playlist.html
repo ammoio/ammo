@@ -17,9 +17,13 @@
               <li class="song" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
                 <span class="icon {{ song.service }} column"></span>
                 <div class="song-info column-top">
-                  <h3 class="song-name column">{{ song.title }}</h3>
+<!--                   <h3 class="song-name column">{{ song.title }}</h3>
                   <span>{{song.artist ? "-"  : "" }}</span>
                   <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+ -->                  
+                  <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+                  <span>{{song.artist ? " - "  : "" }}</span>
+                  <h3 class="song-name column">{{ song.title }}</h3>
                   <span class="time column">{{ fixTime(song.duration) }}</span>
                 </div>
                 <a class"column" href="#"  ng-click="addTo('queue', song, $event);">Add To..</a>
