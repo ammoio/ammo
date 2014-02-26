@@ -27,6 +27,7 @@
     "jquery-dropdown": "~1.0.4"
   },
   "resolutions": {
-    "angular": "~1.2.12"
+    "angular": "~1.2.12",
+    "jquery": "~2.1.0"
   }
 }
