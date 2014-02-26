@@ -13,7 +13,7 @@
         <div class="container-row">
           
           <ul class="songs">
-            <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
+            <div ui-sortable="{ stop: updatePlaylist }" ng-model="QueueService.queue.songs">
               <li class="song" ng-repeat="song in playlist.songs track by $index" ng-click="passToPlay($index)">
                 <span class="icon spotify column"></span>
                 <div class="song-info column-top">
