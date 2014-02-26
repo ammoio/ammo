@@ -43,7 +43,7 @@
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
-            <a class="createPlaylist" ng-click="togglePlaylistInput()" href="#">Create Playlist +</a>
+            <a class="createPlaylist" ng-click="togglePlaylistInput()" href="#">Create Playlist <span class="accentColor" >+</span></a>
             
             <form id="search" ng-submit="saveToPlaylist(playlistName)">
               <input class="tb" ng-show="showPlaylistInput" ng-model="playlistName" type="text" placeholder="Playlist Name.." />
@@ -79,7 +79,7 @@
             <h3>{{ currentSong.title }}</h3>
           </div>
           <div class="progressbar">
-            <div class="progress-line"></div>
+            <div class="progress-line accentBgColor"></div>
           </div>
           <div class="time">
             <span class="spent">{{ fixTime(timer) }}</span>

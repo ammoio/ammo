@@ -228,7 +228,7 @@ body {
   overflow: hidden;
 }
 .player .progress-line {
-  background: #53b225;
+/*  background: #53b225;*/
   width: 0%;
   height: 5px;
   display: block;
@@ -377,4 +377,12 @@ body {
 
 .createPlaylist{
   margin: 7px 0 
+}
+
+.accentColor{
+  color: #53b225;
+}
+
+.accentBgColor {
+  background-color: #53b225;
 }
