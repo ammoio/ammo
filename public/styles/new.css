@@ -44,6 +44,14 @@ body {
   width: 49%;
 }
 
+.on-3 {
+  width: 70%;
+}
+
+.on-1 {
+  width: 28%;
+}
+
 .text-center {
   text-align: center;
 }
@@ -113,7 +121,7 @@ body {
   width: 80%;
   float: right;
 }
-.page-content .playlist-name {
+.page-content .playlist-name, .share-view-welcome {
   color: #fff;
   font-weight: 300;
   font-size: 3em;
@@ -136,7 +144,7 @@ body {
   width: 70%;
   margin-top: 20px;
 }
-.page-content .share {
+.page-content .share, .clone{
   float: right;
   margin-top: 20px;
 }
@@ -284,7 +292,7 @@ body {
     text-align: center;
   }
 
-  .on-2, .on-4 {
+  .on-2, .on-4, .on-3, .on-1 {
     width: 100%;
   }
 
