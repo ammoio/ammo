@@ -157,8 +157,12 @@ angular.module('ammoApp')
     $scope.shareRequestModal = function() {
       QueueService.saveQueue($scope.queueName, $scope.passphrase)
       .then(function(queue) {
-        $('#shareResponseModal').modal(); //show response modal
+        $('#shareResponseModal').addClass('md-show'); //show response modal
       });
+    };
+
+    $scope.closeModal = function (selector){
+      $('.md-show').removeClass('md-show');
     };
 
     /* ========== $scope.stopLoadingBar ==========
