@@ -7,12 +7,12 @@
           </div>
           <div class="column-top on-2">
             <input class="search" ng-model="testFilter" placeholder="Search playlist songs..." type="text">
-            <a class="btn share" ng-click="share()" href="#">Share</a>
+            <a class="md-trigger btn share" ng-click="share()" href="#">Share</a>
           </div>
         </div>
         <div class="container-row">
           <ul class="songs">
-            
+
             <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
               <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
                 <span class="icon spotify column"></span>

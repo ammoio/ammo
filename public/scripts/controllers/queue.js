@@ -83,9 +83,9 @@ angular.module('ammoApp')
           'data-text': "Hey, checkout this playlist I made!\n"
         }); //dynamically set the url
 
-        $('#shareResponseModal').modal(); //show response modal
+        $('#shareResponseModal').addClass('md-show'); //show response modal
       } else {
-        $('#shareRequestModal').modal();
+        $('#shareRequestModal').addClass('md-show');
       }
     };
 
