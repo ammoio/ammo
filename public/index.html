@@ -35,6 +35,8 @@
       </div>
     </header>
 
+    <div ng-controller="PlayerController">
+
       <div class="row page">
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
@@ -43,13 +45,11 @@
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
-            <a class="createPlaylist" ng-click="togglePlaylistInput()" href="#">Create Playlist <span class="accentColor" >+</span></a>
+            <a class="createPlaylist" ng-click="togglePlaylistInput(); playlistName = '';" href="#">Create Playlist <span class="accentColor" >+</span></a>
             
             <form id="search" ng-submit="saveToPlaylist(playlistName)">
               <input class="tb" ng-show="showPlaylistInput" ng-model="playlistName" type="text" placeholder="Playlist Name.." />
             </form>
-
-          <div ng-controller="PlayerController">
 
           </div>
           <div class="queue-songs">
