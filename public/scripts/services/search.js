@@ -12,7 +12,7 @@ angular.module('ammoApp')
     async GET returns an argument with a set of properties. See var song for reference.
 
   */
-  .service('SearchService', function($http, $q, $rootScope, QueueService) {
+  .service('SearchService', function($http, $q, $rootScope, $timeout, QueueService) {
     this.searchResults = []; // store search results
 
     var that = this; //reference to service object
@@ -77,6 +77,13 @@ angular.module('ammoApp')
       var rdioResults = [];
       var d = $q.defer();
 
+
+      //do a time limit for searching
+      var timeLimit = 2500; //3 seconds
+      var rdioTimer = $timeout(function() {
+        d.resolve([]);
+      }, timeLimit);
+
       R.request({
         method: "search",
         content: {
@@ -86,6 +93,7 @@ angular.module('ammoApp')
           count: limit
         },
         success: function(response) {
+          $timeout.cancel(rdioTimer);
           var results = response.result.results;
           results.forEach(function(track) {
             if (track.canStream && track.canSample) { //can stream and sample
