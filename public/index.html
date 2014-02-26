@@ -9,9 +9,9 @@
     <!-- <meta name="author" content="datevid" />
     Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references
     <link rel="shortcut icon" href="/favicon.ico" /> -->
-    <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
     <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
   </head>
   <body ng-cloak ng-app='ammoApp' ng-controller="FrameController">
 
@@ -70,7 +70,8 @@
         <div class="column-top song-player">
           <div class="song-info">
             <h3 class="song-name">{{ currentSong.artist ? currentSong.artist : "&nbsp" }}</h3>
-            <h3>{{ currentSong.title }}</h3>
+            <h3 ng-hide="buffering">{{ currentSong.title }}</h3>
+            <h3 ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></h3>
           </div>
           <div class="progressbar">
             <div class="progress-line"></div>
