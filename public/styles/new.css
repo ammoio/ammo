@@ -7,10 +7,13 @@
   padding: 0px;
 }
 
+html {
+  background: url(../img/bg.jpg) top center repeat;
+  background-size: 150% 150%;
+}
+
 body {
-  background: url(../img/bg.jpg) center center no-repeat;
-  background-size: 100% 100%;
-  background-size: cover;
+/*  background-size: cover;*/
   font-family: 'Source Sans Pro', sans-serif;
 }
 
