@@ -23,8 +23,6 @@ angular.module('ammoApp')
       return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     };
 
-    $cookies.sessionId = $cookies.sessionId || guid();
-
     $http({ method: 'GET', url: '/user'})
       .success(function(user) {
         UserService.setUser(user);
@@ -111,17 +109,15 @@ angular.module('ammoApp')
 
     $scope.login = function() {
       if(UserService.user.loggedIn) {
-        $http({ method: 'GET', url: '/logout'})
+        $http({ method: 'GET', url: '/logout/' + UserService.user.username})
         .success(function(){
-          $cookies.sessionId = "";
           UserService.logout();
         })
         .error(function(){
           console.log("error logging out");
         });
       } else {
-        $cookies.sessionId = guid();
-        OAuth.popup('facebook', { state: $cookies.sessionId }, function(err, res) {
+        OAuth.popup('facebook', { state: $cookies['ammoio.sid'] }, function(err, res) {
           if(err) {
             console.log(err);
             return;
