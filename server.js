@@ -22,7 +22,11 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({secret: '1234567890QWERTY'}));
+app.use(express.session({
+  secret: '1234567890QWERTY',
+  key: 'ammoio.sid',
+  cookie: { httpOnly: false }
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
@@ -34,7 +38,9 @@ if ('development' == app.get('env')) {
 //require('.////')(app)
 /* ======== User Routes ========*/
 app.post('/login', function(req, res){
-  loginHelpers.validateUser(req.body.code, req.cookies.sessionId)
+  console.log("SessionID:");
+  console.dir(req.sessionID);
+  loginHelpers.validateUser(req.body.code, req.cookies['ammoio.sid'])
   .then(function(user){
     console.log("Validated Session>>>>>>>>>>>>>", user);
     res.send(user);
@@ -45,21 +51,20 @@ app.post('/login', function(req, res){
   });
 });
 
-app.get('/logout', function(req, res){
-  loginHelpers.closeSession(req.cookies.sessionId)
-  .then(function(sessionId){
-    console.log("Canceled Session", sessionId);
-    req.cookies.sessionId = null;
-    res.send("Successfully cancelled Session", sessionId);
+app.get('/logout/:username', function(req, res){
+  loginHelpers.closeSession(req.params.username)
+  .then(function(username){
+    res.send("Successfully logged out User:", username);
   })
   .fail(function(err){
+    console.log("Error logging out: ", err);
     res.send(401);
   });
 });
 
 app.get('/user', function(req, res){
   console.dir(req.cookies);
-  dbHelpers.getUser({sessionId: req.cookies.sessionId})
+  dbHelpers.getUser({sessionId: req.cookies['ammoio.sid']})
   .then(function(user){
     console.log(user);
     res.send(user);
@@ -103,7 +108,7 @@ app.post('/queues', function (req, res) {
 
 //POST: add song to queue
 app.post('/queues/:id/add', function(req, res){
-  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
   .then(function(){
     return dbHelpers.addSongToQueue(req.params.id, req.body);
   })
@@ -122,7 +127,7 @@ app.post('/queues/:id/add', function(req, res){
 
 //PUT update queue
 app.put('/queues/:id', function(req, res){
-   loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+   loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
   .then(function(){
     return dbHelpers.updateQueue(req.params.id, req.body);
   })
@@ -141,7 +146,7 @@ app.put('/queues/:id', function(req, res){
 
 //DELETE: Delete Song at index
 app.delete('/queues/:id/:index', function(req, res){
-  loginHelpers.isAuthorized(req.params.id, req.cookies.sessionId)
+  loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
   .then(function(){
     return dbHelpers.removeSongFromQueue(req.params.id, req.params.index);
   })
@@ -209,7 +214,7 @@ app.put('/:user/playlists/:id', function(req, res){
 
 //POST: Create Playlist
 app.post('/:user/playlists', function(req, res){
-  loginHelpers.validateSession(req.params.user, req.cookies.sessionId)
+  loginHelpers.validateSession(req.params.user, req.cookies['ammoio.sid'])
   .then(function (response) {
     console.log("Valid Session", req.params.user);
     return true;

@@ -39,6 +39,7 @@ module.exports = {
         if ( !data.state ) {
             d.reject("Got error:" + body);
         }
+        console.log("State: ", data.state);
         if (data.state !== sessionId) {
             d.reject("Oups, state does not match !");
         }
@@ -89,10 +90,10 @@ module.exports = {
       return d.promise;
     },
 
-    closeSession: function(sessionId){
+    closeSession: function(username){
       var d = Q.defer();
 
-      dbHelpers.closeSession({sessionId: sessionId})
+      dbHelpers.closeSession({username: username})
       .then(function(data){
           d.resolve(true);
       })
