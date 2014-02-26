@@ -1,124 +1,82 @@
 <html>
 <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>ammo</title>
+
+  <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/bower_components/bootstrap-css/css/bootstrap.css">
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
-  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
 </head>
 
-<body ng-app='ammoApp' ng-controller="FrameController">
+<body ng-app='ammoApp' ng-controller="FrameController" ng-cloak>
 
-  <!-- Nav Bar -->
-<div class="navbar navbar-inverse navbar-static-top my-navbar">
+ <!-- for ng-cloak --> 
+  <script src="/bower_components/jquery/jquery.min.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
 
-<button class="navbar-toggle visible-xs" data-target=".navbar-collapse" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"><!--empty--></span> <span class="icon-bar"><!--empty--></span> <span class="icon-bar"><!--empty--></span></button>
-
-<div class="container visible-xs">
-    <a class="navbar-brand" href="/">Ammo</a>
-</div>
-
-<div class="navbar-collapse collapse" id="mynavcollapse">
+  <header class="head">
     <div class="container">
-        <div class="row">
-            <form>
-                <div class="col-sm-2 hidden-xs">
-                    <a class="navbar-brand" href="/">Ammo</a>
-                </div>
-
-                <div class="col-sm-offset-6 col-sm-4">
-                  <form id="search" class="navbar-form form-inline" role="search">
-                    <div class="input-group">
-                        <input class='form-control' ng-model="userInput" placeholder="Search..." type='text'> <span class="input-group-btn">
-                        <button ng-click="search(userInput)" class="btn btn-default"><span class="input-group-btn">Search</span></button></span>
-                    </div>
-                  </form>
-                </div><!-- /col- -->
-            </form>
-        </div>
+      <div class="column on-4">
+        <img src="../img/logo.png" alt="" class="logo">
+      </div>
+      <div class="column on-2">
+        <form id="search" ng-submit="search(userInput)">
+          <input ng-model="userInput" type="text" placeholder="Search...">
+          <input type="submit" style="position: absolute; left: -9999px;">
+        </form>
+      </div>
+      <div class="column on-4 text-center">
+<!--         <a href="#" class="btn" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
+ -->      
+      </div>
     </div>
- </div>
-</div>
+  </header>
+    <div class="row page">
+      <section ng-view class="page-content bottom-pad">
+      </section>
+    </div>
+      
 
-
- <!-- shareRequestModal -->
-  <div class="modal fade" id="shareRequestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Share Queue</h4>
-        </div>
-        <div class="modal-body">
-          <form id="queueForm">
+<!-- Share Request Modal -->
+<div class="md-modal md-effect-5" id="shareRequestModal">
+    <div class="md-content">
+        <h3>Share this!</h3>
+        <div class="md-content-inner">
+           <form id="queueForm">
             <span>Give this playlist a name! </span>
             <span class="input-group queueNameDiv">
               <input type="text" class="queueName form-control" placeholder="My Awesome Playlist!" ng-model="queueName">
             </span>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="shareNow btn btn-default" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</button>
-        </div>
+          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
+          <a type="button" class="shareNow btn md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
       </div>
     </div>
-  </div>
+</div>
 
-   <!-- shareResponseModal -->
-  <div class="modal fade" id="shareResponseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Tweet It!</h4>
-        </div>
-        <div class="modal-body">
-          <p>Here's the link to your queue: </p>
+<!-- Share Response Modal -->
+<div class="md-modal md-effect-5" id="shareResponseModal">
+    <div class="md-content">
+        <h3>Tweet this!</h3>
+        <div class="md-content-inner">
+          <span>Here's the link to your playlist: </span>
           <div>http://{{ location.host() }}/q/{{ QueueService.queue.shareId }}</div>
           <div>
-          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://ammo.io/q/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
+          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
           </a>
           </div>
-          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2Fq%2F{{QueueService.queue.shareId}}&p[url]=http://ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">Share on Facebook
+          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">Share on Facebook
           </a>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
+          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
       </div>
     </div>
-  </div>
-
-
-<!-- 
-  <div class="navbar navbar-inverse navbar-static-top" role="navigation">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-2 hidden-xs">
-            <a class="navbar-brand" href="/">Ammo</a>
-        </div>
-         <form id="search" class="navbar-form form-inline" role="search">
-              <div class="col-sm-6">
-            <div class="form-group">
-              <input ng-model="userInput" type="text" class="form-control" placeholder="Search">
-            </div>
-            <button ng-click="search(userInput)" class="btn btn-default">Search</button>
-
-          </div>
-
-
-          </form>
-      </div>
-    </div>
-  </div> -->
-
-  <div class="container">
-    <div class="row">
-        <div ng-view></div> <!-- Views are loaded here -->
-    </div>
-  </div>
+</div>
 
 
   <script src="https://www.rdio.com/api/api.js?helper=%2Fviews%2Fhelper.html&client_id=hrMFxa4bS9bb9Z09xcHJXw"></script>

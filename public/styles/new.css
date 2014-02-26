@@ -183,7 +183,7 @@ body {
 .page-content .song h3 {
   font-weight: 300;
 }
-.page-content .song a {
+.page-content .song a, .page-content .song button {
   background: #262626;
   position: absolute;
   right: 0;
@@ -192,6 +192,8 @@ body {
   color: #fff;
   text-decoration: none;
   bottom: 0;
+  border: none;
+  font-size: 1em;
 }
 
 .player {
