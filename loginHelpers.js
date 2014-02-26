@@ -93,13 +93,19 @@ module.exports = {
     closeSession: function(username){
       var d = Q.defer();
 
-      dbHelpers.closeSession({username: username})
-      .then(function(data){
-          d.resolve(true);
-      })
-      .fail(function(err){
-        d.reject(err);
-      });
+      if(!username){
+        d.reject("No username passed");
+      } else {
+
+        dbHelpers.closeSession({username: username})
+        .then(function(data){
+            d.resolve(true);
+        })
+        .fail(function(err){
+          d.reject(err);
+        });
+
+      }
 
       return d.promise;
     },
