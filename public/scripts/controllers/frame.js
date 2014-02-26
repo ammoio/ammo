@@ -121,7 +121,7 @@ angular.module('ammoApp')
         });
       } else {
         $cookies.sessionId = guid();
-        OAuth.popup('facebook', { state: $cookies.sessionId }, function(err, res) {
+        OAuth.popup('facebook', { state: $cookies['ammoio.sid'] }, function(err, res) {
           if(err) {
             console.log(err);
             return;
