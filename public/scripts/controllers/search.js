@@ -73,7 +73,6 @@ angular.module('ammoApp')
           - Event triggered with the ng-click so we can stop propagation
     */
     $scope.addTo = function(destination, song, $event) {
-      console.log($event);
       $event.preventDefault();
 
       if(destination === 'queue') {
