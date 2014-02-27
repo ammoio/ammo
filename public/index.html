@@ -89,7 +89,7 @@
             <div class="progress-line accentBgColor"></div>
           </div>
           <div class="time">
-            <span class="spent">{{ fixTime(timer) }}</span>
+            <span class="spent">{{ fixTime(((timer/10)| number:0)) }}</span>
             <span class="total">{{ fixTime(currentSong.duration) }}</span>
           </div>
           <div class="controls">
