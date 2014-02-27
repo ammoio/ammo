@@ -76,6 +76,7 @@ angular.module('ammoApp')
     */
 
     $scope.share = function() {
+      console.log("Live: " + QueueService.live + "shareid: " + QueueService.queue.shareId);
       if (QueueService.live || QueueService.queue.shareId) {
         var shareLink = 'http://localhost/' + QueueService.queue.shareId;
         $('.twitter-share-button').attr({

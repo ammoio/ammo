@@ -416,7 +416,6 @@ a {
   background: #232323;
   border: 0;
   outline: 0;
-  width: 100%;
   padding: 10px 15px;
   border-radius: 4px;
   color: #fff;
@@ -449,7 +448,14 @@ a {
   top: 21px;
   left: 106px;
   border-radius: 50%;
-.song button {
+}
+
+.song button{
   cursor: pointer;
   width: 120px;
+}
+
+.inline{
+  display: inline-block;
+  width: 180px;
 }
