@@ -1,45 +1,45 @@
 <div id="search-container">
 
-<div class="container row">
-  <div class="column-top on-2">
-    <h3 class="playlist-name">Search Results</h3>
-    <span class="songs-number"><b>{{ playlist.songs.length }}</b> Songs</span>
+  <div class="container row">
+    <div class="column-top on-2">
+      <h3 class="playlist-name">Search Results</h3>
+      <span class="songs-number"><b>{{ playlist.songs.length }}</b> Songs</span>
+    </div>
+    <div class="column-top on-2">
+      <a class='queueButton btn share' href="#" ng-click="back()">Return to Queue</a>
+
+    </div>
   </div>
-  <div class="column-top on-2">
-    <a class='queueButton btn share' href="#" ng-click="back()">Return to Queue</a>
+  <div class="container-row">
 
+    <div ng-show="searching" class="searchSpinner">
+      <i class="fa fa-spinner fa-spin fa-5x"></i> 
+    </div>
+
+    <ul class="songs">
+      <li class="song" ng-repeat="song in SearchService.searchResults track by $index">
+        <div ng-click="play(song, 's')">
+          <span class="icon {{ song.service }} column"></span>
+          <div class="song-info column-top">
+            <h3 class="song-name column">{{ song.artist ? song.artist : "" }}</h3>
+            <span>{{ song.artist ? "  -  "  : "" }}</span>
+            <h3 class="column">{{ song.title }}</h3>
+            <span class="time column">{{ fixTime(song.duration) }}</span>
+          </div>
+        </div>
+        <a href="#" data-dropdown="#dropdown-1" ng-click="setSongToAdd(song)">addTo</a>
+        <!-- <a class"column" href="#"  ng-click="addTo('queue', song, $event);">Add To..</a> -->
+      </li>
+
+    </ul>
   </div>
-</div>
-<div class="container-row">
-
-  <div ng-show="searching" class="searchSpinner">
-    <i class="fa fa-spinner fa-spin fa-5x"></i> 
-  </div>
-
-  <ul class="songs">
-    <li class="song" ng-repeat="song in SearchService.searchResults track by $index" ng-click="play(song, 's')">
-      <span class="icon {{ song.service }} column"></span>
-      <div class="song-info column-top">
-        <h3 class="song-name column">{{ song.artist ? song.artist : "" }}</h3>
-        <span>{{ song.artist ? "  -  "  : "" }}</span>
-        <h3 class="column">{{ song.title }}</h3>
-        <span class="time column">{{ fixTime(song.duration) }}</span>
-      </div>
-      <a href="#" data-dropdown="#dropdown-1">addTo</a>
-    </li>
-
-</ul>
-</div>
 </div>
 
 <div id="dropdown-1" class="dropdown dropdown-tip">
     <ul class="dropdown-menu">
-        <li><a href="#1">Item 1</a></li>
-        <li><a href="#2">Item 2</a></li>
-        <li><a href="#3">Item 3</a></li>
-        <li class="dropdown-divider"></li>
-        <li><a href="#4">Item 4</a></li>
-        <li><a href="#5">Item 5</a></li>
-        <li><a href="#5">Item 6</a></li>
+        <li><a ng-click="addTo('queue', songToAdd, $event);">Queue</a></li>
+        <li ng-repeat="choice in UserService.user.playlists">
+          <a ng-click="addTo(choice, songToAdd, $event);">{{ choice.name }}</a>
+        </li>
     </ul>
 </div>

@@ -469,3 +469,49 @@ a {
   cursor: pointer;
   width: 120px;
 }
+
+/* DROPDOWN */
+.dropdown .dropdown-menu,
+.dropdown .dropdown-panel {
+  min-width: 125px;
+  max-width: 125px;
+  list-style: none;
+  background: #181515; 
+  border-radius: 0px;
+  overflow: visible;
+  padding: 4px 0;
+  margin: 0;
+}
+
+.dropdown.dropdown-tip {
+  margin-top: 0px;
+}
+
+.dropdown.dropdown-tip:after {
+  position: absolute;
+  top: -5px;
+  left: 10px;
+  content: '';
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #FFF;
+  display: inline-block;
+}
+
+.dropdown.dropdown-tip.dropdown-anchor-right:after {
+  left: auto;
+  right: 10px;
+}
+
+/*font color*/
+.dropdown .dropdown-menu LI > A,
+.dropdown .dropdown-menu LABEL {
+  display: block;
+  color: white;
+  text-decoration: none;
+  line-height: 18px;
+  padding: 10px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
