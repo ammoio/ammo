@@ -1,32 +1,31 @@
-<!--        <section class="page-content"> -->
-        <div class="container row">
-          <div class="column-top on-2">
-            <h3 class="playlist-name">{{QueueService.queue.name}}</h3>
-            <span class="author">By <a href="#">{{QueueService.queue.username}}</a></span>
-            <span class="songs-number"><b>{{QueueService.queue.songs.length}}</b> Songs</span>
-          </div>
-          <div class="column-top on-2">
-            <!-- <input class="search" ng-model="testFilter" placeholder="Search playlist songs..." type="text"> -->
-            <a class="md-trigger btn share" ng-click="share()" href="#">Share</a>
-          </div>
+
+<div class="container row">
+  <div class="column-top on-2">
+    <h3 class="playlist-name">{{QueueService.queue.name}}</h3>
+    <span class="author">By <a href="#">{{QueueService.queue.username}}</a></span>
+    <span class="songs-number"><b>{{QueueService.queue.songs.length}}</b> Songs</span>
+  </div>
+  <div class="column-top on-2">
+    <!-- <input class="search" ng-model="testFilter" placeholder="Search playlist songs..." type="text"> -->
+    <a class="md-trigger btn share" ng-click="share()" href="#">Share</a>
+  </div>
+</div>
+<div class="container-row">
+  <ul class="songs">
+
+    <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
+      <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
+        <span class="icon {{ song.service }} column"></span>
+        <div class="song-info column-top">
+          <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+          <span>{{song.artist ? "  -  "  : "" }}</span>
+          <h3 class="song-name column">{{ song.title }}</h3>
+          <span class="time column">{{ fixTime(song.duration) }}</span>
         </div>
-        <div class="container-row">
-          <ul class="songs">
-
-            <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
-              <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
-                <span class="icon {{ song.service }} column"></span>
-                <div class="song-info column-top">
-                  <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
-                  <span>{{song.artist ? "  -  "  : "" }}</span>
-                  <h3 class="song-name column">{{ song.title }}</h3>
-                  <span class="time column">{{ fixTime(song.duration) }}</span>
-                </div>
-                <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
-              </li>
-            </div>
+        <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
+      </li>
+    </div>
 
 
-          </ul>
-        </div>
-<!--       </section> -->
+  </ul>
+</div>

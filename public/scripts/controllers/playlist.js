@@ -67,8 +67,6 @@ angular.module('ammoApp')
           - Event triggered with the ng-click so we can stop propagation
     */
     $scope.addTo = function(destination, song, event) {
-      event.stopPropagation();
-      $('.open').dropdown('toggle');
       if(destination === 'queue') {
         $scope.addToQueue(event, song);
       }
@@ -77,9 +75,7 @@ angular.module('ammoApp')
       }
     };
 
-    $scope.remove = function(index, event) {
-      event.stopPropagation();
-      $('.open').dropdown('toggle');
+    $scope.remove = function(index) {
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index)
       .then(function() {
         $scope.refreshPlaylist();
