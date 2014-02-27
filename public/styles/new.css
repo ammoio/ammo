@@ -515,3 +515,6 @@ a {
   overflow: hidden;
 }
 
+.voted {
+  opacity: 0.2;
+}

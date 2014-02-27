@@ -25,7 +25,7 @@ angular.module('ammoApp')
 
 
     $scope.voteUp = function(event, index) {
-      event.currentTarget.disabled = true; //disable after click
+      QueueService.votedSongs[QueueService.queue.songs[index].serviceId] = true;
       QueueService.queue.songs[index].votes++;
       QueueService.rearrangeQueue();
       $scope.socket.emit('voteUp', {

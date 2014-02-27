@@ -18,6 +18,7 @@ angular.module('ammoApp')
     this.shuffleStore = [];
     this.shuffledIndex = 0;
     this.isLooping = false;
+    this.votedSongs = {};
 
     /*
       ========== enqueue ==========
@@ -127,6 +128,7 @@ angular.module('ammoApp')
         d.reject(err);
       }); 
 
+      console.log(this.votedSongs);
       return d.promise;
     };
 
