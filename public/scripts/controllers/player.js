@@ -245,11 +245,11 @@ angular.module('ammoApp')
  
     $scope.startTimer = function() {
       intervals.push($interval( function() {
-        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < ($scope.currentSong.duration * 100)) {
           $scope.timer++;
-          $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration) + "%" }); 
+          $('.progress-line').css({ width: ($scope.timer*10 / $scope.currentSong.duration).toFixed(2) + "%" }); 
         }
-      }, 1000));
+      }, 100));
     };
 
     $scope.stopTimer = function() {
