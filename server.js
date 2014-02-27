@@ -175,42 +175,6 @@ app.get('/:user/playlists', function(req, res){
   });
 });
 
-//GET: user playlist by id //DEPRECATED -- use queue endpoint
-app.get('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.getUserPlaylist(req.params.user, req.params.id)
-  // .then(function(playlist){
-  //   res.send(playlist);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//POST: Add song to playlist //DEPRECATED, use queue endpoint
-app.post('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.addSongToPlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(song){
-  //   res.send(song);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//PUT: Update Playlist //DEPRECATED, use queue endpoint
-app.put('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.updatePlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(playlist){
-  //   res.send(playlist);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
 //POST: Create Playlist
 app.post('/:user/playlists', function(req, res){
   loginHelpers.validateSession(req.params.user, req.cookies['ammoio.sid'])
@@ -231,18 +195,6 @@ app.post('/:user/playlists', function(req, res){
       res.send(500, err);
     }
   });
-});
-
-//POST: Delete Song at index //DEPRECATED, use queue endpoint
-app.post('/:user/playlists/:id/remove', function(req, res){
-  res.send(410);
-  // dbHelpers.removeSongFromPlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(song){
-  //   res.send(song);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
 });
 
 //GET: scrape----------------------------------------------------------------------------------
@@ -273,7 +225,7 @@ app.get('/q/:id', function (req, res) {
   })
   .fail(function (err) {
     res.redirect('/');
-  })
+  });
 });
 
 //Catch-all Route

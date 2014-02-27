@@ -22,20 +22,7 @@ angular.module('ammoApp')
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
-
-    //TODO: #119
-    //The below is a Hacky fix. It waits until the Queue controller has loaded the
-    //q via Qservice.getQueue() before setting $scope.songs. It can't be called from this controller as it
-    //does not have access to the necessary routeParams on instantiation. Even
-    //if we called Qservice.getQueue() from here, it would need to be set on a
-    //timeout.
-
-    // setTimeout(function(){
-    //   $scope.songs = QueueService.queue.songs;
-    // }, 200);
-
-
-
+    
     /*
       ========== $scope.play ==========
       This functino is in charge of playing songs from all the services.
