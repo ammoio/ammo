@@ -135,7 +135,7 @@ a {
   color: #fff;
   font-weight: 300;
   font-size: 3em;
-  text-align: center;
+  /* text-align: center; */
 }
 .page-content .author, .page-content .songs-number {
   color: #fff;
