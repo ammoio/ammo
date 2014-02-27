@@ -48,6 +48,7 @@ angular.module('ammoApp')
           $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
           .success(function(newResults) {
             if(newResults.pageInfo.totalResults === 0) {
+              total--;
               return;
             }
             var duration = newResults.items[0].contentDetails.duration;
