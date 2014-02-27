@@ -114,11 +114,17 @@ a {
 }
 .sidebar .queue-songs {
   padding: 30px 20px;
+  overflow-x:hidden;
+  white-space: nowrap;
+    padding:0 10px;
+
 }
 
 .sidebar .now-playing {
   color: #fff;
   font-weight: bold;
+  overflow-x:hidden;
+  white-space: nowrap;
 }
 
 .page-content {
