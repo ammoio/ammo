@@ -1,5 +1,6 @@
 angular.module('ammoApp')
   .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+    $scope.songToAdd = null;
     $scope.playlistName = "";
     var stopClicks = function(e) {
         e.stopPropagation();
@@ -247,6 +248,12 @@ angular.module('ammoApp')
     $scope.togglePlaylistInput = function(){
       console.log("Toggle");
       $scope.showPlaylistInput = !$scope.showPlaylistInput;
+    };
+
+    /* Used so that the dropdown has access to specific songs to add to q's and playlists */
+    $scope.setSongToAdd = function(song){
+      $scope.songToAdd = song;
+      console.log($scope.songToAdd);
     };
   });
 
