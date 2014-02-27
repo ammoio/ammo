@@ -1,4 +1,3 @@
-
 <div class="container row">
   <div class="column-top on-2">
     <h3 class="playlist-name">{{QueueService.queue.name}}</h3>
@@ -14,7 +13,7 @@
   <ul class="songs">
 
     <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
-      <li class="song" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
+      <li class="song" ng-class="{played: $index < QueueService.queue.currentSong}" ng-repeat="song in QueueService.queue.songs | filter:testFilter track by $index" ng-click="passToPlay($index)">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
@@ -22,7 +21,7 @@
           <h3 class="song-name column">{{ song.title }}</h3>
           <span class="time column">{{ fixTime(song.duration) }}</span>
         </div>
-        <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
+        <a class"column" href="#" ng-click="removeSong($event, $index)">Remove<sup class="badge">{{ song.votes }}</sup></a>
       </li>
     </div>
 
