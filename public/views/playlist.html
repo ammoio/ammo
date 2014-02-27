@@ -33,7 +33,7 @@
 
 <div id="dropdown-1" class="dropdown dropdown-tip">
     <ul class="dropdown-menu">
-        <li ng-repeat="choice in UserService.user.playlists">
+        <li ng-repeat="choice in UserService.user.playlists" ng-hide="choice.name === playlist.name">
           <a ng-click="addTo(choice, songToAdd, $event);">{{ choice.name }}</a>
         </li>
     </ul>
