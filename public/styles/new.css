@@ -314,10 +314,19 @@ a {
   margin-bottom: 1.5em;
 }
 
-.song button {
+.page-content .song button {
   cursor: pointer;
   width: 150px;
 }
+
+.page-content .song button:disabled {
+  cursor: auto;
+}
+
+.played {
+  opacity: 0.3 !important;
+}
+
 
 @media (max-width: 600px) {
   .column {
@@ -433,7 +442,7 @@ a {
 
 /* ACCENT COLOR */
 .accentColor{
-  color: #6beb2e;
+  color: #6beb2e !important;
 }
 .accentBgColor {
   background-color: #6beb2e;
@@ -454,11 +463,6 @@ a {
   top: 21px;
   left: 106px;
   border-radius: 50%;
-}
-
-.song button{
-  cursor: pointer;
-  width: 120px;
 }
 
 .inline{
@@ -514,4 +518,3 @@ a {
   white-space: nowrap;
   overflow: hidden;
 }
-
