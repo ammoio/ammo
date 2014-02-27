@@ -22,7 +22,7 @@ angular.module('ammoApp')
     */
     $scope.passToPlay = function(index) {
       if($scope.playlist.shareId !== QueueService.queue.shareId) {
-        QueueService.setQueue($scope.playlist);
+        QueueService.setPlaylist($scope.playlist);
       }
 
       if (QueueService.isShuffled){

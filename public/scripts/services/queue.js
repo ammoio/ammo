@@ -114,7 +114,7 @@ angular.module('ammoApp')
       }
 
       var that = this;
-      
+
       $http.get('/queues/' + shareId)
       .success(function(queue){
         console.log("Retreived Queue from server: ", queue);
@@ -143,6 +143,12 @@ angular.module('ammoApp')
     */
 
     this.setQueue = function(newQueue){
+      this.queue = newQueue;
+      this.setNextSongs(this.queue.currentSong);
+      return this.queue;
+    };
+
+    this.setPlaylist = function(newQueue){
       newQueue = jQuery.extend(true, {}, newQueue);
       this.queue = newQueue;
       this.setNextSongs(this.queue.currentSong);
