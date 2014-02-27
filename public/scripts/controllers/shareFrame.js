@@ -171,4 +171,20 @@ angular.module('ammoApp')
     $scope.showQueue = function() {
       $location.path('/listen');
     };
+
+    
+    $scope.closeModal = function (selector){
+      console.log('in directive');
+      $('.md-show').removeClass('md-show');
+    }
+
+    $scope.fixTime = function(seconds) {
+      var mins = seconds / 60 | 0; 
+      seconds = seconds % 60 | 0;
+      if(seconds < 10) {
+        return mins + ":0" + seconds;
+      } else {
+        return mins + ":" + seconds;
+      }
+    };
   });
