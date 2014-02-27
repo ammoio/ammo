@@ -48,22 +48,22 @@ angular.module('ammoApp')
       
     */
     $scope.clone = function() {
-        var shareLink = $location.host() + 'q/' + QueueService.queue.shareId;
-        $('.twitter-share-button').attr({
-          'data-url': shareLink,
-          'data-text': "Hey, checkout this playlist I made!\n"
-        }); //dynamically set the url
+      var shareLink = $location.host() + 'q/' + QueueService.queue.shareId;
+      $('.twitter-share-button').attr({
+        'data-url': shareLink,
+        'data-text': "Hey, checkout this playlist I made!\n"
+      }); //dynamically set the url
 
-        //have to reset queue, or else server error
-        var oldQueue = QueueService.queue;
-        QueueService.queue = {
-          currentSong: oldQueue.currentSong,
-          listenId: null,
-          shareId: null,
-          songs: oldQueue.songs
-        };
-        //same process as share queue from this point on
-        $('#shareRequestModal').modal();
+      //have to reset queue, or else server error
+      var oldQueue = QueueService.queue;
+      QueueService.queue = {
+        currentSong: oldQueue.currentSong,
+        listenId: null,
+        shareId: null,
+        songs: oldQueue.songs
+      };
+      //same process as share queue from this point on
+      $('#shareRequestModal').addClass('md-show');
     };
 
     $scope.refresh();
