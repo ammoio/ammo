@@ -1,6 +1,5 @@
 angular.module('ammoApp')
   .service('QueueService', function($window, $http, $q, $location, $rootScope, ScraperService){
-    //TODO - Fix isse #33
 
     this.queue = {
       name: "New Queue",
@@ -9,7 +8,7 @@ angular.module('ammoApp')
       passphrase: null,
       songs: [],
       currentSong: null, // an Index
-      isPrivate: false,
+      isPrivate: false
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
@@ -36,8 +35,6 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
-
-      ////////////////////thumbs
       song.votes = 0;
 
       var d = $q.defer();

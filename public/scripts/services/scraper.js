@@ -8,14 +8,13 @@ angular.module('ammoApp')
 
 
   .service('ScraperService', function($http, $q) {
-    
     this.scraped = {}; //local storage object
 
      /*
       ========== scrape ==========
       Scrape first takes the argument passed in, a string, and replaces any spaces with %20.
-      It then does a lookup on theAudioDB.com for the artist name. Upon success, it assigns 
-      the response to a key (artist) in the this.scraped object. 
+      It then does a lookup on theAudioDB.com for the artist name. Upon success, it assigns
+      the response to a key (artist) in the this.scraped object.
 
       Params:
         param1: artist (string)
@@ -30,8 +29,7 @@ angular.module('ammoApp')
       var d = $q.defer();
       var that = this;
       var artistNoSpace = artist.replace(/\s/g,"%20");
-      //var url = "/scrape/" + artistNoSpace; //REPLACE API KEY "1"
-      var url = "/scrape/" + artistNoSpace;// JUST FOR TESTINg
+      var url = "/scrape/" + artistNoSpace;
       console.log(url);
 
 
@@ -46,7 +44,7 @@ angular.module('ammoApp')
           that.scraped[artist].images.push(that.scraped[artist].strArtistFanart);
           that.scraped[artist].images.push(that.scraped[artist].strArtistFanart2);
           that.scraped[artist].images.push(that.scraped[artist].strArtistFanart3);
-          
+
           console.log(artist + " info scraped");
           d.resolve(true);
         }else {
