@@ -24,7 +24,7 @@
             <span class="time column">{{ fixTime(song.duration) }}</span>
           </div>
         </div>
-        <a href="#" data-dropdown="#dropdown-1" ng-click="setSongToAdd(song)">addTo</a>
+        <a href="#" data-dropdown="#dropdown-1" ng-click="setSongToAdd(song, $index)">addTo</a>
       </li>
   </div>
 
@@ -35,6 +35,10 @@
     <ul class="dropdown-menu">
         <li ng-repeat="choice in UserService.user.playlists" ng-hide="choice.name === playlist.name">
           <a ng-click="addTo(choice, songToAdd, $event);">{{ choice.name }}</a>
+        </li>
+        <li class="dropdown-divider"></li>
+        <li>
+          <a ng-click="remove(clickedIndex)">Remove Song</a>
         </li>
     </ul>
 </div>
