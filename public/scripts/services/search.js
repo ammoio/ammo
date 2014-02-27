@@ -27,7 +27,7 @@ angular.module('ammoApp')
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
       .success(function(results) {
         var total = results.items.length;
-        var resultsSoFar = 0; 
+        var resultsSoFar = 0;
 
         results.items.forEach(function(video) {
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
@@ -57,7 +57,7 @@ angular.module('ammoApp')
             var minutes = duration.match(/(\d+)(?=[M])/ig)||[0];
             var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
-            song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
+            song.duration = (parseInt(hours, 10) * 60 * 60) + parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
             youtubeResults.push(song);
             resultsSoFar++;
             if(resultsSoFar === total) {

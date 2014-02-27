@@ -11,13 +11,9 @@ module.exports = {
     validateUser: function(code, sessionId){
       var d = Q.defer();
 
-      console.log('code: ', code, '>>>>>>>>>>>>>>>>>>>');
-      console.log('sessionId', sessionId, '>>>>>>>>>>>>>>>>>>>');
-
       var addSession = function (user) {
         dbHelpers.addSession(user.username, sessionId)
         .then(function(user){
-          console.log('resolving with', user);
           d.resolve(user);
         })
         .fail(function(err){
@@ -31,8 +27,8 @@ module.exports = {
         url: 'https://oauth.io/auth/access_token',
         form: {
           code: code,
-          key: "YTaWoCjSvB9X8LcCyc8hn6sp798",            // The public key from oauth.io
-          secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"         // The secret key from oauth.io
+          key: "YTaWoCjSvB9X8LcCyc8hn6sp798",
+          secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"
         }
       }, function (err, req, body) {
         if(err){
@@ -78,8 +74,6 @@ module.exports = {
 
     validateSession: function(username, sessionId){
       var d = Q.defer();
-      console.log("validating", username);
-      console.log("sessionId", sessionId);
 
       dbHelpers.getSession(username)
       .then(function(validSessionId){
@@ -118,7 +112,7 @@ module.exports = {
 
     isAuthorized: function(shareId, sessionId){
       var d = Q.defer();
-      console.log("SessionId: ",sessionId);
+
       dbHelpers.getQueue(shareId)
       .then(function (queue){
         console.log("Private: ", queue.isPrivate);
