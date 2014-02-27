@@ -42,7 +42,8 @@ Example:
 method: PUT
 url: /queues/:id
 Example:
-  Request Data: {
+  Request Data
+  {
     anyKey: value
   }
 
@@ -72,8 +73,8 @@ Example:
   }
 
 #Remove Song from Queue
-method: POST
-url: /queues/:id/remove
+method: DELETE
+url: /queues/:id/:index
 Example:
   Request Data: {
     index: 5
@@ -86,17 +87,10 @@ Example:
 #Get All playlists of a user
 method: GET
 url: /:user/playlists
-Example: [{playlist}, {playlist}, {playlist}...]
+Example: [{name: "dfsa", shareId: "e8Cy"}, {playlist}, {playlist}...]
 
 #Get playlist
-method: GET
-url: /:user/playlists/:id
-Example:
-  Response Data: {
-    name: "New Playlist",
-    id: "7483957238402",
-    songs: [...]
-  }
+use Get Queue
 
 #Create playlist
 method: POST
@@ -114,27 +108,10 @@ Example:
   }
 
 #Update playlist
-method: PUT
-url: /user/playlists/:id
-Example: {
-  anyKey: value
-}
+use Queue Endpoint
 
 #Add song to playlist
-method: POST
-url: /user/playlists/:id/add
-(can either pass an array of song objects, or a single song object)
-Example:
-  see "Add song to Queue"
+use Queue Endpoint
 
 #Remove Song from playlist
-method: POST
-url: /:user/playlists/:id/remove
-Example:
-  Request Data: {
-  index: 5
-  }
-
-  Response: {
-    Song(That was deleted)
-  }
+use Queue Endpoint

@@ -12,10 +12,13 @@ var mongoose = require('mongoose');
 var queueSchema = mongoose.Schema({
   name: String,
   shareId: String,
+  listenId: String,
   passphrase: String,
   lastAccessed: Date,
   songs: {type: [], default: []},
-  currentSong: Number
+  currentSong: Number,
+  isPrivate: {type: Boolean, default: false},
+  username: {type: String, default: "guest"}
 });
 
 /*
@@ -29,7 +32,7 @@ var userSchema = mongoose.Schema({
   sessionId: {type: String, default: null},
   email: String,
   name: String,
-  playlists: {type: {}, default: {"test": 12345}}
+  playlists: {type: [], default: []}
 });
 
 

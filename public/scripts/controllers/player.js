@@ -14,38 +14,40 @@ angular.module('ammoApp')
       - $scope.detectYoutubeAd();
   */
   .controller('PlayerController', function($scope, $interval, QueueService) {
+    $scope.QueueService = QueueService;
     $scope.playing = false;
+    $scope.shuffled = QueueService.isShuffled;
+    $scope.looping = QueueService.isLooping;
     $scope.currentSong = null;
-    $scope.currentSongIndex = null;
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
 
     //TODO: #119
     //The below is a Hacky fix. It waits until the Queue controller has loaded the
-    //q via Qservice.getQueue() before setting $scope.songs. It can't be called from this controller as it 
+    //q via Qservice.getQueue() before setting $scope.songs. It can't be called from this controller as it
     //does not have access to the necessary routeParams on instantiation. Even
-    //if we called Qservice.getQueue() from here, it would need to be set on a 
-    //timeout. 
+    //if we called Qservice.getQueue() from here, it would need to be set on a
+    //timeout.
 
-    setTimeout(function(){
-      $scope.songs = QueueService.queue.songs;  
-    }, 200);
-    
+    // setTimeout(function(){
+    //   $scope.songs = QueueService.queue.songs;
+    // }, 200);
 
 
-    /* 
+
+    /*
       ========== $scope.play ==========
       This functino is in charge of playing songs from all the services.
 
-      Params: 
+      Params:
         songsOrIndex
           - This variable depends of who cals the $scope.play() function, if
             the queue controller calls it then it's the index of the queue array
-            in the QueueService that contains all the queue songs. $scope.play() 
-            will play the song in that specific index of the queue array. 
-            
-            If the function is called from the search controller then it's a song 
+            in the QueueService that contains all the queue songs. $scope.play()
+            will play the song in that specific index of the queue array.
+
+            If the function is called from the search controller then it's a song
             object and this function will play it.
 
         queueOrSearch
@@ -60,14 +62,15 @@ angular.module('ammoApp')
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
           song = QueueService.queue.songs[songOrIndex];
-          $scope.currentSongIndex = songOrIndex;
+          QueueService.queue.currentSong = songOrIndex;
+          $scope.updateImage(songOrIndex);
         }
         else {
           $scope.currentSong = null;
           $scope.playing = false;
           return;
         }
-      } 
+      }
       else if(queueOrSearch === 's') {
         song = songOrIndex;
       }
@@ -81,16 +84,33 @@ angular.module('ammoApp')
       if(song.service === "youtube") {
         youtube.loadVideoById(song.serviceId, 0, "large");
         youtube.playVideo();
-      } 
+      }
       else if (song.service === "soundcloud") {
         scPlay(song.serviceId);
       }
       else if (song.service === "deezer") {
-        DZ.player.playTracks([song.serviceId]);
+        // DZ.player.playTracks([song.serviceId]);
       }
       else if (song.service === 'rdio') {
         R.player.play({ source:song.serviceId });
+        if (!R.currentUser.get('canStreamHere')) { //if not logged in
+          $scope.currentSong.duration = 30;
+        }
       }
+
+      var color;
+      if($scope.currentSong.service === 'youtube'){
+        color = "#c22f2a";
+      } else if ($scope.currentSong.service === 'soundcloud'){
+        color = "#e19f32";
+      } else if ($scope.currentSong.service === 'rdio'){
+        color = '#2d8dbb';
+      } else {
+        color = '#6beb2e';
+      }
+
+      $('.accentColor').css('color', color);
+      $('.accentBgColor').css('background-color', color);
 
       $scope.stopTimer();
       $scope.startTimer();
@@ -104,7 +124,7 @@ angular.module('ammoApp')
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
-      DZ.player.pause();
+      // DZ.player.pause();
       R.player.pause();
     };
 
@@ -128,19 +148,38 @@ angular.module('ammoApp')
             scPlayer.play();
           }
           else if($scope.currentSong.service === 'deezer') {
-            DZ.player.play();
+            // DZ.player.play();
           }
           else if($scope.currentSong.service === 'rdio') {
             R.player.play();
           }
+        }
+      } else {
+        if (QueueService.queue.songs.length){
+          $scope.play(0, 'q'); //if there are songs in the q and current song is null, play index 0
         }
       }
     };
 
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex + 1)
+      var next;
+
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){//if not on last shuffled index
+          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
+          QueueService.shuffledIndex++;
+        } else if ($scope.looping) {
+          next = QueueService.shuffleStore[0];
+          QueueService.shuffledIndex = 0;
+        }
+      } else {
+        next = QueueService.queue.currentSong + 1;
+      }
+
+      QueueService.setCurrentSongIndex(next)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -149,8 +188,23 @@ angular.module('ammoApp')
     };
 
     $scope.playPrev = function() {
-      QueueService.setCurrentSongIndex($scope.currentSongIndex - 1)
+      var prev;
+
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex > 0){
+          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
+          QueueService.shuffledIndex--;
+        } else if ($scope.looping) {
+          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
+          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+        }
+      } else {
+        prev = QueueService.queue.currentSong - 1;
+      }
+
+      QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
+          $scope.updateImage(index);
           $scope.play(index, "q");
         })
         .catch(function(err) {
@@ -191,10 +245,11 @@ angular.module('ammoApp')
  
     $scope.startTimer = function() {
       intervals.push($interval( function() {
-        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < ($scope.currentSong.duration * 100)) {
           $scope.timer++;
+          $('.progress-line').css({ width: ($scope.timer*10 / $scope.currentSong.duration).toFixed(2) + "%" }); 
         }
-      }, 1000));
+      }, 100));
     };
 
     $scope.stopTimer = function() {
@@ -215,13 +270,73 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.playFromSidebar = function(index){
+    $scope.playFromSidebar = function(index){ 
+      if (QueueService.isShuffled){
+        QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1;
+        index = QueueService.shuffleStore[QueueService.shuffledIndex];
+      }else {
+        index = QueueService.queue.currentSong + index + 1;
+      }
+
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
+          $scope.updateImage(ind);
           $scope.play(ind, "q");
         })
         .catch(function(err) {
           console.log("Error: ", err);
         });
     };
+
+    $scope.updateImage = function(index){
+      QueueService.currentImage = "";
+
+      if (QueueService.queue.songs[index].artist){
+        QueueService.loadArtistImages(QueueService.queue.songs[index].artist);
+      }else{
+        QueueService.artistImage = QueueService.queue.songs[index].image;
+      }
+    };
+
+    $scope.shuffle = function(){
+      if(QueueService.queue.songs.length){
+        QueueService.isShuffled = QueueService.isShuffled ? false : true;
+        $scope.shuffled = QueueService.isShuffled;
+
+        if ($scope.shuffled){
+          var shuffled = [];
+
+          for (var j=0; j<QueueService.queue.songs.length; j++){
+            shuffled.push(j);
+          }
+
+          var len = shuffled.length, temp, i;
+
+          while(len) {
+            i = Math.floor(Math.random() * len--);
+            temp = shuffled[len];
+            shuffled[len] = shuffled[i];
+            shuffled[i] = temp;
+          }
+
+          QueueService.shuffleStore = shuffled;
+          QueueService.shuffledIndex = 0;
+        } else {
+          QueueService.shuffleStore = [];
+        }
+
+        if (QueueService.queue.currentSong === null){
+          QueueService.setCurrentSongIndex(0); // updates the sidebar next songs   
+        }else{
+          QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs   
+        }
+        
+      }     
+    };
+
+    $scope.toggleLoop = function() {
+      QueueService.isLooping = QueueService.isLooping ? false : true;
+      $scope.looping = QueueService.isLooping;
+    };
+
 });

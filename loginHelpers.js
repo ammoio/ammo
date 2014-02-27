@@ -11,12 +11,13 @@ module.exports = {
     validateUser: function(code, sessionId){
       var d = Q.defer();
 
-      console.log(code);
-      console.log(sessionId);
+      console.log('code: ', code, '>>>>>>>>>>>>>>>>>>>');
+      console.log('sessionId', sessionId, '>>>>>>>>>>>>>>>>>>>');
 
       var addSession = function (user) {
         dbHelpers.addSession(user.username, sessionId)
         .then(function(user){
+          console.log('resolving with', user);
           d.resolve(user);
         })
         .fail(function(err){
@@ -34,12 +35,19 @@ module.exports = {
           secret: "r_GbPTQSfoJyaahblrZMSb5nBIg"         // The secret key from oauth.io
         }
       }, function (err, req, body) {
+        if(err){
+          d.reject("Oauth Error; ", err);
+          return;
+        }
         var data = JSON.parse(body);
         if ( !data.state ) {
             d.reject("Got error:" + body);
+            return;
         }
+        console.log("State: ", data.state);
         if (data.state !== sessionId) {
             d.reject("Oups, state does not match !");
+            return;
         }
 
         //Fetch username from facebook
@@ -70,13 +78,15 @@ module.exports = {
 
     validateSession: function(username, sessionId){
       var d = Q.defer();
+      console.log("validating", username);
+      console.log("sessionId", sessionId);
 
       dbHelpers.getSession(username)
       .then(function(validSessionId){
         if (validSessionId && validSessionId === sessionId) {
           d.resolve(true);
         } else {
-          d.reject(false);
+          d.reject("not logged in");
         }
       })
       .fail(function(err){
@@ -86,12 +96,40 @@ module.exports = {
       return d.promise;
     },
 
-    closeSession: function(sessionId){
+    closeSession: function(username){
       var d = Q.defer();
 
-      dbHelpers.closeSession({sessionId: sessionId})
-      .then(function(data){
-          d.resolve(true);
+      if(!username){
+        d.reject("No username passed");
+      } else {
+
+        dbHelpers.closeSession({username: username})
+        .then(function(data){
+            d.resolve(true);
+        })
+        .fail(function(err){
+          d.reject(err);
+        });
+
+      }
+
+      return d.promise;
+    },
+
+    isAuthorized: function(shareId, sessionId){
+      var d = Q.defer();
+      console.log("SessionId: ",sessionId);
+      dbHelpers.getQueue(shareId)
+      .then(function (queue){
+        console.log("Private: ", queue.isPrivate);
+        if(queue.isPrivate){
+          return module.exports.validateSession(queue.username, sessionId);
+        } else {
+          return true;
+        }
+      })
+      .then(function(){
+        d.resolve(true);
       })
       .fail(function(err){
         d.reject(err);

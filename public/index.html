@@ -1,131 +1,162 @@
+
+<!DOCTYPE html>
 <html>
-<head>
-  <title>ammo</title>
-  <link rel="stylesheet" href="/bower_components/bootstrap-css/css/bootstrap.css">
-  <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
-  <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
-  <link rel="stylesheet" href="/styles/main.css">
-</head>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>ammo</title>
+    <meta name="description" content="" />
+    <!-- <meta name="author" content="datevid" />
+    Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references
+    <link rel="shortcut icon" href="/favicon.ico" /> -->
+    <link rel="stylesheet" href="/bower_components/ngprogress/ngProgress.css">
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/bower_components/jquery-dropdown/jquery.dropdown.css">
+    <link rel="stylesheet" href="../styles/new.css" type="text/css" media="screen"/>
+  </head>
+  <body ng-escape="closeModal()" ng-cloak ng-app='ammoApp' ng-controller="FrameController">
 
-<body ng-app='ammoApp' ng-controller="FrameController">
+    <script src="/bower_components/jquery/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
 
-  <!-- Nav Bar -->
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Ammo</a>
-      </div>
-
-      <button class="btn btn-default navbar-right" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</button>
-
-      <form id="search" class="navbar-form navbar-right" role="search">
-        <div class="form-group">
-          <input ng-model="userInput" type="text" class="form-control" placeholder="Search">
-        </div>
-        <button ng-click="search(userInput)" class="btn btn-default">Search</button>
-      </form>
-    </div><!-- /.container-fluid -->
-  </nav>
-
-  <div ng-controller="PlayerController">  <!-- Give Access to the Player Controller to all our views -->
-    <div class="container">
-      <div class="row">
-        <div id="sidebar" class="col-md-3">
-          <div class ="song-container" ng-repeat="song in songs track by $index" ng-click="playFromSidebar($index)">
-            {{ song.artist ? song.artist + " - " : "" }} {{ song.title }}
+    <header class="head">
+      <div class="container">
+        <div class="column on-4">
+          <div class="logo-wrapper">
+            <div class="dot-wrapper">
+              <div class="dot accentBgColor"></div>
+            </div>
+            <img src="../img/logo.png" alt="" class="logo">
           </div>
         </div>
-        <div id="content" class="col-md-9">
-          <div ng-view></div> <!-- Views are loaded here -->
-        </div>
-      </div>
-    </div>
-
-    <div id="youtube"></div>
-    <div id="dz-root"></div>
-    <div id="apiswf"></div> <!-- Rdio -->
-    <div class="player text-center"> <!-- Player -->
-      <span ng-click="playPrev()"><i class="fa fa-fast-backward fa-3x "></i></span>
-      <span ng-show="playing" ng-click="togglePause()"><i class="fa fa-pause fa-3x "></i></span>
-      <span ng-hide="playing" ng-click="togglePause()"><i class="fa fa-play fa-3x "></i></span>
-      <span ng-click="playNext()"><i class="fa fa-fast-forward fa-3x "></i></span>
-      <div>{{ currentSong.artist ? currentSong.artist + " - " : "" }} {{ currentSong.title }}</div> <!-- Song name not displaying -->
-      <div>
-        <span ng-hide="buffering">{{ fixTime(timer) }} / {{ fixTime(currentSong.duration) }}</span>
-        <span ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></span>
-        <progressbar class="progress-striped active" type="success" max="1000" value="timer * 1000 / currentSong.duration"></progressbar>
-      </div>
-    </div>
-  </div>
-
-  <!-- shareRequestModal -->
-  <div class="modal fade" id="shareRequestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Share Queue</h4>
-        </div>
-        <div class="modal-body">
-          <form id="queueForm">
-            <div class="input-group">
-              <span class="input-group-addon">Queue Name: </span>
-              <input type="text" class="queueName form-control" placeholder="Queue Name" ng-model="queueName">
-            </div>
-            <div class="input-group">
-              <span class="input-group-addon">Passphrase: </span>
-              <input type="text" class="passPhrase form-control" placeholder="simple passphrase" ng-model="passphrase">
-            </div>
+        <div class="column on-2">
+          <form id="search" ng-submit="search(userInput)">
+            <input ng-model="userInput" type="text" placeholder="Search...">
+            <input type="submit" style="position: absolute; left: -9999px;">
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="shareNow btn btn-default" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</button>
+        <div class="column on-4 text-center">
+          <a href="#" class="btn" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
         </div>
       </div>
-    </div>
-  </div>
+    </header>
 
-   <!-- shareResponseModal -->
-  <div class="modal fade" id="shareResponseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Tweet It!</h4>
-        </div>
-        <div class="modal-body">
-          <p>Here's the link to your queue: </p>
-          <div>http://localhost/{{ QueueService.queue.shareId }}</div>
-          <div>
-          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
-          </a>
+    <div ng-controller="PlayerController">
+
+      <div class="row page">
+        <aside class="sidebar bottom-pad">
+          <div class="playlist-list">
+            <h3>Your Playlists</h3>
+<!--             <a ng-click="showQueue()">Queue</a> -->
+            <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
+                {{ playlist.name }} 
+              </a>
+            <a class="createPlaylist" ng-click="togglePlaylistInput(); playlistName = '';" href="#">Create Playlist <span class="accentColor" >+</span></a>
+            
+            <form id="search" ng-submit="saveToPlaylist(playlistName)">
+              <input class="tb" ng-show="showPlaylistInput" ng-model="playlistName" type="text" placeholder="Playlist Name.." />
+            </form>
+
           </div>
-          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">Share on Facebook
-          </a>
+          <div class="queue-songs">
+            <h3 ng-click="showQueue()">Now Playing</h3>
+            <span class="now-playing">{{ currentSong.title }}</span>
+            <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
+              {{ song.title }}
+            </a>
+          </div>
+        </aside>
+
+        <section ng-view class="page-content bottom-pad">
+        </section>
+
+
+      </div>
+      <div id="youtube"></div>
+      <div id="dz-root"></div>
+
+      <footer class="player" ng-hide="isShareView">
+        <div class="column on-4">
+          <img ng-src="{{QueueService.currentImage ? QueueService.currentImage : '/img/default-artwork.png'}}" alt="" class="artwork">
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="column-top song-player">
+          <div class="song-info">
+            <h3 class="song-name">{{ currentSong.artist ? currentSong.artist : "&nbsp" }}</h3>
+            <h3 ng-hide="buffering">{{ currentSong.title }}</h3>
+            <h3 ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></h3>
+          </div>
+          <div class="progressbar">
+            <div class="progress-line accentBgColor"></div>
+          </div>
+          <div class="time">
+            <span class="spent">{{ fixTime(((timer/10)| number:0)) }}</span>
+            <span class="total">{{ fixTime(currentSong.duration) }}</span>
+          </div>
+          <div class="controls">
+            <a ng-click="toggleLoop()"><i class="fa fa-undo loop" ng-class="{selected: looping}"></i></a>
+            <a ng-click="playPrev()" class="back"><img src="/img/prev.png" alt=""></a>
+            <a ng-show="playing" ng-click="togglePause()" class="play"><img src="/img/pause.png" alt=""></a>
+            <a ng-hide="playing" ng-click="togglePause()" class="play"><img src="/img/play.png" alt=""></a>
+            <a ng-click="playNext()" class="next"><img src="/img/next.png" alt=""></a>
+            <span ng-click="shuffle()"><i class="fa fa-random shuffle" ng-class="{selected: shuffled}"></i></span>
+            <!-- SHUFFLE AND LOOP AND PLAY-->
+          </div>
         </div>
+      </footer>
+    </div>
+
+<!-- Share Request Modal -->
+<div class="md-modal md-effect-5" id="shareRequestModal">
+    <div ng-escape="closeModal()" class="md-content">
+        <h3>Share this!</h3>
+        <div class="md-content-inner">
+           <form id="queueForm">
+            <span>Give this playlist a name! </span>
+            <span class="input-group queueNameDiv">
+              <input type="text" class="queueName form-control" placeholder="My Awesome Playlist!" ng-model="queueName">
+            </span>
+          </form>
+        </div>
+          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
+          <a type="button" class="shareNow btn md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
       </div>
     </div>
-  </div>
+</div>
 
-  <script src="https://www.rdio.com/media/fresh/now/api-helper.js"></script>
-  <script src="https://www.rdio.com/api/api.js?client_id=hrMFxa4bS9bb9Z09xcHJXw"></script>
-  <script src="/bower_components/jquery/jquery.min.js"></script>
-  <script src="http://connect.soundcloud.com/sdk.js"></script> 
-  <script src="/scripts/player_helpers/deezer.js"></script>
+<!-- Share Response Modal -->
+<div class="md-modal md-effect-5" id="shareResponseModal">
+    <div class="md-content">
+        <h3>Tweet this!</h3>
+        <div class="md-content-inner">
+          <span>Here's the link to your playlist: </span>
+          <input type="text" class="tb inline" value="http://{{ location.host() }}/q/{{ QueueService.queue.shareId }}"></input>
+          <div>
+            <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet">
+            </a>
+
+            <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">
+          </div>
+        </div>
+      <a class="md-close btn" ng-click="closeModal()">Close me!</a>
+    </div>
+</div>
+<div class="md-overlay"></div>
+
+
+
+  <script src="/bower_components/socket.io-client/dist/socket.io.js"></script>
+  <script src="https://www.rdio.com/api/api.js?helper=%2Fviews%2Fhelper.html&client_id=hrMFxa4bS9bb9Z09xcHJXw"></script>
+  <script src="/bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+  <script src="http://connect.soundcloud.com/sdk.js"></script>
+  <!-- <script src="/scripts/player_helpers/deezer.js"></script> -->
   <script src="/scripts/player_helpers/soundcloud.js"></script>
   <script src="/scripts/player_helpers/youtube.js"></script>
   <script src="/scripts/player_helpers/rdio.js"></script>
-  <script src="/bower_components/angular/angular.js"></script>
   <script src="/bower_components/angular-route/angular-route.js"></script>
-  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-  <script src="/bower_components/bootstrap-css/js/bootstrap.js"></script>
   <script src="/bower_components/ngprogress/build/ngProgress.min.js"></script>
   <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
-
+  <script src="/bower_components/angular-ui-sortable/sortable.min.js"></script>
+  <script src="/bower_components/jquery-dropdown/jquery.dropdown.min.js"></script>
 
   <script src="/scripts/app.js"></script>
   <script src="/scripts/oauth.min.js"></script>
@@ -134,10 +165,12 @@
   <script src="/scripts/services/queue.js"></script>
   <script src="/scripts/services/user.js"></script>
   <script src="/scripts/services/scraper.js"></script>
+  <script src="/scripts/directives/myDirective.js"></script>
   <script src="/scripts/controllers/frame.js"></script>
   <script src="/scripts/controllers/queue.js"></script>
   <script src="/scripts/controllers/search.js"></script>
   <script src="/scripts/controllers/player.js"></script>
   <script src="/scripts/controllers/share.js"></script>
-</body>
+  <script src="/scripts/controllers/playlist.js"></script>
+  </body>
 </html>
