@@ -450,14 +450,6 @@ body {
   right: 10px;
 }
 
-
-.dropdown .dropdown-menu LI {
-  list-style: none;
-  padding: 0 0;
-  margin: 0;
-  line-height: 18px;
-}
-
 /*font color*/
 .dropdown .dropdown-menu LI > A,
 .dropdown .dropdown-menu LABEL {
