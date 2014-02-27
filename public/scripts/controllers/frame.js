@@ -231,7 +231,7 @@ angular.module('ammoApp')
 
       var playlistObj = {
         name: name,
-        songs: $scope.songs
+        songs: [] 
       };
 
       $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
