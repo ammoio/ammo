@@ -7,7 +7,6 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
       .when('/', {
         redirectTo: '/listen'
       })
-      // display search results in the search view
       .when('/search', {
         templateUrl: '/views/search.html',
         controller: 'SearchController'
@@ -33,7 +32,7 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
         controller: 'ShareController'
       });
 
-    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798'); 
+    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
 
   })
 
