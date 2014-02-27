@@ -217,7 +217,11 @@ a {
   border: none;
   font-size: 1em;
 }
-
+li.song.ng-scope.selectedSong {
+  background: rgb(32, 62, 130);
+  opacity: 0.8;
+  /*color: white;*/
+}
 .player {
   position: fixed;
   width: 100%;
