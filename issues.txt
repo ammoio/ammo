@@ -1,0 +1,30 @@
+issues:
+
+limit 1 per vote RAY  DONE
+do a timeout 3 seconds RAY DONE
+login ALEX DONE
+background image ALEX DONE
+close button on modal Alex DONE
+Change cursor to pointer when hovering over song RAY DONE
+player spinner DANIEL DONE
+page load spinner DANIEL DONE
+progress bar DANIEL DONE
+create playlist button ALEX DONE
+Remove filter box NICK DONE
+change the icons DANIEL
+left align title ALEX DONE
+ng-hide played song ALEX DONE
+share view css RAY DONE
+fix voting RAY DONE
+
+
+drop down NICK
+
+stress test
+
+show what is being played DANIEL
+drop down to playlist queue view NICK
+fix time
+Log in to the right
+position time
+grey out already played
