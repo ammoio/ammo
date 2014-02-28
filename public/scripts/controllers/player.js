@@ -139,20 +139,7 @@ angular.module('ammoApp')
           $scope.stopAll();
         }
         else {
-          $scope.playing = true;
-
-          if($scope.currentSong.service === 'youtube') {
-            youtube.playVideo();
-          }
-          else if($scope.currentSong.service === 'soundcloud') {
-            scPlayer.play();
-          }
-          else if($scope.currentSong.service === 'deezer') {
-            // DZ.player.play();
-          }
-          else if($scope.currentSong.service === 'rdio') {
-            R.player.play();
-          }
+          $scope.unPause();
         }
       } else {
         if (QueueService.queue.songs.length){
@@ -161,21 +148,26 @@ angular.module('ammoApp')
       }
     };
 
+    $scope.unPause = function() {
+      $scope.playing = true;
+
+      if($scope.currentSong.service === 'youtube') {
+        youtube.playVideo();
+      }
+      else if($scope.currentSong.service === 'soundcloud') {
+        scPlayer.play();
+      }
+      else if($scope.currentSong.service === 'deezer') {
+        // DZ.player.play();
+      }
+      else if($scope.currentSong.service === 'rdio') {
+        R.player.play();
+      }
+    };
+
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      var next;
-
-      if ($scope.shuffled){
-        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){
-          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
-          QueueService.shuffledIndex++;
-        } else if ($scope.looping) {
-          next = QueueService.shuffleStore[0];
-          QueueService.shuffledIndex = 0;
-        }
-      } else {
-        next = QueueService.queue.currentSong + 1;
-      }
+      var next = $scope.setNext();
 
       QueueService.setCurrentSongIndex(next)
         .then(function(index) {
@@ -187,20 +179,25 @@ angular.module('ammoApp')
         });
     };
 
-    $scope.playPrev = function() {
-      var prev;
-
+    $scope.setNext = function() {
       if ($scope.shuffled){
-        if (QueueService.shuffledIndex > 0){
-          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
-          QueueService.shuffledIndex--;
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){
+          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
+          QueueService.shuffledIndex++;
+          return next;
         } else if ($scope.looping) {
-          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
-          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+          next = QueueService.shuffleStore[0];
+          QueueService.shuffledIndex = 0;
+          return next;
         }
       } else {
-        prev = QueueService.queue.currentSong - 1;
+        next = QueueService.queue.currentSong + 1;
+        return next;
       }
+    };
+
+    $scope.playPrev = function() {
+      var prev = $scope.setPrev();
 
       QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
@@ -210,6 +207,23 @@ angular.module('ammoApp')
         .catch(function(err) {
           console.log("Error: ", err);
         });
+    };
+
+    $scope.setPrev = function() {
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex > 0){
+          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
+          QueueService.shuffledIndex--;
+          return prev;
+        } else if ($scope.looping) {
+          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
+          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+          return prev;
+        }
+      } else {
+        prev = QueueService.queue.currentSong - 1;
+        return prev;
+      }
     };
 
 
