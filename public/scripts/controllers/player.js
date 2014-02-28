@@ -42,15 +42,29 @@ angular.module('ammoApp')
             and 's' for search.
     */
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
-      $scope.buffering = true;
       var song;
+      $scope.buffering = true;
       $scope.ready = false;
 
+      song = $scope.setSong(songOrIndex, queueOrSearch);
+      if ($scope.currentSong !== null){
+        $scope.stopAll();
+        $scope.playing = true;
+        $scope.startPlaying(song);
+        $scope.setServiceColor();
+        $scope.stopTimer();
+        $scope.startTimer();
+      }
+    };
+
+    $scope.setSong = function(songOrIndex, queueOrSearch){
       if(queueOrSearch === 'q') {
         if(songOrIndex !== null) {
           song = QueueService.queue.songs[songOrIndex];
           QueueService.queue.currentSong = songOrIndex;
+          $scope.currentSong = song;
           $scope.updateImage(songOrIndex);
+          return song;
         }
         else {
           $scope.currentSong = null;
@@ -59,15 +73,15 @@ angular.module('ammoApp')
         }
       }
       else if(queueOrSearch === 's') {
-        song = songOrIndex;
+        $scope.currentSong = songOrIndex;
+        return songOrIndex;
       }
       else {
         return;
       }
-      $scope.stopAll();
-      $scope.currentSong = song;
-      $scope.playing = true;
+    };
 
+    $scope.startPlaying = function(song){
       if(song.service === "youtube") {
         youtube.loadVideoById(song.serviceId, 0, "large");
         youtube.playVideo();
@@ -84,7 +98,9 @@ angular.module('ammoApp')
           $scope.currentSong.duration = 30;
         }
       }
+    };
 
+    $scope.setServiceColor = function(){
       var color;
       if($scope.currentSong.service === 'youtube'){
         color = "#c22f2a";
@@ -98,9 +114,6 @@ angular.module('ammoApp')
 
       $('.accentColor').css('color', color);
       $('.accentBgColor').css('background-color', color);
-
-      $scope.stopTimer();
-      $scope.startTimer();
     };
 
     /* 
@@ -110,7 +123,7 @@ angular.module('ammoApp')
     $scope.stopAll = function() {
       $scope.playing = false;
       youtube.pauseVideo();
-      scPlayer.pause();
+      // scPlayer.pause();
       // DZ.player.pause();
       R.player.pause();
     };
@@ -126,20 +139,7 @@ angular.module('ammoApp')
           $scope.stopAll();
         }
         else {
-          $scope.playing = true;
-
-          if($scope.currentSong.service === 'youtube') {
-            youtube.playVideo();
-          }
-          else if($scope.currentSong.service === 'soundcloud') {
-            scPlayer.play();
-          }
-          else if($scope.currentSong.service === 'deezer') {
-            // DZ.player.play();
-          }
-          else if($scope.currentSong.service === 'rdio') {
-            R.player.play();
-          }
+          $scope.unPause();
         }
       } else {
         if (QueueService.queue.songs.length){
@@ -148,21 +148,26 @@ angular.module('ammoApp')
       }
     };
 
+    $scope.unPause = function() {
+      $scope.playing = true;
+
+      if($scope.currentSong.service === 'youtube') {
+        youtube.playVideo();
+      }
+      else if($scope.currentSong.service === 'soundcloud') {
+        scPlayer.play();
+      }
+      else if($scope.currentSong.service === 'deezer') {
+        // DZ.player.play();
+      }
+      else if($scope.currentSong.service === 'rdio') {
+        R.player.play();
+      }
+    };
+
     // playNext and playPrev can be refactored to one function
     $scope.playNext = function() {
-      var next;
-
-      if ($scope.shuffled){
-        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){//if not on last shuffled index
-          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
-          QueueService.shuffledIndex++;
-        } else if ($scope.looping) {
-          next = QueueService.shuffleStore[0];
-          QueueService.shuffledIndex = 0;
-        }
-      } else {
-        next = QueueService.queue.currentSong + 1;
-      }
+      var next = $scope.setNext();
 
       QueueService.setCurrentSongIndex(next)
         .then(function(index) {
@@ -174,20 +179,25 @@ angular.module('ammoApp')
         });
     };
 
-    $scope.playPrev = function() {
-      var prev;
-
+    $scope.setNext = function() {
       if ($scope.shuffled){
-        if (QueueService.shuffledIndex > 0){
-          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
-          QueueService.shuffledIndex--;
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){
+          next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
+          QueueService.shuffledIndex++;
+          return next;
         } else if ($scope.looping) {
-          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
-          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+          next = QueueService.shuffleStore[0];
+          QueueService.shuffledIndex = 0;
+          return next;
         }
       } else {
-        prev = QueueService.queue.currentSong - 1;
+        next = QueueService.queue.currentSong + 1;
+        return next;
       }
+    };
+
+    $scope.playPrev = function() {
+      var prev = $scope.setPrev();
 
       QueueService.setCurrentSongIndex(prev)
         .then(function(index) {
@@ -197,6 +207,23 @@ angular.module('ammoApp')
         .catch(function(err) {
           console.log("Error: ", err);
         });
+    };
+
+    $scope.setPrev = function() {
+      if ($scope.shuffled){
+        if (QueueService.shuffledIndex > 0){
+          prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
+          QueueService.shuffledIndex--;
+          return prev;
+        } else if ($scope.looping) {
+          prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
+          QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
+          return prev;
+        }
+      } else {
+        prev = QueueService.queue.currentSong - 1;
+        return prev;
+      }
     };
 
 
@@ -285,29 +312,32 @@ angular.module('ammoApp')
       }
     };
 
-    $scope.shuffle = function(){
+    $scope.shuffle = function() {
+      var shuffled = [];
+
+      for (var j=0; j<QueueService.queue.songs.length; j++){
+        shuffled.push(j);
+      }
+
+      var len = shuffled.length, temp, i;
+      while(len) {
+        i = Math.floor(Math.random() * len--);
+        temp = shuffled[len];
+        shuffled[len] = shuffled[i];
+        shuffled[i] = temp;
+      }
+
+      QueueService.shuffleStore = shuffled;
+      QueueService.shuffledIndex = 0;
+    };
+
+    $scope.toggleShuffle = function(){
       if(QueueService.queue.songs.length){
         QueueService.isShuffled = QueueService.isShuffled ? false : true;
         $scope.shuffled = QueueService.isShuffled;
 
         if ($scope.shuffled){
-          var shuffled = [];
-
-          for (var j=0; j<QueueService.queue.songs.length; j++){
-            shuffled.push(j);
-          }
-
-          var len = shuffled.length, temp, i;
-
-          while(len) {
-            i = Math.floor(Math.random() * len--);
-            temp = shuffled[len];
-            shuffled[len] = shuffled[i];
-            shuffled[i] = temp;
-          }
-
-          QueueService.shuffleStore = shuffled;
-          QueueService.shuffledIndex = 0;
+          $scope.shuffle();
         } else {
           QueueService.shuffleStore = [];
         }
@@ -315,7 +345,7 @@ angular.module('ammoApp')
         if (QueueService.queue.currentSong === null){
           QueueService.setCurrentSongIndex(0); // updates the sidebar next songs   
         }else{
-          QueueService.setCurrentSongIndex(QueueService.queue.currentSong); // updates the sidebar next songs   
+          QueueService.setCurrentSongIndex(QueueService.queue.currentSong);  
         }
         
       }     
