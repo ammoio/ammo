@@ -33,7 +33,6 @@ angular.module('ammoApp')
       Return: No return
     */
     $scope.addToQueue = function ($event, song) {
-      $event.stopPropagation();
       QueueService.enqueue(song)
         .then(function () {
           if (QueueService.queue.shareId) {
