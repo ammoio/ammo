@@ -256,7 +256,8 @@ angular.module('ammoApp')
     };
 
     $scope.stopTimer = function () {
-      for (var i = 0; i < intervals.length; i++) { //clear all set intervals
+      var i;
+      for (i = 0; i < intervals.length; i++) { //clear all set intervals
         $interval.cancel(intervals[i]);
       }
       $scope.timer = 0;
@@ -303,8 +304,9 @@ angular.module('ammoApp')
 
     $scope.shuffle = function () {
       var shuffled = [];
+      var j;
 
-      for (var j=0; j<QueueService.queue.songs.length; j++) {
+      for (j = 0; j < QueueService.queue.songs.length; j++) {
         shuffled.push(j);
       }
 
@@ -344,4 +346,4 @@ angular.module('ammoApp')
       $scope.looping = QueueService.isLooping;
     };
 
-});
+  });
