@@ -285,6 +285,14 @@ li.song.ng-scope.selectedSong {
   opacity: 0.5;
 }
 
+.hideYoutube {
+  z-index: -1;
+}
+
+#youtube {
+  position: absolute;
+}
+
 .fa {
   color: white;
 /*  width: 20px;
