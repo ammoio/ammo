@@ -1,23 +1,13 @@
 angular.module('ammoApp')
   .controller('FrameController', function($q, $scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
-    $scope.QueueService = QueueService;
+  
+    /*************** scope variables ***************/
     $scope.UserService = UserService;
+    $scope.QueueService = QueueService;
     $scope.location = $location;
-
     $scope.isShareView = $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
     $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
-    //initializing socket
-    $scope.socket = io.connect($scope.location.host()); 
-
-    var S4 = function() {
-      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-
-    var guid = function () {
-      return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-    };
-
-    $cookies.sessionId = $cookies.sessionId || guid();
+    $scope.socket = io.connect($scope.location.host()); //initializing socket
 
     $http({ method: 'GET', url: '/user'})
       .success(function(user) {
