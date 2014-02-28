@@ -1,14 +1,14 @@
 angular.module('ammoApp')
 //  This service is inteded to resolve the ID's of any given valid url
-//  
-//  === Important Note === 
-//  soundcloud resolver is async returns a promise 
 //
-//  Examples: 
+//  === Important Note ===
+//  soundcloud resolver is async returns a promise
+//
+//  Examples:
 //    ParseService.youtube("http://www.youtube.com/watch?v=11Y6Tqw17BM") ->  "11Y6Tqw17BM"
 //    ParseService.youtube("http://youtu.be/11Y6Tqw17BM")                ->  "11Y6Tqw17BM"
-//    ParseService.spotify("http://open.spotify.com/track/5jmFq0Mlx1eV6h1UhtT3iU") -> "spotify:track:5jmFq0Mlx1eV6h1UhtT3iU"   
-//    ParseService.soundcloud("https://soundcloud.com/madeon/madeon-live-triple-j-mix") -> Promise 
+//    ParseService.spotify("http://open.spotify.com/track/5jmFq0Mlx1eV6h1UhtT3iU") -> "spotify:track:5jmFq0Mlx1eV6h1UhtT3iU"
+//    ParseService.soundcloud("https://soundcloud.com/madeon/madeon-live-triple-j-mix") -> Promise
 //    then you need to resolve the promise and it returns a song object, you can see an example of a resolved one here:
 //    http://api.soundcloud.com/tracks/82964169.json?client_id=456165005356d6638c4eabfc515d11aa
 
@@ -41,7 +41,6 @@ angular.module('ammoApp')
           });
 
       } else {
-        console.log("YouTube url not vaild");
       }
     };
 
@@ -72,7 +71,6 @@ angular.module('ammoApp')
 
           if(!track.data.streamable || track.data.sharing !== 'public') {
             alert("Track not streamable");
-            console.log("Track not streamable");
             return;
           }
           var song = {
@@ -94,9 +92,29 @@ angular.module('ammoApp')
       userInput.splice(0,3);
       userInput = userInput.join(" ");
       SearchService.searchResults = [];
-      SearchService.rdio(userInput, 1)
-      .then(function(song) {
-        SearchService.searchResults.push(song[0]);
+      SearchService.rdio(userInput, 1, 5000)
+      .success(function(song) {
+        if(song.length !== 0) {
+          SearchService.searchResults.push(song[0]);
+        }
       });
+    };
+
+    this.parseURL = function(url) {
+      if(url.indexOf("youtu") !== -1) {
+        this.youtube(url);
+      }
+      else if(url.indexOf("soundcloud") !== -1) {
+        this.soundcloud(url);
+      }
+      else if(url.indexOf("deezer") !== -1) {
+
+      }
+      else if(url.indexOf("spotify") !== -1) {
+        this.spotify(url);
+      }
+      else if (url.indexOf("rdio") !== -1) {
+        this.rdio(url);
+      }
     };
   });

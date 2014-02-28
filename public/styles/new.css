@@ -5,6 +5,8 @@
   -moz-box-sizing: border-box;
   margin: 0px;
   padding: 0px;
+  animation-timing-function:linear;
+  -webkit-animation-timing-function:linear;
 }
 
 html {
@@ -108,15 +110,17 @@ a {
   color: #fff;
   margin: 10px 0px;
 }
+
 .sidebar .playlist-list {
-  padding: 30px 20px;
+  padding: 20px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .sidebar .queue-songs {
-  padding: 30px 20px;
+  padding: 20px 20px;
   overflow-x:hidden;
   white-space: nowrap;
-    padding:0 10px;
+/*  padding:0 10px;*/
 
 }
 
@@ -135,7 +139,7 @@ a {
   color: #fff;
   font-weight: 300;
   font-size: 3em;
-  text-align: center;
+  /* text-align: center; */
 }
 .page-content .author, .page-content .songs-number {
   color: #fff;
@@ -217,7 +221,11 @@ a {
   border: none;
   font-size: 1em;
 }
-
+li.song.ng-scope.selectedSong {
+  background: rgb(32, 62, 130);
+  opacity: 0.8;
+  /*color: white;*/
+}
 .player {
   position: fixed;
   width: 100%;
@@ -228,7 +236,7 @@ a {
 }
 .player .artwork {
   width: 100%;
-  height: 300px;
+  height: 200px;
   background: #171717;
 }
 .player .song-player {
@@ -314,10 +322,21 @@ a {
   margin-bottom: 1.5em;
 }
 
-.song button {
+.page-content .song button {
   cursor: pointer;
   width: 150px;
 }
+
+.page-content .song button:disabled {
+  cursor: auto;
+  color: #6beb2e;
+
+}
+
+.page-content .played {
+  opacity: 0.3;
+}
+
 
 @media (max-width: 600px) {
   .column {
@@ -456,11 +475,6 @@ a {
   border-radius: 50%;
 }
 
-.song button{
-  cursor: pointer;
-  width: 120px;
-}
-
 .inline{
   display: inline-block;
   width: 180px;
@@ -515,3 +529,22 @@ a {
   overflow: hidden;
 }
 
+.nowPlaying{
+  font-size: 1.3em;
+  font-weight: bold;
+  padding-bottom: 4px;
+}
+.nowPlaying:hover{
+  text-decoration: underline;
+}
+
+.yourPlaylists {
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.3em;
+  cursor: initial;
+}
+
+.voteColor{
+  color: #6beb2e !important;
+}

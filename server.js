@@ -4,17 +4,20 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-var dbHelpers = require('./dbHelpers');
-var loginHelpers = require('./loginHelpers');
+var Routes = require('./app/routes/routes.js');
+var Sockets = require('./app/sockets.js');
+var mongoose = require('mongoose');
+var errorhandler  = require('./app/error.js');
 
+mongoose.connect('mongodb://localhost/ammo');
 
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.use(errorhandler);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -35,271 +38,12 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-//require('.////')(app)
-/* ======== User Routes ========*/
-app.post('/login', function(req, res){
-  console.log("SessionID:");
-  console.dir(req.sessionID);
-  loginHelpers.validateUser(req.body.code, req.cookies['ammoio.sid'])
-  .then(function(user){
-    res.send(user);
-  })
-  .fail(function(err){
-    console.log('why the error', err);
-    res.send(418);
-  });
-});
-
-app.get('/logout/:username', function(req, res){
-  loginHelpers.closeSession(req.params.username)
-  .then(function(username){
-    res.send("Successfully logged out User:", username);
-  })
-  .fail(function(err){
-    console.log("Error logging out: ", err);
-    res.send(401);
-  });
-});
-
-app.get('/user', function(req, res){
-  console.dir(req.cookies);
-  dbHelpers.getUser({sessionId: req.cookies['ammoio.sid']})
-  .then(function(user){
-    console.log(user);
-    res.send(user);
-  })
-  .fail(function(err){
-    res.send(401);
-  });
-});
-
-/* ======== Queue Routes ========*/
-app.get('/queues', function(req, res){
-  dbHelpers.getQueues()
-  .then(function(queues){
-    res.send(queues);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
-});
-
-app.get('/queues/:id', function(req, res){
-  dbHelpers.getQueue(req.params.id)
-  .then(function(queue){
-    res.send(queue);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
-});
-
-app.post('/queues', function (req, res) {
-  console.log("Creating: ", req.body);
-  dbHelpers.createQueue(req.body)
-  .then(function(queue){
-    res.send(queue);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
-});
-
-//POST: add song to queue
-app.post('/queues/:id/add', function(req, res){
-  loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
-  .then(function(){
-    return dbHelpers.addSongToQueue(req.params.id, req.body);
-  })
-  .then(function(song){
-    res.send(song);
-  })
-  .fail(function (err) {
-    console.log(err);
-    if(err === "not logged in"){
-      res.send(401);
-    } else {
-      res.send(500, err);
-    }
-  });
-});
-
-//PUT update queue
-app.put('/queues/:id', function(req, res){
-   loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
-  .then(function(){
-    return dbHelpers.updateQueue(req.params.id, req.body);
-  })
-  .then(function(queue){
-    io.sockets.emit('updateView', {shareId: queue.shareId});
-    res.send(queue);
-  })
-  .fail(function (err) {
-    if(err === "not logged in"){
-      res.send(401);
-    } else {
-      res.send(500, err);
-    }
-  });
-});
-
-//DELETE: Delete Song at index
-app.delete('/queues/:id/:index', function(req, res){
-  loginHelpers.isAuthorized(req.params.id, req.cookies['ammoio.sid'])
-  .then(function(){
-    return dbHelpers.removeSongFromQueue(req.params.id, req.params.index);
-  })
-  .then(function(song){
-    res.send(song);
-  })
-  .fail(function (err) {
-    if(err === "not logged in"){
-      res.send(401);
-    } else {
-      res.send(500, err);
-    }
-  });
-});
-
-
-
-/* ======== Playlist Routes ========*/
-//GET: all user playlists
-app.get('/:user/playlists', function(req, res){
-  dbHelpers.getUserPlaylists(req.params.user)
-  .then(function(playlists){
-    res.send(playlists);
-  })
-  .fail(function (err) {
-    res.send(500, err);
-  });
-});
-
-//GET: user playlist by id //DEPRECATED -- use queue endpoint
-app.get('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.getUserPlaylist(req.params.user, req.params.id)
-  // .then(function(playlist){
-  //   res.send(playlist);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//POST: Add song to playlist //DEPRECATED, use queue endpoint
-app.post('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.addSongToPlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(song){
-  //   res.send(song);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//PUT: Update Playlist //DEPRECATED, use queue endpoint
-app.put('/:user/playlists/:id', function(req, res){
-  res.send(410);
-  // dbHelpers.updatePlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(playlist){
-  //   res.send(playlist);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//POST: Create Playlist
-app.post('/:user/playlists', function(req, res){
-  loginHelpers.validateSession(req.params.user, req.cookies['ammoio.sid'])
-  .then(function (response) {
-    console.log("Valid Session", req.params.user);
-    return true;
-  })
-  .then(function () {
-    return dbHelpers.createPlaylist(req.params.user, req.body);
-  })
-  .then(function(playlist){
-    res.send(playlist);
-  })
-  .fail(function (err) {
-    if(err === "not logged in"){
-      res.send(401);
-    } else {
-      res.send(500, err);
-    }
-  });
-});
-
-//POST: Delete Song at index //DEPRECATED, use queue endpoint
-app.post('/:user/playlists/:id/remove', function(req, res){
-  res.send(410);
-  // dbHelpers.removeSongFromPlaylist(req.params.user, req.params.id, req.body)
-  // .then(function(song){
-  //   res.send(song);
-  // })
-  // .fail(function (err) {
-  //   res.send(500, err);
-  // });
-});
-
-//GET: scrape----------------------------------------------------------------------------------
-app.get('/scrape/:artist', function(req, res){
-  var url = "http://www.theaudiodb.com/api/v1/json/1/search.php?s=" + req.params.artist;
-  var data = '';
-  http.get(url, function(response) {
-    response.on('data', function (chunk) {
-      data += chunk;
-    });
-
-    response.on('end', function () {
-      //res.setHeader()
-      res.send(data);
-    });
-  })
-  .on('error', function(e) {
-    console.log("Error Scraping Song" + e.message);
-  });
-});
-//-------------------------------------------------------------------------------------------------
-
-
-app.get('/q/:id', function (req, res) {
-  dbHelpers.getQueue(req.params.id)
-  .then(function(queue){
-    res.sendfile(__dirname + '/public/shareIndex.html');  
-  })
-  .fail(function (err) {
-    res.redirect('/');
-  })
-});
-
-//Catch-all Route
-app.get('*', function (req, res) {
-  res.sendfile(__dirname + '/public/index.html');
-});
-
-
+Routes(app);
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){
   console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
 });
 
+Sockets.startSocketServer(server);
 
-//socket io logic
-var io = require('socket.io').listen(server);
-io.sockets.on('connection', function (socket) {
-  socket.on('queueChanged', function(data) {
-    //broadcast emit message to everyone but the original sender
-    socket.broadcast.emit('updateView', data);
-   });
-  socket.on('voteUp', function(data) {
-    dbHelpers.updateQueue(data.shareId, data.songs)
-    .then(function(data){
-      io.sockets.emit('updateView', data);
-    });
-  });
-});

@@ -1,15 +1,14 @@
 angular.module('ammoApp')
   .service('QueueService', function($window, $http, $q, $location, $rootScope, ScraperService){
-    //TODO - Fix isse #33
 
     this.queue = {
-      name: "New Queue",
+      name: "Now Playing",
       shareId: null,
       listenId: null,
       passphrase: null,
       songs: [],
       currentSong: null, // an Index
-      isPrivate: false,
+      isPrivate: false
     };
     this.live = false; //flag for whether or not the queue is on the server
     this.currentImage = "";
@@ -18,6 +17,7 @@ angular.module('ammoApp')
     this.shuffleStore = [];
     this.shuffledIndex = 0;
     this.isLooping = false;
+    this.votedSongs = {};
 
     /*
       ========== enqueue ==========
@@ -35,8 +35,6 @@ angular.module('ammoApp')
     */
 
     this.enqueue = function(song){
-
-      ////////////////////thumbs
       song.votes = 0;
 
       var d = $q.defer();
@@ -49,7 +47,6 @@ angular.module('ammoApp')
         var url = "/queues/" + this.queue.shareId + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
-          console.log("song added to q on db");
           d.resolve(data);
         })
         .error(function(err){
@@ -59,7 +56,6 @@ angular.module('ammoApp')
       } else {
         d.resolve(song);
       }
-
       return d.promise;
     };
 
@@ -117,7 +113,6 @@ angular.module('ammoApp')
 
       $http.get('/queues/' + shareId)
       .success(function(queue){
-        console.log("Retreived Queue from server: ", queue);
         that.setQueue(queue);
         that.setNextSongs(that.queue.currentSong);
         d.resolve(that.queue);
@@ -154,7 +149,7 @@ angular.module('ammoApp')
       this.setNextSongs(this.queue.currentSong);
       this.live = false;
       this.queue.shareId = null;
-      this.queue.name = "Current Queue";
+      this.queue.name = "Now Playing";
       return this.queue;
     };
 
@@ -170,7 +165,7 @@ angular.module('ammoApp')
 
     this.resetQueue = function(){
       this.queue = {
-        name: "New Queue",
+        name: "Now Playing",
         shareId: null,
         passphrase: null,
         songs: [],
@@ -238,13 +233,12 @@ angular.module('ammoApp')
       this.queue.isPrivate = false;
       $http.post('/queues', this.queue)
       .success(function(data, status, headers, config) {
-        console.log("Created Live Queue: ", data);
         that.queue = data;
         that.live = true;
 
         //if this is coming from a share view
         if ($location.path().indexOf('/q/') !== -1 ) {
-          var url = 'http://' + $location.host() +':3000/listen/' + data.listenId; 
+          var url = 'http://' + $location.host() +'/listen/' + data.listenId; 
           $window.location.href = url;
         } else {
           $location.path("/listen/" + data.listenId);

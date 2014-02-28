@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .controller('PlaylistController', function($scope, $http, $routeParams, QueueService) {
+  .controller('PlaylistController', function($scope, $http, $routeParams, $location, QueueService, UserService) {
     $scope.playlist = null;
 
     $scope.refreshPlaylist = function() {
@@ -32,6 +32,7 @@ angular.module('ammoApp')
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
           $scope.play(ind, "q");
+          $location.path('/listen');
         })
         .catch(function(err) {
           console.log("Error: ", err);
@@ -67,8 +68,6 @@ angular.module('ammoApp')
           - Event triggered with the ng-click so we can stop propagation
     */
     $scope.addTo = function(destination, song, event) {
-      event.stopPropagation();
-      $('.open').dropdown('toggle');
       if(destination === 'queue') {
         $scope.addToQueue(event, song);
       }
@@ -77,9 +76,7 @@ angular.module('ammoApp')
       }
     };
 
-    $scope.remove = function(index, event) {
-      event.stopPropagation();
-      $('.open').dropdown('toggle');
+    $scope.remove = function(index) {
       $http.delete('/queues/' + $scope.playlist.shareId + '/' + index)
       .then(function() {
         $scope.refreshPlaylist();
@@ -100,6 +97,26 @@ angular.module('ammoApp')
       }
       // $scope.$apply();
       $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
+    };
+
+    $scope.delete = function() {
+      var user = UserService.user;
+      UserService.getUserPlaylists(user)
+        .then(function(userPls){
+          var playlists = userPls; 
+          for (var i=0; i < playlists.length; i++){
+            if (playlists[i].shareId === $scope.playlist.shareId) {
+              playlists.splice(i,1);
+            }
+          }
+
+          $http.put('/users/' + user.username, {playlists: playlists})
+            .success(function(userObj){
+              user.playists = userObj.playlists;
+            });
+
+          $location.path('/listen')
+        });
     };
 });
 

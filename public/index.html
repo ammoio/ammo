@@ -36,7 +36,7 @@
           </form>
         </div>
         <div class="column on-4 text-center">
-          <a href="#" class="btn" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
+          <a href="#" class="btn" ng-click="UserService.login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
         </div>
       </div>
     </header>
@@ -46,7 +46,7 @@
       <div class="row page">
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
-            <h3>Your Playlists</h3>
+            <a class="yourPlaylists">Your Playlists</a>
 <!--             <a ng-click="showQueue()">Queue</a> -->
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
@@ -59,7 +59,7 @@
 
           </div>
           <div class="queue-songs">
-            <h3 ng-click="showQueue()">Now Playing</h3>
+            <a ng-click="showQueue()" class="nowPlaying" href="#">Now Playing</a>
             <span class="now-playing">{{ currentSong.title }}</span>
             <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
               {{ song.title }}
@@ -75,7 +75,7 @@
       <div id="youtube"></div>
       <div id="dz-root"></div>
 
-      <footer class="player" ng-hide="isShareView">
+      <footer class="player">
         <div class="column on-4">
           <img ng-src="{{QueueService.currentImage ? QueueService.currentImage : '/img/default-artwork.png'}}" alt="" class="artwork">
         </div>
@@ -89,7 +89,7 @@
             <div class="progress-line accentBgColor"></div>
           </div>
           <div class="time">
-            <span class="spent">{{ fixTime(((timer/10)| number:0)) }}</span>
+            <span class="spent">{{ fixTime(timer) }}</span>
             <span class="total">{{ fixTime(currentSong.duration) }}</span>
           </div>
           <div class="controls">
@@ -98,7 +98,7 @@
             <a ng-show="playing" ng-click="togglePause()" class="play"><img src="/img/pause.png" alt=""></a>
             <a ng-hide="playing" ng-click="togglePause()" class="play"><img src="/img/play.png" alt=""></a>
             <a ng-click="playNext()" class="next"><img src="/img/next.png" alt=""></a>
-            <span ng-click="shuffle()"><i class="fa fa-random shuffle" ng-class="{selected: shuffled}"></i></span>
+            <span ng-click="toggleShuffle()"><i class="fa fa-random shuffle" ng-class="{selected: shuffled}"></i></span>
             <!-- SHUFFLE AND LOOP AND PLAY-->
           </div>
         </div>
@@ -158,12 +158,16 @@
   <script src="/bower_components/angular-ui-sortable/sortable.min.js"></script>
   <script src="/bower_components/jquery-dropdown/jquery.dropdown.min.js"></script>
 
+
   <script src="/scripts/app.js"></script>
   <script src="/scripts/oauth.min.js"></script>
   <script src="/scripts/services/parser.js"></script>
+  <!-- frame controller helper services -->
+  <script src="/scripts/services/frame_services/stopClick.js"></script>
   <script src="/scripts/services/search.js"></script>
   <script src="/scripts/services/queue.js"></script>
   <script src="/scripts/services/user.js"></script>
+  <script src="/scripts/services/playlist.js"></script>
   <script src="/scripts/services/scraper.js"></script>
   <script src="/scripts/directives/myDirective.js"></script>
   <script src="/scripts/controllers/frame.js"></script>
