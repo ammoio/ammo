@@ -132,4 +132,43 @@ angular.module('ammoApp')
         $http.put('/queues/' + QueueService.queue.shareId, { songs: QueueService.queue.songs });
       }
     };
+
+    $scope.tiles1 = [{
+      searchString: "BEYONCE",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qxrupw1387383515.jpg"
+    },{
+      searchString: "KATY PERRY PRISM",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqtwqr1379211981.jpg"
+    },{
+      searchString: "DAFT PUNK RANDOM ACCESS MEMORIES",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/random-access-memories-51764651042e5.jpg"
+    },{
+      searchString: "JOHN LEGEND LOVE IN THE FUTURE",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/vspsyr1377914815.jpg"
+    },{
+      searchString: "DRAKE NOTHING WAS THE SAME",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wxsuqt1379204523.jpg"
+    }];
+
+    $scope.tiles2 = [{
+      searchString: "LORDE PURE HEROIN",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tpvsus1382103853.jpg"
+    },{
+      searchString: "ONE REPUBLIC NATIVE",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/native-514bdf9aa7b9b.jpg"
+    },{
+      searchString: "BECK MORNING PHASE",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qrsuvu1391184914.jpg"
+    },{
+      searchString: "MILEY CYRUS BANGERZ",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqyvpq1378882084.jpg"
+    },{
+      searchString: "JASON DERULO TATTOOS",
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tattoos-524cc41230952.jpg"
+    }];
+
   });
+
+  
+
+
