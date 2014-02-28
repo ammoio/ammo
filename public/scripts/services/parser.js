@@ -41,7 +41,6 @@ angular.module('ammoApp')
           });
 
       } else {
-        console.log("YouTube url not vaild");
       }
     };
 
@@ -72,7 +71,6 @@ angular.module('ammoApp')
 
           if(!track.data.streamable || track.data.sharing !== 'public') {
             alert("Track not streamable");
-            console.log("Track not streamable");
             return;
           }
           var song = {

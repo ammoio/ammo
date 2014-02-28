@@ -76,7 +76,6 @@ angular.module('ammoApp')
     */
 
     $scope.share = function() {
-      console.log("Live: " + QueueService.live + "shareid: " + QueueService.queue.shareId);
       if (QueueService.live || QueueService.queue.shareId) {
         var shareLink = 'http://localhost/' + QueueService.queue.shareId;
         $('.twitter-share-button').attr({
@@ -90,40 +89,6 @@ angular.module('ammoApp')
       }
     };
 
-    /* 
-      ======== saveToPlaylist ========
-      Save the current queue to a playlist.
-
-      ! THIS CODE HAS BEEN MOVED TO THE FRAME CONTROLLER !
-
-    */
-    // $scope.saveToPlaylist = function() {
-    //   if(!UserService.user.loggedIn) {
-    //     console.log("Can't save playlist if user is not logged.");
-    //     return;
-    //   }
-
-    //   if(!$scope.playlistName) {
-    //     console.log("Playlist name can not be empty");
-    //     return;
-    //   }
-
-    //   var playlistObj = {
-    //     name: $scope.playlistName,
-    //     songs: $scope.songs
-    //   };
-
-    //   $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
-    //   .success(function(data) {
-    //     console.log("Saved successfully");
-    //     UserService.user.playlists.push(data);
-    //   })
-    //   .error(function() {
-    //     console.log("Error saving playlist");
-    //   });
-
-    //   $scope.playlistName = "";
-    // };
     
     /*
       ========== passToPlay ==========

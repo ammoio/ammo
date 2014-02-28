@@ -30,12 +30,9 @@ angular.module('ammoApp')
       var that = this;
       var artistNoSpace = artist.replace(/\s/g,"%20");
       var url = "/scrape/" + artistNoSpace;
-      console.log(url);
-
 
       $http.get(url)
       .success(function(info){
-        console.log(info);
         if (info.artists !== null){
           that.scraped[artist] = info.artists[0];
 
@@ -45,10 +42,8 @@ angular.module('ammoApp')
           that.scraped[artist].images.push(that.scraped[artist].strArtistFanart2);
           that.scraped[artist].images.push(that.scraped[artist].strArtistFanart3);
 
-          console.log(artist + " info scraped");
           d.resolve(true);
         }else {
-          console.log("no scraping data found for " + artist);
           d.resolve(false);
         }
       })
