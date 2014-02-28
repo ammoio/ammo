@@ -22,6 +22,7 @@ module.exports = {
   },
 
   emit: function(event, data){
+    console.log("Updating", data);
     io.sockets.emit(event, data);
   }
 
