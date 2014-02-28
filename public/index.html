@@ -46,7 +46,7 @@
       <div class="row page">
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
-            <a class="nowPlaying yourPlaylists">Your Playlists</a>
+            <a class="yourPlaylists">Your Playlists</a>
 <!--             <a ng-click="showQueue()">Queue</a> -->
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
