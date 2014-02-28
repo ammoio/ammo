@@ -41,18 +41,18 @@
 
 <!-- Share Request Modal -->
 <div class="md-modal md-effect-5" id="shareRequestModal">
-    <div class="md-content">
+    <div class="md-content modal-body">
         <h3>Share this!</h3>
         <div class="md-content-inner">
            <form id="queueForm">
-            <span>Give this playlist a name! </span>
-            <span class="input-group queueNameDiv">
+            <div class="input-group queueNameDiv">
+              <label class="queue-name-label">Playlist Name: </label>
               <input type="text" class="queueName form-control" placeholder="My Awesome Playlist!" ng-model="queueName">
-            </span>
+            </div>
           </form>
         </div>
-          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
-          <a type="button" class="shareNow btn md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
+          <a class="md-close" ng-click="closeModal()">Close me!</a>
+          <a type="button" class="shareNow md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
       </div>
     </div>
 </div>
