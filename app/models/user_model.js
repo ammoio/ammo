@@ -162,6 +162,28 @@ userSchema.statics = {
       }
     });
     return d.promise;
+  },
+
+  updateUser: function(username, obj) {
+    var d = Q.defer();
+    this.findOne({username: username}, function(err, model){
+      for (var key in obj) {
+        if( obj.hasOwnProperty(key) ) {
+          if(key !== "username"){
+            model[key] = obj[key];
+          }
+        }
+      }
+      model.markModified('playlists');
+      model.save(function(err, model){
+        if(err){
+          d.reject(err);
+        }
+        d.resolve(model);
+      });
+    });
+
+    return d.promise;
   }
 
 };

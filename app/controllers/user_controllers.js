@@ -36,6 +36,24 @@ module.exports = {
     .fail(function(err){
       res.send(401);
     });
+  },
+
+  updateUser: function(req, res){
+     loginHelpers.validateSession(req.params.username, req.cookies['ammoio.sid'])
+    .then(function(){
+      return User.updateUser(req.params.username, req.body);
+    })
+    .then(function(user){
+      res.send(user);
+    })
+    .fail(function (err) {
+      if(err === "not logged in"){
+        res.send(401);
+      } else {
+        console.log(err);
+        res.send(500, err);
+      }
+    });
   }
 
 };
