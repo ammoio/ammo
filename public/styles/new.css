@@ -205,7 +205,7 @@ a {
 }
 .page-content .song .time {
   float: right;
-  vertical-align: middle;
+  /*vertical-align: middle;*/
 }
 .page-content .song h3 {
   font-weight: 300;
@@ -224,7 +224,7 @@ a {
 }
 li.song.ng-scope.selectedSong {
   /*background: rgb(175, 227, 255);*/
-  color: #6beb2e;
+  color: #6beb2e6beb;
 }
 .player {
   position: fixed;
@@ -550,7 +550,18 @@ li.song.ng-scope.selectedSong {
 }
 
 .queue-votes {
-  margin: auto 10%;
-  float: right;
+  float: left;
   vertical-align: middle;
+}
+
+.song-text {
+  width: 70%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom:10px;
+}
+
+.song-meta {
+  width: 20%;
+  display: inline-block;
 }
