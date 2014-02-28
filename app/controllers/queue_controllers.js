@@ -61,7 +61,7 @@ module.exports = {
       return Queue.updateQueue(req.params.id, req.body);
     })
     .then(function(queue){
-      socketServer.emit('updateView', {shareID: queue.shareId});
+      socketServer.emit('updateView', {shareId: queue.shareId});
       res.send(queue);
     })
     .fail(function (err) {
