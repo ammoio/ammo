@@ -1,9 +1,10 @@
 angular.module('ammoApp')
-  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, StopClicksService, ngProgress) {
+  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, PlaylistService, StopClicksService, ngProgress) {
 
     /*************** scope variables ***************/
     $scope.UserService = UserService;
     $scope.QueueService = QueueService;
+    $scope.PlaylistService = PlaylistService;
     $scope.location = $location;
     $scope.clickedIndex = null;
     $scope.songToAdd = null;
@@ -83,42 +84,18 @@ angular.module('ammoApp')
       return regexp.test(s);
     };
 
+    /*************** $scope functions ***************/
 
     /*
       ======== saveToPlaylist ========
       Save the current queue to a playlist.
     */
     $scope.saveToPlaylist = function(name) {
-      if(!UserService.user.loggedIn) {
-        console.log("Can't save playlist if user is not logged.");
-        return;
-      }
-
-      if(!name) {
-        console.log("Playlist name can not be empty");
-        return;
-      }
-
-      var playlistObj = {
-        name: name,
-        songs: [] 
-      };
-
-      $http({ method: 'POST', url: '/' + UserService.user.username + '/playlists', data: playlistObj })
-      .success(function(data) {
-        console.log("Saved successfully");
-        UserService.user.playlists.push(data);
-      })
-      .error(function() {
-        console.log("Error saving playlist");
-      });
-
+      PlaylistService.saveToPlaylist(name);
       $scope.playlistName = "";
       $scope.showPlaylistInput = false;
     };
-
-    /*************** $scope functions ***************/
-
+    
     /*
       ========== $scope.shareRequestModal ==========
       -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted

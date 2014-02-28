@@ -17,3 +17,4 @@ angular.module('ammoApp')
     $('body').css('cursor', 'auto');
   };
 });
+
