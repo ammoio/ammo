@@ -95,12 +95,13 @@ userSchema.statics = {
 
   findOrCreate: function(user){
     var d = Q.defer();
+    var that = this;
     this.findOne({username: user.username}, function(err, data){
       if(err){
         d.reject(err);
       } else {
         if(data === null){
-          var newUser = new this(user);
+          var newUser = new that(user);
           newUser.save(function(err, user){
             if (err) {
               d.reject(err);
