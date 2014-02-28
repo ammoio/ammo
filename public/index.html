@@ -36,7 +36,7 @@
           </form>
         </div>
         <div class="column on-4 text-center">
-          <a href="#" class="btn" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
+          <a href="#" class="btn" ng-click="UserService.login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
         </div>
       </div>
     </header>
@@ -75,7 +75,7 @@
       <div id="youtube"></div>
       <div id="dz-root"></div>
 
-      <footer class="player" ng-hide="isShareView">
+      <footer class="player">
         <div class="column on-4">
           <img ng-src="{{QueueService.currentImage ? QueueService.currentImage : '/img/default-artwork.png'}}" alt="" class="artwork">
         </div>
@@ -158,12 +158,16 @@
   <script src="/bower_components/angular-ui-sortable/sortable.min.js"></script>
   <script src="/bower_components/jquery-dropdown/jquery.dropdown.min.js"></script>
 
+
   <script src="/scripts/app.js"></script>
   <script src="/scripts/oauth.min.js"></script>
   <script src="/scripts/services/parser.js"></script>
+  <!-- frame controller helper services -->
+  <script src="/scripts/services/frame_services/stopClick.js"></script>
   <script src="/scripts/services/search.js"></script>
   <script src="/scripts/services/queue.js"></script>
   <script src="/scripts/services/user.js"></script>
+  <script src="/scripts/services/playlist.js"></script>
   <script src="/scripts/services/scraper.js"></script>
   <script src="/scripts/directives/myDirective.js"></script>
   <script src="/scripts/controllers/frame.js"></script>
