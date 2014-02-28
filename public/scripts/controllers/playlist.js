@@ -98,6 +98,18 @@ angular.module('ammoApp')
       // $scope.$apply();
       $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
     };
+
+    $scope.delete = function() {
+      var user = UserService.user;
+      var playlists = UserService.getUserPlaylists(user);
+
+      for (var i=0; i < playlists.length(); i++){
+        if (playlists[i].shareId === playlist.shareId) {
+          playlists.splice(i,1);
+        }
+      }
+      
+    };
 });
 
 
