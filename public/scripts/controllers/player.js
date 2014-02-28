@@ -233,7 +233,7 @@ angular.module('ammoApp')
       This function detects if a user clicks in the youtube Video
       and pause our player when youtube pauses. 
     */
-    $scope.detectManualPause = function() {
+    $scope.detectManualPause = function () {
       $scope.playing = false;
       youtube.pauseVideo();
     };
