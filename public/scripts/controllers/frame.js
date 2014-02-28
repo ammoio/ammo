@@ -16,6 +16,7 @@ angular.module('ammoApp')
 
     $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
 
+    
     /*************** run when loaded ***************/
     StopClicksService.disableClicks();
 
@@ -27,15 +28,7 @@ angular.module('ammoApp')
       return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
     };
 
-    $http({ method: 'GET', url: '/user'})
-      .success(function(user) {
-        UserService.setUser(user);
-        UserService.setLogged(true);
-      })
-      .error(function(err) {
-        console.log(err);
-      });
-
+    UserService.verifyUser();
     $scope.isLogged = function() {
       return UserService.isLogged();
     };

@@ -28,4 +28,15 @@ angular.module('ammoApp')
       this.user.loggedIn = false;
       this.user.playlists = null;
     };
+
+    this.verifyUser = function() {
+      $http({ method: 'GET', url: '/user'})
+      .success(function(user) {
+        this.setUser(user);
+        this.setLogged(true);
+      })
+      .error(function(err) {
+        console.log(err);
+      });
+    };
   });

@@ -64,7 +64,7 @@ angular.module('ammoApp')
       else {
         return;
       }
-      $scope.stopAll();
+      // $scope.stopAll();
       $scope.currentSong = song;
       $scope.playing = true;
 
