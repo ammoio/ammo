@@ -72,17 +72,17 @@
 
 
       </div>
-      <div id="youtube"></div>
       <div id="dz-root"></div>
 
       <footer class="player">
         <div class="column on-4">
+          <div id="youtube" class="hideYoutube"></div>
           <img ng-src="{{QueueService.currentImage ? QueueService.currentImage : '/img/default-artwork.png'}}" alt="" class="artwork">
         </div>
         <div class="column-top song-player">
           <div class="song-info">
             <h3 class="song-name">{{ currentSong.artist ? currentSong.artist : "&nbsp" }}</h3>
-            <h3 ng-hide="buffering">{{ currentSong.title }}</h3>
+            <h3 ng-hide="buffering">{{ currentSong.title }} </h3>
             <h3 ng-show="buffering"><i class="fa fa-spinner fa-spin"></i></h3>
           </div>
           <div class="progressbar">
@@ -105,7 +105,6 @@
       </footer>
     </div>
 
-<!-- Share Request Modal -->
 <div class="md-modal md-effect-5" id="shareRequestModal">
     <div ng-escape="closeModal()" class="md-content">
         <h3>Share this!</h3>

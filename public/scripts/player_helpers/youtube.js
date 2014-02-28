@@ -11,9 +11,10 @@ var youtube;
 
 function onYouTubeIframeAPIReady() {
   youtube = new YT.Player('youtube', {
-    height: '0',
-    width: '0',
+    height: '200',
+    width: '288',
     videoId: '',
+    playerVars: { 'controls': 0, 'iv_load_policy': 3, 'disablekb': 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0 },
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
@@ -39,9 +40,10 @@ function onPlayerStateChange(event) {
   else if(event.data === YT.PlayerState.PLAYING) {
     scope.buffering = false;
     scope.ready = true;
+    scope.unPause();
   }
   else if(event.data === YT.PlayerState.PAUSED) {
-    scope.detectYoutubeAd();
+    scope.detectManualPause();
   }
 }
 
