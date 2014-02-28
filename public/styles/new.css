@@ -223,8 +223,7 @@ a {
   font-size: 1em;
 }
 li.song.ng-scope.selectedSong {
-  /*background: rgb(175, 227, 255);*/
-  color: #6beb2e6beb;
+  color: #6beb2e;
 }
 .player {
   position: fixed;
