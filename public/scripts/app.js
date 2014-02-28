@@ -19,17 +19,12 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
         templateUrl: '/views/queue.html',
         controller: 'QueueController'
       })
-      .when('/:id', {
-        templateUrl: '/views/share.html',
-        controller: 'ShareController'
-      })
       .when('/playlist/:id', {
         templateUrl: '/views/playlist.html',
         controller: 'PlaylistController'
       })
       .otherwise({
-        templateUrl: '/views/share.html',
-        controller: 'ShareController'
+        redirectTo: '/listen'
       });
 
     OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');

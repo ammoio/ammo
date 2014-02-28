@@ -29,12 +29,12 @@ angular.module('ammoApp')
     };
 
 
-    this.rdio = function(userInput, limit) {
+    this.rdio = function(userInput, limit, timeLimit) {
       limit = limit || 4;
       var d = $q.defer();
 
       //do a time limit for searching
-      var timeLimit = 2500; //3 seconds  
+      timeLimit = timeLimit || 2500; //3 seconds  
 
       getRdioSongs(userInput, limit, timeLimit, d);
       return d.promise;
