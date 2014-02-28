@@ -119,7 +119,7 @@ angular.module('ammoApp')
         var song = createSongObject(track, artist, duration, "youtube", service_id, "http://youtu.be/" + service_id, video.snippet.thumbnails.high.url);
 
         youtubeResults.push(song);
-        resultsSoFar++;
+        compare.resultsSoFar++;
 
         if(compare.resultsSoFar === compare.total) {
           d.resolve(youtubeResults);
