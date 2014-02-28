@@ -548,3 +548,24 @@ li.song.ng-scope.selectedSong {
 .voteColor{
   color: #6beb2e !important;
 }
+
+.tooltip {
+  background: #222;
+  padding: 30px;
+  border-radius: 3px;
+  margin: 10px auto;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+.tooltip:after {
+  background: #222;
+  width: 20px;
+  height: 20px;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: 45%;
+  -webkit-transform: rotate(45deg);
+}
