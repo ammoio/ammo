@@ -7,6 +7,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var Routes = require('./app/routes.js');
+var Sockets = require('./app/sockets.js');
 
 var dbHelpers = require('./app/dbHelpers');
 
@@ -43,18 +44,5 @@ server.listen(app.get('port'), function(){
   console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
 });
 
+Sockets(server);
 
-//socket io logic
-var io = require('socket.io').listen(server);
-io.sockets.on('connection', function (socket) {
-  socket.on('queueChanged', function(data) {
-    //broadcast emit message to everyone but the original sender
-    socket.broadcast.emit('updateView', data);
-   });
-  socket.on('voteUp', function(data) {
-    dbHelpers.updateQueue(data.shareId, data.songs)
-    .then(function(data){
-      io.sockets.emit('updateView', data);
-    });
-  });
-});

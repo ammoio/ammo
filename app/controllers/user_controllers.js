@@ -34,7 +34,7 @@ module.exports = {
       res.send(user);
     })
     .fail(function(err){
-      res.send(500);
+      res.send(401);
     });
   }
 
