@@ -1,4 +1,8 @@
-<div class="container row">
+<div class="tooltip on-2" ng-hide="QueueService.queue.songs.length > 0">
+  <p>Add songs to playlist. Start searching a song.</p>
+</div>
+
+<div class="container row" ng-hide="QueueService.queue.songs.length === 0">
   <div class="column-top on-2">
     <h3 class="playlist-name">{{QueueService.queue.name}}</h3>
     <span class="author">By <a href="#">{{QueueService.queue.username}}</a></span>
