@@ -7,7 +7,7 @@ angular.module('ammoApp')
 //  e.g. http://www.theaudiodb.com/api/v1/json/1/search.php?s=lionel%20Richie
 
 
-  .service('ScraperService', function($http, $q) {
+  .service('ScraperService', function ($http, $q) {
     this.scraped = {}; //local storage object
 
      /*
@@ -25,32 +25,32 @@ angular.module('ammoApp')
         results were relevant or not
     */
 
-    this.scrape = function(artist){
+    this.scrape = function (artist) {
       var d = $q.defer();
       var that = this;
-      var artistNoSpace = artist.replace(/\s/g,"%20");
+      var artistNoSpace = artist.replace(/\s/g, "%20");
       var url = "/scrape/" + artistNoSpace;
 
       $http.get(url)
-      .success(function(info){
-        if (info.artists !== null){
-          that.scraped[artist] = info.artists[0];
+        .success(function (info) {
+          if (info.artists !== null) {
+            that.scraped[artist] = info.artists[0];
 
-          that.scraped[artist].images = [];
-          that.scraped[artist].images.push(that.scraped[artist].strArtistThumb);
-          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart);
-          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart2);
-          that.scraped[artist].images.push(that.scraped[artist].strArtistFanart3);
+            that.scraped[artist].images = [];
+            that.scraped[artist].images.push(that.scraped[artist].strArtistThumb);
+            that.scraped[artist].images.push(that.scraped[artist].strArtistFanart);
+            that.scraped[artist].images.push(that.scraped[artist].strArtistFanart2);
+            that.scraped[artist].images.push(that.scraped[artist].strArtistFanart3);
 
-          d.resolve(true);
-        }else {
-          d.resolve(false);
-        }
-      })
-      .error(function(err){
-        console.log(artist + " info NOT scraped");
-        d.reject(err);
-      });
+            d.resolve(true);
+          } else {
+            d.resolve(false);
+          }
+        })
+        .error(function (err) {
+          console.log(artist + " info NOT scraped");
+          d.reject(err);
+        });
 
       return d.promise;
     };
