@@ -20,7 +20,7 @@
           <span>{{song.artist ? "  -  "  : "" }}</span>
           <h3 class="song-name column">{{ song.title }}</h3>
           <span class="time column">{{ fixTime(song.duration) }}</span>
-          <span ng-hide="song.votes === 0" class="queue-votes">Votes: {{ song.votes }}</span>
+          <span class="queue-votes">Votes: {{ song.votes }}</span>
         </div>
         <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
       </li>
