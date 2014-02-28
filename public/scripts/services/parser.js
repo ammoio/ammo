@@ -95,7 +95,7 @@ angular.module('ammoApp')
       userInput = userInput.join(" ");
       SearchService.searchResults = [];
       SearchService.rdio(userInput, 1, 5000)
-      .then(function(song) {
+      .success(function(song) {
         if(song.length !== 0) {
           SearchService.searchResults.push(song[0]);
         }

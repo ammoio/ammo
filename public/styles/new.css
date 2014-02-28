@@ -5,6 +5,8 @@
   -moz-box-sizing: border-box;
   margin: 0px;
   padding: 0px;
+  animation-timing-function:linear;
+  -webkit-animation-timing-function:linear;
 }
 
 html {
