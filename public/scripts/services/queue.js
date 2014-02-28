@@ -2,7 +2,7 @@ angular.module('ammoApp')
   .service('QueueService', function($window, $http, $q, $location, $rootScope, ScraperService){
 
     this.queue = {
-      name: "New Queue",
+      name: "Now Playing",
       shareId: null,
       listenId: null,
       passphrase: null,
@@ -165,7 +165,7 @@ angular.module('ammoApp')
 
     this.resetQueue = function(){
       this.queue = {
-        name: "New Queue",
+        name: "Now Playing",
         shareId: null,
         passphrase: null,
         songs: [],
