@@ -31,35 +31,22 @@ angular.module('ammoApp')
 
         results.items.forEach(function(video) {
           var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
-
           var title = video.snippet.title.split(" - ");
           var artist = title.length > 1 ? title[0] : null;
           var track = title.length > 1 ? title[1]: title[0];
 
-          var song = {
-            title: track,
-            artist: artist,
-            service: "youtube",
-            serviceId: service_id,
-            url: "http://youtu.be/" + service_id,
-            image: video.snippet.thumbnails.high.url
-          };
-
-          $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8'})
+          $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
           .success(function(newResults) {
             if(newResults.pageInfo.totalResults === 0) {
               total--;
               return;
             }
-            var duration = newResults.items[0].contentDetails.duration;
+            var duration = timeToSeconds(newResults.items[0].contentDetails.duration);
+            var song = createSongObject(track, artist, duration, "youtube", service_id, "http://youtu.be/" + service_id, video.snippet.thumbnails.high.url);
 
-            var hours = duration.match(/(\d+)(?=[H])/ig)||[0];
-            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0];
-            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
-
-            song.duration = (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
             youtubeResults.push(song);
             resultsSoFar++;
+
             if(resultsSoFar === total) {
               d.resolve(youtubeResults);
             }
@@ -81,7 +68,6 @@ angular.module('ammoApp')
       var rdioResults = [];
       var d = $q.defer();
 
-
       //do a time limit for searching
       var timeLimit = 2500; //3 seconds
       var rdioTimer = $timeout(function() {
@@ -99,17 +85,11 @@ angular.module('ammoApp')
         success: function(response) {
           $timeout.cancel(rdioTimer);
           var results = response.result.results;
+
           results.forEach(function(track) {
             if (track.canStream && track.canSample) { //can stream and sample
-              var song = {
-                url: track.shortUrl,
-                service: 'rdio',
-                serviceId: track.key,
-                title: track.name,
-                artist: track.artist,
-                image: track.icon,
-                duration: track.duration
-              };
+              var song = createSongObject(track.name, track.artist, track.duration, "rdio", track.key, track.shortUrl, track.icon);
+
               $rootScope.$apply(function() {
                 rdioResults.push(song);
               });
@@ -138,8 +118,9 @@ angular.module('ammoApp')
       //"q" is the search query
       var searchUrl = "http://api.soundcloud.com/tracks?";
       searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
+
       $http.get(searchUrl)
-        .success(function(data, status, headers, config) {
+        .success(function(data) {
           //add each returned track title to each list
           data.forEach(function(track) {
             if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
@@ -149,21 +130,13 @@ angular.module('ammoApp')
               var artist = title.length > 1 ? title[0] : track.user.username;
               var trackName = title.length > 1 ? title[1]: title[0];
 
-              var song = {
-                url: track.uri,
-                service: 'soundcloud',
-                serviceId: track.id,
-                title: trackName,
-                artist: artist,
-                image: track.artwork_url,
-                duration: Math.floor(track.duration/1000)
-              };
+              var song = createSongObject(trackName, artist, Math.floor(track.duration/1000), "soundcloud", track.id, track.uri, track.artwork_url);
               soundcloudResults.push(song);
             }
           });
           d.resolve(soundcloudResults);
         })
-        .error(function(data, status, headers, config) {
+        .error(function(data) {
           console.log('failed query');
           d.resolve([]);
         });
@@ -171,32 +144,70 @@ angular.module('ammoApp')
     };
 
 
-    // This function needs refactor to promises
-    this.deezer = function(userInput, access_token) {
-      var limit = 4;
-      access_token = "nyEmIZFFIK530171471e73bQR96KnJd530171471e777c3KmNh";
-      // https://connect.deezer.com/oauth/auth.php?app_id=132563&redirect_uri=http://www.ammo.io&response_type=token&perms=offline_access
-      // This access_token is necesary because Deezer is not available in the US ... but will be this year, querying their API with my 
-      // access code will get results as of being in Mexico. (Viva Mexico!)
-
-      $http.jsonp('http://api.deezer.com/search?q=' + userInput + '&TRACK_DESC=undefined&nb_items=' + limit +'&access_token='+access_token+'&output=jsonp&callback=JSON_CALLBACK')
-        .success(function(results) {
-          results.data.forEach(function(result) {
-            var song = {
-              artist: result.artist.name,
-              title: result.title,
-              duration: result.duration,
-              service: "deezer",
-              serviceId: result.id,
-              url: result.link,
-              image: result.album.cover
-            };
-            that.searchResults.push(song);
-          });
-        });
-    };
-
     this.url = function(song) {
       that.searchResults.push(song);
     };
+
+
+    //////////////// Helper Function ///////////////////
+    var timeToSeconds = function(time) {
+      var hours = time.match(/(\d+)(?=[H])/ig)||[0];
+      var minutes = time.match(/(\d+)(?=[M])/ig)||[0];
+      var seconds = time.match(/(\d+)(?=[S])/ig)||[0];
+
+      return (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
+    };
+
+    var createSongObject = function(ti, ar, du, se, seId, url, img) { // title, artist, duration, service, serviceId, url, image
+      return {
+        title: ti,
+        artist: ar,
+        duration: du,
+        service: se,
+        serviceId: seId,
+        url: url,
+        image: img 
+      };
+    };
+
+    // var rdioRequest = function(userInput, limit){
+    //   return R.request({
+    //     method: "search",
+    //     content: {
+    //       query: userInput,
+    //       types: "track",
+    //       extras: 'duration, baseIcon, canStream',
+    //       count: limit
+    //     };
+    // };
   });
+
+  
+
+
+    //  ***********  DO NOT DELETE THIS FUNCTION/Comment will be used when Deezer is available in the US (soon)  **********// 
+    // This function needs refactor to promises
+    // this.deezer = function(userInput, access_token) {
+    //   var limit = 4;
+    //   access_token = "nyEmIZFFIK530171471e73bQR96KnJd530171471e777c3KmNh";
+    //   // https://connect.deezer.com/oauth/auth.php?app_id=132563&redirect_uri=http://www.ammo.io&response_type=token&perms=offline_access
+    //   // This access_token is necesary because Deezer is not available in the US ... but will be this year, querying their API with my 
+    //   // access code will get results as of being in Mexico. (Viva Mexico!)
+
+    //   $http.jsonp('http://api.deezer.com/search?q=' + userInput + '&TRACK_DESC=undefined&nb_items=' + limit +'&access_token='+access_token+'&output=jsonp&callback=JSON_CALLBACK')
+    //     .success(function(results) {
+    //       results.data.forEach(function(result) {
+    //         var song = {
+    //           artist: result.artist.name,
+    //           title: result.title,
+    //           duration: result.duration,
+    //           service: "deezer",
+    //           serviceId: result.id,
+    //           url: result.link,
+    //           image: result.album.cover
+    //         };
+    //         that.searchResults.push(song);
+    //       });
+    //     });
+    // };
+    //  ***********  DO NOT DELETE THIS FUNCTION/Comment will be used when Deezer is available in the US (soon)  **********// 

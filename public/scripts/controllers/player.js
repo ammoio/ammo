@@ -123,7 +123,7 @@ angular.module('ammoApp')
     $scope.stopAll = function() {
       $scope.playing = false;
       youtube.pauseVideo();
-      scPlayer.pause();
+      // scPlayer.pause();
       // DZ.player.pause();
       R.player.pause();
     };
