@@ -11,7 +11,7 @@
 
   <div class="container-row">
     <ul class="share-view-songs">
-      <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{selectedSong: song === currentSong}">
+      <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{selectedSong: song === currentSong}" ng-hide="QueueService.queue.currentSong > $index">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
