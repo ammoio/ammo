@@ -189,7 +189,7 @@ a {
 .page-content .song .song-info {
   margin-top: 14px;
   position: relative;
-  width: 80%;
+  width: 85%;
 }
 .page-content .song .rdio {
   background: url(../img/rdio.png) center center no-repeat;
@@ -205,6 +205,7 @@ a {
 }
 .page-content .song .time {
   float: right;
+  vertical-align: middle;
 }
 .page-content .song h3 {
   font-weight: 300;
@@ -222,9 +223,8 @@ a {
   font-size: 1em;
 }
 li.song.ng-scope.selectedSong {
-  background: rgb(32, 62, 130);
-  opacity: 0.8;
-  /*color: white;*/
+  /*background: rgb(175, 227, 255);*/
+  color: #6beb2e;
 }
 .player {
   position: fixed;
@@ -560,4 +560,5 @@ li.song.ng-scope.selectedSong {
 .queue-votes {
   margin: auto 10%;
   float: right;
+  vertical-align: middle;
 }

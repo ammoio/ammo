@@ -16,9 +16,11 @@
       <li class="song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{played: $index < QueueService.queue.currentSong, selectedSong: $index === QueueService.queue.currentSong}" ng-click="passToPlay($index, song)">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
+          <div>
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
           <span>{{song.artist ? "  -  "  : "" }}</span>
           <h3 class="song-name column">{{ song.title }}</h3>
+          </div>
           <span class="time column">{{ fixTime(song.duration) }}</span>
           <span class="queue-votes">Votes: {{ song.votes }}</span>
         </div>
