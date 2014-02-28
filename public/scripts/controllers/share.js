@@ -7,7 +7,7 @@ angular.module('ammoApp')
   methods:
 
   */
-  .controller('ShareController', function($scope, $location, $routeParams, SearchService, QueueService) {
+  .controller('ShareController', function ($scope, $location, $routeParams, QueueService) {
     $scope.voted = false;
     //When the share ids match, then update view
     $scope.socket.on('updateView', function (data) {
@@ -16,14 +16,15 @@ angular.module('ammoApp')
       }
     });
 
-    $scope.refresh = function() {
+    $scope.refresh = function () {
       QueueService.getQueue($routeParams.id)
-        .then(function(queue){ //Sets the scopes songs to the current q from qservice
+        .then(function (queue) { //Sets the scopes songs to the current q from qservice
           $scope.songs = queue.songs;
         });
     };
 
-    $scope.voteUp = function(event, index) {
+    $scope.voteUp = function ($event, index) {
+      $event.stopPropagation();
       QueueService.votedSongs[QueueService.queue.songs[index].serviceId] = true;
       QueueService.queue.songs[index].votes++;
       QueueService.rearrangeQueue();
@@ -44,7 +45,7 @@ angular.module('ammoApp')
       -none
 
     */
-    $scope.clone = function() {
+    $scope.clone = function () {
       var shareLink = $location.host() + 'q/' + QueueService.queue.shareId;
       $('.twitter-share-button').attr({
         'data-url': shareLink,
