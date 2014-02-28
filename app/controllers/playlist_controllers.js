@@ -2,6 +2,7 @@ var loginHelpers = require('../loginHelpers');
 var dbHelpers = require('../dbHelpers');
 
 /* ======== Playlist Controllers ========*/
+
 module.exports = {
 
   getUserPlaylists: function(req, res){

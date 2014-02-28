@@ -2,6 +2,7 @@ var loginHelpers = require('../loginHelpers');
 var dbHelpers = require('../dbHelpers');
 
 /* ======== User Controllers ========*/
+
 module.exports = {
 
   login: function(req, res){

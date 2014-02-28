@@ -91,7 +91,7 @@ module.exports = {
   renderShareIndex: function (req, res) {
     dbHelpers.getQueue(req.params.id)
     .then(function(queue){
-      res.sendfile(__dirname + '/public/shareIndex.html');  
+      res.sendfile('/public/shareIndex.html', {root: __dirname + '/../..'});  
     })
     .fail(function (err) {
       res.redirect('/');
