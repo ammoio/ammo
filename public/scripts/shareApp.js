@@ -21,7 +21,7 @@ angular.module('ammoApp', ['ngRoute', 'ngCookies'])
           redirectTo: '/'
       });
 
-    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798'); 
+    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
 
   })
 

@@ -71,9 +71,9 @@ angular.module('ammoApp')
     this.userQuery = function(res) {
       var that = this;
       // POST to /login with Facebook response code
-      $http({ 
-        method: 'POST', 
-        url: '/login', 
+      $http({
+        method: 'POST',
+        url: '/login',
         data: { code: res.code }
       })
       // set the user on success

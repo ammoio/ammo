@@ -43,7 +43,6 @@ angular.module('ammoApp')
       }
     }
 
-
     /*
       ========== removSong ==========
       -Triggered from a click on the "removeSong" button. Call QueueService's removeSongAtIndex.
@@ -58,7 +57,7 @@ angular.module('ammoApp')
       QueueService.removeSongAtIndex(index).then(function(song) {
         if (QueueService.queue.shareId) {
           $scope.socket.emit('queueChanged', {
-            shareId: QueueService.queue.shareId,
+            shareId: QueueService.queue.shareId
           });
         }
       });
@@ -89,7 +88,6 @@ angular.module('ammoApp')
       }
     };
 
-    
     /*
       ========== passToPlay ==========
       -Triggered from an ng-click on a song in the queue. Takes an index, sets it as the current song index, 
@@ -112,7 +110,7 @@ angular.module('ammoApp')
         .then(function(ind) {
           $scope.play(ind, "q");
         })
-        .catch(function(err) {
+        ['catch'](function(err) {
           console.log("Error: ", err);
         });
     };

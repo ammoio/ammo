@@ -34,7 +34,7 @@ angular.module('ammoApp')
       var d = $q.defer();
 
       //do a time limit for searching
-      timeLimit = timeLimit || 2500; //3 seconds  
+      timeLimit = timeLimit || 2500; //3 seconds
 
       getRdioSongs(userInput, limit, timeLimit, d);
       return d.promise;
@@ -80,7 +80,7 @@ angular.module('ammoApp')
         service: se,
         serviceId: seId,
         url: url,
-        image: img 
+        image: img
       };
     };
 
@@ -197,9 +197,6 @@ angular.module('ammoApp')
       d.resolve(rdioResults);
     };
   });
-
-  
-
 
     //  ***********  DO NOT DELETE THIS FUNCTION/Comment will be used when Deezer is available in the US (soon)  **********// 
     // This function needs refactor to promises

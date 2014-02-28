@@ -23,7 +23,6 @@ angular.module('ammoApp')
         });
     };
 
-
     $scope.voteUp = function(event, index) {
       QueueService.votedSongs[QueueService.queue.songs[index].serviceId] = true;
       QueueService.queue.songs[index].votes++;
@@ -33,8 +32,6 @@ angular.module('ammoApp')
         shareId: QueueService.queue.shareId
       });
     };
-
-
 
     /*
     ========== clone ==========

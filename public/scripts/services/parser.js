@@ -24,9 +24,9 @@ angular.module('ammoApp')
         $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&part=snippet,contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
           .then(function(results) {
             var duration = results.data.items[0].contentDetails.duration;
-            var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
-            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
-            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
+            var hours = duration.match(/(\d+)(?=[H])/ig)||[0];
+            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0];
+            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0];
 
             var song = {
               duration: parseInt(hours) * 60 * 60 + parseInt(minutes) * 60 + parseInt(seconds),

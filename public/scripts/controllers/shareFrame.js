@@ -1,6 +1,6 @@
 angular.module('ammoApp')
   .controller('FrameController', function($q, $scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
-  
+
     /*************** scope variables ***************/
     $scope.UserService = UserService;
     $scope.QueueService = QueueService;
@@ -40,7 +40,7 @@ angular.module('ammoApp')
       }
       $location.path('/search');
     };
-    
+
     //$scope.search helper
     var isUrl = function isUrl(s) {
       var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
@@ -71,7 +71,6 @@ angular.module('ammoApp')
       $location.path('/listen');
     };
 
-    
     /* ========== $scope.closeModal ==========
       hide all the modals
     */
@@ -81,7 +80,7 @@ angular.module('ammoApp')
 
     /* ========== $scope.fixTime ==========
       format the time from seconds for display
-    */    
+    */
     $scope.fixTime = function(seconds) {
       var mins = seconds / 60 | 0; 
       seconds = seconds % 60 | 0;
