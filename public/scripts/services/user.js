@@ -30,10 +30,11 @@ angular.module('ammoApp')
     };
 
     this.verifyUser = function() {
+      var that = this;
       $http({ method: 'GET', url: '/user'})
       .success(function(user) {
-        this.setUser(user);
-        this.setLogged(true);
+        that.setUser(user);
+        that.setLogged(true);
       })
       .error(function(err) {
         console.log(err);
@@ -41,14 +42,9 @@ angular.module('ammoApp')
     };
 
     this.login = function() {
+      var that = this;
       if(this.user.loggedIn) {
-        $http({ method: 'GET', url: '/logout/' + this.user.username})
-        .success(function(){
-          this.logout();
-        })
-        .error(function(){
-          console.log("error logging out");
-        });
+        that.logOutRequest();
       } else {
         OAuth.popup('facebook', { state: $cookies['ammoio.sid'] }, function(err, res) {
           if(err) {
@@ -56,25 +52,47 @@ angular.module('ammoApp')
             return;
           }
           console.log(res);
-          $http({ 
-            method: 'POST', 
-            url: '/login', 
-            data: { code: res.code }
-          })
-          .success(function(userObj) {
-            this.setUser(userObj);
-            this.setLogged(true);
-
-            $http.get("/" + userObj.username + "/playlists")
-            .success(function(playlists) {
-              this.user.playlists = playlists;
-            });
-          })
-          .error(function(err){
-            console.log(err);
-          });
+          that.userQuery(res); //use fb code to query database for this user
         });
       }
+    };
+
+    /* login helpers */
+    this.logOutRequest = function() {
+      var that = this;
+      $http({ method: 'GET', url: '/logout/' + that.user.username})
+      .success(function(){
+        that.logout();
+      })
+      .error(function(){
+        console.log("error logging out");
+      });
+    };
+    this.userQuery = function(res) {
+      var that = this;
+      // POST to /login with Facebook response code
+      $http({ 
+        method: 'POST', 
+        url: '/login', 
+        data: { code: res.code }
+      })
+      // set the user on success
+      .success(function(userObj) {
+        that.setUser(userObj);
+        that.setLogged(true);
+        that.getUserPlaylists(userObj);
+      })
+      .error(function(err){
+        console.log(err);
+      });
+    };
+
+    this.getUserPlaylists = function(userObj) {
+      var that = this;
+      $http.get("/" + userObj.username + "/playlists")
+      .success(function(playlists) {
+        that.user.playlists = playlists;
+      });
     };
 
   });
