@@ -522,3 +522,15 @@ li.song.ng-scope.selectedSong {
   white-space: nowrap;
   overflow: hidden;
 }
+
+.nowPlaying{
+  font-size: 1.5em;
+}
+.nowPlaying:hover{
+  text-decoration: underline;
+  font-size: 1.5em;
+}
+
+.yourPlaylists {
+  cursor: initial;
+}
