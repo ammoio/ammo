@@ -324,6 +324,7 @@ li.song.ng-scope.selectedSong {
   width: 90%;
   float: none;
   margin: auto;
+  border:none;
 }
 
 .share-title {

@@ -40,7 +40,7 @@
           </div>
           <div class="song-meta">
           <span class="time column">{{ fixTime(song.duration) }}</span>
-          <span class="queue-votes">Votes: {{ song.votes }}</span>
+          <span ng-show="QueueService.live || QueuService.queue.shareId" class="queue-votes">Votes: {{ song.votes }}</span>
           </div>
         </div>
         <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
