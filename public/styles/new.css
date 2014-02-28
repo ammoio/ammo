@@ -572,13 +572,11 @@ li.song.ng-scope.selectedSong {
 }
 
 #home-content-container {
-  /*background-color: #232323;
-  opacity: .8;*/
+  background-color: #232323;
+  opacity: .8;
   margin-top: 20px;
-  /*border-top: 4px solid black;
-  border-bottom: 4px solid black;*/
+  padding: 5px 0px;
   color: #fff;
-  height: 400px;
   width: 100%;
 }
 
@@ -593,6 +591,10 @@ li.song.ng-scope.selectedSong {
   width: 20%;
   display: inline-block;
 }
+
+/*.image-container:hover {
+  width: 20%;
+}*/
 
 .album-image {
   width: 100%;
