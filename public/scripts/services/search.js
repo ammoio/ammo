@@ -17,6 +17,7 @@ angular.module('ammoApp')
 
     var that = this; //reference to service object
 
+
     this.youtube = function(userInput, limit){
       this.searchResults = [];
       var youtubeResults = [];
@@ -62,6 +63,7 @@ angular.module('ammoApp')
       return d.promise;
     };
 
+
     this.rdio = function(userInput, limit) {
       limit = limit || 4;
 
@@ -69,7 +71,83 @@ angular.module('ammoApp')
       var d = $q.defer();
 
       //do a time limit for searching
-      var timeLimit = 2500; //3 seconds
+      var timeLimit = 2500; //3 seconds  
+
+      getRdioSongs(userInput, limit, timeLimit, d);
+      return d.promise;
+    };
+
+
+    this.soundcloud = function(userInput, limit) {
+      //limit: number of results to return
+      limit = limit || 4;
+      var d = $q.defer();
+      var clientId = "456165005356d6638c4eabfc515d11aa"; //clientId for soundcloud api authorization
+
+      //searchUrl: get request url for query
+      //"q" is the search query
+      var searchUrl = "http://api.soundcloud.com/tracks?";
+      searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
+
+      getSoundcloudSongs(searchUrl, d);
+      return d.promise;
+    };
+
+
+    this.url = function(song) {
+      that.searchResults.push(song);
+    };
+
+
+    //////////////// Helper Function ///////////////////
+    var timeToSeconds = function(time) {
+      var hours = time.match(/(\d+)(?=[H])/ig)||[0];
+      var minutes = time.match(/(\d+)(?=[M])/ig)||[0];
+      var seconds = time.match(/(\d+)(?=[S])/ig)||[0];
+
+      return (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
+    };
+    
+
+    var createSongObject = function(ti, ar, du, se, seId, url, img) { // title, artist, duration, service, serviceId, url, image
+      return {
+        title: ti,
+        artist: ar,
+        duration: du,
+        service: se,
+        serviceId: seId,
+        url: url,
+        image: img 
+      };
+    };
+
+
+    var getSoundcloudSongs = function(searchUrl, d) {
+      $http.get(searchUrl)
+        .success(function(data) {
+          var soundcloudResults = [];
+
+          data.forEach(function(track) {
+            if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
+
+              var title = track.title.split(" - ");
+              var artist = title.length > 1 ? title[0] : track.user.username;
+              var trackName = title.length > 1 ? title[1]: title[0];
+              var song = createSongObject(trackName, artist, Math.floor(track.duration/1000), "soundcloud", track.id, track.uri, track.artwork_url);
+
+              soundcloudResults.push(song);
+            }
+          });
+          d.resolve(soundcloudResults);
+        })
+        .error(function(data) {
+          console.log('failed query');
+          d.resolve([]);
+        });
+    };
+
+
+    var getRdioSongs = function(userInput, limit, timeLimit, d) {
       var rdioTimer = $timeout(function() {
         d.resolve([]);
       }, timeLimit);
@@ -102,84 +180,7 @@ angular.module('ammoApp')
           d.resolve([]);
         }
       });
-      return d.promise;
     };
-
-    this.soundcloud = function(userInput) {
-      //limit: number of results to return
-      var limit = 4;
-      var soundcloudResults = [];
-      var d = $q.defer();
-
-      //clientId for soundcloud api authorization
-      var clientId = "456165005356d6638c4eabfc515d11aa";
-
-      //searchUrl: get request url for query
-      //"q" is the search query
-      var searchUrl = "http://api.soundcloud.com/tracks?";
-      searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
-
-      $http.get(searchUrl)
-        .success(function(data) {
-          //add each returned track title to each list
-          data.forEach(function(track) {
-            if (track.streamable && track.sharing === 'public') { //*******if not streamable will throw error
-              //relevant data for each song
-
-              var title = track.title.split(" - ");
-              var artist = title.length > 1 ? title[0] : track.user.username;
-              var trackName = title.length > 1 ? title[1]: title[0];
-
-              var song = createSongObject(trackName, artist, Math.floor(track.duration/1000), "soundcloud", track.id, track.uri, track.artwork_url);
-              soundcloudResults.push(song);
-            }
-          });
-          d.resolve(soundcloudResults);
-        })
-        .error(function(data) {
-          console.log('failed query');
-          d.resolve([]);
-        });
-      return d.promise;
-    };
-
-
-    this.url = function(song) {
-      that.searchResults.push(song);
-    };
-
-
-    //////////////// Helper Function ///////////////////
-    var timeToSeconds = function(time) {
-      var hours = time.match(/(\d+)(?=[H])/ig)||[0];
-      var minutes = time.match(/(\d+)(?=[M])/ig)||[0];
-      var seconds = time.match(/(\d+)(?=[S])/ig)||[0];
-
-      return (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
-    };
-
-    var createSongObject = function(ti, ar, du, se, seId, url, img) { // title, artist, duration, service, serviceId, url, image
-      return {
-        title: ti,
-        artist: ar,
-        duration: du,
-        service: se,
-        serviceId: seId,
-        url: url,
-        image: img 
-      };
-    };
-
-    // var rdioRequest = function(userInput, limit){
-    //   return R.request({
-    //     method: "search",
-    //     content: {
-    //       query: userInput,
-    //       types: "track",
-    //       extras: 'duration, baseIcon, canStream',
-    //       count: limit
-    //     };
-    // };
   });
 
   
