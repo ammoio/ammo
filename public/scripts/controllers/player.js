@@ -235,7 +235,6 @@ angular.module('ammoApp')
     */
     $scope.detectManualPause = function () {
       $scope.playing = false;
-      youtube.pauseVideo();
     };
 
     $scope.fixTime = function(seconds) {
