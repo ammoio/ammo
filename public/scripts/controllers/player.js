@@ -260,10 +260,21 @@ angular.module('ammoApp')
       intervals.push($interval( function() {
         if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
           $scope.timer++;
-          $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }); 
+
+          // $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }); 
+          $('.progress-line').animate({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }, 900); 
         }
       }, 1000));
     };
+
+
+// $( "#book" ).animate({
+//     opacity: 0.25,
+//     left: "+=50",
+//     height: "toggle"
+//   }, 5000, function() {
+//     // Animation complete.
+//   });
 
     $scope.stopTimer = function() {
       for (var i = 0; i < intervals.length; i++) { //clear all set intervals
