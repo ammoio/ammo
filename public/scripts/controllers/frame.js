@@ -64,11 +64,18 @@ angular.module('ammoApp')
       Save the current queue to a playlist.
     */
     $scope.saveToPlaylist = function(name) {
-      PlaylistService.saveToPlaylist(name);
-      $scope.playlistName = "";
-      $scope.showPlaylistInput = false;
+      PlaylistService.saveToPlaylist(name)
+      .then(function(playlist){
+        $scope.playlistName = "";
+        $scope.showPlaylistInput = false;
+        console.log(playlist);
+        $location.path('/playlist/' + playlist.shareId);
+      })
+      .catch(function(err){
+        console.log("Error Saving Playlist");
+      });
     };
-    
+
     /*
       ========== $scope.shareRequestModal ==========
       -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted
