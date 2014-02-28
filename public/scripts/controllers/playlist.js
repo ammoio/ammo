@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .controller('PlaylistController', function($scope, $http, $routeParams, $location, QueueService) {
+  .controller('PlaylistController', function($scope, $http, $routeParams, $location, QueueService, UserService) {
     $scope.playlist = null;
 
     $scope.refreshPlaylist = function() {
@@ -97,6 +97,26 @@ angular.module('ammoApp')
       }
       // $scope.$apply();
       $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
+    };
+
+    $scope.delete = function() {
+      var user = UserService.user;
+      UserService.getUserPlaylists(user)
+        .then(function(userPls){
+          var playlists = userPls; 
+          for (var i=0; i < playlists.length; i++){
+            if (playlists[i].shareId === $scope.playlist.shareId) {
+              playlists.splice(i,1);
+            }
+          }
+
+          $http.put('/users/' + user.username, {playlists: playlists})
+            .success(function(userObj){
+              user.playists = userObj.playlists;
+            });
+
+          $location.path('/listen')
+        });
     };
 });
 

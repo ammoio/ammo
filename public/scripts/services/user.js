@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .service('UserService', function($http, $cookies) {
+  .service('UserService', function($http, $cookies, $q) {
     this.user = {
       username: null,
       name: null,
@@ -88,11 +88,18 @@ angular.module('ammoApp')
     };
 
     this.getUserPlaylists = function(userObj) {
+      var d = $q.defer();
       var that = this;
       $http.get("/" + userObj.username + "/playlists")
-      .success(function(playlists) {
-        that.user.playlists = playlists;
-      });
+        .success(function(playlists) {
+          that.user.playlists = playlists;
+          d.resolve(playlists);
+        })
+        .error(function(err){
+          d.reject(err);
+        });
+
+      return d.promise;
     };
 
   });
