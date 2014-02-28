@@ -13,6 +13,7 @@ module.exports = {
       var d = Q.defer();
 
       var addSession = function (user) {
+        console.log("addSession");
         User.addSession(user.username, sessionId)
         .then(function(user){
           d.resolve(user);
@@ -63,7 +64,7 @@ module.exports = {
           //the user does not exist, create it
           .fail(function(err){
             console.log("failed");
-            User.createUser(fbUser)
+            User.findOrCreate(fbUser)
             .then(function(user){
               addSession(user);
             })
