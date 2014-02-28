@@ -100,7 +100,7 @@ userSchema.statics = {
         d.reject(err);
       } else {
         if(data === null){
-          var newUser = new Models.User(user);
+          var newUser = new this(user);
           newUser.save(function(err, user){
             if (err) {
               d.reject(err);
