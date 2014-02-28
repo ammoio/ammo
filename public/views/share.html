@@ -19,7 +19,7 @@
           <h3 class="song-name column">{{ song.title }}</h3>
           <span class="time column">{{ fixTime(song.duration) }}</span>
         </div>
-        <button ng-class="{accentColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up <sup class="badge">{{ song.votes }}</sup></button>
+        <button ng-class="{voted-up: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up <sup class="badge">{{ song.votes }}</sup></button>
       </li>
     </ul>
   </div>
