@@ -33,19 +33,19 @@ angular.module('ammoApp')
         shareId: QueueService.queue.shareId
       });
     };
-    
+
 
 
     /*
     ========== clone ==========
     When on share view, clicking clone button will make a new instance of this queue
     and give this user control. To do this, the queue must be reset
-    
+
     params:
       -none
     return:
       -none
-      
+
     */
     $scope.clone = function() {
       var shareLink = $location.host() + 'q/' + QueueService.queue.shareId;
