@@ -1,6 +1,6 @@
 angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
 
-  .config(function($routeProvider, $locationProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
 
@@ -34,7 +34,7 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
   .run(function ($rootScope, $location) {
     var history = [];
 
-    $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.$on('$routeChangeSuccess', function () {
       history.push($location.$$path);
     });
 

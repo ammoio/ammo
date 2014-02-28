@@ -12,24 +12,24 @@ angular.module('ammoApp')
 //    then you need to resolve the promise and it returns a song object, you can see an example of a resolved one here:
 //    http://api.soundcloud.com/tracks/82964169.json?client_id=456165005356d6638c4eabfc515d11aa
 
-  .service('ParseService', function($http, SearchService) {
-    this.youtube = function(url){
+  .service('ParseService', function ($http, SearchService) {
+    this.youtube = function (url) {
       var regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
       var match = url.match(regExp);
 
-      if (match && match[1].length === 11){
+      if (match && match[1].length === 11) {
         // return match[1];
         var id = match[1];
 
         $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + id + '&part=snippet,contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
-          .then(function(results) {
+          .then(function (results) {
             var duration = results.data.items[0].contentDetails.duration;
-            var hours = duration.match(/(\d+)(?=[H])/ig)||[0]; 
-            var minutes = duration.match(/(\d+)(?=[M])/ig)||[0]; 
-            var seconds = duration.match(/(\d+)(?=[S])/ig)||[0]; 
+            var hours = duration.match(/(\d+)(?=[H])/ig) || [0];
+            var minutes = duration.match(/(\d+)(?=[M])/ig) || [0];
+            var seconds = duration.match(/(\d+)(?=[S])/ig) || [0];
 
             var song = {
-              duration: parseInt(hours) * 60 * 60 + parseInt(minutes) * 60 + parseInt(seconds),
+              duration: parseInt(hours, 10) * 60 * 60 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10),
               service: "youtube",
               serviceId: id,
               title: results.data.items[0].snippet.title,
@@ -40,36 +40,35 @@ angular.module('ammoApp')
             SearchService.url(song);
           });
 
-      } else {
       }
     };
 
-    this.spotify = function(url) {
+    this.spotify = function (url) {
       var id = "spotify:track:" + url.substring(url.lastIndexOf('/') + 1);
 
       $http({ method: 'GET', url: 'http://ws.spotify.com/lookup/1/.json?uri=' + id})
-        .success(function(data, status) {
+        .success(function (data) {
           SearchService.searchResults = [];
 
           var youtubeKeyword = data.track.artists[0].name + " - " + data.track.name;
           SearchService.youtube(youtubeKeyword, 1)
-          .then(function(song) {
-            SearchService.searchResults.push(song[0]);
-          });
+            .then(function (song) {
+              SearchService.searchResults.push(song[0]);
+            });
 
           var rdioKeyword = data.track.artists[0].name + " " + data.track.name + " " + data.track.album.name;
           SearchService.rdio(rdioKeyword, 1)
-          .then(function(song) {
-            SearchService.searchResults.push(song[0]);
-          });
+            .then(function (song) {
+              SearchService.searchResults.push(song[0]);
+            });
         });
     };
 
-    this.soundcloud = function(url) {
+    this.soundcloud = function (url) {
       $http({ method: 'GET', url: 'http://api.soundcloud.com/resolve.json?url=' + url + '&client_id=456165005356d6638c4eabfc515d11aa'})
-        .then(function(track) {
+        .then(function (track) {
 
-          if(!track.data.streamable || track.data.sharing !== 'public') {
+          if (!track.data.streamable || track.data.sharing !== 'public') {
             alert("Track not streamable");
             return;
           }
@@ -80,40 +79,35 @@ angular.module('ammoApp')
             title: track.data.title,
             artist: track.data.user.username,
             image: track.data.artwork_url,
-            duration: (track.data.duration/1000) | 0
+            duration: (track.data.duration / 1000) | 0
           };
           SearchService.searchResults = [];
           SearchService.url(song);
         });
     };
 
-    this.rdio = function(url) {
+    this.rdio = function (url) {
       var userInput = url.replace(/artist\/|album\/|track|_/g, " ").split('/');
-      userInput.splice(0,3);
+      userInput.splice(0, 3);
       userInput = userInput.join(" ");
       SearchService.searchResults = [];
       SearchService.rdio(userInput, 1, 5000)
-      .success(function(song) {
-        if(song.length !== 0) {
-          SearchService.searchResults.push(song[0]);
-        }
-      });
+        .success(function (song) {
+          if (song.length !== 0) {
+            SearchService.searchResults.push(song[0]);
+          }
+        });
     };
 
-    this.parseURL = function(url) {
-      if(url.indexOf("youtu") !== -1) {
+    this.parseURL = function (url) {
+      if (url.indexOf("youtu") !== -1) {
         this.youtube(url);
-      }
-      else if(url.indexOf("soundcloud") !== -1) {
+      } else if (url.indexOf("soundcloud") !== -1) {
         this.soundcloud(url);
-      }
-      else if(url.indexOf("deezer") !== -1) {
-
-      }
-      else if(url.indexOf("spotify") !== -1) {
+      // } else if (url.indexOf("deezer") !== -1) {
+      } else if (url.indexOf("spotify") !== -1) {
         this.spotify(url);
-      }
-      else if (url.indexOf("rdio") !== -1) {
+      } else if (url.indexOf("rdio") !== -1) {
         this.rdio(url);
       }
     };
