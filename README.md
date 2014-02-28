@@ -29,20 +29,19 @@ Solution: Using promises for all of our requests and backend.
 
 ###Spotify iFrame
 Problem: Spotify has a very strict music player interface using iframe that makes providing a uniform user experience for all the music services difficult.
-Solution: A lot of time has been invested to work around the problem. We found that many other developers have struggled with this. In order to keep the quality of our user interface, we decided to forgo Spotify integration.
+Solution: A lot of time has been invested to work around the problem. We found that many other developers have struggled with this without success. In order to keep the quality of our user interface, we decided to forgo Spotify integration.
 
 ###Youtube API bug
 Problem: Youtube’s API has a bug where the ‘buffering’ event is not properly sent.
 Solution: The problem occurs in rare instances. We have informed Youtube and will continue to provide Youtube service in the meantime.
 
-###Shuffle functionality
-Problem:
-
 ###Scalability
-Problem:
+Problem: The use of socket.io for synchronizing the ‘voting’ feature currently limits our userbase. If the number of concurrent users and amount of activities exceed our server capacity, our service may run into problems.
+Solution: For the sake of the project, we will continue to handle socket requests as is. When scalability becomes a problem, we have a plan to balance the load across various servers and optimize our database query by caching playlists on the server.
 
-###View Management
-Problem:
+###View Management with Shuffle Functionality
+Problem: We structured our client side code structure to handle only simple insertion and deletion of songs. As the project proceeds, we had difficulty integrating new functionalities such as shuffling the playlist.
+Solution: We had to refactor our code multiple times to make the new functionalities possible.
 
 ##Codebase Map
 =====
