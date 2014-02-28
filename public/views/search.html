@@ -17,7 +17,7 @@
     </div>
 
     <ul class="songs">
-      <li class="song" ng-repeat="song in SearchService.searchResults track by $index" ng-class="{selectedSong: song === currentSong}">
+      <li class="song" ng-repeat="song in SearchService.searchResults track by $index" ng-class="{selectedSong: $index === QueueService.queue.currentSong}">
         <div ng-click="play(song, 's')">
           <span class="icon {{ song.service }} column"></span>
           <div class="song-info column-top">

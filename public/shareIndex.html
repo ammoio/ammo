@@ -13,7 +13,7 @@
 
 <body ng-escape="closeModal()" ng-app='ammoApp' ng-controller="FrameController" ng-cloak>
 
- <!-- for ng-cloak --> 
+ <!-- Placed here for ng-cloak --> 
   <script src="/bower_components/jquery/jquery.min.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
 
@@ -29,8 +29,7 @@
         </form>
       </div>
       <div class="column on-4 text-center">
-<!--         <a href="#" class="btn" ng-click="login()">{{ UserService.user.loggedIn ? "Log Out" : "Log In" }}</a>
- -->      
+ 
       </div>
     </div>
   </header>
@@ -54,26 +53,6 @@
         </div>
           <a class="md-close btn" ng-click="closeModal()">Close me!</a>
           <a type="button" class="shareNow btn md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
-      </div>
-    </div>
-</div>
-
-<!-- Share Response Modal -->
-<div class="md-modal md-effect-5" id="shareResponseModal">
-    <div class="md-content">
-        <h3>Tweet this!</h3>
-        <div class="md-content-inner">
-          <span>Here's the link to your playlist: </span>
-          <div>http://{{ location.host() }}/q/{{ QueueService.queue.shareId }}</div>
-          <div>
-          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet"> Tweet It!
-          </a>
-          </div>
-          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">Share on Facebook
-          </a>
-        </div>
-        </div>
-          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
       </div>
     </div>
 </div>
