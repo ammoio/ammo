@@ -2,6 +2,19 @@
   <p>Add songs to playlist. Start searching a song.</p>
 </div>
 
+<div id="home-content-container" ng-hide="QueueService.queue.songs.length > 0">
+  <div class="home-content">
+    <div class="image-container" ng-repeat="tile in tiles1">
+      <img class="album-image" src={{tile.imgUrl}}></img>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="image-container" ng-repeat="tile in tiles2">
+      <img class="album-image" src={{tile.imgUrl}}></img>
+    </div>
+  </div>
+</div>
+
 <div class="container row" ng-hide="QueueService.queue.songs.length === 0">
   <div class="column-top on-2">
     <h3 class="playlist-name">{{QueueService.queue.name}}</h3>

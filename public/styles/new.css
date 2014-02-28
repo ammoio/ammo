@@ -40,6 +40,8 @@ a {
 
 .page-content {
   width: 100%;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 600px;
 }
 
 .on-4 {
@@ -98,9 +100,8 @@ a {
 .sidebar {
   width: 20%%;
   float: left;
-/*  height: 500px;*/
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .sidebar a {
   display: block;
   color: rgba(255, 255, 255, 0.8);
@@ -568,4 +569,32 @@ li.song.ng-scope.selectedSong {
   top: -10px;
   left: 45%;
   -webkit-transform: rotate(45deg);
+}
+
+#home-content-container {
+  /*background-color: #232323;
+  opacity: .8;*/
+  margin-top: 20px;
+  /*border-top: 4px solid black;
+  border-bottom: 4px solid black;*/
+  color: #fff;
+  height: 400px;
+  width: 100%;
+}
+
+.home-content {
+  display: block;
+  padding: 0px 25px;
+  position: relative;
+
+}
+
+.image-container {
+  width: 20%;
+  display: inline-block;
+}
+
+.album-image {
+  width: 100%;
+  padding-right: 5px;
 }
