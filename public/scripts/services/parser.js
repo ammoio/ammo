@@ -94,9 +94,11 @@ angular.module('ammoApp')
       userInput.splice(0,3);
       userInput = userInput.join(" ");
       SearchService.searchResults = [];
-      SearchService.rdio(userInput, 1)
+      SearchService.rdio(userInput, 1, 5000)
       .then(function(song) {
-        SearchService.searchResults.push(song[0]);
+        if(song.length !== 0) {
+          SearchService.searchResults.push(song[0]);
+        }
       });
     };
 

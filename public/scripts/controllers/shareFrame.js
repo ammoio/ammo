@@ -48,28 +48,12 @@ angular.module('ammoApp')
     $scope.search = function(userInput) {
       //Call SearchService for each of the services
       $scope.userInput = ""; // clearing the input box
+      $scope.searching = true;
+
       if(isUrl(userInput)) {
-        if(userInput.indexOf("youtu") !== -1) {
-          ParseService.youtube(userInput);
-        }
-        else if(userInput.indexOf("soundcloud") !== -1) {
-          ParseService.soundcloud(userInput);
-        }
-        else if(userInput.indexOf("deezer") !== -1) {
-
-        }
-        else if(userInput.indexOf("spotify") !== -1) {
-          ParseService.spotify(userInput);
-        }
-        else if (userInput.indexOf("rdio") !== -1) {
-          ParseService.rdio(userInput);
-        }
+        ParseService.parseURL(userInput);
+        $scope.searching = false;
       } else {
-
-        var youtube = [];
-        var rdio = [];
-        var soundcloud = [];
-
         $q.all([
           SearchService.rdio(userInput),
           SearchService.youtube(userInput),
@@ -79,8 +63,8 @@ angular.module('ammoApp')
           results.forEach(function(result) {
             SearchService.searchResults = SearchService.searchResults.concat(result);
           });
+          $scope.searching = false;
         });
-        // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
       }
       $location.path('/search');
     };
