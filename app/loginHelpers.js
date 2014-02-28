@@ -13,7 +13,6 @@ module.exports = {
       var d = Q.defer();
 
       var addSession = function (user) {
-        console.log("addSession");
         User.addSession(user.username, sessionId)
         .then(function(user){
           d.resolve(user);
