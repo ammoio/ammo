@@ -13,7 +13,7 @@ angular.module('ammoApp')
       - $scope.playPrev();
       - $scope.detectYoutubeAd();
   */
-  .controller('PlayerController', function($scope, $interval, QueueService) {
+  .controller('PlayerController', function ($scope, $interval, QueueService) {
     $scope.QueueService = QueueService;
     $scope.playing = false;
     $scope.shuffled = QueueService.isShuffled;
@@ -40,14 +40,14 @@ angular.module('ammoApp')
           - This variable defines who called this function, 'q' refers for queue
             and 's' for search.
     */
-    $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
+    $scope.play = function (songOrIndex, queueOrSearch) { //  = 'q' or 's'
       $('#youtube').addClass('hideYoutube');
       var song;
       $scope.buffering = true;
       $scope.ready = false;
 
       song = $scope.setSong(songOrIndex, queueOrSearch);
-      if ($scope.currentSong !== null){
+      if ($scope.currentSong !== null) {
         $scope.stopAll();
         $scope.playing = true;
         $scope.startPlaying(song);
@@ -57,57 +57,50 @@ angular.module('ammoApp')
       }
     };
 
-    $scope.setSong = function(songOrIndex, queueOrSearch){
-      if(queueOrSearch === 'q') {
-        if(songOrIndex !== null) {
-          song = QueueService.queue.songs[songOrIndex];
+    $scope.setSong = function (songOrIndex, queueOrSearch) {
+      if (queueOrSearch === 'q') {
+        if (songOrIndex !== null) {
+          var song = QueueService.queue.songs[songOrIndex];
           QueueService.queue.currentSong = songOrIndex;
           $scope.currentSong = song;
           $scope.updateImage(songOrIndex);
           return song;
-        }
-        else {
+        } else {
           $scope.currentSong = null;
           $scope.playing = false;
           return;
         }
-      }
-      else if(queueOrSearch === 's') {
+      } else if (queueOrSearch === 's') {
         $scope.currentSong = songOrIndex;
         return songOrIndex;
       }
-      else {
-        return;
-      }
+      return;
     };
 
-    $scope.startPlaying = function(song){
-      if(song.service === "youtube") {
+    $scope.startPlaying = function (song) {
+      if (song.service === "youtube") {
         $('#youtube').removeClass('hideYoutube');
         youtube.loadVideoById(song.serviceId, 0, "large");
         youtube.playVideo();
-      }
-      else if (song.service === "soundcloud") {
+      } else if (song.service === "soundcloud") {
         scPlay(song.serviceId);
-      }
-      else if (song.service === "deezer") {
+      // } else if (song.service === "deezer") {
         // DZ.player.playTracks([song.serviceId]);
-      }
-      else if (song.service === 'rdio') {
-        R.player.play({ source:song.serviceId });
+      } else if (song.service === 'rdio') {
+        R.player.play({ source: song.serviceId });
         if (!R.currentUser.get('canStreamHere')) { //if not logged in
           $scope.currentSong.duration = 30;
         }
       }
     };
 
-    $scope.setServiceColor = function(){
+    $scope.setServiceColor = function () {
       var color;
-      if($scope.currentSong.service === 'youtube'){
+      if ($scope.currentSong.service === 'youtube') {
         color = "#c22f2a";
-      } else if ($scope.currentSong.service === 'soundcloud'){
+      } else if ($scope.currentSong.service === 'soundcloud') {
         color = "#e19f32";
-      } else if ($scope.currentSong.service === 'rdio'){
+      } else if ($scope.currentSong.service === 'rdio') {
         color = '#2d8dbb';
       } else {
         color = '#6beb2e';
@@ -117,11 +110,11 @@ angular.module('ammoApp')
       $('.accentBgColor').css('background-color', color);
     };
 
-    /* 
+    /*
       ========== $scope.stopAll ==========
       This function is in charge to stop all the services from playing (if any)
     */
-    $scope.stopAll = function() {
+    $scope.stopAll = function () {
       $scope.playing = false;
       youtube.pauseVideo();
       scPlayer.pause();
@@ -129,104 +122,98 @@ angular.module('ammoApp')
       R.player.pause();
     };
 
-    /* 
+    /*
       ========== $scope.togglePause ==========
       Toggles play/pause
     */
-    $scope.togglePause = function() {
+    $scope.togglePause = function () {
       // If queue is not empty.
-      if($scope.currentSong !== null) {
-        if($scope.playing) {
+      if ($scope.currentSong !== null) {
+        if ($scope.playing) {
           $scope.stopAll();
-        }
-        else {
+        } else {
           $scope.unPause();
         }
       } else {
-        if (QueueService.queue.songs.length){
+        if (QueueService.queue.songs.length) {
           $scope.play(0, 'q'); //if there are songs in the q and current song is null, play index 0
         }
       }
     };
 
-    $scope.unPause = function() {
+    $scope.unPause = function () {
       $scope.playing = true;
 
-      if($scope.currentSong.service === 'youtube') {
+      if ($scope.currentSong.service === 'youtube') {
         youtube.playVideo();
-      }
-      else if($scope.currentSong.service === 'soundcloud') {
+      } else if ($scope.currentSong.service === 'soundcloud') {
         scPlayer.play();
-      }
-      else if($scope.currentSong.service === 'deezer') {
+      // } else if ($scope.currentSong.service === 'deezer') {
         // DZ.player.play();
-      }
-      else if($scope.currentSong.service === 'rdio') {
+      } else if ($scope.currentSong.service === 'rdio') {
         R.player.play();
       }
     };
 
     // playNext and playPrev can be refactored to one function
-    $scope.playNext = function() {
+    $scope.playNext = function () {
       var next = $scope.setNext();
 
       QueueService.setCurrentSongIndex(next)
-        .then(function(index) {
+        .then(function (index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("Error: ", err);
         });
     };
 
-    $scope.setNext = function() {
-      if ($scope.shuffled){
-        if (QueueService.shuffledIndex < QueueService.shuffleStore.length -1){
+    $scope.setNext = function () {
+      var next;
+      if ($scope.shuffled) {
+        if (QueueService.shuffledIndex < QueueService.shuffleStore.length - 1) {
           next = QueueService.shuffleStore[QueueService.shuffledIndex + 1];
-          QueueService.shuffledIndex++;
-          return next;
+          QueueService.shuffledIndex += 1;
         } else if ($scope.looping) {
           next = QueueService.shuffleStore[0];
           QueueService.shuffledIndex = 0;
-          return next;
         }
       } else {
         next = QueueService.queue.currentSong + 1;
-        return next;
       }
+      return next;
     };
 
-    $scope.playPrev = function() {
+    $scope.playPrev = function () {
       var prev = $scope.setPrev();
 
       QueueService.setCurrentSongIndex(prev)
-        .then(function(index) {
+        .then(function (index) {
           $scope.updateImage(index);
           $scope.play(index, "q");
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("Error: ", err);
         });
     };
 
-    $scope.setPrev = function() {
-      if ($scope.shuffled){
-        if (QueueService.shuffledIndex > 0){
+    $scope.setPrev = function () {
+      var prev;
+      if ($scope.shuffled) {
+        if (QueueService.shuffledIndex > 0) {
           prev = QueueService.shuffleStore[QueueService.shuffledIndex - 1];
-          QueueService.shuffledIndex--;
-          return prev;
+          QueueService.shuffledIndex -= 1;
         } else if ($scope.looping) {
           prev = QueueService.shuffleStore[QueueService.shuffleStore.length - 1];
           QueueService.shuffledIndex = QueueService.shuffleStore.length - 1;
-          return prev;
         }
       } else {
         prev = QueueService.queue.currentSong - 1;
-        return prev;
       }
-    };
 
+      return prev;
+    };
 
     /* 
       ========== $scope.detectManualPause ==========
@@ -237,14 +224,14 @@ angular.module('ammoApp')
       $scope.playing = false;
     };
 
-    $scope.fixTime = function(seconds) {
-      if(!seconds) { 
+    $scope.fixTime = function (seconds) {
+      if (!seconds) {
         return "0:00";
       }
       var mins = (seconds / 60) | 0;
       var secs = seconds % 60;
 
-      if(secs < 10) {
+      if (secs < 10) {
         secs = "0" + secs;
       }
       return mins + ":" + secs;
@@ -253,29 +240,21 @@ angular.module('ammoApp')
     // ---------- Progress Bar Logic ----------
     // ========================================
     var intervals = []; //array to keep track of all set intervals
- 
-    $scope.startTimer = function() {
-      intervals.push($interval( function() {
-        if($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
-          $scope.timer++;
 
-          // $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }); 
-          $('.progress-line').animate({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }, 900); 
+    $scope.startTimer = function () {
+      intervals.push($interval(function () {
+        if ($scope.playing && $scope.ready && !$scope.buffering && $scope.timer < $scope.currentSong.duration) {
+          $scope.timer += 1;
+
+          // $('.progress-line').css({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" });
+          $('.progress-line').animate({ width: ($scope.timer * 100 / $scope.currentSong.duration).toFixed(2) + "%" }, 900);
         }
       }, 1000));
     };
 
-
-// $( "#book" ).animate({
-//     opacity: 0.25,
-//     left: "+=50",
-//     height: "toggle"
-//   }, 5000, function() {
-//     // Animation complete.
-//   });
-
-    $scope.stopTimer = function() {
-      for (var i = 0; i < intervals.length; i++) { //clear all set intervals
+    $scope.stopTimer = function () {
+      var i;
+      for (i = 0; i < intervals.length; i++) { //clear all set intervals
         $interval.cancel(intervals[i]);
       }
       $scope.timer = 0;
@@ -292,43 +271,44 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    $scope.playFromSidebar = function(index){ 
-      if (QueueService.isShuffled){
+    $scope.playFromSidebar = function (index) {
+      if (QueueService.isShuffled) {
         QueueService.shuffledIndex = QueueService.shuffledIndex + index + 1;
         index = QueueService.shuffleStore[QueueService.shuffledIndex];
-      }else {
+      } else {
         index = QueueService.queue.currentSong + index + 1;
       }
 
       QueueService.setCurrentSongIndex(index)
-        .then(function(ind) {
+        .then(function (ind) {
           $scope.updateImage(ind);
           $scope.play(ind, "q");
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("Error: ", err);
         });
     };
 
-    $scope.updateImage = function(index){
+    $scope.updateImage = function (index) {
       QueueService.currentImage = "";
 
-      if (QueueService.queue.songs[index].artist){
+      if (QueueService.queue.songs[index].artist) {
         QueueService.loadArtistImages(QueueService.queue.songs[index].artist);
-      }else{
+      } else {
         QueueService.artistImage = QueueService.queue.songs[index].image;
       }
     };
 
-    $scope.shuffle = function() {
+    $scope.shuffle = function () {
       var shuffled = [];
+      var j;
 
-      for (var j=0; j<QueueService.queue.songs.length; j++){
+      for (j = 0; j < QueueService.queue.songs.length; j++) {
         shuffled.push(j);
       }
 
       var len = shuffled.length, temp, i;
-      while(len) {
+      while (len) {
         i = Math.floor(Math.random() * len--);
         temp = shuffled[len];
         shuffled[len] = shuffled[i];
@@ -339,29 +319,28 @@ angular.module('ammoApp')
       QueueService.shuffledIndex = 0;
     };
 
-    $scope.toggleShuffle = function(){
-      if(QueueService.queue.songs.length){
+    $scope.toggleShuffle = function () {
+      if (QueueService.queue.songs.length) {
         QueueService.isShuffled = QueueService.isShuffled ? false : true;
         $scope.shuffled = QueueService.isShuffled;
 
-        if ($scope.shuffled){
+        if ($scope.shuffled) {
           $scope.shuffle();
         } else {
           QueueService.shuffleStore = [];
         }
 
-        if (QueueService.queue.currentSong === null){
-          QueueService.setCurrentSongIndex(0); // updates the sidebar next songs   
-        }else{
-          QueueService.setCurrentSongIndex(QueueService.queue.currentSong);  
+        if (QueueService.queue.currentSong === null) {
+          QueueService.setCurrentSongIndex(0); // updates the sidebar next songs
+        } else {
+          QueueService.setCurrentSongIndex(QueueService.queue.currentSong);
         }
-        
-      }     
+      }
     };
 
-    $scope.toggleLoop = function() {
+    $scope.toggleLoop = function () {
       QueueService.isLooping = QueueService.isLooping ? false : true;
       $scope.looping = QueueService.isLooping;
     };
 
-});
+  });

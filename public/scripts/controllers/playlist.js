@@ -1,14 +1,13 @@
 angular.module('ammoApp')
 
-  .controller('PlaylistController', function($scope, $http, $routeParams, $location, QueueService, UserService) {
+  .controller('PlaylistController', function ($scope, $http, $routeParams, $location, QueueService, UserService) {
     $scope.playlist = null;
 
-    $scope.refreshPlaylist = function() {
+    $scope.refreshPlaylist = function () {
       $http.get("/queues/" + $routeParams.id)
-        .success(function(playlist){ 
+        .success(function (playlist) {
           $scope.playlist = playlist;
-        }
-      );
+        });
     };
     $scope.refreshPlaylist();
 
@@ -20,36 +19,37 @@ angular.module('ammoApp')
       Params:
         index: index of the song clicked by the user on playlist view (playlist.html) 
     */
-    $scope.passToPlay = function(index) {
-      if($scope.playlist.shareId !== QueueService.queue.shareId) {
+    $scope.passToPlay = function (index) {
+      if ($scope.playlist.shareId !== QueueService.queue.shareId) {
         QueueService.setPlaylist($scope.playlist);
       }
 
-      if (QueueService.isShuffled){
+      if (QueueService.isShuffled) {
         QueueService.shuffledIndex = QueueService.shuffleStore.indexOf(index); //inefficient?
       }
 
       QueueService.setCurrentSongIndex(index)
-        .then(function(ind) {
+        .then(function (ind) {
           $scope.play(ind, "q");
           $location.path('/listen');
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log("Error: ", err);
         });
     };
 
 
-     $scope.addToQueue = function($event, song) {
+    $scope.addToQueue = function ($event, song) {
       $event.preventDefault();
       $event.stopPropagation();
-      QueueService.enqueue(song).then(function(song){
-        if (QueueService.queue.shareId) {
-          $scope.socket.emit('addSong', {
-            shareId: QueueService.queue.shareId
-          });
-        }
-      });
+      QueueService.enqueue(song)
+        .then(function () {
+          if (QueueService.queue.shareId) {
+            $scope.socket.emit('addSong', {
+              shareId: QueueService.queue.shareId
+            });
+          }
+        });
     };
 
 
@@ -57,8 +57,8 @@ angular.module('ammoApp')
       ========== addTo ==========
       Adds a song to either the queue or a specific
 
-      Params: 
-        destination: 
+      Params:
+        destination:
           - 'queue' for the queue or a playlist object
 
         song:
@@ -67,28 +67,28 @@ angular.module('ammoApp')
         event:
           - Event triggered with the ng-click so we can stop propagation
     */
-    $scope.addTo = function(destination, song, event) {
-      if(destination === 'queue') {
+    $scope.addTo = function (destination, song, event) {
+      if (destination === 'queue') {
         $scope.addToQueue(event, song);
-      }
-      else {
+      } else {
         $http({ method: 'POST', url: '/queues/' + destination.shareId + '/add', data: song });
       }
     };
 
-    $scope.remove = function(index) {
-      $http.delete('/queues/' + $scope.playlist.shareId + '/' + index)
-      .then(function() {
-        $scope.refreshPlaylist();
-      });
+    $scope.remove = function (index) {
+      $http['delete']('/queues/' + $scope.playlist.shareId + '/' + index)
+        .then(function () {
+          $scope.refreshPlaylist();
+        });
     };
 
-    $scope.updatePlaylist = function() {
-      if(QueueService.queue.shareId === $scope.playlist.shareId) {
+    $scope.updatePlaylist = function () {
+      var i;
+      if (QueueService.queue.shareId === $scope.playlist.shareId) {
         var currentSong = $scope.currentSong;
 
-        for(var i = 0; i < $scope.playlist.songs.length; i++) {
-          if($scope.playlist.songs[i] === currentSong) {
+        for (i = 0; i < $scope.playlist.songs.length; i++) {
+          if ($scope.playlist.songs[i] === currentSong) {
             QueueService.queue.currentSong = i;
             QueueService.setNextSongs(i);
             break;
@@ -99,26 +99,27 @@ angular.module('ammoApp')
       $http.put('/queues/' + $scope.playlist.shareId, { songs: $scope.playlist.songs });
     };
 
-    $scope.delete = function() {
+    $scope['delete'] = function () {
       var user = UserService.user;
       UserService.getUserPlaylists(user)
-        .then(function(userPls){
-          var playlists = userPls; 
-          for (var i=0; i < playlists.length; i++){
+        .then(function (userPls) {
+          var i;
+          var playlists = userPls;
+          for (i = 0; i < playlists.length; i++) {
             if (playlists[i].shareId === $scope.playlist.shareId) {
-              playlists.splice(i,1);
+              playlists.splice(i, 1);
             }
           }
 
           $http.put('/users/' + user.username, {playlists: playlists})
-            .success(function(userObj){
+            .success(function (userObj) {
               user.playists = userObj.playlists;
             });
 
-          $location.path('/listen')
+          $location.path('/listen');
         });
     };
-});
+  });
 
 
 

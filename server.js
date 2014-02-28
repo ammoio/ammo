@@ -6,8 +6,8 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var Routes = require('./app/routes/routes.js');
-var Sockets = require('./app/sockets.js');
+var routes = require('./app/routes/routes.js');
+var sockets = require('./app/sockets.js');
 var mongoose = require('mongoose');
 var errorhandler  = require('./app/error.js');
 
@@ -34,16 +34,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
 // development only
-if ('development' == app.get('env')) {
+if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
 
-Routes(app);
+routes(app);
 
 var server = http.createServer(app);
-server.listen(app.get('port'), function(){
+server.listen(app.get('port'), function () {
   console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
 });
 
-Sockets.startSocketServer(server);
+sockets.startSocketServer(server);
 

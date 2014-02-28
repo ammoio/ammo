@@ -4,10 +4,10 @@ var http = require('http');
 
 module.exports = {
 
-  scrape: function(req, res){
+  scrape: function (req, res) {
     var url = "http://www.theaudiodb.com/api/v1/json/1/search.php?s=" + req.params.artist;
     var data = '';
-    http.get(url, function(response) {
+    http.get(url, function (response) {
       response.on('data', function (chunk) {
         data += chunk;
       });
@@ -17,9 +17,9 @@ module.exports = {
         res.send(data);
       });
     })
-    .on('error', function(e) {
-      console.log("Error Scraping Song" + e.message);
-    });
+      .on('error', function (e) {
+        console.log("Error Scraping Song" + e.message);
+      });
   }
 
 };
