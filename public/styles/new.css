@@ -189,7 +189,7 @@ a {
 .page-content .song .song-info {
   margin-top: 14px;
   position: relative;
-  width: 70%;
+  width: 80%;
 }
 .page-content .song .rdio {
   background: url(../img/rdio.png) center center no-repeat;
@@ -547,4 +547,9 @@ li.song.ng-scope.selectedSong {
 
 .voteColor{
   color: #6beb2e !important;
+}
+
+.queue-votes {
+  margin: auto 10%;
+  float: right;
 }
