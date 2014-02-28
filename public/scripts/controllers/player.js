@@ -41,6 +41,7 @@ angular.module('ammoApp')
             and 's' for search.
     */
     $scope.play = function(songOrIndex, queueOrSearch) { //  = 'q' or 's'
+      $('#youtube').addClass('hideYoutube');
       var song;
       $scope.buffering = true;
       $scope.ready = false;
@@ -82,6 +83,7 @@ angular.module('ammoApp')
 
     $scope.startPlaying = function(song){
       if(song.service === "youtube") {
+        $('#youtube').removeClass('hideYoutube');
         youtube.loadVideoById(song.serviceId, 0, "large");
         youtube.playVideo();
       }
@@ -227,16 +229,13 @@ angular.module('ammoApp')
 
 
     /* 
-      ========== $scope.detectYoutubeAd ==========
-      This function detects if a YoutubeAd is playing, is a callback of YouTube player state
-      PAUSE which is the state of the player when there is an ad, but also is the sate of 
-      a normal pause. So if this functino is called and $scope.playing = true then it's an ad
+      ========== $scope.detectManualPause ==========
+      This function detects if a user clicks in the youtube Video
+      and pause our player when youtube pauses. 
     */
-    $scope.detectYoutubeAd = function() {
-      if($scope.playing) {
-        // There is a YouTube ad
-        console.log("Youtube Ad detected.");
-      }
+    $scope.detectManualPause = function() {
+      $scope.playing = false;
+      youtube.pauseVideo();
     };
 
     $scope.fixTime = function(seconds) {
