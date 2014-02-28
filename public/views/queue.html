@@ -13,7 +13,7 @@
   <ul class="songs">
 
     <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
-      <li class="song" ng-class="{played: $index < QueueService.queue.currentSong, selectedSong: song === currentSong}" ng-repeat="song in QueueService.queue.songs track by $index" ng-click="passToPlay($index)">
+      <li class="song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{played: $index < QueueService.queue.currentSong, selectedSong: $index === QueueService.queue.currentSong}" ng-click="passToPlay($index, song)">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>

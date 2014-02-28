@@ -331,8 +331,8 @@ li.song.ng-scope.selectedSong {
   cursor: auto;
 }
 
-.played {
-  opacity: 0.3 !important;
+.page-content .played {
+  opacity: 0.3;
 }
 
 

@@ -2,7 +2,7 @@
 <div id="share-container">
   <div class="container row share-title">
     <div class="column-top on-3">
-      <h3 class="share-view-welcome">Welcome to Share View</h3>
+      <h3 class="share-view-welcome">{{ QueueService.queue.name }}</h3>
     </div>
     <div class="column-top on-1">
       <a class="md-trigger btn clone" ng-click="clone()" href="#">Clone</a>
@@ -11,7 +11,7 @@
 
   <div class="container-row">
     <ul class="share-view-songs">
-      <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{selectedSong: song === currentSong}" ng-hide="QueueService.queue.currentSong > $index">
+      <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{selectedSong: $index === QueueService.queue.currentSong}" ng-hide="QueueService.queue.currentSong > $index">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
           <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
