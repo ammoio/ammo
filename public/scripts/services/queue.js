@@ -243,7 +243,7 @@ angular.module('ammoApp')
 
         //if this is coming from a share view
         if ($location.path().indexOf('/q/') !== -1 ) {
-          var url = 'http://' + $location.host() +':3000/listen/' + data.listenId; 
+          var url = 'http://' + $location.host() +'/listen/' + data.listenId; 
           $window.location.href = url;
         } else {
           $location.path("/listen/" + data.listenId);

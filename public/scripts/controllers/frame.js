@@ -1,23 +1,23 @@
 angular.module('ammoApp')
-  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, ngProgress) {
+  .controller('FrameController', function($scope, $q, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService, StopClicksService, ngProgress) {
+
+    /*************** scope variables ***************/
+    $scope.UserService = UserService;
+    $scope.QueueService = QueueService;
+    $scope.location = $location;
     $scope.clickedIndex = null;
     $scope.songToAdd = null;
     $scope.playlistName = "";
-    
-    var stopClicks = function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-    };
-    document.addEventListener("click",stopClicks,true);
-    $('body').css('cursor', 'wait');
-
-
-    $scope.UserService = UserService;
-    $scope.location = $location;
-    $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
-    $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
     //initializing socket
     $scope.socket = io.connect($scope.location.host());
+    // This variable is used to know when youtube
+    // and deezer are loaded ($scope.stopLoadingBar())
+    $scope.assetsLoaded = 0;
+
+    $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
+
+    /*************** run when loaded ***************/
+    StopClicksService.disableClicks();
 
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -40,15 +40,10 @@ angular.module('ammoApp')
       return UserService.isLogged();
     };
 
-    $scope.QueueService = QueueService;
 
     //ngProgress is the top loading bar shown when first loading the page
     ngProgress.color('#2d9');
     ngProgress.start();
-
-    // This variable is used to know when youtube
-    // and deezer are loaded ($scope.stopLoadingBar())
-    $scope.assetsLoaded = 0;
 
     /*
       ========== $scope.search ==========
@@ -147,72 +142,8 @@ angular.module('ammoApp')
       }
     };
 
-    /*
-      ========== shareRequestModal ==========
-      -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted, trigger QueueService.saveQueue with those inputs.
 
-      Params:
-        None
 
-      Return: No return
-    */
-    $scope.shareRequestModal = function() {
-      QueueService.saveQueue($scope.queueName, $scope.passphrase)
-      .then(function(queue) {
-        $('#shareResponseModal').addClass('md-show'); //show response modal
-      });
-    };
-
-    $scope.closeModal = function (selector){
-      $('.md-show').removeClass('md-show');
-    };
-
-    /* ========== $scope.stopLoadingBar ==========
-      In charge of stoping the top Loading Bar when all the players are loaded
-
-      Params:
-        asset: string with the name of the service player which is now ready
-    */
-    $scope.stopLoadingBar = function (asset) {
-      // console.log("Loaded: ", asset);
-      $scope.assetsLoaded++;
-      if($scope.assetsLoaded === 2) {
-        ngProgress.complete();
-        document.removeEventListener("click", stopClicks, true);
-        $('body').css('cursor', 'auto');
-      }
-    };
-
-    /* ========== $scope.changePlaylist ==========
-      Redirects user to /playlist/:id who then will display the tracks of that playlist
-
-      Params:
-        playlist: playlist object getting passed when a user clicks to a playlist name on the sidebar
-    */
-    $scope.changePlaylist = function(playlist) {
-      $location.path('/playlist/' + playlist.shareId);
-    };
-
-    /* ========== $scope.showQueue ==========
-      Redirects the user to /listen to load the queue
-    */
-    $scope.showQueue = function() {
-      if (QueueService.live) {
-        $location.path('/listen/' + QueueService.queue.listenId);
-      } else {
-        $location.path('/listen/');
-      }
-    };
-
-    $scope.fixTime = function(seconds) {
-      var mins = seconds / 60 | 0; 
-      seconds = seconds % 60 | 0;
-      if(seconds < 10) {
-        return mins + ":0" + seconds;
-      } else {
-        return mins + ":" + seconds;
-      }
-    };
 
     /*
       ======== saveToPlaylist ========
@@ -247,17 +178,89 @@ angular.module('ammoApp')
       $scope.showPlaylistInput = false;
     };
 
+    /*************** $scope functions ***************/
+
+    /*
+      ========== $scope.shareRequestModal ==========
+      -Called when shareRequestModal is filled out and "Share" is clicked. When modal is submitted
+    */
+    $scope.shareRequestModal = function() {
+      QueueService.saveQueue($scope.queueName)
+      .then(function(queue) {
+        $('#shareResponseModal').addClass('md-show'); //show response modal
+      });
+    };
+
+    /* ========== $scope.closeModal ==========
+      hide all the modals
+    */
+    $scope.closeModal = function (selector){
+      $('.md-show').removeClass('md-show');
+    };
+
+    /* ========== $scope.stopLoadingBar ==========
+      In charge of stoping the top Loading Bar when all the players are loaded
+      Params:
+        asset: string with the name of the service player which is now ready
+    */
+    $scope.stopLoadingBar = function (asset) {
+      $scope.assetsLoaded++;
+      if($scope.assetsLoaded === 2) {
+        ngProgress.complete();
+        StopClicksService.enableClicks(); //enable clicking again
+      }
+    };
+
+    /* ========== $scope.changePlaylist ==========
+      Redirects user to /playlist/:id who then will display the tracks of that playlist
+
+      Params:
+        playlist: playlist object getting passed when a user clicks to a playlist name on the sidebar
+    */
+    $scope.changePlaylist = function(playlist) {
+      $location.path('/playlist/' + playlist.shareId);
+    };
+
+    /* ========== $scope.togglePlaylistInput ==========
+      toggle the playlist input box when clicked
+    */
     $scope.togglePlaylistInput = function(){
-      console.log("Toggle");
       $scope.showPlaylistInput = !$scope.showPlaylistInput;
     };
 
-    /* Used so that the dropdown has access to specific songs to add to q's and playlists */
+    /* ========== $scope.setSongToAdd ==========
+      Used so that the dropdown has access to specific songs to add to q's and playlists
+    */
     $scope.setSongToAdd = function(song, $index){
       if ($index !== undefined){
         $scope.clickedIndex = $index;
       }
       $scope.songToAdd = song;
     };
+
+    /* ========== $scope.showQueue ==========
+      Redirects the user to /listen to load the queue
+    */
+    $scope.showQueue = function() {
+      if (QueueService.live) {
+        $location.path('/listen/' + QueueService.queue.listenId);
+      } else {
+        $location.path('/listen/');
+      }
+    };
+
+    /* ========== $scope.fixTime ==========
+      format the time from seconds for display
+    */    
+    $scope.fixTime = function(seconds) {
+      var mins = seconds / 60 | 0; 
+      seconds = seconds % 60 | 0;
+      if(seconds < 10) {
+        return mins + ":0" + seconds;
+      } else {
+        return mins + ":" + seconds;
+      }
+    };
+
   });
 
