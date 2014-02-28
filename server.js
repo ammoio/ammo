@@ -6,16 +6,18 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var Routes = require('./app/routes.js');
+var Routes = require('./app/routes/routes.js');
 var Sockets = require('./app/sockets.js');
+var mongoose = require('mongoose');
+var errorhandler  = require('./app/error.js');
 
-var dbHelpers = require('./app/dbHelpers');
-
+mongoose.connect('mongodb://localhost/ammo');
 
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.use(errorhandler);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -38,11 +40,10 @@ if ('development' == app.get('env')) {
 
 Routes(app);
 
-
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){
   console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
 });
 
-Sockets(server);
+Sockets.startSocketServer(server);
 

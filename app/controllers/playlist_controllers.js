@@ -1,12 +1,13 @@
 var loginHelpers = require('../loginHelpers');
-var dbHelpers = require('../dbHelpers');
+var User = require('../models/user_model');
+var Queue = require('../models/queue_model');
 
 /* ======== Playlist Controllers ========*/
 
 module.exports = {
 
   getUserPlaylists: function(req, res){
-    dbHelpers.getUserPlaylists(req.params.user)
+    User.getPlaylists(req.params.user)
     .then(function(playlists){
       res.send(playlists);
     })
@@ -22,7 +23,7 @@ module.exports = {
       return true;
     })
     .then(function () {
-      return dbHelpers.createPlaylist(req.params.user, req.body);
+      return User.createPlaylist(req.params.user, req.body);
     })
     .then(function(playlist){
       res.send(playlist);

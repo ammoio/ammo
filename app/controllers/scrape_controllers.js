@@ -1,3 +1,5 @@
+var http = require('http');
+
 /* ======== Scrape Controllers ========*/
 
 module.exports = {

@@ -1,5 +1,5 @@
+var User = require('../models/user_model');
 var loginHelpers = require('../loginHelpers');
-var dbHelpers = require('../dbHelpers');
 
 /* ======== User Controllers ========*/
 
@@ -28,7 +28,7 @@ module.exports = {
   },
 
   getUser: function(req, res){
-    dbHelpers.getUser({sessionId: req.cookies['ammoio.sid']})
+    User.getUser({sessionId: req.cookies['ammoio.sid']})
     .then(function(user){
       console.log(user);
       res.send(user);
