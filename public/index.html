@@ -27,7 +27,7 @@
               <div class="dot accentBgColor"></div>
             </div>
             <img src="../img/logo.png" alt="" class="logo">
-          </div>π
+          </div>
         </div>
         <div class="column on-2">
           <form id="search" ng-submit="search(userInput)">
@@ -47,7 +47,6 @@
         <aside class="sidebar bottom-pad">
           <div class="playlist-list">
             <a class="yourPlaylists">Your Playlists</a>
-<!--             <a ng-click="showQueue()">Queue</a> -->
             <a ng-repeat="playlist in UserService.user.playlists track by $index" ng-click="changePlaylist(playlist)" href="#">
                 {{ playlist.name }} 
               </a>
