@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .controller('PlaylistController', function($scope, $http, $routeParams, QueueService) {
+  .controller('PlaylistController', function($scope, $http, $routeParams, $location, QueueService) {
     $scope.playlist = null;
 
     $scope.refreshPlaylist = function() {
@@ -32,6 +32,7 @@ angular.module('ammoApp')
       QueueService.setCurrentSongIndex(index)
         .then(function(ind) {
           $scope.play(ind, "q");
+          $location.path('/listen');
         })
         .catch(function(err) {
           console.log("Error: ", err);
