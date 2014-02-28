@@ -47,7 +47,6 @@ angular.module('ammoApp')
         var url = "/queues/" + this.queue.shareId + "/add";
         $http.post(url, song)
         .success(function(data, status, headers, config){
-          console.log("song added to q on db");
           d.resolve(data);
         })
         .error(function(err){
@@ -57,7 +56,6 @@ angular.module('ammoApp')
       } else {
         d.resolve(song);
       }
-
       return d.promise;
     };
 
@@ -115,7 +113,6 @@ angular.module('ammoApp')
 
       $http.get('/queues/' + shareId)
       .success(function(queue){
-        console.log("Retreived Queue from server: ", queue);
         that.setQueue(queue);
         that.setNextSongs(that.queue.currentSong);
         d.resolve(that.queue);
@@ -125,7 +122,6 @@ angular.module('ammoApp')
         d.reject(err);
       }); 
 
-      console.log(this.votedSongs);
       return d.promise;
     };
 
@@ -237,7 +233,6 @@ angular.module('ammoApp')
       this.queue.isPrivate = false;
       $http.post('/queues', this.queue)
       .success(function(data, status, headers, config) {
-        console.log("Created Live Queue: ", data);
         that.queue = data;
         that.live = true;
 

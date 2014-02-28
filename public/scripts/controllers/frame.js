@@ -9,13 +9,10 @@ angular.module('ammoApp')
     $scope.clickedIndex = null;
     $scope.songToAdd = null;
     $scope.playlistName = "";
-    //initializing socket
-    $scope.socket = io.connect($scope.location.host());
-    // This variable is used to know when youtube
-    // and deezer are loaded ($scope.stopLoadingBar())
+    $scope.socket = io.connect($scope.location.host()); //initializing socket
+    // This variable is used to know when youtube and deezer are loaded ($scope.stopLoadingBar())
     $scope.assetsLoaded = 0;
-
-    $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
+    // $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
 
     
     /*************** run when loaded ***************/
@@ -26,13 +23,13 @@ angular.module('ammoApp')
     ngProgress.start();
 
 
+    /*************** $scope functions ***************/
+
     /*
       ========== $scope.search ==========
       Gets called when user clicks or hits enter on the search bar/button
-
-      Params:
-        userInput
-          - Whathever is currently on the search box (inside form #search)
+      Checks if the input is a url. If so, parse url in ParseService, else call SearchService
+      to search each API
     */
     $scope.search = function(userInput) {
       //Call SearchService for each of the services
@@ -40,29 +37,9 @@ angular.module('ammoApp')
       $scope.searching = true;
 
       if(isUrl(userInput)) {
-        if(userInput.indexOf("youtu") !== -1) {
-          ParseService.youtube(userInput);
-        }
-        else if(userInput.indexOf("soundcloud") !== -1) {
-          ParseService.soundcloud(userInput);
-        }
-        else if(userInput.indexOf("deezer") !== -1) {
-
-        }
-        else if(userInput.indexOf("spotify") !== -1) {
-          ParseService.spotify(userInput);
-        }
-        else if (userInput.indexOf("rdio") !== -1) {
-          ParseService.rdio(userInput);
-        }
+        ParseService.parseURL(userInput);
         $scope.searching = false;
       } else {
-        // SearchService.rdio(userInput);
-
-        var youtube = [];
-        var rdio = [];
-        var soundcloud = [];
-
         $q.all([
           SearchService.rdio(userInput),
           SearchService.youtube(userInput),
@@ -74,17 +51,15 @@ angular.module('ammoApp')
           });
           $scope.searching = false;
         });
-        // SearchService.deezer(userInput);  also needs to be refactored in the service to use promises
       }
       $location.path('/search');
     };
 
+    //$scope.search helper
     var isUrl = function isUrl(s) {
       var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
       return regexp.test(s);
     };
-
-    /*************** $scope functions ***************/
 
     /*
       ======== saveToPlaylist ========

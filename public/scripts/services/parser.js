@@ -99,4 +99,22 @@ angular.module('ammoApp')
         SearchService.searchResults.push(song[0]);
       });
     };
+
+    this.parseURL = function(url) {
+      if(url.indexOf("youtu") !== -1) {
+        this.youtube(url);
+      }
+      else if(url.indexOf("soundcloud") !== -1) {
+        this.soundcloud(url);
+      }
+      else if(url.indexOf("deezer") !== -1) {
+
+      }
+      else if(url.indexOf("spotify") !== -1) {
+        this.spotify(url);
+      }
+      else if (url.indexOf("rdio") !== -1) {
+        this.rdio(url);
+      }
+    };
   });
