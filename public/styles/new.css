@@ -448,7 +448,7 @@ li.song.ng-scope.selectedSong {
 
 /* ACCENT COLOR */
 .accentColor{
-  color: #6beb2e !important;
+  color: #6beb2e;
 }
 .accentBgColor {
   background-color: #6beb2e;
@@ -539,4 +539,8 @@ li.song.ng-scope.selectedSong {
   font-weight: bold;
   font-size: 1.3em;
   cursor: initial;
+}
+
+.voteColor{
+  color: #6beb2e !important;
 }
