@@ -10,9 +10,7 @@ angular.module('ammoApp')
     $scope.songToAdd = null;
     $scope.playlistName = "";
     $scope.socket = io.connect($scope.location.host()); //initializing socket
-    // This variable is used to know when youtube and deezer are loaded ($scope.stopLoadingBar())
-    $scope.assetsLoaded = 0;
-    // $scope.isShareView = $scope.location.path() !== '/' && $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1 && $scope.location.path().indexOf('search') === -1;
+    $scope.assetsLoaded = 0;// This variable is used to know when youtube and deezer are loaded ($scope.stopLoadingBar())
 
     
     /*************** run when loaded ***************/
@@ -152,6 +150,6 @@ angular.module('ammoApp')
         return mins + ":" + seconds;
       }
     };
-
   });
+
 
