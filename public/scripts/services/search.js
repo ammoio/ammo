@@ -66,8 +66,6 @@ angular.module('ammoApp')
 
     this.rdio = function(userInput, limit) {
       limit = limit || 4;
-
-      var rdioResults = [];
       var d = $q.defer();
 
       //do a time limit for searching
@@ -107,7 +105,7 @@ angular.module('ammoApp')
 
       return (parseInt(hours) * 60 * 60) + parseInt(minutes) * 60 + parseInt(seconds);
     };
-    
+
 
     var createSongObject = function(ti, ar, du, se, seId, url, img) { // title, artist, duration, service, serviceId, url, image
       return {
@@ -161,25 +159,31 @@ angular.module('ammoApp')
           count: limit
         },
         success: function(response) {
-          $timeout.cancel(rdioTimer);
-          var results = response.result.results;
-
-          results.forEach(function(track) {
-            if (track.canStream && track.canSample) { //can stream and sample
-              var song = createSongObject(track.name, track.artist, track.duration, "rdio", track.key, track.shortUrl, track.icon);
-
-              $rootScope.$apply(function() {
-                rdioResults.push(song);
-              });
-            }
-          });
-          d.resolve(rdioResults);
+          rdioSuccess(response, rdioTimer, d);
         },
         error: function(response) {
           console.log("error: " + response.message);
           d.resolve([]);
         }
       });
+    };
+
+
+    var rdioSuccess = function(response, rdioTimer, d) {
+      $timeout.cancel(rdioTimer);
+      var results = response.result.results;
+      var rdioResults = [];
+
+      results.forEach(function(track) {
+        if (track.canStream && track.canSample) { //can stream and sample
+          var song = createSongObject(track.name, track.artist, track.duration, "rdio", track.key, track.shortUrl, track.icon);
+
+          $rootScope.$apply(function() {
+            rdioResults.push(song);
+          });
+        }
+      });
+      d.resolve(rdioResults);
     };
   });
 
