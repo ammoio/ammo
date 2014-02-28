@@ -20,46 +20,11 @@ angular.module('ammoApp')
 
     this.youtube = function(userInput, limit){
       this.searchResults = [];
-      var youtubeResults = [];
       var d = $q.defer();
 
       limit = limit || 4;
 
-      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
-      .success(function(results) {
-        var total = results.items.length;
-        var resultsSoFar = 0; 
-
-        results.items.forEach(function(video) {
-          var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
-          var title = video.snippet.title.split(" - ");
-          var artist = title.length > 1 ? title[0] : null;
-          var track = title.length > 1 ? title[1]: title[0];
-
-          $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
-          .success(function(newResults) {
-            if(newResults.pageInfo.totalResults === 0) {
-              total--;
-              return;
-            }
-            var duration = timeToSeconds(newResults.items[0].contentDetails.duration);
-            var song = createSongObject(track, artist, duration, "youtube", service_id, "http://youtu.be/" + service_id, video.snippet.thumbnails.high.url);
-
-            youtubeResults.push(song);
-            resultsSoFar++;
-
-            if(resultsSoFar === total) {
-              d.resolve(youtubeResults);
-            }
-          })
-          .error(function() {
-            d.resolve([]);
-          });
-        });
-      })
-      .error(function() {
-        d.resolve([]);
-      });
+      getYoutubeSongs(userInput, limit, d);
       return d.promise;
     };
 
@@ -117,6 +82,55 @@ angular.module('ammoApp')
         url: url,
         image: img 
       };
+    };
+
+
+    var getYoutubeSongs = function(userInput, limit, d){
+      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
+      .success(function(results) {
+        var youtubeResults = [];
+        var compare = {
+          total: results.items.length,
+          resultsSoFar: 0
+        };
+
+        results.items.forEach(function(video) {
+          getVideoData(video, youtubeResults, compare, d);
+        });
+      })
+      .error(function() {
+        d.resolve([]);
+      });
+    };
+
+
+    var getVideoData = function(video, youtubeResults, compare, d){
+      var service_id = video.id.videoId; // We need this here because we are using the service_id to generate the url
+      $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/videos?id=' + service_id + '&part=contentDetails&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
+      .success(function(newResults) {
+        if(newResults.pageInfo.totalResults === 0) {
+          compare.total--;
+          return;
+        }
+        var title = video.snippet.title.split(" - ");
+        var artist = title.length > 1 ? title[0] : null;
+        var track = title.length > 1 ? title[1]: title[0];
+        var duration = timeToSeconds(newResults.items[0].contentDetails.duration);
+        var song = createSongObject(track, artist, duration, "youtube", service_id, "http://youtu.be/" + service_id, video.snippet.thumbnails.high.url);
+
+        youtubeResults.push(song);
+        compare.resultsSoFar++;
+
+        console.log("So far: ", compare.resultsSoFar);
+        console.log("Total: ", compare.total);
+
+        if(compare.resultsSoFar === compare.total) {
+          d.resolve(youtubeResults);
+        }
+      })
+      .error(function() {
+        d.resolve([]);
+      });
     };
 
 
