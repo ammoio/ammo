@@ -544,3 +544,7 @@ li.song.ng-scope.selectedSong {
   font-size: 1.3em;
   cursor: initial;
 }
+
+.voteColor{
+  color: #6beb2e !important;
+}
