@@ -1,12 +1,13 @@
 angular.module('ammoApp')
   .controller('FrameController', function($q, $scope, $http, $location, $cookies, ParseService, SearchService, UserService, QueueService) {
-
+    $scope.QueueService = QueueService;
     $scope.UserService = UserService;
     $scope.location = $location;
+
     $scope.isShareView = $scope.location.path().indexOf('playlist') === -1 && $scope.location.path().indexOf('listen') === -1;
     $scope.isMobile = window.innerWidth <= 800 && window.innerHeight <= 600;
     //initializing socket
-    $scope.socket = io.connect($scope.location.host());
+    $scope.socket = io.connect($scope.location.host()); 
 
     var S4 = function() {
       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -31,7 +32,6 @@ angular.module('ammoApp')
       return UserService.isLogged();
     };
 
-    $scope.QueueService = QueueService;
 
     // This variable is used to know when youtube
     // and deezer are loaded ($scope.stopLoadingBar())
@@ -146,13 +146,6 @@ angular.module('ammoApp')
         $('#shareResponseModal').modal(); //show response modal
       });
     };
-
-    /* ========== $scope.stopLoadingBar ==========
-      In charge of stoping the top Loading Bar when all the players are loaded
-
-      Params:
-        asset: string with the name of the service player which is now ready
-    */
 
 
     /* ========== $scope.changePlaylist ==========
