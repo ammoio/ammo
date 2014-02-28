@@ -1,6 +1,6 @@
 angular.module('ammoApp')
 
-  .service('UserService', function($http) {
+  .service('UserService', function($http, $cookies) {
     this.user = {
       username: null,
       name: null,
@@ -39,4 +39,42 @@ angular.module('ammoApp')
         console.log(err);
       });
     };
+
+    this.login = function() {
+      if(this.user.loggedIn) {
+        $http({ method: 'GET', url: '/logout/' + this.user.username})
+        .success(function(){
+          this.logout();
+        })
+        .error(function(){
+          console.log("error logging out");
+        });
+      } else {
+        OAuth.popup('facebook', { state: $cookies['ammoio.sid'] }, function(err, res) {
+          if(err) {
+            console.log(err);
+            return;
+          }
+          console.log(res);
+          $http({ 
+            method: 'POST', 
+            url: '/login', 
+            data: { code: res.code }
+          })
+          .success(function(userObj) {
+            this.setUser(userObj);
+            this.setLogged(true);
+
+            $http.get("/" + userObj.username + "/playlists")
+            .success(function(playlists) {
+              this.user.playlists = playlists;
+            });
+          })
+          .error(function(err){
+            console.log(err);
+          });
+        });
+      }
+    };
+
   });

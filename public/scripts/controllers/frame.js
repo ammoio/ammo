@@ -19,24 +19,11 @@ angular.module('ammoApp')
     
     /*************** run when loaded ***************/
     StopClicksService.disableClicks();
-
-    var S4 = function() {
-      return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-
-    var guid = function () {
-      return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-    };
-
     UserService.verifyUser();
-    $scope.isLogged = function() {
-      return UserService.isLogged();
-    };
-
-
     //ngProgress is the top loading bar shown when first loading the page
     ngProgress.color('#2d9');
     ngProgress.start();
+
 
     /*
       ========== $scope.search ==========
@@ -95,47 +82,6 @@ angular.module('ammoApp')
       var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
       return regexp.test(s);
     };
-
-    /* Share Button: when clicked, share button do a post request to /queues */
-    $scope.share = function() {
-      QueueService.saveQueue($scope.searchResults);
-    };
-
-
-    $scope.login = function() {
-      if(UserService.user.loggedIn) {
-        $http({ method: 'GET', url: '/logout/' + UserService.user.username})
-        .success(function(){
-          UserService.logout();
-        })
-        .error(function(){
-          console.log("error logging out");
-        });
-      } else {
-        OAuth.popup('facebook', { state: $cookies['ammoio.sid'] }, function(err, res) {
-          if(err) {
-            console.log(err);
-            return;
-          }
-          console.log(res);
-          $http({ method: 'POST', url: '/login', data: { code: res.code }})
-            .success(function(userObj) {
-              UserService.setUser(userObj);
-              UserService.setLogged(true);
-
-              $http.get("/" + userObj.username + "/playlists")
-                .success(function(playlists) {
-                  UserService.user.playlists = playlists;
-              });
-            })
-            .error(function(err){
-              console.log(err);
-            });
-        });
-      }
-    };
-
-
 
 
     /*
