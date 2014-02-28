@@ -10,6 +10,8 @@ module.exports = function(app){
   app.get('/logout/:username', user.logout);
   app.get('/user', user.getUser);
   app.post('/login', user.login);
+  app.put('/users/:username', user.updateUser);
+
 
   /* ======== Queue Routes ========*/
   app.get('/queues', queue.getQueues);
