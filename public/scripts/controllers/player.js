@@ -22,7 +22,6 @@ angular.module('ammoApp')
     $scope.buffering = false;
     $scope.timer = 0;
     $scope.ready = false;
-    
     /*
       ========== $scope.play ==========
       This functino is in charge of playing songs from all the services.
@@ -123,7 +122,7 @@ angular.module('ammoApp')
     $scope.stopAll = function() {
       $scope.playing = false;
       youtube.pauseVideo();
-      scPlayer.pause();
+      // scPlayer.pause();
       // DZ.player.pause();
       R.player.pause();
     };

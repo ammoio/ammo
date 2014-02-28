@@ -1,5 +1,6 @@
 var request = require('request');
-var dbHelpers = require('./dbHelpers');
+var User = require('./models/user_model');
+var Queue = require('./models/queue_model');
 var Q = require('q');
 
 // var req = {session: {}};
@@ -12,7 +13,7 @@ module.exports = {
       var d = Q.defer();
 
       var addSession = function (user) {
-        dbHelpers.addSession(user.username, sessionId)
+        User.addSession(user.username, sessionId)
         .then(function(user){
           d.resolve(user);
         })
@@ -40,7 +41,6 @@ module.exports = {
             d.reject("Got error:" + body);
             return;
         }
-        console.log("State: ", data.state);
         if (data.state !== sessionId) {
             d.reject("Oups, state does not match !");
             return;
@@ -50,15 +50,20 @@ module.exports = {
         request.get({
           url: "https://graph.facebook.com/me?access_token=" + data.access_token
         }, function(err, req, body){
+          if(err){
+            console.log("Facebook Error: ", err);
+            d.reject(err);
+          }
           var fbUser = JSON.parse(body);
-          dbHelpers.getUser({username: fbUser.username})
+          User.getUser({username: fbUser.username})
           //The user exists in the DB
           .then(function(user){
             addSession(user);
           })
           //the user does not exist, create it
           .fail(function(err){
-            dbHelpers.createUser(fbUser)
+            console.log("failed");
+            User.createUser(fbUser)
             .then(function(user){
               addSession(user);
             })
@@ -75,7 +80,7 @@ module.exports = {
     validateSession: function(username, sessionId){
       var d = Q.defer();
 
-      dbHelpers.getSession(username)
+      User.getSession(username)
       .then(function(validSessionId){
         if (validSessionId && validSessionId === sessionId) {
           d.resolve(true);
@@ -97,7 +102,7 @@ module.exports = {
         d.reject("No username passed");
       } else {
 
-        dbHelpers.closeSession({username: username})
+        User.closeSession({username: username})
         .then(function(data){
             d.resolve(true);
         })
@@ -113,9 +118,8 @@ module.exports = {
     isAuthorized: function(shareId, sessionId){
       var d = Q.defer();
 
-      dbHelpers.getQueue(shareId)
+      Queue.getQueue(shareId)
       .then(function (queue){
-        console.log("Private: ", queue.isPrivate);
         if(queue.isPrivate){
           return module.exports.validateSession(queue.username, sessionId);
         } else {
