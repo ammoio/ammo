@@ -21,10 +21,9 @@
           </div>
           <div class="song-meta">
             <span class="time column">{{ fixTime(song.duration) }}</span>
-            <span class="queue-votes">Votes: {{ song.votes }}</span>
           </div>
         </div>
-        <button ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up </button>
+        <button ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up<sup>{{ song.votes }}</sup> </button>
       </li>
     </ul>
   </div>
