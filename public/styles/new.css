@@ -578,10 +578,14 @@ li.song.ng-scope.selectedSong {
   background: #222;
   padding: 30px;
   border-radius: 3px;
-  margin: 10px auto;
+  /*margin: 0px auto;*/
+  margin-top: 5px;
   color: #fff;
   text-align: center;
   position: relative;
+  display: inline-block;
+  margin-left: 50px;
+  font-size: 1.2em;
 }
 .tooltip:after {
   background: #222;
@@ -623,4 +627,11 @@ li.song.ng-scope.selectedSong {
 .album-image {
   width: 100%;
   padding-right: 5px;
+}
+
+.home-label {
+  display: inline-block;
+  padding-right: 25px;
+  padding-left: 45px;
+  vertical-align: middle;
 }
