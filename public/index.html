@@ -106,40 +106,43 @@
     </div>
 
 <div class="md-modal md-effect-5" id="shareRequestModal">
-    <div ng-escape="closeModal()" class="md-content">
+    <div class="md-content modal-body">
         <h3>Share this!</h3>
         <div class="md-content-inner">
            <form id="queueForm">
-            <div>Give this playlist a name! </div>
-            <span class="input-group queueNameDiv">
+              <div class="input-group queueNameDiv"><label class="queue-name-label">Playlist Name: </label> 
               <input type="text" class="queueName form-control" placeholder="My Awesome Playlist!" ng-model="queueName">
-            </span>
+            </div>
           </form>
         </div>
-          <a class="md-close btn" ng-click="closeModal()">Close me!</a>
-          <a type="button" class="shareNow btn md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
+        <a class="md-close" ng-click="closeModal()">Close me!</a>
+        <a type="button" class="shareNow md-close" data-dismiss="modal" ng-click="shareRequestModal()">Share Now!</a>
       </div>
     </div>
 </div>
 
 <!-- Share Response Modal -->
 <div class="md-modal md-effect-5" id="shareResponseModal">
-    <div class="md-content">
-        <h3>Tweet this!</h3>
+    <div class="md-content modal-body">
+        <h3>Share It!</h3>
         <div class="md-content-inner">
-          <span>Here's the link to your playlist: </span>
-          <input type="text" class="tb inline" value="http://{{ location.host() }}/q/{{ QueueService.queue.shareId }}"></input>
-          <div>
-            <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet">
-            </a>
-
-            <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">
-          </div>
+          <form id="queueForm">
+            <div class="input-group queueNameDiv">
+              <input type="text" class="queueName tb inline" value="http://{{ location.host() }}/q/{{ QueueService.queue.shareId }}"></input>
+            </div>
+          </form>
         </div>
-      <a class="md-close btn" ng-click="closeModal()">Close me!</a>
+        <div class="twitter-share">
+          <a ng-href="https://twitter.com/share?text=Hey%20everyone%2c%20check%20out%20my%20new%20playlist&url=http://www.ammo.io/{{ QueueService.queue.shareId }}/&via=ammo_io" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/twitter.png" alt="Tweet">
+          </a>
+        </div>
+        <div class="facebook-share">
+          <a ng-href="http://www.facebook.com/sharer.php?s=100&p[title]=Ammo&p[summary]=Hey%20everyone%2c%20check%20out%20my%20new%20playlist%21%20http%3A%2F%2Fwww%2Eammo%2Eio%2F{{QueueService.queue.shareId}}&p[url]=http://www.ammo.io/{{QueueService.queue.shareId}}" onclick="event.preventDefault(); window.open(event.currentTarget.href, '_blank', 'width=700,height=260');"><img src="/img/fb_share.png" alt="Facebook">
+        </div>
+        <a class="md-close btn" ng-click="closeModal()">Close me!</a>
+      </div>
     </div>
 </div>
-<div class="md-overlay"></div>
 
 
 

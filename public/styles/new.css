@@ -392,11 +392,12 @@ li.song.ng-scope.selectedSong {
 
 .md-content{
   background-color: white;
-  border-radius: 20px;
+  border-radius: 3px;
   padding: 30px;
 }
 .md-content-inner{
   padding-bottom: 30px;
+  margin-top: 20px;
 }
 
 .md-close{
@@ -640,14 +641,20 @@ li.song.ng-scope.selectedSong {
   margin-right: 1em;
 }
 
-#shareRequestModal h3 {
+#shareRequestModal h3, #shareResponseModal {
   text-align: center;
-  margin-bottom: 1em;
+  margin: 1em;
 }
 
 .md-show.md-effect-5 .modal-body {
   background-color: black;
   color:white;
-  opacity: 0.8;
+  opacity: 0.9;
   overflow: hidden;
 };
+
+.facebook-share, .twitter-share {
+  float: left;
+  margin: 2em;
+  display: inline-block;
+}
