@@ -473,11 +473,13 @@ li.song.ng-scope.selectedSong {
 }
 
 .logo-wrapper{
-/*  margin-left: auto;
-  margin-right: auto;*/
   position: relative;
   height: 28px;
   width: 146px;
+}
+
+.logo-wrapper:hover{
+  cursor: pointer;
 }
 
 .dot{
