@@ -71,7 +71,7 @@ angular.module('ammoApp')
           return;
         }
       } else if (queueOrSearch === 's') {
-        QueueService.currentImage = "";
+        $scope.updateImage(songOrIndex);
         $scope.currentSong = songOrIndex;
         return songOrIndex;
       }
@@ -292,14 +292,20 @@ angular.module('ammoApp')
         });
     };
 
-    $scope.updateImage = function (index) {
+    $scope.updateImage = function (songOrIndex) {
       QueueService.currentImage = "";
 
-      if (QueueService.queue.songs[index].artist) {
-        QueueService.loadArtistImages(QueueService.queue.songs[index].artist);
+      song = $scope.getSong(songOrIndex);
+
+      if (song.artist) {
+        QueueService.loadArtistImages(song);
       } else {
-        QueueService.artistImage = QueueService.queue.songs[index].image;
+        QueueService.artistImage = song.image;
       }
+    };
+
+    $scope.getSong = function(songOrIndex){
+      return (typeof songOrIndex === 'number') ? QueueService.queue.songs[songOrIndex] : songOrIndex;
     };
 
     $scope.shuffle = function () {

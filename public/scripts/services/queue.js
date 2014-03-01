@@ -306,15 +306,15 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    this.loadArtistImages = function (artist) {
+    this.loadArtistImages = function (song) {
       var that = this;
 
-      if (ScraperService.scraped[artist]) {
-        that.setArtistImage(artist);
+      if (ScraperService.scraped[song.artist]) {
+        that.setArtistImage(song);
       } else {
-        ScraperService.scrape(artist)
+        ScraperService.scrape(song.artist)
           .then(function () {
-            that.setArtistImage(artist);
+            that.setArtistImage(song);
           });
       }
     };
@@ -346,15 +346,13 @@ angular.module('ammoApp')
       Return: No return
     */
 
-    this.setArtistImage = function (artist) {
+    this.setArtistImage = function (song) {
       var rand = Math.floor(Math.random() * 4);
       var scraped = ScraperService.scraped;
-      var songs = this.queue.songs;
-      var cur = this.queue.currentSong;
-      var currentImg = scraped[artist] ? scraped[artist].images[rand] : songs[cur].image;
+      var currentImg = scraped[song.artist] ? scraped[song.artist].images[rand] : song.image;
 
       if (currentImg === "" || currentImg === null) {
-        this.currentImage = songs[cur].image;
+        this.currentImage = song.image;
       } else {
         this.currentImage = currentImg;
       }
