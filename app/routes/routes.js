@@ -4,7 +4,7 @@ var playlist = require('../controllers/playlist_controllers');
 var scrape = require('../controllers/scrape_controllers');
 
 
-module.exports = function(app){
+module.exports = function (app) {
 
   /* ======== User Routes ========*/
   app.get('/logout/:username', user.logout);

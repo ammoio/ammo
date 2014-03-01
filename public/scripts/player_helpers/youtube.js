@@ -9,43 +9,42 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var youtube;
 
-function onYouTubeIframeAPIReady() {
+var onYouTubeIframeAPIReady = function () {
   youtube = new YT.Player('youtube', {
-    height: '0',
-    width: '0',
+    height: '200',
+    width: '288',
     videoId: '',
+    playerVars: { 'controls': 0, 'iv_load_policy': 3, 'disablekb': 1, 'modestbranding': 1, 'rel': 0, 'showinfo': 0 },
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
     }
   });
-}
+};
 
-function onPlayerReady(event) {
+var onPlayerReady = function () {
+
   var scope = angular.element(document.getElementById("search")).scope();
   scope.stopLoadingBar("YouTube");
-}
+};
 
-function onPlayerStateChange(event) {
+var onPlayerStateChange = function (event) {
   var scope = angular.element(document.getElementById("youtube")).scope();
 
-  if(event.data === YT.PlayerState.ENDED) {
+  if (event.data === YT.PlayerState.ENDED) {
     scope.playNext();
     scope.$apply();
-  }
-  else if(event.data === YT.PlayerState.BUFFERING) {
-    scope.buffering = true; 
-  }
-  else if(event.data === YT.PlayerState.PLAYING) {
+  } else if (event.data === YT.PlayerState.BUFFERING) {
+    scope.buffering = true;
+  } else if (event.data === YT.PlayerState.PLAYING) {
     scope.buffering = false;
     scope.ready = true;
+    scope.unPause();
+  } else if (event.data === YT.PlayerState.PAUSED) {
+    scope.detectManualPause();
   }
-  else if(event.data === YT.PlayerState.PAUSED) {
-    scope.detectYoutubeAd();
-  }
-}
+};
 
-// fun function xD
-function stopVideo() {
+var stopVideo = function () {
   youtube.stopVideo();
-}
+};

@@ -12,14 +12,14 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.statics = {
-  getUser: function(query){
+  getUser: function (query) {
     var d = Q.defer();
 
-    this.findOne(query, function(err, user){
-      if(err){
+    this.findOne(query, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
-        if(!user) {
+        if (!user) {
           d.reject(user);
         } else {
           delete user.sessionId;
@@ -31,14 +31,14 @@ userSchema.statics = {
     return d.promise;
   },
 
-  addSession: function(username, sessionId){
+  addSession: function (username, sessionId) {
     var d = Q.defer();
-    this.findOne({username: username}, function(err, user){
-      if(err){
+    this.findOne({username: username}, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
         user.sessionId = sessionId;
-        user.save(function(err, data){
+        user.save(function (err, data) {
           if (err) {
             d.reject(err);
           } else {
@@ -52,13 +52,13 @@ userSchema.statics = {
     return d.promise;
   },
 
-  getSession: function(username){
+  getSession: function (username) {
     var d = Q.defer();
-    this.findOne({username: username}, function(err, user){
-      if(err){
+    this.findOne({username: username}, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
-        if(!user){
+        if (!user) {
           d.reject("no user found");
         } else {
           d.resolve(user.sessionId);
@@ -69,17 +69,17 @@ userSchema.statics = {
     return d.promise;
   },
 
-  closeSession: function(query) {
+  closeSession: function (query) {
     var d = Q.defer();
-    this.findOne(query, function(err, user){
-      if(err){
+    this.findOne(query, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
-        if(!user){
+        if (!user) {
           d.reject("User Doesnt Exist");
         } else {
           user.sessionId = null;
-          user.save(function(err, data){
+          user.save(function (err, data) {
             if (err) {
               d.reject(err);
             } else {
@@ -93,16 +93,16 @@ userSchema.statics = {
     return d.promise;
   },
 
-  findOrCreate: function(user){
+  findOrCreate: function (user) {
     var d = Q.defer();
     var that = this;
-    this.findOne({username: user.username}, function(err, data){
-      if(err){
+    this.findOne({username: user.username}, function (err, data) {
+      if (err) {
         d.reject(err);
       } else {
-        if(data === null){
+        if (data === null) {
           var newUser = new that(user);
-          newUser.save(function(err, user){
+          newUser.save(function (err, user) {
             if (err) {
               d.reject(err);
             } else {
@@ -118,13 +118,13 @@ userSchema.statics = {
     return d.promise;
   },
 
-  getPlaylists: function(username){
+  getPlaylists: function (username) {
     var d = Q.defer();
-    this.findOne({username: username}, function(err, user){
-      if(err){
+    this.findOne({username: username}, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
-        if (!user){
+        if (!user) {
           d.reject("no user found");
         } else {
           d.resolve(user.playlists);
@@ -134,10 +134,10 @@ userSchema.statics = {
     return d.promise;
   },
 
-  createPlaylist: function(username, playlist){
+  createPlaylist: function (username, playlist) {
     var d = Q.defer();
-    this.findOne({username: username}, function(err, user){
-      if(err){
+    this.findOne({username: username}, function (err, user) {
+      if (err) {
         d.reject(err);
       } else {
         if (!user) {
@@ -145,39 +145,45 @@ userSchema.statics = {
         } else {
           playlist.isPrivate = true;
           playlist.username = username;
-          Queue.createQueue(playlist).then(function(queue){
-            user.playlists.push({shareId: queue.shareId, name: queue.name});
-            user.markModified("playlists");
-            user.save(function(err, user){
-              if(err){
-                d.reject(err);
-              } else {
-                d.resolve(queue);
-              }
+          Queue.createQueue(playlist)
+            .then(function (queue) {
+              user.playlists.push({shareId: queue.shareId, name: queue.name});
+              user.markModified("playlists");
+              user.save(function (err) {
+                if (err) {
+                  d.reject(err);
+                } else {
+                  d.resolve(queue);
+                }
+              });
+            })
+            .fail(function (err) {
+              d.reject(err);
             });
-          })
-          .fail(function(err){
-            d.reject(err);
-          });
         }
       }
     });
     return d.promise;
   },
 
-  updateUser: function(username, obj) {
+  updateUser: function (username, obj) {
     var d = Q.defer();
-    this.findOne({username: username}, function(err, model){
-      for (var key in obj) {
-        if( obj.hasOwnProperty(key) ) {
-          if(key !== "username"){
+    this.findOne({username: username}, function (err, model) {
+      if (err) {
+        d.reject(err);
+        return;
+      }
+      var key;
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (key !== "username") {
             model[key] = obj[key];
           }
         }
       }
       model.markModified('playlists');
-      model.save(function(err, model){
-        if(err){
+      model.save(function (err, model) {
+        if (err) {
           d.reject(err);
         }
         d.resolve(model);

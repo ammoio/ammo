@@ -40,6 +40,8 @@ a {
 
 .page-content {
   width: 100%;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 600px;
 }
 
 .on-4 {
@@ -80,7 +82,7 @@ a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0px;
 }
-.head input {
+.head input, #queueForm .queueName {
   background: #232323;
   border: 0;
   outline: 0;
@@ -98,9 +100,8 @@ a {
 .sidebar {
   width: 20%%;
   float: left;
-/*  height: 500px;*/
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .sidebar a {
   display: block;
   color: rgba(255, 255, 255, 0.8);
@@ -127,7 +128,7 @@ a {
 .sidebar .now-playing {
   color: #fff;
   font-weight: bold;
-  overflow-x:hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
@@ -189,7 +190,7 @@ a {
 .page-content .song .song-info {
   margin-top: 14px;
   position: relative;
-  width: 70%;
+  width: 85%;
 }
 .page-content .song .rdio {
   background: url(../img/rdio.png) center center no-repeat;
@@ -205,6 +206,7 @@ a {
 }
 .page-content .song .time {
   float: right;
+  /*vertical-align: middle;*/
 }
 .page-content .song h3 {
   font-weight: 300;
@@ -222,9 +224,8 @@ a {
   font-size: 1em;
 }
 li.song.ng-scope.selectedSong {
-  background: rgb(32, 62, 130);
-  opacity: 0.8;
-  /*color: white;*/
+  background-color: black;
+  opacity: 1;
 }
 .player {
   position: fixed;
@@ -285,6 +286,15 @@ li.song.ng-scope.selectedSong {
   opacity: 0.5;
 }
 
+.hideYoutube {
+  z-index: -1;
+  opacity: 0;
+}
+
+#youtube {
+  position: absolute;
+}
+
 .fa {
   color: white;
 /*  width: 20px;
@@ -316,6 +326,7 @@ li.song.ng-scope.selectedSong {
   width: 90%;
   float: none;
   margin: auto;
+  border:none;
 }
 
 .share-title {
@@ -329,37 +340,10 @@ li.song.ng-scope.selectedSong {
 
 .page-content .song button:disabled {
   cursor: auto;
-  color: #6beb2e;
-
 }
 
 .page-content .played {
   opacity: 0.3;
-}
-
-
-@media (max-width: 600px) {
-  .column {
-    display: block;
-    text-align: center;
-  }
-
-  .on-2, .on-4, .on-3, .on-1 {
-    width: 100%;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .page-content {
-    width: 100%;
-    float: right;
-  }
-
-  .song .column {
-    display: inline-block;
-  }
 }
 
 .bottom-pad{
@@ -384,16 +368,22 @@ li.song.ng-scope.selectedSong {
 
 .md-content{
   background-color: white;
-  border-radius: 20px;
+  border-radius: 3px;
   padding: 30px;
 }
 .md-content-inner{
   padding-bottom: 30px;
+  margin-top: 20px;
 }
 
 .md-close{
   padding: 15px;
   background-color: black;
+  color: white;
+  border: 3px solid #fff;
+  border-radius: 5px;
+  float: right;
+  margin: auto 10px;
 }
 
 .md-show {
@@ -459,11 +449,13 @@ li.song.ng-scope.selectedSong {
 }
 
 .logo-wrapper{
-/*  margin-left: auto;
-  margin-right: auto;*/
   position: relative;
   height: 28px;
   width: 146px;
+}
+
+.logo-wrapper:hover{
+  cursor: pointer;
 }
 
 .dot{
@@ -547,4 +539,185 @@ li.song.ng-scope.selectedSong {
 
 .voteColor{
   color: #6beb2e !important;
+}
+
+.queue-votes {
+  float: left;
+  vertical-align: middle;
+}
+
+.song {
+  opacity: .8;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.song-text {
+  width: 70%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom:10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.song-meta {
+  width: 20%;
+  display: inline-block;
+}
+
+.tooltip {
+  background: #222;
+  padding: 30px;
+  border-radius: 3px;
+  /*margin: 0px auto;*/
+  margin-top: 5px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  margin-left: 50px;
+  font-size: 1.2em;
+}
+.tooltip:after {
+  background: #222;
+  width: 20px;
+  height: 20px;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: 45%;
+  -webkit-transform: rotate(45deg);
+}
+
+#home-content-container {
+  background-color: #232323;
+  opacity: .8;
+  margin-top: 20px;
+  padding: 5px 0px;
+  color: #fff;
+  width: 100%;
+}
+
+.home-content {
+  display: block;
+  padding: 0px 25px;
+}
+
+.image-container {
+  width: 20%;
+  display: inline-block;
+}
+
+.album-image {
+  width: 100%;
+  padding-right: 5px;
+}
+
+.album-image:hover {
+  -webkit-transform: scale(1.1,1.1);
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.home-label {
+  display: inline-block;
+  padding-right: 25px;
+  padding-left: 45px;
+  vertical-align: middle;
+}
+#queueForm .queueName {
+  width: 60%;
+  font-size: 1em;
+}
+
+.queue-name-label {
+  font-size: 1.2em;
+  margin-right: 1em;
+}
+
+#shareRequestModal h3, #shareResponseModal {
+  text-align: center;
+  margin: 1em;
+}
+
+.md-show.md-effect-5 .modal-body {
+  background-color: black;
+  color:white;
+  opacity: 0.9;
+  overflow: hidden;
+};
+
+.facebook-share, .twitter-share {
+  float: left;
+  margin: 2em;
+  display: inline-block;
+}
+
+.log-in {
+  width: 190px;
+}
+
+@media (max-width: 734px) {
+  .log-in {
+    display: block;
+    margin: 20px auto;
+    width:100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .column {
+    display: block;
+    text-align: center;
+  }
+
+  .logo-div {
+    margin-bottom: 20px;
+  }
+
+  .on-2, .on-4, .on-3, .on-1 {
+    width: 100%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .page-content {
+    width: 100%;
+    float: right;
+  }
+
+  .song .column {
+    display: inline-block;
+  }
+
+  .page-content .song button {
+    width: 100px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .share-view-welcome {
+    font-size: 1.5em;
+    display
+  }
+}
+
+.share-view-welcome {
+  vertical-align: center;
+  width: 65%;
+  display: inline-block;
+  overflow:hidden;
+  margin-top: 25px;
+}
+
+.clone-div {
+  width: 30%;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow:hidden;
 }

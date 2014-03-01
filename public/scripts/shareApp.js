@@ -1,6 +1,6 @@
 angular.module('ammoApp', ['ngRoute', 'ngCookies'])
 
-  .config(function($routeProvider, $locationProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
       .when('/q/:id', {
@@ -13,22 +13,22 @@ angular.module('ammoApp', ['ngRoute', 'ngCookies'])
       })
       .when('/', {
         templateUrl: '/index.html',
-        controller: function($window){
+        controller: function ($window) {
           $window.location.href = 'http://ammo.io/listen';
         }
       })
       .otherwise({
-          redirectTo: '/'
+        redirectTo: '/'
       });
 
-    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798'); 
+    OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
 
   })
 
   .run(function ($rootScope, $location) {
     var history = [];
 
-    $rootScope.$on('$routeChangeSuccess', function() {
+    $rootScope.$on('$routeChangeSuccess', function () {
       history.push($location.$$path);
     });
 

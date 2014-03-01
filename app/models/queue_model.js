@@ -14,10 +14,10 @@ var queueSchema = mongoose.Schema({
 });
 
 queueSchema.statics = {
-  getQueues: function(){
+  getQueues: function () {
     var d = Q.defer();
-    this.find(function(err, data){
-      if(err){
+    this.find(function (err, data) {
+      if (err) {
         d.reject(err);
       } else {
         d.resolve(data);
@@ -26,10 +26,10 @@ queueSchema.statics = {
     return d.promise;
   },
 
-  getQueue: function(id){
+  getQueue: function (id) {
     var d = Q.defer();
     var query;
-    if(id.length === 16){
+    if (id.length === 16) {
       query = {listenId: id};
     } else if (id.length === 4) {
       query = {shareId: id};
@@ -37,11 +37,11 @@ queueSchema.statics = {
       d.reject("invalid ID length");
     }
 
-    this.findOne(query, function(err, data){
-      if(err){
+    this.findOne(query, function (err, data) {
+      if (err) {
         d.reject(err);
       } else {
-        if(!data){
+        if (!data) {
           d.reject("shareId not found");
           return;
         }
@@ -52,14 +52,13 @@ queueSchema.statics = {
     return d.promise;
   },
 
-  createQueue: function(obj){
+  createQueue: function (obj) {
     var d = Q.defer();
     obj.shareId = crypto.randomBytes(4).toString('base64').slice(0, 4).replace(/\//g, 'a').replace(/\+/g, 'z');
     obj.listenId = crypto.randomBytes(16).toString('base64').slice(0, 16).replace(/\//g, 'a').replace(/\+/g, 'z');
-    queue = new this(obj);
-    queue.save(function(err, data){
-      console.log("Saved");
-      if(err){
+    var queue = new this(obj);
+    queue.save(function (err, data) {
+      if (err) {
         d.reject(err);
       } else {
         d.resolve(data);
@@ -68,20 +67,26 @@ queueSchema.statics = {
     return d.promise;
   },
 
-  updateQueue: function(id, obj) {
+  updateQueue: function (id, obj) {
     var d = Q.defer();
-    this.findOne({shareId: id}, function(err, model){
-      for (var key in obj) {
-        if( obj.hasOwnProperty(key) ) {
-          if(key !== "shareId"){
+    this.findOne({shareId: id}, function (err, model) {
+      if (err) {
+        d.reject(err);
+        return;
+      }
+      var key;
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (key !== "shareId") {
             model[key] = obj[key];
           }
         }
       }
       model.markModified('songs');
-      model.save(function(err, model){
-        if(err){
+      model.save(function (err, model) {
+        if (err) {
           d.reject(err);
+          return;
         }
         d.resolve(model);
       });
@@ -90,17 +95,21 @@ queueSchema.statics = {
     return d.promise;
   },
 
-  addSongToQueue: function(id, song) {
+  addSongToQueue: function (id, song) {
     var d = Q.defer();
-    this.findOne({shareId: id}, function(err, model){
-      if(Array.isArray(song)){
+    this.findOne({shareId: id}, function (err, model) {
+      if (err) {
+        d.reject(err);
+        return;
+      }
+      if (Array.isArray(song)) {
         model.songs = model.songs.concat(song);
       } else {
         model.songs.push(song);
       }
       model.markModified('songs');
-      model.save(function(err, model){
-        if(err){
+      model.save(function (err) {
+        if (err) {
           d.reject(err);
         } else {
           d.resolve(song);
@@ -111,17 +120,17 @@ queueSchema.statics = {
     return d.promise;
   },
 
-  removeSongFromQueue: function(id, index){
+  removeSongFromQueue: function (id, index) {
     var d = Q.defer();
-    this.findOne({shareId: id}, function(err, model){
-      if(err){
+    this.findOne({shareId: id}, function (err, model) {
+      if (err) {
         d.reject(err);
       } else {
         if (index > -1) {
           var removed = model.songs.splice(index, 1)[0];
           model.markModified('songs');
-          model.save(function(err, model){
-            if(err){
+          model.save(function (err) {
+            if (err) {
               d.reject(err);
             } else {
               d.resolve(removed);
