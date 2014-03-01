@@ -71,6 +71,7 @@ angular.module('ammoApp')
           return;
         }
       } else if (queueOrSearch === 's') {
+        QueueService.currentImage = "";
         $scope.currentSong = songOrIndex;
         return songOrIndex;
       }
