@@ -224,7 +224,8 @@ a {
   font-size: 1em;
 }
 li.song.ng-scope.selectedSong {
-  color: #6beb2e;
+  color: black;
+  background-color: white;
 }
 .player {
   position: fixed;
