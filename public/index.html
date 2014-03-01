@@ -60,7 +60,7 @@
           <div class="queue-songs">
             <a ng-click="showQueue()" class="nowPlaying" href="#">Now Playing</a>
             <div class="now-playing">{{ currentSong.title }}</div>
-            <a ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
+            <a class="song" ng-repeat="song in QueueService.nextSongs track by $index" ng-click="playFromSidebar($index)">
               {{ song.title }}
             </a>
           </div>
