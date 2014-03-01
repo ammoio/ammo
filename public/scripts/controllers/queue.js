@@ -135,36 +135,36 @@ angular.module('ammoApp')
 
     $scope.tiles1 = [{
       searchString: "BEYONCE",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qxrupw1387383515.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qxrupw1387383515.jpg/preview"
     },{
       searchString: "KATY PERRY PRISM",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqtwqr1379211981.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqtwqr1379211981.jpg/preview"
     },{
       searchString: "DAFT PUNK RANDOM ACCESS MEMORIES",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/random-access-memories-51764651042e5.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/random-access-memories-51764651042e5.jpg/preview"
     },{
       searchString: "JOHN LEGEND LOVE IN THE FUTURE",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/vspsyr1377914815.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/vspsyr1377914815.jpg/preview"
     },{
       searchString: "DRAKE NOTHING WAS THE SAME",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wxsuqt1379204523.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wxsuqt1379204523.jpg/preview"
     }];
 
     $scope.tiles2 = [{
       searchString: "LORDE PURE HEROIN",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tpvsus1382103853.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tpvsus1382103853.jpg/preview"
     },{
       searchString: "ONE REPUBLIC NATIVE",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/native-514bdf9aa7b9b.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/native-514bdf9aa7b9b.jpg/preview"
     },{
       searchString: "BECK MORNING PHASE",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qrsuvu1391184914.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/qrsuvu1391184914.jpg/preview"
     },{
       searchString: "MILEY CYRUS BANGERZ",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqyvpq1378882084.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/wqyvpq1378882084.jpg/preview"
     },{
       searchString: "JASON DERULO TATTOOS",
-      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tattoos-524cc41230952.jpg"
+      imgUrl: "http://www.theaudiodb.com/images/media/album/thumb/tattoos-524cc41230952.jpg/preview"
     }];
 
   });
