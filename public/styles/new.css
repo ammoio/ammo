@@ -224,8 +224,8 @@ a {
   font-size: 1em;
 }
 li.song.ng-scope.selectedSong {
-  color: black;
-  background-color: white;
+  background-color: black;
+  opacity: 1;
 }
 .player {
   position: fixed;
@@ -547,6 +547,7 @@ li.song.ng-scope.selectedSong {
 }
 
 .song {
+  opacity: .8;
   white-space: nowrap;
   overflow: hidden;
 }
