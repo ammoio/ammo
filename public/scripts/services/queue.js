@@ -351,7 +351,7 @@ angular.module('ammoApp')
       var scraped = ScraperService.scraped;
       var songs = this.queue.songs;
       var cur = this.queue.currentSong;
-      var currentImg = scraped[artist] ? scraped[artist].images[rand] + "/preview" : songs[cur].image;
+      var currentImg = scraped[artist] ? scraped[artist].images[rand] : songs[cur].image;
 
       if (currentImg === "" || currentImg === null) {
         this.currentImage = songs[cur].image;
