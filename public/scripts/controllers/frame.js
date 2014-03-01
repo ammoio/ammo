@@ -80,6 +80,7 @@ angular.module('ammoApp')
     $scope.shareRequestModal = function () {
       QueueService.saveQueue($scope.queueName)
         .then(function () {
+          $scope.closeModal();
           $('#shareResponseModal').addClass('md-show'); //show response modal
         });
     };
