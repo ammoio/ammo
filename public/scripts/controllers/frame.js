@@ -156,7 +156,11 @@ angular.module('ammoApp')
     };
 
     $scope.goHome = function(){
-      $location.path('/listen');
+      if(QueueService.live){
+        $location.path('/listen/' + QueueService.queue.listenId);
+      }else{
+        $location.path('/listen');
+      }
     };
   });
 
