@@ -82,7 +82,7 @@ a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0px;
 }
-.head input {
+.head input, #queueForm .queueName {
   background: #232323;
   border: 0;
   outline: 0;
@@ -324,6 +324,7 @@ li.song.ng-scope.selectedSong {
   width: 90%;
   float: none;
   margin: auto;
+  border:none;
 }
 
 .share-title {
@@ -338,7 +339,6 @@ li.song.ng-scope.selectedSong {
 .page-content .song button:disabled {
   cursor: auto;
   color: #6beb2e;
-
 }
 
 .page-content .played {
@@ -392,16 +392,22 @@ li.song.ng-scope.selectedSong {
 
 .md-content{
   background-color: white;
-  border-radius: 20px;
+  border-radius: 3px;
   padding: 30px;
 }
 .md-content-inner{
   padding-bottom: 30px;
+  margin-top: 20px;
 }
 
 .md-close{
   padding: 15px;
   background-color: black;
+  color: white;
+  border: 3px solid #fff;
+  border-radius: 5px;
+  float: right;
+  margin: auto 10px;
 }
 
 .md-show {
@@ -634,4 +640,31 @@ li.song.ng-scope.selectedSong {
   padding-right: 25px;
   padding-left: 45px;
   vertical-align: middle;
+}
+#queueForm .queueName {
+  width: 60%;
+  font-size: 1em;
+}
+
+.queue-name-label {
+  font-size: 1.2em;
+  margin-right: 1em;
+}
+
+#shareRequestModal h3, #shareResponseModal {
+  text-align: center;
+  margin: 1em;
+}
+
+.md-show.md-effect-5 .modal-body {
+  background-color: black;
+  color:white;
+  opacity: 0.9;
+  overflow: hidden;
+};
+
+.facebook-share, .twitter-share {
+  float: left;
+  margin: 2em;
+  display: inline-block;
 }
