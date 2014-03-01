@@ -128,7 +128,7 @@ a {
 .sidebar .now-playing {
   color: #fff;
   font-weight: bold;
-  overflow-x:hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
@@ -287,6 +287,7 @@ li.song.ng-scope.selectedSong {
 
 .hideYoutube {
   z-index: -1;
+  opacity: 0;
 }
 
 #youtube {
@@ -570,11 +571,18 @@ li.song.ng-scope.selectedSong {
   vertical-align: middle;
 }
 
+.song {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .song-text {
   width: 70%;
   display: inline-block;
   vertical-align: middle;
   margin-bottom:10px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .song-meta {
