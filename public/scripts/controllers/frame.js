@@ -154,6 +154,10 @@ angular.module('ammoApp')
       }
       return mins + ":" + seconds;
     };
+
+    $scope.goHome = function(){
+      $location.path('/listen');
+    };
   });
 
 
