@@ -14,12 +14,17 @@
       <li class="song share-view-song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{selectedSong: $index === QueueService.queue.currentSong}" ng-hide="QueueService.queue.currentSong > $index">
         <span class="icon {{ song.service }} column"></span>
         <div class="song-info column-top">
-          <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
-          <span>{{song.artist ? "  -  "  : "" }}</span>
-          <h3 class="song-name column">{{ song.title }}</h3>
-          <span class="time column">{{ fixTime(song.duration) }}</span>
+          <div class="song-text">
+            <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+            <span>{{song.artist ? "  -  "  : "" }}</span>
+            <h3 class="song-name column">{{ song.title }}</h3>
+          </div>
+          <div class="song-meta">
+            <span class="time column">{{ fixTime(song.duration) }}</span>
+            <span class="queue-votes">Votes: {{ song.votes }}</span>
+          </div>
         </div>
-        <button ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up <sup class="badge" ng-hide="song.votes === 0">{{ song.votes }}</sup></button>
+        <button ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up </button>
       </li>
     </ul>
   </div>
