@@ -569,11 +569,18 @@ li.song.ng-scope.selectedSong {
   vertical-align: middle;
 }
 
+.song {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .song-text {
   width: 70%;
   display: inline-block;
   vertical-align: middle;
   margin-bottom:10px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .song-meta {
