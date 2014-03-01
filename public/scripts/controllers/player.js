@@ -297,10 +297,14 @@ angular.module('ammoApp')
 
       song = $scope.getSong(songOrIndex);
 
-      if (song.artist) {
-        QueueService.loadArtistImages(song);
-      } else {
-        QueueService.artistImage = song.image;
+      if (song.service === 'youtube'){
+        return;
+      }else{
+        if (song.artist) {
+          QueueService.loadArtistImages(song);
+        } else {
+          QueueService.artistImage = song.image;
+        }
       }
     };
 
