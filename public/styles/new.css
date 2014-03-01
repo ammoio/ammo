@@ -627,8 +627,6 @@ li.song.ng-scope.selectedSong {
 .home-content {
   display: block;
   padding: 0px 25px;
-  position: relative;
-
 }
 
 .image-container {
@@ -636,13 +634,15 @@ li.song.ng-scope.selectedSong {
   display: inline-block;
 }
 
-/*.image-container:hover {
-  width: 20%;
-}*/
-
 .album-image {
   width: 100%;
   padding-right: 5px;
+}
+
+.album-image:hover {
+  -webkit-transform: scale(1.1,1.1);
+  z-index: 99999;
+  cursor: pointer;
 }
 
 .home-label {
