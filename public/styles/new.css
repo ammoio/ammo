@@ -653,21 +653,6 @@ li.song.ng-scope.selectedSong {
   display: inline-block;
 }
 
-.share-view-welcome {
-  vertical-align: center;
-  width: 65%;
-  display: inline-block;
-  overflow:hidden;
-}
-
-.clone-div {
-  width: 30%;
-  display: inline-block;
-  vertical-align: bottom;
-  overflow:hidden;
-
-}
-
 .log-in {
   width: 190px;
 }
@@ -716,5 +701,21 @@ li.song.ng-scope.selectedSong {
 
   .share-view-welcome {
     font-size: 1.5em;
+    display
   }
+}
+
+.share-view-welcome {
+  vertical-align: center;
+  width: 65%;
+  display: inline-block;
+  overflow:hidden;
+  margin-top: 25px;
+}
+
+.clone-div {
+  width: 30%;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow:hidden;
 }
