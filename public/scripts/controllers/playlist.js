@@ -100,6 +100,9 @@ angular.module('ammoApp')
     };
 
     $scope['delete'] = function () {
+      if (!window.confirm('Are you sure you want to delete this playlist?')) {
+        return;
+      }
       var user = UserService.user;
       UserService.getUserPlaylists(user)
         .then(function (userPls) {
