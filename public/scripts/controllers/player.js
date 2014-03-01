@@ -221,7 +221,9 @@ angular.module('ammoApp')
       and pause our player when youtube pauses. 
     */
     $scope.detectManualPause = function () {
-      $scope.playing = false;
+      if($scope.currentSong.service === 'youtube') {
+        $scope.playing = false;
+      }
     };
 
     $scope.fixTime = function (seconds) {
