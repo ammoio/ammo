@@ -340,36 +340,10 @@ li.song.ng-scope.selectedSong {
 
 .page-content .song button:disabled {
   cursor: auto;
-  color: #6beb2e;
 }
 
 .page-content .played {
   opacity: 0.3;
-}
-
-
-@media (max-width: 600px) {
-  .column {
-    display: block;
-    text-align: center;
-  }
-
-  .on-2, .on-4, .on-3, .on-1 {
-    width: 100%;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .page-content {
-    width: 100%;
-    float: right;
-  }
-
-  .song .column {
-    display: inline-block;
-  }
 }
 
 .bottom-pad{
@@ -678,4 +652,71 @@ li.song.ng-scope.selectedSong {
   float: left;
   margin: 2em;
   display: inline-block;
+}
+
+.log-in {
+  width: 190px;
+}
+
+@media (max-width: 734px) {
+  .log-in {
+    display: block;
+    margin: 20px auto;
+    width:100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .column {
+    display: block;
+    text-align: center;
+  }
+
+  .logo-div {
+    margin-bottom: 20px;
+  }
+
+  .on-2, .on-4, .on-3, .on-1 {
+    width: 100%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .page-content {
+    width: 100%;
+    float: right;
+  }
+
+  .song .column {
+    display: inline-block;
+  }
+
+  .page-content .song button {
+    width: 100px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .share-view-welcome {
+    font-size: 1.5em;
+    display
+  }
+}
+
+.share-view-welcome {
+  vertical-align: center;
+  width: 65%;
+  display: inline-block;
+  overflow:hidden;
+  margin-top: 25px;
+}
+
+.clone-div {
+  width: 30%;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow:hidden;
 }

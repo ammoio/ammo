@@ -1,10 +1,8 @@
 <!-- Songs Container -->
 <div id="share-container">
   <div class="container row share-title">
-    <div class="column-top on-3">
-      <h3 class="share-view-welcome">{{ QueueService.queue.name }}</h3>
-    </div>
-    <div class="column-top on-1">
+    <h3 class="share-view-welcome column-top on-3">{{ QueueService.queue.name }}</h3>
+    <div class="column-top on-1 clone-div">
       <a class="md-trigger btn clone" ng-click="clone()" href="#">Clone</a>
     </div>
   </div>
@@ -21,10 +19,9 @@
           </div>
           <div class="song-meta">
             <span class="time column">{{ fixTime(song.duration) }}</span>
-            <span class="queue-votes">Votes: {{ song.votes }}</span>
           </div>
         </div>
-        <button ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}" ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up </button>
+        <button ng-disabled="QueueService.votedSongs[song.serviceId]" class"column vote-up" ng-click="voteUp($event, $index)">Vote Up<sup ng-class="{voteColor: QueueService.votedSongs[song.serviceId]}">{{ song.votes }}</sup> </button>
       </li>
     </ul>
   </div>
