@@ -45,18 +45,6 @@ var onPlayerStateChange = function (event) {
   }
 };
 
-var onYouTubeIframeAPIReady = function () {
-  youtube = new YT.Player('youtube', {
-    height: '0',
-    width: '0',
-    videoId: '',
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-};
-
 var stopVideo = function () {
   youtube.stopVideo();
 };
