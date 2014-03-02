@@ -86,6 +86,7 @@ a {
 }
 
 .head{
+  /*TODO #304*/
   background: url(../img/bg.jpg) top center repeat;
   background-size: 150% 150%;
   background-attachment: fixed;
