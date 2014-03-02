@@ -18,6 +18,7 @@
 html {
   background: url(../img/bg.jpg) top center repeat;
   background-size: 150% 150%;
+  background-attachment: fixed;
 }
 
 body {
@@ -85,11 +86,15 @@ a {
 }
 
 .head{
+  background: url(../img/bg.jpg) top center repeat;
+  background-size: 150% 150%;
+  background-attachment: fixed;
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0px;
   position: fixed;
   margin-top: 0px;
+  z-index: 2;
 }
 
 .head input, #queueForm .queueName {
@@ -147,6 +152,8 @@ a {
   width: 80%;
   float: right;
   margin-top: 85px;
+  overflow: hidden;
+  z-index: 1;
 }
 .page-content .playlist-name, .share-view-welcome {
   color: #fff;
