@@ -88,7 +88,10 @@ a {
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0px;
+  position: fixed;
+  margin-top: 0px;
 }
+
 .head input, #queueForm .queueName {
   background: #232323;
   border: 0;
@@ -107,8 +110,9 @@ a {
 .sidebar {
   width: 20%%;
   float: left;
+  margin-top: 85px;
+  position: fixed;
 }
-
 .sidebar a {
   display: block;
   color: rgba(255, 255, 255, 0.8);
@@ -142,6 +146,7 @@ a {
 .page-content {
   width: 80%;
   float: right;
+  margin-top: 85px;
 }
 .page-content .playlist-name, .share-view-welcome {
   color: #fff;
