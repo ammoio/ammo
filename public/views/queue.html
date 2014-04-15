@@ -1,0 +1,53 @@
+<div ng-hide="QueueService.queue.songs.length > 0">
+  <h3 class="playlist-name home-label"> Top 10 </h3>
+  <div class="tooltip on-2 home-tip">
+    <p>Welcome to ammo.io &ndash; Search for tunes above...</p>
+  </div>
+</div>
+
+<div id="home-content-container" ng-hide="QueueService.queue.songs.length > 0">
+  <div class="home-content">
+    <div class="image-container" ng-repeat="tile in tiles1" ng-click="search(tile.searchString)">
+      <img class="album-image" src={{tile.imgUrl}}></img>
+    </div>
+  </div>
+  <div class="home-content">
+    <div class="image-container" ng-repeat="tile in tiles2" ng-click="search(tile.searchString)">
+      <img class="album-image" src={{tile.imgUrl}}></img>
+    </div>
+  </div>
+</div>
+
+<div class="container row" ng-hide="QueueService.queue.songs.length === 0">
+  <div class="column-top on-2">
+    <h3 class="playlist-name">{{QueueService.queue.name}}</h3>
+    <span class="author">By <a href="#">{{QueueService.queue.username}}</a></span>
+    <span class="songs-number"><b>{{QueueService.queue.songs.length}}</b> Songs</span>
+  </div>
+  <div class="column-top on-2">
+    <!-- <input class="search" ng-model="testFilter" placeholder="Search playlist songs..." type="text"> -->
+    <a class="md-trigger btn share" ng-click="share()" href="#">Share</a>
+  </div>
+</div>
+<div class="container-row">
+  <ul class="songs">
+
+    <div ui-sortable="{ stop: updateQueue }" ng-model="QueueService.queue.songs">
+      <li class="song" ng-repeat="song in QueueService.queue.songs track by $index" ng-class="{played: $index < QueueService.queue.currentSong, selectedSong: $index === QueueService.queue.currentSong}" ng-click="passToPlay($index, song)">
+        <span class="icon {{ song.service }} column"></span>
+        <div class="song-info column-top">
+          <div class="song-text">
+            <h3 class="column">{{ song.artist ? song.artist : "" }}</h3>
+            <span>{{song.artist ? "  -  "  : "" }}</span>
+            <h3 class="song-name column">{{ song.title }}</h3>
+          </div>
+          <div class="song-meta">
+            <span class="time column">{{ fixTime(song.duration) }}</span>
+            <span ng-show="QueueService.live || QueuService.queue.shareId" class="queue-votes">Votes: {{ song.votes }}</span>
+          </div>
+        </div>
+        <a class"column" href="#" ng-click="removeSong($event, $index)">Remove</a>
+      </li>
+    </div>
+  </ul>
+</div>

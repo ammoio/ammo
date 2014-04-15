@@ -1,30 +1,24 @@
-angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable'])
+angular.module('ammoApp', ['ngRoute', 'ngCookies'])
 
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
     $routeProvider
-
-      .when('/', {
-        redirectTo: '/listen'
+      .when('/q/:id', {
+        templateUrl: '/views/share.html',
+        controller: 'ShareController'
       })
       .when('/search', {
-        templateUrl: '/views/search.html',
+        templateUrl: '/views/shareSearch.html',
         controller: 'SearchController'
       })
-      .when('/listen', {
-        templateUrl: '/views/queue.html',
-        controller: 'QueueController'
-      })
-      .when('/listen/:id', {
-        templateUrl: '/views/queue.html',
-        controller: 'QueueController'
-      })
-      .when('/playlist/:id', {
-        templateUrl: '/views/playlist.html',
-        controller: 'PlaylistController'
+      .when('/', {
+        templateUrl: '/index.html',
+        controller: function ($window) {
+          $window.location.href = 'http://ammo.io/listen';
+        }
       })
       .otherwise({
-        redirectTo: '/listen'
+        redirectTo: '/'
       });
 
     OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');

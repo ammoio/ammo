@@ -1,0 +1,19 @@
+/* http */
+
+#Get Create New Game
+method: GET
+url: /newGame
+Response:
+  {data: 'gameId'}
+  redirect to /game/gameId
+
+/* socket */
+
+#click the ready button to prompt start of game
+client:
+  message: 'ready'
+  data: '{}'
+  response: null
+  example:
+    socket.emit('ready', {});
+
