@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost/ammo');
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 app.use(errorhandler);
 app.use(express.favicon());
 app.use(express.logger('dev'));
