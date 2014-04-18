@@ -42,7 +42,7 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable', 
 
   })
 
-  .run(function ($rootScope, $location) {
+  .run(function ($rootScope, $location, Analytics) {
     var history = [];
 
     $rootScope.$on('$routeChangeSuccess', function () {
