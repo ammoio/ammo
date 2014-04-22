@@ -27,6 +27,10 @@ logs
 results
 
 
+### Environment ###
+env.json
+
+
 ### NPM ###
 npm-debug.log
 node_modules
