@@ -10,13 +10,8 @@ var routes = require('./app/routes/routes.js');
 var sockets = require('./app/sockets.js');
 var mongoose = require('mongoose');
 var errorhandler  = require('./app/error.js');
-
-mongoose.connect('mongodb://localhost/ammo');
-
 var app = express();
 
-// all environments
-app.set('port', process.env.PORT || 80);
 app.use(errorhandler);
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -33,9 +28,17 @@ app.use(express.session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
-// development only
-if ('development' === app.get('env')) {
+
+var env = app.get('env');
+
+if (env === 'development') {
   app.use(express.errorHandler());
+  app.set('port', process.env.PORT || 3000);
+  mongoose.connect('mongodb://localhost/ammo');
+}
+else if(env === 'production') {
+  app.set('port', process.env.PORT || 80);
+  mongoose.connect(process.env.DATABASE);
 }
 
 routes(app);
