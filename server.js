@@ -26,13 +26,13 @@ app.use(app.router);
 
 // Get config variables depending on the environment
 var env = app.get('env');
-var config = require('./env.json')[env]; 
 
 if (env === 'development') {
   app.use(express.errorHandler());
 }
-app.set('port', config.PORT);
-mongoose.connect(config.MONGO_URI);
+
+app.set('port', process.env.PORT);
+mongoose.connect(process.env.MONGO_URI);
 
 routes(app);
 
