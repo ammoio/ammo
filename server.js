@@ -1,8 +1,4 @@
-
-/*
- * Module dependencies.
- */
-
+// Module dependencies.
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -28,18 +24,15 @@ app.use(express.session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(app.router);
 
-
+// Get config variables depending on the environment
 var env = app.get('env');
+var config = require('./env.json')[env]; 
 
 if (env === 'development') {
   app.use(express.errorHandler());
-  app.set('port', process.env.PORT || 3000);
-  mongoose.connect('mongodb://localhost/ammo');
 }
-else if(env === 'production') {
-  app.set('port', process.env.PORT || 80);
-  mongoose.connect(process.env.DATABASE);
-}
+app.set('port', config.PORT);
+mongoose.connect(config.MONGO_URI);
 
 routes(app);
 
