@@ -24,10 +24,10 @@
     "socket.io-client": "~0.9.16",
     "angular-ui-sortable": "~0.12.0",
     "jquery-ui": "~1.10.4",
-    "jquery-dropdown": "~1.0.4"
+    "jquery-dropdown": "~1.0.4",
+    "angular-google-analytics": "~0.0.2"
   },
   "resolutions": {
-    "angular": "~1.2.12",
     "jquery": "~2.1.0"
   }
 }
