@@ -2,14 +2,14 @@ angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable', 
 
   .config(function ($routeProvider, $locationProvider, AnalyticsProvider) {
     //setup your account
-    AnalyticsProvider.setAccount('UA-50145036-1'); // automatic route tracking (default=true)
-    AnalyticsProvider.trackPages(true);
-    //Optional set domain (Use 'none' for testing on localhost)
-    AnalyticsProvider.setDomainName('ammo.io');
-    //Use analytics.js instead of ga.js
-    AnalyticsProvider.useAnalytics(true);
-    // Ignore first page view.
-    AnalyticsProvider.ignoreFirstPageLoad(true);
+    // AnalyticsProvider.setAccount('UA-50145036-1'); // automatic route tracking (default=true)
+    // AnalyticsProvider.trackPages(true);
+    // //Optional set domain (Use 'none' for testing on localhost)
+    // AnalyticsProvider.setDomainName('ammo.io');
+    // //Use analytics.js instead of ga.js
+    // AnalyticsProvider.useAnalytics(true);
+    // // Ignore first page view.
+    // AnalyticsProvider.ignoreFirstPageLoad(true);
 
 
     $locationProvider.html5Mode(true);
