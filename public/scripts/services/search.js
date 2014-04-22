@@ -15,6 +15,9 @@ angular.module('ammoApp')
   .service('SearchService', function ($http, $q, $rootScope, $timeout) {
     this.searchResults = []; // store search results
 
+    //do a time limit for searching
+    var timeLimit = 3000; //3 seconds
+
     var that = this; //reference to service object
 
 
@@ -24,17 +27,14 @@ angular.module('ammoApp')
 
       limit = limit || 4;
 
-      getYoutubeSongs(userInput, limit, d);
+      getYoutubeSongs(userInput, limit, timeLimit, d);
       return d.promise;
     };
 
 
-    this.rdio = function (userInput, limit, timeLimit) {
+    this.rdio = function (userInput, limit) {
       limit = limit || 4;
       var d = $q.defer();
-
-      //do a time limit for searching
-      timeLimit = timeLimit || 2500; //3 seconds
 
       getRdioSongs(userInput, limit, timeLimit, d);
       return d.promise;
@@ -52,7 +52,7 @@ angular.module('ammoApp')
       var searchUrl = "http://api.soundcloud.com/tracks?";
       searchUrl = searchUrl + "q=" + userInput + "&limit=" + limit + "&client_id=" + clientId + "&format=json";
 
-      getSoundcloudSongs(searchUrl, d);
+      getSoundcloudSongs(searchUrl, timeLimit, d);
       return d.promise;
     };
 
@@ -83,9 +83,13 @@ angular.module('ammoApp')
     };
 
 
-    var getYoutubeSongs = function (userInput, limit, d) {
+    var getYoutubeSongs = function (userInput, limit, timeLimit, d) {
+      var youtubeTimer = $timeout(function () {
+        d.resolve([]);
+      }, timeLimit);
       $http({ method: 'GET', url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=' + limit + '&q=' + userInput + '&type=video&videoCategoryId=10&key=AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8' })
         .success(function (results) {
+          $timeout.cancel(youtubeTimer);
           var youtubeResults = [];
           var compare = {
             total: results.items.length,
@@ -128,9 +132,13 @@ angular.module('ammoApp')
     };
 
 
-    var getSoundcloudSongs = function (searchUrl, d) {
+    var getSoundcloudSongs = function (searchUrl, timeLimit, d) {
+      var soundCloudTimer = $timeout(function () {
+        d.resolve([]);
+      }, timeLimit);
       $http.get(searchUrl)
         .success(function (data) {
+          $timeout.cancel(soundCloudTimer);
           var soundcloudResults = [];
 
           data.forEach(function (track) {

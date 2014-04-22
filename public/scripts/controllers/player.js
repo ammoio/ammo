@@ -181,7 +181,8 @@ angular.module('ammoApp')
           QueueService.shuffledIndex = 0;
         }
       } else {
-        next = QueueService.queue.currentSong + 1;
+        var cur = QueueService.queue.currentSong;
+        next = (cur === null) ? 0 : cur + 1;
       }
       return next;
     };
@@ -297,10 +298,14 @@ angular.module('ammoApp')
 
       song = $scope.getSong(songOrIndex);
 
-      if (song.artist) {
-        QueueService.loadArtistImages(song);
-      } else {
-        QueueService.artistImage = song.image;
+      if (song.service === 'youtube'){
+        return;
+      }else{
+        if (song.artist) {
+          QueueService.loadArtistImages(song);
+        } else {
+          QueueService.artistImage = song.image;
+        }
       }
     };
 

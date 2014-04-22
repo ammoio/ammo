@@ -72,6 +72,7 @@ a {
   padding: 10px 20px;
   border-radius: 3px;
   opacity: 0.8;
+  white-space: nowrap;
 }
 .btn:hover {
   opacity: 1;
@@ -657,15 +658,8 @@ li.song.ng-scope.selectedSong {
 
 .log-in {
   width: 190px;
-}
-
-@media (max-width: 734px) {
-  .log-in {
-    display: block;
-    margin: 20px auto;
-    width:100%;
-    text-align: center;
-  }
+  float: right;
+  margin-top: 15px;
 }
 
 @media (max-width: 600px) {

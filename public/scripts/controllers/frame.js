@@ -80,6 +80,7 @@ angular.module('ammoApp')
     $scope.shareRequestModal = function () {
       QueueService.saveQueue($scope.queueName)
         .then(function () {
+          $scope.closeModal();
           $('#shareResponseModal').addClass('md-show'); //show response modal
         });
     };
@@ -156,7 +157,11 @@ angular.module('ammoApp')
     };
 
     $scope.goHome = function(){
-      $location.path('/listen');
+      if(QueueService.live){
+        $location.path('/listen/' + QueueService.queue.listenId);
+      }else{
+        $location.path('/listen');
+      }
     };
   });
 

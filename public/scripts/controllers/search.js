@@ -78,6 +78,7 @@ angular.module('ammoApp')
       if (destination === 'queue') {
         $scope.addToQueue(event, song);
       } else {
+        song.votes = 0;
         $http({ method: 'POST', url: '/queues/' + destination.shareId + '/add', data: song });
       }
     };
