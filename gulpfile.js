@@ -13,6 +13,7 @@ var templateCache = require('gulp-angular-templatecache');
 //Paths
 var paths = {
     scripts: ['public/**/*.js'],
+    vendorScripts: ['bower_components/**/*.js'],
     styles: ['public/**/*.css'],
     html: ['public/**/*.html']
 }
@@ -27,7 +28,7 @@ gulp.task('html', function () {
         .pipe(indexFilter)
         .pipe(gulp.dest('build/'))
         .pipe(indexFilter.restore())
-        .pipe(templateCache())
+        .pipe(templateCache('templates.js', {standalone: true}))
         .pipe(gulp.dest('build/js/'));
 });
 
@@ -41,6 +42,17 @@ gulp.task('scripts', function() {
     //.pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js/'));
 });
+
+/**
+ * Concat vendor scripts and move to build dir.
+ */
+// gulp.task('vendor-scripts', function() {
+//   gulp.src(paths.vendorScripts)
+//     //.pipe(sourcemaps.init())
+//       .pipe(concat('vendor.js'))
+//     //.pipe(sourcemaps.write())
+//     .pipe(gulp.dest('build/js/'));
+// });
 
 /**
  * Concat css and move to build dir.
@@ -79,13 +91,18 @@ gulp.task('patch', function() { return inc('patch'); });
 gulp.task('minor', function() { return inc('minor'); });
 gulp.task('major', function() { return inc('major'); });
 
+/**
+ * Build entire app.
+ */
+gulp.task('build', ['scripts', 'styles', 'html']);
 
 // Watch scripts, styles, and templates
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch(paths.vendorScripts, ['vendor-scripts']);
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.html, ['html']);
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['watch', 'scripts', 'styles', 'html']);
+gulp.task('default', ['watch', 'build']);
