@@ -19,6 +19,15 @@ Music Providers:
 - Rdio
 
 
+##Getting started
+1. install node and mongodb
+2. run `npm install`
+3. run `bower install`
+4. set environment variable PORT (i.e. `export PORT=3000`)
+5. run `sudo npm install -g nodemon`
+6. run `mongod`
+7. run `nodemon ./server.js`
+
 ##Technical Challenges
 ###Combining various music APIs
 Problem: Combining all of the various music service APIs to provide a uniform user experience.
