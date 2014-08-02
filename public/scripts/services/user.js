@@ -1,4 +1,4 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.user', [])
 
   .service('UserService', function ($http, $cookies, $q) {
     this.user = {

@@ -1,4 +1,9 @@
-angular.module('ammoApp')
+angular.module('ammoApp.frame', [
+  'ammoApp.services.queue',
+  'ammoApp.services.search',
+  'ammoApp.services.user',
+  'ammoApp.services.parser'
+])
   .controller('FrameController', function ($q, $scope, $location, ParseService, SearchService, UserService, QueueService) {
 
     /*************** scope variables ***************/

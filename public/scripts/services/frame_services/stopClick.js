@@ -1,4 +1,4 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.stopClick', [])
   .service('StopClicksService', function () {
 
     //disable any clicking before all of the music players are loaded successfully

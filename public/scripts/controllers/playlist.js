@@ -1,4 +1,7 @@
-angular.module('ammoApp')
+angular.module('ammoApp.playlist', [
+  'ammoApp.services.queue',
+  'ammoApp.services.user'
+])
 
   .controller('PlaylistController', function ($scope, $http, $routeParams, $location, QueueService, UserService) {
     $scope.playlist = null;

@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.parser', [
+  'ammoApp.services.search'
+])
 //  This service is inteded to resolve the ID's of any given valid url
 //
 //  === Important Note ===

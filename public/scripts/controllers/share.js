@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.share', [
+  'ammoApp.services.queue'
+])
   /*
   ========== ShareController ==========
   This controller is subordinate to FrameController. This is set as the controller when the url is anything 
