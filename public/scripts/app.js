@@ -12,6 +12,7 @@ angular.module('ammoApp', [
   'ammoApp.search',
   'ammoApp.share',
   'ammoApp.frame'
+  'templates'
 ])
 
   .config(function ($routeProvider, $locationProvider, AnalyticsProvider) {

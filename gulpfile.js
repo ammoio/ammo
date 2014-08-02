@@ -21,7 +21,12 @@ var paths = {
  * Compile templates for use in the templateCache.
  */
 gulp.task('html', function () {
+    var indexFilter = filter('index.html');
+
     gulp.src(paths.html)
+        .pipe(indexFilter)
+        .pipe(gulp.dest('build/'))
+        .pipe(indexFilter.restore())
         .pipe(templateCache())
         .pipe(gulp.dest('build/js/'));
 });
