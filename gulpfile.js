@@ -15,21 +15,25 @@ var paths = {
     scripts: ['public/**/*.js'],
     vendorScripts: ['bower_components/**/*.js'],
     styles: ['public/**/*.css'],
-    html: ['public/**/*.html']
+    html: ['public/**/*.html', '!public/index.html'],
+    index: ['public/index.html']
 }
 
 /**
  * Compile templates for use in the templateCache.
  */
 gulp.task('html', function () {
-    var indexFilter = filter('index.html');
-
     gulp.src(paths.html)
-        .pipe(indexFilter)
-        .pipe(gulp.dest('build/'))
-        .pipe(indexFilter.restore())
         .pipe(templateCache('templates.js', {standalone: true}))
         .pipe(gulp.dest('build/js/'));
+});
+
+/**
+ * Compile templates for use in the templateCache.
+ */
+gulp.task('index', function () {
+    gulp.src(paths.index)
+        .pipe(gulp.dest('build/'));
 });
 
 /**
@@ -94,7 +98,7 @@ gulp.task('major', function() { return inc('major'); });
 /**
  * Build entire app.
  */
-gulp.task('build', ['scripts', 'styles', 'html']);
+gulp.task('build', ['scripts', 'styles', 'html', 'index']);
 
 // Watch scripts, styles, and templates
 gulp.task('watch', function() {
@@ -102,6 +106,7 @@ gulp.task('watch', function() {
   gulp.watch(paths.vendorScripts, ['vendor-scripts']);
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.html, ['html']);
+  gulp.watch(paths.index, ['index']);
 });
 
 // The default task (called when you run `gulp` from cli)
