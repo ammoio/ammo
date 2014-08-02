@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.queue', [
+  'ammoApp.services.scraper'
+])
   .service('QueueService', function ($window, $http, $q, $location, ScraperService) {
 
     this.queue = {

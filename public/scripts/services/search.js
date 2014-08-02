@@ -1,4 +1,4 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.search', [])
 
   /*
   ========== SearchService ==========

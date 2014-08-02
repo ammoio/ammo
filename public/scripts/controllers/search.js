@@ -1,4 +1,8 @@
-angular.module('ammoApp')
+angular.module('ammoApp.search', [
+  'ammoApp.services.queue',
+  'ammoApp.services.search',
+  'ammoApp.services.user'
+])
 
   /*
   ========== SearchController ==========

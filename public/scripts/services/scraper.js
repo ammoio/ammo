@@ -1,4 +1,4 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.scraper', [])
 //  This service is inteded to resolve the scrape www.theAudioDb.com for a given artist.
 //  It calls the /scrape/:artist route on our server (needs to be done there to avoid cross-origin)
 //  and receives an object which it will store in the storage object this.scraped.

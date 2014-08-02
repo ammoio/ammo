@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.services.playlist', [
+  'ammoApp.services.user'
+])
   .service('PlaylistService', ['$http', 'UserService', '$q', function ($http, UserService, $q) {
     var postPlaylist = function (name) {
       var d = $q.defer();

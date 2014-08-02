@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.player', [
+  'ammoApp.services.queue'
+])
 
   /*
     ========== PlayerController ==========

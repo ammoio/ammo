@@ -1,4 +1,6 @@
-angular.module('ammoApp')
+angular.module('ammoApp.queue', [
+  'ammoApp.services.queue'
+])
 
   .controller('QueueController', function ($scope, $http, $routeParams, $location, QueueService) {
     //$scope.artistImage = QueueService.currentImage;

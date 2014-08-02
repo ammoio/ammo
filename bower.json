@@ -25,6 +25,7 @@
     "angular-ui-sortable": "~0.12.0",
     "jquery-ui": "~1.10.4",
     "jquery-dropdown": "~1.0.4",
-    "angular-google-analytics": "~0.0.2"
+    "angular-google-analytics": "~0.0.2",
+    "angular-ui-router": "~0.2.10"
   }
 }

@@ -1,4 +1,18 @@
-angular.module('ammoApp', ['ngRoute', 'ngProgress', 'ngCookies', 'ui.sortable', 'angular-google-analytics'])
+angular.module('ammoApp', [
+  'ngRoute',
+  'ngProgress',
+  'ngCookies',
+  'ui.sortable',
+  'angular-google-analytics',
+  'ammoApp.myDirective',
+  'ammoApp.frame',
+  'ammoApp.player',
+  'ammoApp.playlist',
+  'ammoApp.queue',
+  'ammoApp.search',
+  'ammoApp.share',
+  'ammoApp.frame'
+])
 
   .config(function ($routeProvider, $locationProvider, AnalyticsProvider) {
     //setup your account
