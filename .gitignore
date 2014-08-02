@@ -39,4 +39,6 @@ node_modules
 ### WebStorm ###
 .idea/
 
+build
+
 

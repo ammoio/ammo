@@ -11,5 +11,10 @@
     "q": "~1.0.0",
     "request": "~2.34.0",
     "socket.io": "~0.9.16"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.3.4",
+    "gulp-concat-css": "^0.1.4",
+    "gulp-sourcemaps": "^1.1.0"
   }
 }
