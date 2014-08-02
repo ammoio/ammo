@@ -7,22 +7,33 @@ var tag_version = require('gulp-tag-version');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var concatCss = require('gulp-concat-css');
+var templateCache = require('gulp-angular-templatecache');
 
 
 //Paths
 var paths = {
-    scripts: ['public/**/*.js', '!public/bower_components/**'],
-    styles: ['public/**/*.css', '!public/bower_components/**']
+    scripts: ['public/**/*.js'],
+    styles: ['public/**/*.css'],
+    html: ['public/**/*.html']
 }
+
+/**
+ * Compile templates for use in the templateCache.
+ */
+gulp.task('html', function () {
+    gulp.src(paths.html)
+        .pipe(templateCache())
+        .pipe(gulp.dest('build/js/'));
+});
 
 /**
  * Concat scripts and move to build dir.
  */
 gulp.task('scripts', function() {
   gulp.src(paths.scripts)
-    .pipe(sourcemaps.init())
-      .pipe(concat('all.js'))
-    .pipe(sourcemaps.write())
+    //.pipe(sourcemaps.init())
+      .pipe(concat('bundle.js'))
+    //.pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js/'));
 });
 
@@ -48,15 +59,11 @@ gulp.task('styles', function () {
  * introduced a feature or made a backwards-incompatible release.
  */
 function inc(importance) {
-    // get all the files to bump version in
     return gulp.src(['./package.json', './bower.json'])
         // bump the version number in those files
         .pipe(bump({type: importance}))
-        // save it back to filesystem
         .pipe(gulp.dest('./'))
-        // commit the changed version number
         .pipe(git.commit('bumps package version'))
-
         // read only one file to get the version number
         .pipe(filter('package.json'))
         // **tag it in the repository**
@@ -72,7 +79,8 @@ gulp.task('major', function() { return inc('major'); });
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.styles, ['styles']);
+  gulp.watch(paths.html, ['html']);
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['watch', 'scripts', 'styles']);
+gulp.task('default', ['watch', 'scripts', 'styles', 'html']);
