@@ -11,7 +11,8 @@ angular.module('ammoApp', [
   'ammoApp.queue',
   'ammoApp.search',
   'ammoApp.share',
-  'ammoApp.frame'
+  'ammoApp.frame',
+  'templates'
 ])
 
   .config(function ($routeProvider, $locationProvider, AnalyticsProvider) {
@@ -30,26 +31,26 @@ angular.module('ammoApp', [
     $routeProvider
 
       .when('/', {
-        redirectTo: '/listen'
+        redirectTo: 'listen'
       })
       .when('/search', {
-        templateUrl: '/views/search.html',
+        templateUrl: 'views/search.html',
         controller: 'SearchController'
       })
       .when('/listen', {
-        templateUrl: '/views/queue.html',
+        templateUrl: 'views/queue.html',
         controller: 'QueueController'
       })
       .when('/listen/:id', {
-        templateUrl: '/views/queue.html',
+        templateUrl: 'views/queue.html',
         controller: 'QueueController'
       })
       .when('/playlist/:id', {
-        templateUrl: '/views/playlist.html',
+        templateUrl: 'views/playlist.html',
         controller: 'PlaylistController'
       })
       .otherwise({
-        redirectTo: '/listen'
+        redirectTo: 'listen'
       });
 
     OAuth.initialize('YTaWoCjSvB9X8LcCyc8hn6sp798');
