@@ -30,7 +30,9 @@ app.use(express.session({
   key: 'ammoio.sid',
   cookie: { httpOnly: false }
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'build')));
+app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use(app.router);
 
 // development only

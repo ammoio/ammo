@@ -11,5 +11,16 @@
     "q": "~1.0.0",
     "request": "~2.34.0",
     "socket.io": "~0.9.16"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-angular-templatecache": "^1.2.1",
+    "gulp-bump": "^0.1.10",
+    "gulp-concat": "^2.3.4",
+    "gulp-concat-css": "^0.1.4",
+    "gulp-filter": "^1.0.0",
+    "gulp-git": "^0.4.3",
+    "gulp-sourcemaps": "^1.1.0",
+    "gulp-tag-version": "^1.0.2"
   }
 }
