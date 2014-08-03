@@ -41,8 +41,10 @@ gulp.task('index', function () {
  */
 gulp.task('scripts', function() {
   gulp.src(paths.scripts)
+    // Uncomment the following lines to enable sourcemaps for concatenated files.
+    // This doesnt effect us right now because we arent minifying.
     //.pipe(sourcemaps.init())
-      .pipe(concat('bundle.js'))
+    .pipe(concat('bundle.js'))
     //.pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js/'));
 });
@@ -80,15 +82,15 @@ gulp.task('styles', function () {
  * introduced a feature or made a backwards-incompatible release.
  */
 function inc(importance) {
-    return gulp.src(['./package.json', './bower.json'])
-        // bump the version number in those files
-        .pipe(bump({type: importance}))
-        .pipe(gulp.dest('./'))
-        .pipe(git.commit('bumps package version'))
-        // read only one file to get the version number
-        .pipe(filter('package.json'))
-        // **tag it in the repository**
-        .pipe(tag_version());
+  return gulp.src(['./package.json', './bower.json'])
+    // bump the version number in those files
+    .pipe(bump({type: importance}))
+    .pipe(gulp.dest('./'))
+    .pipe(git.commit('bumps package version'))
+    // read only one file to get the version number
+    .pipe(filter('package.json'))
+    // **tag it in the repository**
+    .pipe(tag_version());
 }
 
 gulp.task('patch', function() { return inc('patch'); });
