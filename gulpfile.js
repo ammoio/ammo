@@ -29,7 +29,7 @@ gulp.task('html', function () {
 });
 
 /**
- * Compile templates for use in the templateCache.
+ * Move index file to the build dir.
  */
 gulp.task('index', function () {
     gulp.src(paths.index)
