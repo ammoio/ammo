@@ -10,7 +10,7 @@
 }
 
 html {
-  background: url(../img/bg.jpg) top center repeat;
+  background: url(/static/img/bg.jpg) top center repeat;
   background-size: 150% 150%;
 }
 
@@ -194,15 +194,15 @@ a {
   width: 85%;
 }
 .page-content .song .rdio {
-  background: url(../img/rdio.png) center center no-repeat;
+  background: url(/static/img/rdio.png) center center no-repeat;
   background-size: 39px 39px;
 }
 .page-content .song .youtube {
-  background: url(../img/youtube.png) center center no-repeat;
+  background: url(/static/img/youtube.png) center center no-repeat;
   background-size: 39px 39px;
 }
 .page-content .song .soundcloud {
-  background: url(../img/soundcloud.png) center center no-repeat;
+  background: url(/static/img/soundcloud.png) center center no-repeat;
   background-size: 45px 39px;
 }
 .page-content .song .time {
