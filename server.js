@@ -1,4 +1,3 @@
-
 /*
  * Module dependencies.
  */
@@ -11,12 +10,14 @@ var sockets = require('./app/sockets.js');
 var mongoose = require('mongoose');
 var errorhandler  = require('./app/error.js');
 
-mongoose.connect('mongodb://localhost/ammo');
+var mongoAddress = process.env.AMMO_MONGO_PORT_27017_TCP_ADDR || 'localhost';
+var mongoPort = process.env.AMMO_MONGO_PORT_27017_TCP_PORT || '27017';
+mongoose.connect('mongodb://' + mongoAddress + ':' + mongoPort + '/ammo');
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3000);
 app.use(errorhandler);
 app.use(express.favicon());
 app.use(express.logger('dev'));

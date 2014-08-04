@@ -1,0 +1,13 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|  
+  config.vm.synced_folder ".", "/home/vagrant/ammo"
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
+  config.vm.provision "docker"
+  config.vm.provision "shell", inline:
+    "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+
+  config.vm.network :forwarded_port, guest: 27017, host: 27017 
+  config.vm.network :forwarded_port, guest: 28017, host: 28017
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 
+end
