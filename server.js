@@ -1,5 +1,5 @@
 /*
- * Module dependencies.
+ * Module dependencies
  */
 
 var express = require('express');
@@ -16,7 +16,7 @@ mongoose.connect('mongodb://' + mongoAddress + ':' + mongoPort + '/ammo');
 
 var app = express();
 
-// all environments
+// all environments 
 app.set('port', process.env.PORT || 3000);
 app.use(errorhandler);
 app.use(express.favicon());
