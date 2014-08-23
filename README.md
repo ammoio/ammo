@@ -20,13 +20,19 @@ Music Providers:
 
 
 ##Getting started
-1. install node and mongodb
+1. Make sure you have node, vagrant, and virtualbox installed 
 2. run `npm install`
 3. run `bower install`
-4. set environment variable PORT (i.e. `export PORT=3000`)
-5. run `sudo npm install -g nodemon`
-6. run `mongod`
-7. run `nodemon ./server.js`
+4. run `npm install -g gulp`
+5. run `gulp`
+6. run `chmod +x ammo`
+7. run `./ammo`
+8. navigate to `http://localhost:3000`
+
+###### Optional Environment Variables
+1. `AMMO_PORT` defaults to `:3000`
+2. `AMMO_DB_PORT` defaults to `:27017`
+3. `AMMO_DB_WEB_PORT` defaults to `:28017`
 
 ##Technical Challenges
 ###Combining various music APIs

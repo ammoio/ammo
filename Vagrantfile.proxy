@@ -1,0 +1,32 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|  
+  config.vm.synced_folder ".", "/home/vagrant/ammo"
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
+  config.vm.provision "docker"
+
+  config.vm.provision "shell", inline:
+    "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "ammo_box"
+  end
+
+  if ENV['AMMO_PORT'].nil?
+    config.vm.network :forwarded_port, guest: 3000, host: 3000 
+  else
+    config.vm.network :forwarded_port, guest: 3000, host: ENV['AMMO_PORT'] 
+  end
+
+  if ENV['AMMO_DB_PORT'].nil?
+    config.vm.network :forwarded_port, guest: 27017, host: 27017 
+  else
+    config.vm.network :forwarded_port, guest: 27017, host: ENV['AMMO_DB_PORT'] 
+  end
+
+  if ENV['AMMO_DB_WEB_PORT'].nil?
+    config.vm.network :forwarded_port, guest: 28017, host: 28017
+  else
+    config.vm.network :forwarded_port, guest: 28017, host: ENV['AMMO_DB_WEB_PORT']
+  end
+end

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Turn off main vm to ensure port changes
+VBoxManage controlvm ammo_box poweroff
+
+# Destroy nodejs container to avoid running with non-synced folders
+vagrant destroy ammo_nodejs -f
+
+# Spawn the vm and containers
+vagrant up --provider=docker --no-parallel
+
