@@ -5,11 +5,14 @@
         <link rel="stylesheet" href="/css/bundle.css" type="text/css" media="screen"/>
     </head>
     <body>
-        <div ui-view="header"></div>
-        <div ui-view="sidebar"></div>
-        <div ui-view="main"></div>
-        <div ui-view="player"></div>
+        <div ng-app="ammo">
+            <div ui-view="header"></div>
+            <div ui-view="sidebar"></div>
+            <div ui-view="main"></div>
+            <div ui-view="player"></div>
+        </div>
 
+        <script src="/js/vendor.js"></script>
         <script src="/js/templates.js"></script>
         <script src="/js/bundle.js"></script>
     </body>

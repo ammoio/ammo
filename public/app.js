@@ -3,6 +3,7 @@
 
     angular.module('ammo', [
         'ui.router',
+        'ammo.templates',
         'ammo.controllers.header',
         'ammo.controllers.sidebar',
         'ammo.controllers.home',
@@ -13,6 +14,7 @@
     function config($stateProvider){
         $stateProvider
             .state('ammo',{
+                url: '',
                 views: {
                     'header': {
                         templateUrl: 'header/header.tpl.html',
