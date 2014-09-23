@@ -1,9 +1,10 @@
 (function() {
   'use strict';
 
-  angular.module('ammo.controllers.home', [
-    'ui.router'
-  ])
+  angular
+    .module('ammo.controllers.home', [
+        'ui.router'
+    ])
     .config(HomeConfig)
     .controller('HomeController', HomeController);
 

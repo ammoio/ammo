@@ -1,7 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('ammo.controllers.header', [])
+  angular
+    .module('ammo.controllers.header', [])
     .controller('HeaderController', HeaderController);
 
   function HeaderController() {

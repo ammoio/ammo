@@ -1,14 +1,15 @@
 (function() {
   'use strict';
 
-  angular.module('ammo', [
-    'ui.router',
-    'ammo.templates',
-    'ammo.controllers.header',
-    'ammo.controllers.sidebar',
-    'ammo.controllers.home',
-    'ammo.controllers.player'
-  ])
+  angular
+    .module('ammo', [
+      'ui.router',
+      'ammo.templates',
+      'ammo.controllers.header',
+      'ammo.controllers.sidebar',
+      'ammo.controllers.home',
+      'ammo.controllers.player'
+    ])
     .config(config);
 
   function config($stateProvider) {

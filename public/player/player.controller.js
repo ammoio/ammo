@@ -1,9 +1,10 @@
 (function() {
   'use strict';
 
-  angular.module('ammo.controllers.player', [
-    'ui.router'
-  ])
+  angular
+    .module('ammo.controllers.player', [
+      'ui.router'
+    ])
     .controller('PlayerController', PlayerController);
 
   function PlayerController() {
