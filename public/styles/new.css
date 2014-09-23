@@ -354,17 +354,17 @@ li.song.ng-scope.selectedSong {
 /* MODAL STUFF */
 
 .md-modal {
-    position: fixed;
-    top: 30%;
-    left: 50%;
-    width: 50%;
-    max-width: 630px;
-    min-width: 320px;
-    height: auto;
-    z-index: 2000;
-    visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transform: translateX(-50%) translateY(-50%);
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  width: 50%;
+  max-width: 630px;
+  min-width: 320px;
+  height: auto;
+  z-index: 2000;
+  visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateX(-50%) translateY(-50%);
 }
 
 .md-content{
@@ -388,41 +388,41 @@ li.song.ng-scope.selectedSong {
 }
 
 .md-show {
-    visibility: visible;
+  visibility: visible;
 }
 
 .md-overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    visibility: hidden;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    opacity: 0;
-    background: rgba(35, 35, 35, 0.8));
-    transition: all 0.3s;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  background: rgba(35, 35, 35, 0.8));
+  transition: all 0.3s;
 }
 
 .md-show ~ .md-overlay {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Effect 5: newspaper */
 .md-show.md-effect-5 ~ .md-overlay {
-    background: rgba(35, 35, 35, 0.8);
+  background: rgba(35, 35, 35, 0.8);
 }
 
 .md-effect-5 .md-content {
-    transform: scale(0) rotate(720deg);
-    opacity: 0;
-    transition: all 0.5s;
+  transform: scale(0) rotate(720deg);
+  opacity: 0;
+  transition: all 0.5s;
 }
 
 .md-show.md-effect-5 .md-content {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
 }
 
 /*END MODAL CSS*/
@@ -664,39 +664,39 @@ li.song.ng-scope.selectedSong {
 
 @media (max-width: 600px) {
   .column {
-    display: block;
-    text-align: center;
+  display: block;
+  text-align: center;
   }
 
   .logo-div {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
   }
 
   .on-2, .on-4, .on-3, .on-1 {
-    width: 100%;
+  width: 100%;
   }
 
   .sidebar {
-    display: none;
+  display: none;
   }
 
   .page-content {
-    width: 100%;
-    float: right;
+  width: 100%;
+  float: right;
   }
 
   .song .column {
-    display: inline-block;
+  display: inline-block;
   }
 
   .page-content .song button {
-    width: 100px;
-    text-align: center;
-    overflow: hidden;
+  width: 100px;
+  text-align: center;
+  overflow: hidden;
   }
 
   .share-view-welcome {
-    font-size: 1.5em;
+  font-size: 1.5em;
   }
 }
 

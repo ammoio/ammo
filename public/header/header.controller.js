@@ -1,11 +1,10 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('ammo.controllers.header', [])
-        .controller('HeaderController', HeaderController);
+  angular.module('ammo.controllers.header', [])
+    .controller('HeaderController', HeaderController);
 
-    function HeaderController() {
-        console.log("headercontroller");
-        var Ctrl = this;
-    }
+  function HeaderController() {
+    var Ctrl = this;
+  }
 })();
