@@ -17,3 +17,13 @@ indent_size = 2
 [*.html]
 indent_style = space
 indent_size = 4
+
+# 2 space indentation
+[*.scss]
+indent_style = space
+indent_size = 2
+
+# 2 space indentation
+[*.css]
+indent_style = space
+indent_size = 2
