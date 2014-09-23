@@ -3,7 +3,7 @@
 
   angular
     .module('ammo.controllers.home', [
-        'ui.router'
+      'ui.router'
     ])
     .config(HomeConfig)
     .controller('HomeController', HomeController);
