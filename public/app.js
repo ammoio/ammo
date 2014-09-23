@@ -16,7 +16,7 @@
             .state('ammo', {
                 abstract: true,
                 views: {
-                    'header': {
+                    'header@': {
                         templateUrl: 'header/header.tpl.html',
                         controller: 'HeaderController as HeaderController'
                     }
