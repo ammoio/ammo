@@ -1,4 +1,4 @@
-(function (){
+(function() {
     'use strict';
 
     angular.module('ammo', [
@@ -11,28 +11,23 @@
     ])
         .config(config);
 
-    function config($stateProvider){
+    function config($stateProvider) {
         $stateProvider
-            .state('ammo',{
-                url: '',
+            .state('ammo', {
+                abstract: true,
                 views: {
                     'header': {
                         templateUrl: 'header/header.tpl.html',
                         controller: 'HeaderController as HeaderController'
                     },
-                    'sidebar': {
-                        templateUrl: 'sidebar/sidebar.tpl.html',
-                        controller: 'SidebarController as SidebarController'
-                    },
-                    'main': {
-                        templateUrl: 'home/home.tpl.html',
-                        controller: 'HomeController as HomeController'
-                    },
-                    'player': {
-                        templateUrl: 'player/player.tpl.html',
-                        controller: 'PlayerController as PlayerController'
+                    '': {
+                        template: '<div ui-view></div>'
                     }
                 }
+            })
+            .state('ammo.player', {
+                abstract: true,
+                templateUrl: 'app.player.tpl.html'
             });
     }
 })();
