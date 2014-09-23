@@ -12,17 +12,9 @@
             .state('ammo.player.home', {
                 url: '',
                 views:{
-                    'sidebar': {
-                        templateUrl: 'sidebar/sidebar.tpl.html',
-                        controller: 'SidebarController as SidebarController'
-                    },
-                    'main': {
+                    'main@': {
                         templateUrl: 'home/home.tpl.html',
                         controller: 'HomeController as HomeController'
-                    },
-                    'player': {
-                        templateUrl: 'player/player.tpl.html',
-                        controller: 'PlayerController as PlayerController'
                     }
                 }
             });

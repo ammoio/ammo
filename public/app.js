@@ -19,15 +19,21 @@
                     'header': {
                         templateUrl: 'header/header.tpl.html',
                         controller: 'HeaderController as HeaderController'
-                    },
-                    '': {
-                        template: '<div ui-view></div>'
                     }
                 }
             })
             .state('ammo.player', {
                 abstract: true,
-                templateUrl: 'app.player.tpl.html'
+                views: {
+                    'sidebar@': {
+                        templateUrl: 'sidebar/sidebar.tpl.html',
+                        controller: 'SidebarController as SidebarController'
+                    },
+                    'player@': {
+                        templateUrl: 'player/player.tpl.html',
+                        controller: 'PlayerController as PlayerController'
+                    }
+                }
             });
     }
 })();
