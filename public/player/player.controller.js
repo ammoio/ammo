@@ -2,9 +2,7 @@
   'use strict';
 
   angular
-    .module('ammo.controllers.player', [
-      'ui.router'
-    ])
+    .module('ammo.controllers.player', [])
     .controller('PlayerController', PlayerController);
 
   function PlayerController() {

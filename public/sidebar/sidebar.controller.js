@@ -2,9 +2,7 @@
   'use strict';
 
   angular
-    .module('ammo.controllers.sidebar', [
-      'ui.router'
-    ])
+    .module('ammo.controllers.sidebar', [])
     .controller('SidebarController', SidebarController);
 
   function SidebarController() {
