@@ -20,7 +20,7 @@
     "gulp-concat-css": "^0.1.4",
     "gulp-filter": "^1.0.0",
     "gulp-git": "^0.4.3",
-    "gulp-sourcemaps": "^1.1.0",
-    "gulp-tag-version": "^1.0.2"
+    "gulp-tag-version": "^1.0.2",
+    "main-bower-files": "ck86/main-bower-files"
   }
 }

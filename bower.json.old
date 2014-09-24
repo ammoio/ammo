@@ -16,6 +16,16 @@
   ],
   "dependencies": {
     "angular": "~1.2.12",
+    "angular-route": "~1.2.12",
+    "font-awesome": "~4.0.3",
+    "jquery": "~1.8.0",
+    "ngprogress": "~1.0.4",
+    "angular-cookies": "~1.2.13",
+    "socket.io-client": "~0.9.16",
+    "angular-ui-sortable": "~0.12.0",
+    "jquery-ui": "~1.10.4",
+    "jquery-dropdown": "~1.0.4",
+    "angular-google-analytics": "~0.0.2",
     "angular-ui-router": "~0.2.10"
   }
 }

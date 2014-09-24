@@ -1,39 +1,41 @@
 // dependencies
-var gulp = require('gulp');
-var git = require('gulp-git');
-var bump = require('gulp-bump');
-var filter = require('gulp-filter');
-var tag_version = require('gulp-tag-version');
-var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
-var concatCss = require('gulp-concat-css');
-var templateCache = require('gulp-angular-templatecache');
+var gulp = require('gulp'),
+    git = require('gulp-git'),
+    bump = require('gulp-bump'),
+    filter = require('gulp-filter'),
+    tag_version = require('gulp-tag-version'),
+    concat = require('gulp-concat'),
+    concatCss = require('gulp-concat-css'),
+    templateCache = require('gulp-angular-templatecache'),
+    mainBowerFiles = require('main-bower-files');
 
 
 //Paths
 var paths = {
-    scripts: ['public/**/*.js'],
-    vendorScripts: ['bower_components/**/*.js'],
-    styles: ['public/**/*.css'],
-    html: ['public/**/*.html', '!public/index.html'],
-    index: ['public/index.html']
-}
+  scripts: ['public/**/*.js'],
+  styles: ['public/**/*.css'],
+  html: ['public/**/*.html', '!public/index.html'],
+  index: ['public/index.html']
+};
 
 /**
  * Compile templates for use in the templateCache.
  */
 gulp.task('html', function () {
-    gulp.src(paths.html)
-        .pipe(templateCache('templates.js', {standalone: true}))
-        .pipe(gulp.dest('build/js/'));
+  gulp.src(paths.html)
+    .pipe(templateCache('templates.js', {
+      standalone: true,
+      module: 'ammo.templates'
+    }))
+    .pipe(gulp.dest('build/js/'));
 });
 
 /**
  * Move index file to the build dir.
  */
 gulp.task('index', function () {
-    gulp.src(paths.index)
-        .pipe(gulp.dest('build/'));
+  gulp.src(paths.index)
+    .pipe(gulp.dest('build/'));
 });
 
 /**
@@ -41,31 +43,25 @@ gulp.task('index', function () {
  */
 gulp.task('scripts', function() {
   gulp.src(paths.scripts)
-    // Uncomment the following lines to enable sourcemaps for concatenated files.
-    // This doesnt effect us right now because we arent minifying.
-    //.pipe(sourcemaps.init())
     .pipe(concat('bundle.js'))
-    //.pipe(sourcemaps.write())
     .pipe(gulp.dest('build/js/'));
 });
 
 /**
  * Concat vendor scripts and move to build dir.
  */
-// gulp.task('vendor-scripts', function() {
-//   gulp.src(paths.vendorScripts)
-//     //.pipe(sourcemaps.init())
-//       .pipe(concat('vendor.js'))
-//     //.pipe(sourcemaps.write())
-//     .pipe(gulp.dest('build/js/'));
-// });
+gulp.task('vendor-scripts', function() {
+gulp.src(mainBowerFiles(), { base: 'bower_components' })
+  .pipe(concat('vendor.js'))
+  .pipe(gulp.dest('build/js/'));
+});
 
 /**
  * Concat css and move to build dir.
  */
 gulp.task('styles', function () {
   gulp.src(paths.styles)
-    .pipe(concatCss("bundle.css"))
+    .pipe(concatCss('bundle.css'))
     .pipe(gulp.dest('build/css/'));
 });
 
@@ -100,7 +96,7 @@ gulp.task('major', function() { return inc('major'); });
 /**
  * Build entire app.
  */
-gulp.task('build', ['scripts', 'styles', 'html', 'index']);
+gulp.task('build', ['vendor-scripts', 'scripts', 'styles', 'html', 'index']);
 
 // Watch scripts, styles, and templates
 gulp.task('watch', function() {
