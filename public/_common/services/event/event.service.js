@@ -42,7 +42,8 @@
 
       /**
        * @name unsubscribe
-       * @desc Pass in the result of subscribe to this method, or just call the method returned from subscribe to unsubscribe
+       * @desc Pass in the result of subscribe to this method, or just call the method returned from subscribe
+       *       in order to unsubscribe from an event
        * @param {Function} handle function returned from the subscribe method
        */
       function unsubscribe(handle) {
