@@ -8,10 +8,12 @@
     .factory('providersService', providersService);
 
     function providersService($log, youtubeService) {
-      var providers = {
-            youtube: youtubeService
-          },
+      var providers,
           service;
+
+      providers = {
+        youtube: youtubeService
+      };
 
       service = {
         get: get
