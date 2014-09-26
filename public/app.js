@@ -9,6 +9,9 @@
       'ammo.states.player',
 
       //App states
-      'ammo.states.home'
+      'ammo.states.home',
+
+      //Services
+      'ammo.services.providers'
     ]);
 })();
