@@ -27,6 +27,6 @@
           $log.error('Unknown provider ' + JSON.stringify(providerName))
         }
         return providers[providerName];
-      };
+      }
     }
 })();
