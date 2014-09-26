@@ -22,6 +22,10 @@
       return service;
 
       ////////////
+      /**
+       * @name get
+       * @param {String} providerName name of the provider to return
+       */
       function get(providerName) {
         if (!providers[providerName]) {
           $log.error('Unknown provider ' + JSON.stringify(providerName))
