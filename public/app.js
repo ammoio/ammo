@@ -12,6 +12,7 @@
       'ammo.states.home',
 
       //Services
-      'ammo.services.providers'
+      'ammo.services.providers',
+      'ammo.services.event'
     ]);
 })();
