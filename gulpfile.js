@@ -7,12 +7,15 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     concatCss = require('gulp-concat-css'),
     templateCache = require('gulp-angular-templatecache'),
-    mainBowerFiles = require('main-bower-files');
+    mainBowerFiles = require('main-bower-files'),
+    karma = require('gulp-karma');
 
 
 //Paths
 var paths = {
-  scripts: ['public/**/*.js'],
+  allScripts: ['public/**/*.js'],
+  scripts: ['public/**/*.js', '!public/**/*.spec.js'],
+  unitTests: ['public/**/*.spec.js'], // need to keep in sync with karma.conf.js
   styles: ['public/**/*.css'],
   html: ['public/**/*.html', '!public/index.html'],
   index: ['public/index.html']
@@ -66,6 +69,22 @@ gulp.task('styles', function () {
 });
 
 /**
+ * run karma tests
+ */
+gulp.task('test', function() {
+  return gulp.src('unitTests')
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      console.log(err);
+      this.emit('end'); //instead of erroring the stream, end it
+    });
+});
+
+/**
  * Bumping version number and tagging the repository with it.
  *
  * You can use the commands
@@ -105,7 +124,8 @@ gulp.task('watch', function() {
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.index, ['index']);
+  gulp.watch(paths.allScripts, ['test']);
 });
 
 // The default task (called when you run `gulp` from cli)
-gulp.task('default', ['watch', 'build']);
+gulp.task('default', ['watch', 'build', 'test']);

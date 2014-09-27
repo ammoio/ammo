@@ -20,7 +20,14 @@
     "gulp-concat-css": "^0.1.4",
     "gulp-filter": "^1.0.0",
     "gulp-git": "^0.4.3",
+    "gulp-jasmine": "^1.0.1",
+    "gulp-karma": "0.0.4",
     "gulp-tag-version": "^1.0.2",
+    "karma": "^0.12.23",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-spec-reporter": "0.0.13",
     "main-bower-files": "ck86/main-bower-files"
   }
 }
