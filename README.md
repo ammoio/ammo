@@ -20,14 +20,15 @@ Music Providers:
 
 
 ##Getting started
-1. Make sure you have node, vagrant, and virtualbox installed 
+1. Make sure you have node, vagrant (latest version), and virtualbox installed 
 2. run `npm install`
 3. run `bower install`
 4. run `npm install -g gulp`
 5. run `gulp`
 6. run `chmod +x ammo`
 7. run `./ammo`
-8. navigate to `http://localhost:3000`
+8. run `vagrant up --provider=docker --no-parallel`
+9. navigate to `http://localhost:3000`
 
 ###### Optional Environment Variables
 1. `AMMO_PORT` defaults to `:3000`
