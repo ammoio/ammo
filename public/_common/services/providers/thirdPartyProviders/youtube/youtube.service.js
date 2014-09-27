@@ -5,11 +5,10 @@
     .module('ammo.services.providers.youtube', [])
     .factory('youtubeService', youtubeService);
 
-    function youtubeService($window, $q) {
+    function youtubeService($window, $q, $timeout, eventService) {
       var isPlayerLoaded = false,
           service,
-          youtube,
-          songToPlay;
+          youtube;
 
       service = {
         loadPlayer: loadPlayer,
@@ -25,13 +24,12 @@
       return service;
 
       ////////////
-      function play(songId) {
-        if (isPlayerLoaded) {
-          youtube.loadVideoById(songId, 0, 'large');
-          youtube.playVideo();
-        } else {
-          loadPlayer(songId);
-        }
+      function play(song) {
+        loadPlayer()
+          .then(function successLoadPlayer() {
+            youtube.loadVideoById(song.serviceId, 0, 'large');
+            youtube.playVideo();
+          });
       }
 
       function pause() {
@@ -63,29 +61,62 @@
         youtube.setVolume(volume);
       }
 
-      function loadPlayer(songId) {
-        setWindowVariables();
-        var youtubeScript = document.createElement('script'),
-            youtubeElement = document.createElement('div');
+      function loadPlayer() {
+        var youtubeScript,
+            youtubeElement,
+            deferred,
+            rejectTimer;
 
+        if (isPlayerLoaded) {
+          return $q.when();
+        }
+
+        setWindowVariables();
+        youtubeScript = document.createElement('script');
+        youtubeElement = document.createElement('div');
         youtubeScript.src = 'https://www.youtube.com/iframe_api';
         youtubeElement.id = 'youtube';
         document.body.appendChild(youtubeScript);
         document.getElementById('providers').appendChild(youtubeElement);
-        songToPlay = songId;
+
+        rejectTimer = setRejectTimer();
+        deferred = $q.defer();
+        return deferred.promise;
 
         ///////////
+        function setRejectTimer() {
+          return $timeout(function() {
+            deferred.reject();
+            eventService.publish('error', 'Failed to load YouTube Player');
+          }, 7000);
+        }
+
         function setWindowVariables() {
           $window.onPlayerReady = function() {
             isPlayerLoaded = true;
-            play(songToPlay);
+            $timeout.cancel(rejectTimer);
+            deferred.resolve();
           };
 
           $window.onPlayerStateChange = function(event) {
-            // Register a new event to notify the player for state changes
-            console.log('New event: ' + event);
-            //YT.PlayerState.ENDED
-            // eventService.publish(
+            var newEvent = {
+              service: 'youtube'
+            };
+
+            switch (event.data) {
+              case YT.PlayerState.PLAYING:
+                eventService.publish('playing', newEvent);
+                break;
+              case YT.PlayerState.PAUSED:
+                eventService.publish('paused', newEvent);
+                break;
+              case YT.PlayerState.BUFFERING:
+                eventService.publish('buffering', newEvent);
+                break;
+              case YT.PlayerState.ENDED:
+                eventService.publish('ended', newEvent);
+                break;
+            }
           };
 
           $window.onYouTubeIframeAPIReady = function() {
@@ -111,31 +142,3 @@
       }
     }
 })();
-//var onPlayerStateChange = function (event) {
-//  var scope = angular.element(document.getElementById("youtube")).scope();
-//
-//  if (event.data === YT.PlayerState.ENDED) {
-//    scope.playNext();
-//    scope.$apply();
-//  } else if (event.data === YT.PlayerState.BUFFERING) {
-//    scope.buffering = true;
-//  } else if (event.data === YT.PlayerState.PLAYING) {
-//    scope.buffering = false;
-//    scope.ready = true;
-//    scope.unPause();
-//  } else if (event.data === YT.PlayerState.PAUSED) {
-//    scope.detectManualPause();
-//  }
-//};
-
-
-//{
-//  "title": "Summer",
-//  "artist": "Calvin Harris",
-//  "duration": 234,
-//  "service": "youtube",
-//  "serviceId": "ebXbLfLACGM",
-//  "url": "http://youtu.be/ebXbLfLACGM",
-//  "image": "https://i.ytimg.com/vi/ebXbLfLACGM/hqdefault.jpg",
-//  "votes": 0
-//},
