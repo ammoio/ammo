@@ -2,7 +2,9 @@
   'use strict';
 
   angular
-    .module('ammo.services.playlist', [])
+    .module('ammo.services.playlist', [
+      'ammo.services.event'
+    ])
     .factory('playlistService', playlistService);
 
   function playlistService(eventService) {
@@ -16,9 +18,8 @@
 
     ////////////
     /**
-     * @name addSong
-     * @param playlistId of the playlist to add the song
-     * @param song to add
+     * @param {number} playlistId of the playlist to add the song
+     * @param {object} song to add
      */
     function addSong(playlistId, song) {
 

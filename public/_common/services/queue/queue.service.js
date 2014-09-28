@@ -18,16 +18,12 @@
 
     ////////////
     /**
-     * @name hasSongs
-     * @return {Boolean}
+     * @return {boolean}
      */
     function hasSongs() {
       return queue.length > 0
     }
 
-    /**
-     * @name nextSong
-     */
     function nextSong() {
       return queue.shift();
     }

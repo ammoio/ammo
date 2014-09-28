@@ -19,9 +19,8 @@
 
     ////////////
     /**
-     * @name setPlaylist
-     * @param playlist actual playlist object retrieved from the server
-     * @param index of the current song to set as currentIndex
+     * @param {object} playlist actual playlist object retrieved from the server
+     * @param {number} index of the current song to set as currentIndex
      */
     function setPlaylist(playlist, index) {
       currentPlaylist = playlist;
@@ -30,14 +29,13 @@
     }
 
     /**
-     * @name nextSong
-     * @return next song in the playlist
+     * @return {object} next song in the playlist
      */
     function nextSong() {
       var nextSong;
 
       if (!currentPlaylist || nextIndex > currentPlaylist.songs.length) {
-        return;
+        return null;
       }
 
       nextSong = getSong(nextIndex);
@@ -47,8 +45,7 @@
     }
 
     /**
-     * @name getSong
-     * @param index of the song in the playlist
+     * @param {number} index of the song in the playlist
      */
     function getSong(index) {
       var songs = currentPlaylist.songs;
