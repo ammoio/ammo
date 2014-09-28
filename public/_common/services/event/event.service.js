@@ -16,9 +16,8 @@
 
       ////////////
       /**
-       * @name publish
-       * @param {String} event to publish
-       * @param args Data to be passed to all listeners of the event
+       * @param {string} event to publish
+       * @param {*} args Data to be passed to all listeners of the event
        */
       function publish(event, args) {
         //there are no listeners
@@ -27,24 +26,26 @@
         }
 
         //send the event
-        $rootScope.$broadcast(event, args);
+        args = Array.prototype.slice.call(arguments, 1);
+        $rootScope.$broadcast.apply($rootScope, [event].concat(args));
       }
 
       /**
-       * @name subscribe
-       * @param {String} event to subscribe to
-       * @param {Function} callback to be called when an event is published
-       * @return {Function}
+       * @param {string} event to subscribe to
+       * @param {function} callback to be called when an event is published
+       * @return {function}
        */
       function subscribe(event, callback) {
-        return $rootScope.$on(event, callback);
+        return $rootScope.$on(event, function eventCallback(event, args) {
+          callback.apply(null, Array.prototype.slice.call(arguments, 1));
+        });
       }
 
       /**
-       * @name unsubscribe
-       * @desc Pass in the result of subscribe to this method, or just call the method returned from subscribe
-       *       in order to unsubscribe from an event
-       * @param {Function} handle function returned from the subscribe method
+       * This function takes the result of the subscribe to this method
+       * in order to unsubscribe from the event. Alternatively, the function returned
+       * from subscribe can be invoked directly to unsubscribe.
+       * @param {function} handle function returned from the subscribe method
        */
       function unsubscribe(handle) {
         if (angular.isFunction(handle)) {

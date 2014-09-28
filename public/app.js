@@ -12,7 +12,10 @@
       'ammo.states.home',
 
       //Services
+      'ammo.services.currentPlaylist',
+      'ammo.services.event',
+      'ammo.services.playlist',
       'ammo.services.providers',
-      'ammo.services.event'
+      'ammo.services.queue'
     ]);
 })();
