@@ -103,6 +103,8 @@
         return $q.when();
       }
 
+      // DOM manipulation exception:
+      // Since we want to load the player just when we need it we have to do DOM manipulation on this service
       setWindowVariables();
       youtubeScript = document.createElement('script');
       youtubeElement = document.createElement('div');
