@@ -19,7 +19,7 @@
     /**
      * @param {string} query Query user typed on the search box
      * @param {integer} limit Limit the number of search results
-     * @returns {Q.promise} Promise that will resolve to an array of song objects
+     * @returns {promise} Promise that will resolve to an array of song objects
      */
     function search(query, limit) {
       var deferred = $q.defer(),
@@ -63,7 +63,7 @@
       ///////////
       /**
        * Search on youtube with the query the user typed
-       * @returns {HttpPromise}
+       * @returns {promise}
        */
       function getSearchResults() {
         return $http.get('https://www.googleapis.com/youtube/v3/search',
@@ -83,13 +83,13 @@
        * Request more details from the videos returned from the search result since the search API won't return
        * all we need.
        * @param {array} videos Array of video objects
-       * @returns {HttpPromise}
+       * @returns {promise}
        */
       function requestDetails(videos) {
-        var videoIds = [];
+        var videoIds;
 
-        _.each(videos, function(video) {
-          videoIds.push(video.id.videoId) ;
+        videoIds = _.map(videos, function(video) {
+          return video.id.videoId ;
         });
         videoIds = videoIds.join(',');
 
@@ -107,12 +107,13 @@
        * @param {array} videos Array of detailed video objects
        */
       function createSongObjects(videos) {
-        var songs = [];
+        var songs,
+            name;
 
-        _.each(videos, function(video) {
-          var name = video.snippet.title.split(' - ');
+        songs = _.map(videos, function(video) {
+          name = video.snippet.title.split(' - ');
 
-          songs.push({
+          return {
             artist: name.length > 1 ? name[0] : null,
             title: name.length > 1 ? name[1] : name[0],
             duration: timeToSeconds(video.contentDetails.duration),
@@ -120,7 +121,7 @@
             serviceId: video.id,
             url: 'http://youtu.be/' + video.id,
             image: video.snippet.thumbnails.high.url
-          });
+          };
         });
         deferred.resolve(songs);
       }
@@ -136,9 +137,10 @@
       }
 
       /**
-       * Youtube return the video duration in ISO 8601, this functions return the time in seconds
+       * Youtube return the video duration in ISO 8601 durations (e.g: PT10M46S), this function returns
+       * the time in seconds
        * @param time Time in ISO 8601 format
-       * @returns {number} time in seconds
+       * @returns {integer} time in seconds
        */
       function timeToSeconds(time) {
         var hours = time.match(/(\d+)(?=[H])/ig) || [0],

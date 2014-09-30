@@ -6,9 +6,9 @@
     .factory('youtubePlayerService', youtubePlayerService);
 
   function youtubePlayerService($window, $q, $timeout, eventService) {
-    var isPlayerLoaded = false,
-      service,
-      youtube;
+    var playerLoaded = false,
+        service,
+        youtube;
 
     service = {
       mute: mute,
@@ -32,7 +32,8 @@
         .then(function successLoadPlayer() {
           youtube.loadVideoById(song.serviceId, 0, 'large');
           youtube.playVideo();
-        }, function errorLoadPlayer() {
+        })
+        .catch(function errorLoadPlayer() {
           eventService.publish('error', 'Failed to load YouTube Player');
         });
     }
@@ -91,15 +92,15 @@
 
     /**
      * Loads the youtube iframe API asynchronously
-     * @returns {Q.Promise} Used for knowing when the youtube player is ready or failed to load.
+     * @returns {promise} Used for knowing when the youtube player is ready or failed to load.
      */
     function loadPlayer() {
-      var youtubeScript,
-        youtubeElement,
-        deferred,
-        rejectTimer;
+      var rejectTimer = setRejectTimer(),
+          deferred = $q.defer(),
+          youtubeScript,
+          youtubeElement;
 
-      if (isPlayerLoaded) {
+      if (playerLoaded) {
         return $q.when();
       }
 
@@ -113,8 +114,6 @@
       document.body.appendChild(youtubeScript);
       document.getElementById('providers').appendChild(youtubeElement);
 
-      rejectTimer = setRejectTimer();
-      deferred = $q.defer();
       return deferred.promise;
 
       ///////////
@@ -138,7 +137,7 @@
          * Triggered when the youtube player is ready. Cancels the timer and resolves the loadPlayer() promise.
          */
         $window.onPlayerReady = function() {
-          isPlayerLoaded = true;
+          playerLoaded = true;
           $timeout.cancel(rejectTimer);
           deferred.resolve();
         };
@@ -178,7 +177,7 @@
             width: '288',
             videoId: '',
             playerVars: {
-              'controls': 0,        // Display controls on the player
+              'controls': 0,        // Hide controls on the player
               'iv_load_policy': 3,  // Hide video annotations
               'disablekb': 1,       // Disable keyboard controls
               'modestbranding': 1,  // Prevent the YouTube logo from displaying in the control bar
