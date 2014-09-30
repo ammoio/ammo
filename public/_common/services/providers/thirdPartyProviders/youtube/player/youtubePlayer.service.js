@@ -91,7 +91,7 @@
 
     /**
      * Loads the youtube iframe API asynchronously
-     * @returns {promise} Used for knowing when the youtube player is ready or failed to load.
+     * @returns {Q.Promise} Used for knowing when the youtube player is ready or failed to load.
      */
     function loadPlayer() {
       var youtubeScript,
