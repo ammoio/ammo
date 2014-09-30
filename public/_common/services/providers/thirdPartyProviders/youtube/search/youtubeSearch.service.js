@@ -123,7 +123,6 @@
           });
         });
         deferred.resolve(songs);
-        console.log(songs);
       }
 
       /**
