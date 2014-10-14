@@ -18,7 +18,7 @@
     ///////////
     /**
      * @param {string} query Query user typed on the search box
-     * @param {integer} limit Limit the number of search results
+     * @param {number} limit Limit the number of search results (integer)
      * @returns {promise} Promise that will resolve to an array of song objects
      */
     function search(query, limit) {
@@ -77,7 +77,7 @@
               key: apiKey
             }
           }
-        )
+        );
       }
       /**
        * Request more details from the videos returned from the search result since the search API won't return
@@ -99,7 +99,7 @@
             id: videoIds,
             key: apiKey
           }
-        })
+        });
       }
 
       /**
@@ -140,7 +140,7 @@
        * Youtube return the video duration in ISO 8601 durations (e.g: PT10M46S), this function returns
        * the time in seconds
        * @param time Time in ISO 8601 format
-       * @returns {integer} time in seconds
+       * @returns {number} time in seconds (integer)
        */
       function timeToSeconds(time) {
         var hours = time.match(/(\d+)(?=[H])/ig) || [0],
@@ -148,7 +148,7 @@
             seconds = time.match(/(\d+)(?=[S])/ig) || [0];
 
         return (parseInt(hours, 10) * 60 * 60) + parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
-      };
+      }
     }
   }
-})();
+}());
