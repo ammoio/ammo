@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ammo.services.providers.youtube.player', [])
+    .module('ammo.services.providers.youtube.player', ['ammo.services.event'])
     .factory('youtubePlayerService', youtubePlayerService);
 
   function youtubePlayerService($window, $q, $timeout, eventService) {
@@ -55,7 +55,7 @@
 
     /**
      * Seek the youtube player to a specific second
-     * @param {integer} second The time in seconds to a specific part of the video
+     * @param {number} second The time in seconds to a specific part of the video (integer)
      */
     function seekTo(second) {
       youtube.seekTo(second, true);
@@ -84,7 +84,7 @@
 
     /**
      * Change the volume of the youtube player
-     * @param {integer} volume A number from 0 to 100 to set the volume to
+     * @param {number} volume A number from 0 to 100 to set the volume to (integer)
      */
     function setVolume(volume) {
       youtube.setVolume(volume);
@@ -193,4 +193,4 @@
       }
     }
   }
-})();
+}());
