@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ammo.controllers.player', [])
+    .module('ammo.player.controller', [])
     .controller('PlayerController', PlayerController);
 
   function PlayerController() {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ammo.controllers.home', [])
+    .module('ammo.home.controller', [])
     .controller('HomeController', HomeController);
 
   function HomeController() {

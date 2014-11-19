@@ -2,27 +2,27 @@
   'use strict';
 
   angular
-    .module('ammo.services.providers.youtube', [
-      'ammo.services.providers.youtube.player',
-      'ammo.services.providers.youtube.search'
+    .module('ammo.youtube.service', [
+      'ammo.youtube.player.service',
+      'ammo.youtube.search.service'
     ])
-    .factory('youtubeService', youtubeService);
+    .factory('youtube', youtubeService);
 
   /**
-   * This service acts like a wrapper or the 'parent' of both youtubePlayerService and youtubeSearchService
+   * This service acts like a wrapper or the 'parent' of both youtubePlayer and youtubeSearch
    * so whoever needs the youtube provider will just use youtubeService
    */
-  function youtubeService(youtubePlayerService, youtubeSearchService) {
+  function youtubeService(youtubePlayer, youtubeSearch) {
     return {
-      mute: youtubePlayerService.mute,
-      pause: youtubePlayerService.pause,
-      play: youtubePlayerService.play,
-      search: youtubeSearchService.search,
-      seekTo: youtubePlayerService.seekTo,
-      setVolume: youtubePlayerService.setVolume,
-      stop: youtubePlayerService.stop,
-      unMute: youtubePlayerService.unMute,
-      unPause: youtubePlayerService.unPause
+      mute: youtubePlayer.mute,
+      pause: youtubePlayer.pause,
+      play: youtubePlayer.play,
+      search: youtubeSearch.search,
+      seekTo: youtubePlayer.seekTo,
+      setVolume: youtubePlayer.setVolume,
+      stop: youtubePlayer.stop,
+      unMute: youtubePlayer.unMute,
+      unPause: youtubePlayer.unPause
     };
   }
 }());

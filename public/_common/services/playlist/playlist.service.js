@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('ammo.services.playlist', [
-      'ammo.services.event'
+    .module('ammo.playlist.service', [
+      'ammo.event.service'
     ])
-    .factory('playlistService', playlistService);
+    .factory('playlist', playlistService);
 
-  function playlistService(eventService) {
+  function playlistService(event) {
     var service;
 
     service = {
@@ -25,7 +25,7 @@
 
       //TODO: Perform $http request to update playlist
 
-      eventService.publish('songAdded', {
+      event.publish('songAdded', {
         playlistId: playlistId,
         song: song
       });

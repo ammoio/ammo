@@ -2,17 +2,17 @@
   'use strict';
 
   angular
-    .module('ammo.services.providers', [
-      'ammo.services.providers.youtube'
+    .module('ammo.providers.service', [
+      'ammo.youtube.service'
     ])
-    .factory('providersService', providersService);
+    .factory('providers', providersService);
 
-    function providersService($log, youtubeService) {
+    function providersService($log, youtube) {
       var providers,
           service;
 
       providers = {
-        youtube: youtubeService
+        youtube: youtube
       };
 
       service = {

@@ -3,19 +3,17 @@
 
   angular
     .module('ammo', [
-
-      //Abstract States
-      'ammo.states.ammo',
-      'ammo.states.player',
-
+      
       //App states
-      'ammo.states.home',
+      'ammo.app.state',
+      'ammo.player.state',
+      'ammo.home.state',
 
       //Services
-      'ammo.services.currentPlaylist',
-      'ammo.services.event',
-      'ammo.services.playlist',
-      'ammo.services.providers',
-      'ammo.services.queue'
+      'ammo.currentPlaylist.service',
+      'ammo.event.service',
+      'ammo.playlist.service',
+      'ammo.providers.service',
+      'ammo.queue.service'
     ]);
 })();

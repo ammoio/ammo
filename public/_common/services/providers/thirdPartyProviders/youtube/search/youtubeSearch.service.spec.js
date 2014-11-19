@@ -13,9 +13,9 @@ describe('youtubeSearch Service', function () {
     image: 'imageUrl'
   }];
 
-  beforeEach(module('ammo.services.providers.youtube.search'));
+  beforeEach(module('ammo.youtube.search.service'));
   beforeEach(inject(function($injector) {
-    youtubeSearchService = $injector.get('youtubeSearchService');
+    youtubeSearchService = $injector.get('youtubeSearch');
     $httpBackend = $injector.get('$httpBackend');
 
     $httpBackend.when('GET', /https:\/\/www.googleapis.com\/youtube\/v3\/search/)

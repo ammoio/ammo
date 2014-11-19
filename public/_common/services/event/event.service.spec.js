@@ -9,10 +9,10 @@
         $rootScope;
 
     beforeEach(function () {
-      module('ammo.services.event');
+      module('ammo.event.service');
 
       inject(function($injector) {
-        eventService = $injector.get('eventService');
+        eventService = $injector.get('event');
         $rootScope = $injector.get('$rootScope');
       });
     });
