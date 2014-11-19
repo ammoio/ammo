@@ -6,6 +6,7 @@ var fortune = require('fortune'),
   express = require('express'),
   http = require('http'),
   path = require('path'),
+  logger = require('morgan'),
   app = express();
 
 /*
@@ -45,6 +46,7 @@ songsAPI = fortune({ db: 'songs' })
 
 app
   .set('port', process.env.PORT || 3000)
+  .use(logger())
   .use(usersAPI.router)
   .use(playlistsAPI.router)
   .use(songsAPI.router)
