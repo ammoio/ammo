@@ -2,51 +2,58 @@
  * Module dependencies
  */
 
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var routes = require('./app/routes/routes.js');
-var sockets = require('./app/sockets.js');
-var mongoose = require('mongoose');
-var errorhandler  = require('./app/error.js');
+var fortune = require('fortune'),
+  express = require('express'),
+  http = require('http'),
+  path = require('path'),
+  app = express();
 
-var mongoAddress = process.env.AMMO_MONGO_PORT_27017_TCP_ADDR || 'localhost';
-var mongoPort = process.env.AMMO_MONGO_PORT_27017_TCP_PORT || '27017';
-mongoose.connect('mongodb://' + mongoAddress + ':' + mongoPort + '/ammo');
+/*
+ * Variables
+ */
 
-var app = express();
+var usersAPI,
+    playlistsAPI,
+    songsAPI;
 
-// all environments 
-app.set('port', process.env.PORT || 3000);
-app.use(errorhandler);
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({
-  secret: '1234567890QWERTY',
-  key: 'ammoio.sid',
-  cookie: { httpOnly: false }
-}));
-app.use(express.static(path.join(__dirname, 'build')));
-app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')));
-app.use('/static', express.static(path.join(__dirname, 'static')));
-app.use(app.router);
+usersAPI = fortune({ db: 'users' })
+  .resource('user', {
+    username: String,
+    email: String,
+    firstName: String,
+    lastName: String,
+    fullName: String,
+    facebookId: String,
+    playlists: ['playlist'] // hasMany relationship
+  });
 
-// development only
-if ('development' === app.get('env')) {
-  app.use(express.errorHandler());
-}
+playlistsAPI = fortune({ db: 'playlists' })
+  .resource('playlist', {
+    name: String,
+    permissions: String,
+    songs: ['song'],
+    owner: 'user' // belongsTo
+  });
 
-routes(app);
+songsAPI = fortune({ db: 'songs' })
+  .resource('song', {
+    title: String,
+    artist: String,
+    duration: Number,
+    service: String
+  });
 
-var server = http.createServer(app);
-server.listen(app.get('port'), function () {
-  console.log('What happens on port ' + app.get('port') + " stays on port " + app.get('port'));
-});
+app
+  .set('port', process.env.PORT || 3000)
+  .use(usersAPI.router)
+  .use(playlistsAPI.router)
+  .use(songsAPI.router)
+  .use(express.static(path.join(__dirname, 'build')))
+  .use('/static', express.static(path.join(__dirname, 'static')))
+  .use(app.router);
 
-sockets.startSocketServer(server);
+http.createServer(app)
+  .listen(app.get('port'), function () {
+    console.log('What happens on port ' + app.get('port') + ' stays on port ' + app.get('port'));
+  });
 

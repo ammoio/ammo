@@ -7,10 +7,7 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "mongoose": "~3.8.7",
-    "q": "~1.0.0",
-    "request": "~2.34.0",
-    "socket.io": "~0.9.16"
+    "fortune": "^0.2.4"
   },
   "devDependencies": {
     "gulp": "^3.8.7",
