@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('ammo.services.providers.youtube.player', ['ammo.services.event'])
-    .factory('youtubePlayerService', youtubePlayerService);
+    .module('ammo.youtube.player.service', ['ammo.event.service'])
+    .factory('youtubePlayer', youtubePlayerService);
 
-  function youtubePlayerService($window, $q, $timeout, eventService) {
+  function youtubePlayerService($window, $q, $timeout, event) {
     var playerLoaded = false,
         service,
         youtube;
@@ -34,7 +34,7 @@
           youtube.playVideo();
         })
         .catch(function errorLoadPlayer() {
-          eventService.publish('error', 'Failed to load YouTube Player');
+          event.publish('error', 'Failed to load YouTube Player');
         });
     }
 
@@ -153,16 +153,16 @@
 
           switch (event.data) {
             case YT.PlayerState.PLAYING:
-              eventService.publish('playing', newEvent);
+              event.publish('playing', newEvent);
               break;
             case YT.PlayerState.PAUSED:
-              eventService.publish('paused', newEvent);
+              event.publish('paused', newEvent);
               break;
             case YT.PlayerState.BUFFERING:
-              eventService.publish('buffering', newEvent);
+              event.publish('buffering', newEvent);
               break;
             case YT.PlayerState.ENDED:
-              eventService.publish('ended', newEvent);
+              event.publish('ended', newEvent);
               break;
           }
         };

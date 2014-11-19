@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('ammo.services.providers.youtube.search', [])
-    .factory('youtubeSearchService', youtubeSearchService);
+    .module('ammo.youtube.search.service', [])
+    .factory('youtubeSearch', youtubeSearchService);
 
   function youtubeSearchService($http, $q, $timeout) {
     var apiKey = 'AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8', // ToDo: Seed the api key

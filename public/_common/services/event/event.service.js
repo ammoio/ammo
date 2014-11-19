@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('ammo.services.event', [])
-    .factory('eventService', eventService);
+    .module('ammo.event.service', [])
+    .factory('event', eventService);
 
     function eventService($rootScope) {
       var service = {

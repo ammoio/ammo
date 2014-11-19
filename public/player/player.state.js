@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('ammo.states.player', [
+    .module('ammo.player.state', [
       'ui.router',
       'ammo.templates',
-      'ammo.controllers.player',
-      'ammo.controllers.sidebar'
+      'ammo.player.controller',
+      'ammo.sidebar.controller'
     ])
     .config(playerState);
 

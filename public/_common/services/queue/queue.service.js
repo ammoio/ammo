@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('ammo.services.queue', [])
-    .factory('queueService', queueService);
+    .module('ammo.queue.service', [])
+    .factory('queue', queueService);
 
   function queueService() {
     var queue = [],

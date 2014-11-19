@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('ammo.states.ammo', [
+    .module('ammo.app.state', [
       'ui.router',
       'ammo.templates',
-      'ammo.controllers.header'
+      'ammo.header.controller'
     ])
     .config(ammoState);
 

@@ -2,8 +2,8 @@
   'use strict';
 
   angular
-    .module('ammo.services.currentPlaylist', [])
-    .factory('currentPlaylistService', currentPlaylistService);
+    .module('ammo.currentPlaylist.service', [])
+    .factory('currentPlaylist', currentPlaylistService);
 
   function currentPlaylistService() {
     var currentPlaylist,
