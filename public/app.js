@@ -8,6 +8,7 @@
       'ammo.app.state',
       'ammo.player.state',
       'ammo.home.state',
+      'ammo.search.state',
 
       //Services
       'ammo.currentPlaylist.service',
