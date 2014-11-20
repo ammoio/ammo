@@ -11,10 +11,13 @@
   function SearchController(providers) {
     var ctrl = this;
 
+    ctrl.results = [];
+
     ctrl.search = function(query) {
       providers.search(query)
         .then(function(data) {
           console.log(data);
+          ctrl.results = data;
         });
     }
   }
