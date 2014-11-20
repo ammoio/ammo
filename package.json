@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.4.8",
     "fortune": "^0.2.4",
+    "fortune-mongodb": "^0.2.2",
     "morgan": "^1.5.0"
   },
   "devDependencies": {
