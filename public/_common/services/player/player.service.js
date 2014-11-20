@@ -37,8 +37,6 @@
 
       // actions
       function play(song) {
-        var provider;
-
         if (!song) {
           return;
         }
