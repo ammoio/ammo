@@ -1,8 +1,6 @@
 node:
-  image: deini/nodejs
-  command: bash -c "pm2 start /ammo/server.js --watch && pm2 logs"
+  build: ./dockerfiles/pm2
   volumes:
    - .:/ammo
   ports:
    - "3000:3000"
-
