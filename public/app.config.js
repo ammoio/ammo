@@ -11,6 +11,7 @@
 
     function responseInterceptor(data, operation, what, url) {
       var extractedData;
+
       extractedData = data[what];
       extractedData.links = data.links;
 
@@ -19,6 +20,7 @@
 
     function requestInterceptor(element, operation, what, url) {
       var formattedElement = {};
+      
       formattedElement[what] = [element];
 
       return formattedElement;

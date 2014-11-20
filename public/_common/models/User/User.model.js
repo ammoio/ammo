@@ -6,8 +6,8 @@
     .factory('User', userModel);
 
   function userModel(Restangular) {
-    var service = Restangular.service('users');
+    var model = Restangular.service('users');
 
-    return service;
+    return model;
   }
 })();
