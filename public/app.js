@@ -3,6 +3,8 @@
 
   angular
     .module('ammo', [
+      // Config
+      'ammo.config',
       
       // App states
       'ammo.app.state',
@@ -12,6 +14,10 @@
 
       // Decorators
       'ammo.q.decorator',
+
+      // Models
+      'ammo.Playlist.model',
+      'ammo.Song.model',
 
       // Services
       'ammo.currentPlaylist.service',
