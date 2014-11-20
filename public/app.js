@@ -24,6 +24,9 @@
       'ammo.event.service',
       'ammo.playlist.service',
       'ammo.providers.service',
-      'ammo.queue.service'
+      'ammo.queue.service',
+
+      // Directives
+      'ammo.song.directive'
     ]);
 })();
