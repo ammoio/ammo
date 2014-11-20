@@ -5,8 +5,8 @@
     .module('ammo.player.service', [])
     .factory('player', playerService);
 
-    function playerService(event, Timer) {
-      var timer = new Timer();
+    function playerService(event, providers, Timer) {
+      var timer = new Timer(),
           service,
           currentSong;
 
@@ -16,6 +16,8 @@
         unpause: unpause,
         nextSong: nextSong
       };
+
+      init();
 
       return service;
 
@@ -35,6 +37,7 @@
 
       // actions
       function play(song) {
+        console.log("test", song);
         if (!song) {
           return;
         }

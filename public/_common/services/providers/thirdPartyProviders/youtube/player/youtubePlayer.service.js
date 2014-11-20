@@ -146,12 +146,12 @@
          * Triggered when the youtube player changes state. Publishes an event according to the new state.
          * @param {object} event The new state event
          */
-        $window.onPlayerStateChange = function(event) {
+        $window.onPlayerStateChange = function(youtubeEvent) {
           var newEvent = {
             service: 'youtube'
           };
 
-          switch (event.data) {
+          switch (youtubeEvent.data) {
             case YT.PlayerState.PLAYING:
               event.publish('playing', newEvent);
               break;
