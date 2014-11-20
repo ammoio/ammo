@@ -37,13 +37,19 @@
 
       // actions
       function play(song) {
-        console.log("test", song);
+        var provider;
+
         if (!song) {
           return;
         }
-        timer.reset();
+
+        if (currentSong) {
+          providers.get(currentSong.service).pause();
+        }
         currentSong = song;
+
         providers.get(currentSong.service).play(currentSong);
+        timer.reset();
       }
 
       function pause() {

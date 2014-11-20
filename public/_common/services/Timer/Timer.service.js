@@ -6,6 +6,14 @@
     .factory('Timer', timerService);
 
     function timerService() {
+
+      function Timer() {
+        this.startTime = 0;
+        this.stopTime = 0;
+        this.totalElapsed = 0;
+        this.running = false;
+      }
+
       Timer.prototype = {
         start: startTimer,
         stop: stopTimer,
@@ -16,13 +24,6 @@
       return Timer;
 
       ////////////
-      function Timer() {
-        this.startTime = 0;
-        this.stopTime = 0;
-        this.totalElapsed = 0;
-        this.running = false;
-      }
-
       function reset() {
         this.totalElapsed = 0;
         this.startTime = 0;

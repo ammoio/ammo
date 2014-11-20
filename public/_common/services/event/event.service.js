@@ -27,7 +27,7 @@
 
         //send the event
         args = Array.prototype.slice.call(arguments, 1);
-        $rootScope.$broadcast.apply($rootScope, [event].concat(args));
+        $rootScope.$emit.apply($rootScope, [event].concat(args));
       }
 
       /**

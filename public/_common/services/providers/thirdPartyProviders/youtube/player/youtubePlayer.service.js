@@ -17,8 +17,8 @@
       seekTo: seekTo,
       setVolume: setVolume,
       stop: stop,
-      unMute: unMute,
-      unPause: unPause
+      unmute: unmute,
+      unpause: unpause
     };
     return service;
 
@@ -49,7 +49,7 @@
      * Unpause the youtube player, this is different than the play function since we
      * are not loading the song to the player in this function.
      */
-    function unPause() {
+    function unpause() {
       youtube.playVideo();
     }
 
@@ -78,7 +78,7 @@
     /**
      * Unmute the youtube player
      */
-    function unMute() {
+    function unmute() {
       youtube.unMute();
     }
 

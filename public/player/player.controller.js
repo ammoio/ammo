@@ -6,6 +6,6 @@
     .controller('PlayerController', PlayerController);
 
   function PlayerController(player) {
-    var Ctrl = this;
+    var ctrl = this;
   }
 })();

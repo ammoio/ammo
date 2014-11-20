@@ -21,8 +21,8 @@
       seekTo: youtubePlayer.seekTo,
       setVolume: youtubePlayer.setVolume,
       stop: youtubePlayer.stop,
-      unMute: youtubePlayer.unMute,
-      unPause: youtubePlayer.unPause
+      unmute: youtubePlayer.unmute,
+      unpause: youtubePlayer.unpause
     };
   }
 }());
