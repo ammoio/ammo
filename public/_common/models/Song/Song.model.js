@@ -6,23 +6,22 @@
     .factory('Song', songModel);
 
   function songModel(Restangular, providers) {
-    var model = Restangular.service('songs');
+    var model = Restangular.service('songs'),
+        methods = {
+          play: play
+        };
 
     Restangular.extendModel('songs', function(obj) {
-      return angular.extend(obj, {
-        play: play
-      });
+      return angular.extend(obj, methods);
     });
 
-    return model;
+    return angular.extend(model, methods);
 
     ////////////
-    /**
-     * @return {boolean}
-     */
     function play(song) {
       song = song || this;
-      console.log('Playing: ', song.title);
+
+      event.publish('play', song);
     }
   }
 })();
