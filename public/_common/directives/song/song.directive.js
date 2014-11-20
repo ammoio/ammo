@@ -5,7 +5,7 @@
     .module('ammo.song.directive', [])
     .directive('song', songDirective);
 
-  function songDirective() {
+  function songDirective(event) {
     return {
       restrict: 'E',
       scope: {
@@ -15,8 +15,12 @@
       link: songDirectiveLink
     };
 
-    function songDirectiveLink() {
+    function songDirectiveLink(scope) {
+      scope.playSong = playSong;
 
+      function playSong() {
+        event.publish('play', scope.model);
+      }
     }
   }
 

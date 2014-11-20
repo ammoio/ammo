@@ -18,19 +18,19 @@
     });
 
     describe('publish method', function () {
-      it('should $broadcast with arguments if there are subscribers to the event', function () {
-        spyOn($rootScope, '$broadcast');
+      it('should $emit with arguments if there are subscribers to the event', function () {
+        spyOn($rootScope, '$emit');
         $rootScope.$on(eventName, callBack);
 
         eventService.publish(eventName, args[0], args[1]);
-        expect($rootScope.$broadcast).toHaveBeenCalledWith(eventName, args[0], args[1]);
+        expect($rootScope.$emit).toHaveBeenCalledWith(eventName, args[0], args[1]);
       });
 
-      it('should not $broadcast whent there are no subscribers to the event', function () {
-        spyOn($rootScope, '$broadcast');
+      it('should not $emit whent there are no subscribers to the event', function () {
+        spyOn($rootScope, '$emit');
 
         eventService.publish(eventName, args[0], args[1]);
-        expect($rootScope.$broadcast).not.toHaveBeenCalled();
+        expect($rootScope.$emit).not.toHaveBeenCalled();
       });
     });
 

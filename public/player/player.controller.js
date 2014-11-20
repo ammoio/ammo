@@ -5,7 +5,7 @@
     .module('ammo.player.controller', [])
     .controller('PlayerController', PlayerController);
 
-  function PlayerController() {
-    var Ctrl = this;
+  function PlayerController(player) {
+    var ctrl = this;
   }
 })();

@@ -25,6 +25,8 @@
       'ammo.playlist.service',
       'ammo.providers.service',
       'ammo.queue.service',
+      'ammo.player.service',
+      'ammo.Timer.service',
 
       // Directives
       'ammo.song.directive'
