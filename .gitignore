@@ -43,3 +43,5 @@ build
 
 # Vagrant
 .vagrant
+
+db/

@@ -14,8 +14,7 @@ var fortune = require('fortune'),
 
 var port = process.argv[2] || 3000;
     app = fortune({
-      adapter: 'mongodb',
-      host: 'mongo'
+      path: '/ammo/db'
     });
 
 app

@@ -3,13 +3,6 @@ node:
   command: bash -c "pm2 start /ammo/server.js --watch && pm2 logs"
   volumes:
    - .:/ammo
-  links:
-   - mongo
   ports:
    - "3000:3000"
 
-mongo:
-  image: deini/mongodb
-  ports:
-  - "27017:27017"
-  - "28017:28017"
