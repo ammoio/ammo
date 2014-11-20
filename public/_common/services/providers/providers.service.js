@@ -41,18 +41,25 @@
        */
       function search(query) {
         var deferred = $q.defer(),
-            promises = [];
+            promises = [],
+            results = [];
 
-        _.each(providers, function(provider) {
+        _.each(providers, function iterateProviders(provider) {
           promises.push(provider.search(query));
         });
 
-        $q.all(promises)
-          .then(function(data) {
-            deferred.resolve(_.flatten(data, true));
+        $q.allSettled(promises)
+          .then(function allSettledResolve(data) {
+            _.each(data, function iteratePromises(promise) {
+              if (promise.state === 'fulfilled') {
+                results = results.concat(promise.value);
+              }
+            });
+            deferred.resolve(results);
           });
 
         return deferred.promise;
       }
     }
 })();
+

@@ -55,7 +55,7 @@
         })
 
         .catch(function youtubeSearchError() {
-          deferred.resolve([]);
+          deferred.reject();
         });
       return deferred.promise;
 
