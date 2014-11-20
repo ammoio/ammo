@@ -41,8 +41,7 @@
        */
       function search(query) {
         var deferred = $q.defer(),
-            promises = [],
-            results = [];
+            promises = [];
 
         _.each(providers, function iterateProviders(provider) {
           promises.push(provider.search(query));
@@ -50,12 +49,12 @@
 
         $q.allSettled(promises)
           .then(function allSettledResolve(data) {
-            _.each(data, function iteratePromises(promise) {
+            deferred.resolve(_.reduce(data, function iteratePromises(acc, promise) {
               if (promise.state === 'fulfilled') {
-                results = results.concat(promise.value);
+                return acc.concat(promise.value);
               }
-            });
-            deferred.resolve(results);
+              return acc;
+            }, []));
           });
 
         return deferred.promise;

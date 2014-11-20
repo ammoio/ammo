@@ -4,30 +4,36 @@
   angular
     .module('ammo.q.decorator', [])
 
-    .config(function($provide) {
-      $provide.decorator('$q', function qDecorator($delegate) {
-        var $q = $delegate;
+    .config(decoratorConfig);
 
-        $q.allSettled = function allSettled(promises) {
-          return $q.all(promises.map(function(promise) {
-            return promise
-              .then(function resolvedPromise(value) {
-                return {
-                  state: 'fulfilled',
-                  value: value
-                };
-              })
-              .catch(function rejectedPromise(reason) {
-                return {
-                  state: 'rejected',
-                  reason: reason
-                };
-              });
-          }));
-        };
+  function decoratorConfig($provide) {
+    $provide.decorator('$q', function qDecorator($delegate) {
+      var $q = $delegate;
 
-        return $q;
-      });
+      $q.allSettled = allSettled;
+
+      return $q;
+
+      ///////////
+      function allSettled(promises) {
+        return $q.all(promises.map(function(promise) {
+          return promise
+            .then(function resolvedPromise(value) {
+              return {
+                state: 'fulfilled',
+                value: value
+              };
+            })
+            .catch(function rejectedPromise(reason) {
+              return {
+                state: 'rejected',
+                reason: reason
+              };
+            });
+        }));
+      }
     });
+  }
+
 })();
 
