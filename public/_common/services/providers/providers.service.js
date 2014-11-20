@@ -7,7 +7,7 @@
     ])
     .factory('providers', providersService);
 
-    function providersService($log, youtube) {
+    function providersService($log, $q, youtube) {
       var providers,
           service;
 
@@ -16,7 +16,8 @@
       };
 
       service = {
-        get: get
+        get: get,
+        search: search
       };
 
       return service;
@@ -32,5 +33,32 @@
         }
         return providers[providerName];
       }
+
+      /**
+       * Calls provider.search on each of the providers
+       * @param {string} query Search Query
+       * @returns {promise}
+       */
+      function search(query) {
+        var deferred = $q.defer(),
+            promises = [];
+
+        _.each(providers, function iterateProviders(provider) {
+          promises.push(provider.search(query));
+        });
+
+        $q.allSettled(promises)
+          .then(function allSettledResolve(data) {
+            deferred.resolve(_.reduce(data, function iteratePromises(acc, promise) {
+              if (promise.state === 'fulfilled') {
+                return acc.concat(promise.value);
+              }
+              return acc;
+            }, []));
+          });
+
+        return deferred.promise;
+      }
     }
 })();
+
