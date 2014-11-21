@@ -14,7 +14,7 @@ var fortune = require('fortune'),
 
 var port = process.argv[2] || 3000;
     app = fortune({
-      path: '/ammo/db'
+      path: './db'
     });
 
 app

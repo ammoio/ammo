@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name"        : "ammo",
+    "script"      : "/ammo/server.js",
+    "watch"       : true,
+    "log_date_format"  : "YYYY-MM-DD HH:mm"
+  }]
+}
