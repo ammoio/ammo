@@ -16,11 +16,11 @@
         abstract: true,
         views: {
           'sidebar@': {
-            templateUrl: 'javascript/sidebar/sidebar.tpl.html',
+            templateUrl: 'sidebar/sidebar.tpl.html',
             controller: 'SidebarController as SidebarController'
           },
           'player@': {
-            templateUrl: 'javascript/player/player.tpl.html',
+            templateUrl: 'player/player.tpl.html',
             controller: 'PlayerController as PlayerController'
           }
         }

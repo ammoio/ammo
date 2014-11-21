@@ -1,4 +1,3 @@
-@import "http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700)";
 * {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -15,8 +14,6 @@ html {
 }
 
 body {
-/*  background-size: cover;*/
-  font-family: 'Source Sans Pro', sans-serif;
 }
 
 a {
@@ -99,7 +96,7 @@ a {
 }
 
 .sidebar {
-  width: 20%%;
+  width: 20%;
   float: left;
 }
 
@@ -400,7 +397,7 @@ li.song.ng-scope.selectedSong {
   left: 0;
   z-index: 1000;
   opacity: 0;
-  background: rgba(35, 35, 35, 0.8));
+  background: rgba(35, 35, 35, 0.8);
   transition: all 0.3s;
 }
 
@@ -648,7 +645,7 @@ li.song.ng-scope.selectedSong {
   color:white;
   opacity: 0.9;
   overflow: hidden;
-};
+}
 
 .facebook-share, .twitter-share {
   float: left;

@@ -15,7 +15,7 @@
         url: '',
         views:{
           'main@': {
-            templateUrl: 'javascript/home/home.tpl.html',
+            templateUrl: 'home/home.tpl.html',
             controller: 'HomeController as HomeController'
           }
         }

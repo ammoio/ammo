@@ -15,7 +15,7 @@
         url: '/search',
         views:{
           'main@': {
-            templateUrl: 'javascript/search/search.tpl.html',
+            templateUrl: 'search/search.tpl.html',
             controller: 'SearchController as searchController'
           }
         }

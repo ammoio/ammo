@@ -11,7 +11,7 @@
       scope: {
         model: '='
       },
-      templateUrl: 'javascript/_common/directives/song/song.tpl.html',
+      templateUrl: '_common/directives/song/song.tpl.html',
       link: songDirectiveLink
     };
 

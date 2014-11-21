@@ -15,7 +15,7 @@
         abstract: true,
         views: {
           'header@': {
-            templateUrl: 'javascript/header/header.tpl.html',
+            templateUrl: 'header/header.tpl.html',
             controller: 'HeaderController as HeaderController'
           }
         }
