@@ -18,7 +18,8 @@ var paths = {
   unitTests: ['public/javascript/**/*.spec.js'], // need to keep in sync with karma.conf.js
   styles: ['public/sass/**/*.scss'],
   html: ['public/javascript/**/*.html'],
-  index: ['public/index.html']
+  index: ['public/index.html'],
+  sassFiles: 'public/sass/*.scss'
 };
 
 /**
@@ -63,7 +64,7 @@ gulp.src(mainBowerFiles(), { base: 'bower_components' })
  * Concat css and move to build dir.
  */
 gulp.task('styles', function () {
-  gulp.src('public/sass/*.scss')
+  gulp.src(paths.sassFiles)
     .pipe(sass({errLogToConsole: true}))
     .pipe(gulp.dest('build/css/'));
 });
