@@ -59,7 +59,8 @@
               'v': 2,
               'alt': 'jsonc',
               'max-results': limit,
-              'q': query
+              'q': query,
+              'category': 'Music'
             }
           });
       }
