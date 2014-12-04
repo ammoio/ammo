@@ -2,11 +2,13 @@
   'use strict';
 
   angular
-    .module('ammo.youtube.searchApiV3.service', [])
+    .module('ammo.youtube.searchApiV3.service', [
+      'ammo.constants.service'
+    ])
     .factory('youtubeSearchApiV3', youtubeSearchApiV3Service);
 
-  function youtubeSearchApiV3Service($http, $q, $timeout) {
-    var apiKey = 'AIzaSyCsNh0OdWpESmiBBlzjpMjvbrMyKTFFFe8', // ToDo: Seed the api key
+  function youtubeSearchApiV3Service($http, $q, $timeout, constants) {
+    var apiKey = constants.youtubeApiKey,
         service;
 
     service = {
@@ -49,7 +51,7 @@
             deferred.resolve([]);
             return;
           }
-          createSongObjects(videos);
+          deferred.resolve(createSongObjects(videos));
         })
 
         .catch(function youtubeSearchError() {
@@ -108,7 +110,7 @@
        */
       function createSongObjects(videos) {
         var songs,
-          name;
+            name;
 
         songs = _.map(videos, function(video) {
           name = video.snippet.title.split(' - ');
@@ -123,7 +125,8 @@
             image: video.snippet.thumbnails.high.url
           };
         });
-        deferred.resolve(songs);
+
+        return songs;
       }
 
       /**
@@ -133,7 +136,7 @@
       function setRejectTimer() {
         return $timeout(function() {
           deferred.resolve([]);
-        }, 5000);
+        }, constants.searchTimeout);
       }
 
       /**

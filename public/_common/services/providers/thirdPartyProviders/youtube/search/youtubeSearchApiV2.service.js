@@ -2,10 +2,12 @@
   'use strict';
 
   angular
-    .module('ammo.youtube.searchApiV2.service', [])
+    .module('ammo.youtube.searchApiV2.service', [
+      'ammo.constants.service'
+    ])
     .factory('youtubeSearchApiV2', youtubeSearchApiV2Service);
 
-  function youtubeSearchApiV2Service($http, $q, $timeout) {
+  function youtubeSearchApiV2Service($http, $q, constants) {
     var service;
 
     service = {
@@ -21,16 +23,11 @@
      * @returns {promise} Promise that will resolve to an array of song objects
      */
     function search(query, limit) {
-      var deferred = $q.defer(),
-          rejectTimer = setRejectTimer();
+      var deferred = $q.defer();
 
       getSearchResults()
         .then(function youtubeSearchSuccess(results) {
-          var videos;
-
-          $timeout.cancel(rejectTimer);
-
-          videos = results.data.data.items;
+          var videos = results.data.data.items;
 
           if (!videos) {
             deferred.reject();
@@ -55,6 +52,7 @@
       function getSearchResults() {
         return $http.get('http://gdata.youtube.com/feeds/api/videos',
           {
+            timeout: constants.searchTimeout,
             params: {
               'v': 2,
               'alt': 'jsonc',
@@ -71,12 +69,12 @@
        * @returns {array} Array of song objects
        */
       function createSongObjects(videos) {
-        var songs = [];
+        var songs;
 
-        _.each(videos, function (video) {
+        songs = _.map(videos, function (video) {
           var name = video.title.split(' - ');
 
-          songs.push({
+          return {
             artist: name.length > 1 ? name[0] : null,
             title: name.length > 1 ? name[1] : name[0],
             duration: video.duration,
@@ -84,20 +82,10 @@
             serviceId: video.id,
             url: 'http://youtu.be/' + video.id,
             image: video.thumbnail.hqDefault
-          });
+          };
         });
 
         return songs;
-      }
-
-      /**
-       * Sets a timer to reject the promise if the youtube api is taking too long
-       * @returns {$timeout}
-       */
-      function setRejectTimer() {
-        return $timeout(function() {
-          deferred.resolve([]);
-        }, 5000);
       }
     }
   }
