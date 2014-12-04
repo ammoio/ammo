@@ -2,10 +2,15 @@
   'use strict';
 
   angular
-    .module('ammo.player.service', [])
+    .module('ammo.player.service', [
+      'ammo.playerSetting.service',
+      'ammo.currentPlaylist.service',
+      'ammo.queue.service',
+      'ammo.Timer.service'
+    ])
     .factory('player', playerService);
 
-    function playerService(event, providers, Timer) {
+    function playerService(event, providers, Timer, currentPlaylist, queue, playerSetting) {
       var timer = new Timer(),
           service,
           currentSong;
@@ -14,7 +19,8 @@
         play: play,
         pause: pause,
         unpause: unpause,
-        nextSong: nextSong
+        nextSong: nextSong,
+        toggleShuffle: toggleShuffle
       };
 
       init();
@@ -27,6 +33,7 @@
         event.subscribe('play', play);
         event.subscribe('pause', pause);
         event.subscribe('unpause', unpause);
+        event.subscribe('shuffle', toggleShuffle);
 
         // reactions
         event.subscribe('playing', startTimer);
@@ -59,7 +66,14 @@
       }
 
       function nextSong() {
+        if (queue.hasSongs()) {
+          service.play(queue.nextSong());
+        }
         service.play(currentPlaylist.nextSong());
+      }
+
+      function toggleShuffle() {
+        playerSetting.toggleShuffle();
       }
 
       // reactions
