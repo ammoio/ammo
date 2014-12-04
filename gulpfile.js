@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     filter = require('gulp-filter'),
     tag_version = require('gulp-tag-version'),
     concat = require('gulp-concat'),
-    concatCss = require('gulp-concat-css'),
+    sass = require('gulp-sass'),
     templateCache = require('gulp-angular-templatecache'),
     mainBowerFiles = require('main-bower-files'),
     karma = require('gulp-karma');
@@ -13,12 +13,13 @@ var gulp = require('gulp'),
 
 //Paths
 var paths = {
-  allScripts: ['public/**/*.js'],
-  scripts: ['public/**/*.js', '!public/**/*.spec.js'],
-  unitTests: ['public/**/*.spec.js'], // need to keep in sync with karma.conf.js
-  styles: ['public/**/*.css'],
-  html: ['public/**/*.html', '!public/index.html'],
-  index: ['public/index.html']
+  allScripts: ['public/javascript/**/*.js'],
+  scripts: ['public/javascript/**/*.js', '!public/**/*.spec.js'],
+  unitTests: ['public/javascript/**/*.spec.js'], // need to keep in sync with karma.conf.js
+  styles: ['public/sass/**/*.scss'],
+  html: ['public/javascript/**/*.html'],
+  index: ['public/index.html'],
+  sassFiles: 'public/sass/*.scss'
 };
 
 /**
@@ -63,8 +64,8 @@ gulp.src(mainBowerFiles(), { base: 'bower_components' })
  * Concat css and move to build dir.
  */
 gulp.task('styles', function () {
-  gulp.src(paths.styles)
-    .pipe(concatCss('bundle.css'))
+  gulp.src(paths.sassFiles)
+    .pipe(sass({errLogToConsole: true}))
     .pipe(gulp.dest('build/css/'));
 });
 
