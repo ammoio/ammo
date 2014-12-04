@@ -1,60 +1,48 @@
 describe('youtubeSearch Service', function () {
-  var youtubeSearchService,
-      $httpBackend,
-      songMock;
-
-  songMock = [{
-    artist: '30 Seconds to Mars',
-    title: 'The Kill',
-    duration: 646,
-    service: 'youtube',
-    serviceId: 'youtubeVideoID',
-    url: 'http://youtu.be/youtubeVideoID',
-    image: 'imageUrl'
-  }];
+  var mockV2,
+      mockV3,
+      youtubeSearch;
 
   beforeEach(module('ammo.youtube.search.service'));
-  beforeEach(inject(function($injector) {
-    youtubeSearchService = $injector.get('youtubeSearch');
-    $httpBackend = $injector.get('$httpBackend');
+  beforeEach(module(function($provide) {
+    mockV2 = { search: jasmine.createSpy() };
+    mockV3 = { search: jasmine.createSpy() };
 
-    $httpBackend.when('GET', /https:\/\/www.googleapis.com\/youtube\/v3\/search/)
-      .respond({
-        items: [{
-          id: 'videoId'
-        }]
-      });
-
-    $httpBackend.when('GET', /https:\/\/www.googleapis.com\/youtube\/v3\/videos/)
-      .respond({
-        items: [{
-          id: 'youtubeVideoID',
-          snippet: {
-            title: '30 Seconds to Mars - The Kill',
-            thumbnails: {
-              high: {
-                url: 'imageUrl'
-              }
-            }
-          },
-          contentDetails: {
-            duration: 'PT10M46S'
-          }
-        }]
-      });
+    $provide.value('youtubeSearchApiV2', mockV2);
+    $provide.value('youtubeSearchApiV3', mockV3);
   }));
 
-  describe('Test  YouTube search', function() {
-    it('Should call the youtube API and return a song object', function () {
-      var response;
+  beforeEach(inject(function($injector) {
+    youtubeSearch = $injector.get('youtubeSearch');
+  }));
 
-      youtubeSearchService.search('query')
-        .then(function(data) {
-          response = data;
-        });
+  describe('API Version', function() {
+    it('should call API v2 by default', function() {
+      youtubeSearch.search('query');
 
-      $httpBackend.flush();
-      expect(response).toEqual(songMock);
+      expect(mockV2.search).toHaveBeenCalled();
+      expect(mockV3.search).not.toHaveBeenCalled();
+    });
+
+    it('should call API v3 if specified', function() {
+      youtubeSearch.search('query', 5, 3);
+
+      expect(mockV2.search).not.toHaveBeenCalled();
+      expect(mockV3.search).toHaveBeenCalled();
     });
   });
+
+  describe('Limits', function() {
+    it('should default to 5 if not specified', function() {
+      youtubeSearch.search('query');
+
+      expect(mockV2.search).toHaveBeenCalledWith('query', 5);
+    });
+
+    it('should be called with a specified limit', function() {
+      youtubeSearch.search('query', 10);
+
+      expect(mockV2.search).toHaveBeenCalledWith('query', 10);
+    });
+  })
 });
