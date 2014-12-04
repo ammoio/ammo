@@ -1,4 +1,9 @@
-<div>Header</div>
-<button ng-click="headerController.authenticate('facebook')">Sign in with Facebook</button>
-<button ng-click="headerController.me()">WHO AM I? (console)</button>
-<button ng-click="headerController.logout()">Sign Out</button>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <span>ammo.io</span>
+        <span flex></span>
+        <md-button ng-click="headerController.authenticate('facebook')">Sign in with Facebook</md-button>
+        <md-button ng-click="headerController.me()">WHO AM I? (console)</md-button>
+        <md-button ng-click="headerController.logout()">Sign Out</md-button>
+    </div>
+</md-toolbar>

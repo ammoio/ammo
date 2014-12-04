@@ -3,13 +3,21 @@
     <head>
         <base href="/">
         <title>ammo</title>
+        <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+        <link rel="stylesheet" href="/bower_components/angular-material/themes/grey-theme.css">
         <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen"/>
     </head>
     <body>
-        <div ng-app="ammo">
-            <div ui-view="header"></div>
-            <div ui-view="sidebar"></div>
-            <div ui-view="main"></div>
+        <div ng-app="ammo" md-theme="grey" class="wrap">
+            <md-content class="content">
+                <header ui-view="header"></header>
+
+                <div class="innerWrap">
+                    <div ui-view="sidebar" class="sidebar"></div>
+                    <main ui-view="main" class="main"></main>
+                </div>
+            </md-content>
+
             <div ui-view="player"></div>
         </div>
 

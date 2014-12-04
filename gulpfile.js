@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     filter = require('gulp-filter'),
     tag_version = require('gulp-tag-version'),
     concat = require('gulp-concat'),
-    sass = require('gulp-sass'),
+    sass = require('gulp-ruby-sass'),
     templateCache = require('gulp-angular-templatecache'),
     mainBowerFiles = require('main-bower-files'),
     karma = require('gulp-karma');
@@ -65,7 +65,8 @@ gulp.src(mainBowerFiles(), { base: 'bower_components' })
  */
 gulp.task('styles', function () {
   gulp.src(paths.sassFiles)
-    .pipe(sass({errLogToConsole: true}))
+    .pipe(sass())
+    .on('error', function (err) { console.log(err.message); })
     .pipe(gulp.dest('build/css/'));
 });
 

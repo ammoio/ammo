@@ -14,6 +14,11 @@
     "test",
     "tests"
   ],
+  "overrides": {
+    "angular-material": {
+        "main": "angular-material.js"
+    }
+  },
   "dependencies": {
     "angular": "~1.3.0",
     "angular-ui-router": "~0.2.10",

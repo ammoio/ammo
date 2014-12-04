@@ -1,0 +1,38 @@
+// =============================================================================
+// SITE LAYOUT
+// =============================================================================
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.innerWrap {
+  @include outer-container;
+}
+
+.sidebar {
+  @include span-columns(12);
+
+  @include media($medium) {
+    @include span-columns(3);
+  }
+}
+
+.main {
+  @include span-columns(12);
+
+  @include media($medium) {
+    @include span-columns(9);
+  }
+}
+
+.player {
+  flex-shrink: 0;
+}
