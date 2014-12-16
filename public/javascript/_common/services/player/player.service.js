@@ -3,14 +3,14 @@
 
   angular
     .module('ammo.player.service', [
-      'ammo.playerSetting.service',
+      'ammo.playerSettings.service',
       'ammo.currentPlaylist.service',
       'ammo.queue.service',
       'ammo.Timer.service'
     ])
     .factory('player', playerService);
 
-    function playerService(event, providers, Timer, currentPlaylist, queue, playerSetting) {
+    function playerService(event, providers, Timer, currentPlaylist, queue, playerSettings) {
       var timer = new Timer(),
           service,
           currentSong;
@@ -73,7 +73,7 @@
       }
 
       function toggleShuffle() {
-        playerSetting.toggleShuffle();
+        playerSettings.setShuffle();
       }
 
       // reactions

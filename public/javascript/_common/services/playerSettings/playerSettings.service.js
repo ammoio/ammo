@@ -2,25 +2,25 @@
   'use strict';
 
   angular
-    .module('ammo.playerSetting.service', [
+    .module('ammo.playerSettings.service', [
       'ammo.event.service'
     ])
     .constant('repeatOptions', ['none', 'all', 'single'])
-    .factory('playerSetting', playerSettingService);
+    .factory('playerSettings', playerSettingsService);
 
-    function playerSettingService(repeatOptions, event) {
+    function playerSettingsService(repeatOptions, event) {
       var shuffled = false,
           repeat = repeatOptions[0],
           playerSetting = {
-            isShuffled: isShuffled,
+            getShuffled: getShuffled,
             getRepeat: getRepeat,
-            toggleShuffle: toggleShuffle,
+            setShuffle: setShuffle,
             setRepeat: setRepeat
           };
 
       return playerSetting;
 
-      function isShuffled() {
+      function getShuffled() {
         return shuffled;
       }
 
@@ -28,12 +28,17 @@
         return repeat;
       }
 
-      function toggleShuffle() {
-        shuffled = !shuffled;
-        if (shuffled) {
-          event.publish('setShuffle');
+      function setShuffle(doShuffle) {
+        if (_.isUndefined(doShuffle) || typeof doShuffle !== 'boolean') {
+          shuffled = !shuffled;
         } else {
-          event.publish('unsetShuffle');
+          shuffled = doShuffle;
+        }
+
+        if (shuffled) {
+          event.publish('shuffle', true);
+        } else {
+          event.publish('shuffle', false);
         }
 
         return shuffled;

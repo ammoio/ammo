@@ -3,12 +3,12 @@
 
   angular
     .module('ammo.currentPlaylist.service', [
-      'ammo.playerSetting.service',
+      'ammo.playerSettings.service',
       'ammo.event.service'
     ])
     .factory('currentPlaylist', currentPlaylistService);
 
-  function currentPlaylistService(event, playerSetting) {
+  function currentPlaylistService(event, playerSettings) {
     var currentPlaylist,
         nextIndex,
         service,
@@ -18,8 +18,7 @@
     service = {
       setPlaylist: setPlaylist,
       nextSong: nextSong,
-      setShuffle: setShuffle,
-      unsetShuffle: unsetShuffle
+      shuffle: shuffle
     };
 
     return service;
@@ -27,8 +26,7 @@
     ////////////
 
     function init() {
-      event.subscribe('setShuffle', setShuffle);
-      event.subscribe('unsetShuffle', unsetShuffle);
+      event.subscribe('shuffle', shuffle);
     }
 
     /**
@@ -39,8 +37,8 @@
       currentPlaylist = unshuffledPlaylist = playlist;
       nextIndex = index || 0;
 
-      if (playerSetting.isShuffled()) {
-        service.setShuffle();
+      if (playerSettings.getShuffled()) {
+        service.shuffle(true);
       }
       return currentPlaylist;
     }
@@ -70,7 +68,7 @@
     }
 
     function setShuffle() {
-      shuffledPlaylist = _.clone(playlist, true);
+      shuffledPlaylist = _.clone(unshuffledPlaylist, true);
       shuffledPlaylist.songs = _.shuffle(shuffledPlaylist.songs);
       moveCurrentSongToFirst();
 
@@ -78,6 +76,17 @@
       nextIndex = 0;
 
       return currentPlaylist;
+    }
+
+    /**
+     * @param {boolean} doShuffle: if true shuffle, else unshuffle playlist
+     */
+    function shuffle(doShuffle) {
+      if (doShuffle) {
+        setShuffle();
+      } else {
+        unsetShuffle();
+      }
     }
 
     function unsetShuffle() {

@@ -1,12 +1,12 @@
 describe('currentPlaylist Service', function () {
   var mockPlaylist,
       currentPlaylist,
-      playerSetting;
+      playerSettings;
 
   beforeEach(module('ammo.currentPlaylist.service'));
   beforeEach(inject(function($injector) {
     currentPlaylist = $injector.get('currentPlaylist');
-    playerSetting = $injector.get('playerSetting');
+    playerSettings = $injector.get('playerSettings');
 
     mockPlaylist = {
       songs: ['song1', 'song2', 'song3', 'song4', 'song5']
@@ -20,15 +20,13 @@ describe('currentPlaylist Service', function () {
       expect(newCurrentPlaylist).toBe(mockPlaylist);
     });
 
-    it('should call the setShuffle function when isShuffled is set to true', function () {
-      var newCurrentPlaylist;
+    it('should call the setShuffle function when getShuffled is set to true', function () {
+      spyOn(currentPlaylist, 'shuffle');
 
-      spyOn(currentPlaylist, 'setShuffle');
-
-      playerSetting.toggleShuffle(); // set to true
+      playerSettings.setShuffle(true); // set to true
       currentPlaylist.setPlaylist(mockPlaylist);
 
-      expect(currentPlaylist.setShuffle).toHaveBeenCalled();
+      expect(currentPlaylist.shuffle).toHaveBeenCalledWith(true);
     });
   });
 });
