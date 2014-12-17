@@ -45,3 +45,4 @@ build
 .vagrant
 
 db/
+config/secrets.js

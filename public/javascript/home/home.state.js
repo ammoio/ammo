@@ -12,7 +12,7 @@
   function homeState($stateProvider) {
     $stateProvider
       .state('ammo.player.home', {
-        url: '',
+        url: '/',
         views:{
           'main@': {
             templateUrl: 'home/home.tpl.html',

@@ -5,7 +5,15 @@
     .module('ammo.config', ['restangular'])
     .config(appConfig);
 
-  function appConfig(RestangularProvider) {
+  function appConfig($authProvider, $locationProvider, RestangularProvider) {
+    // Enabling html5 pushstate
+    $locationProvider.html5Mode(true);
+
+    // Satellizer provider
+    $authProvider.facebook({
+      clientId: '295545623927393'
+    });
+
     RestangularProvider.addResponseInterceptor(responseInterceptor);
     RestangularProvider.addRequestInterceptor(requestInterceptor);
 

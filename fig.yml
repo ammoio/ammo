@@ -2,5 +2,15 @@ node:
   build: ./dockerfiles/pm2
   volumes:
    - .:/ammo
+  links:
+   - mysql
   ports:
    - "3000:3000"
+
+mysql:
+  image: mysql
+  environment:
+   - MYSQL_ROOT_PASSWORD=test
+   - MYSQL_DATABASE=ammo
+  ports:
+   - "3306:3306"

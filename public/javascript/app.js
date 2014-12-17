@@ -3,6 +3,9 @@
 
   angular
     .module('ammo', [
+      // 3rd Party
+      'satellizer',
+
       // Config
       'ammo.config',
       
