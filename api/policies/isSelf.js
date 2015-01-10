@@ -1,8 +1,8 @@
 /**
- * isPlaylistOwner
+ * isSelf
  *
  * @module      :: Policy
- * @description :: Verify if a user is the playlist owner
+ * @description :: Verify if the current user is the same as the request params
  */
 module.exports = function(req, res, next) {
   if (!req.userId) {
