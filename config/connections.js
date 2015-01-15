@@ -30,7 +30,7 @@ module.exports.connections = {
   ***************************************************************************/
   mysql: {
     module: 'sails-mysql',
-    host: 'docker',
+    host: process.env.AMMO_MYSQL_1_PORT_3306_TCP_ADDR,
     port: 3306,
     user: 'root',
     password: 'test',
