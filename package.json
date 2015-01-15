@@ -2,13 +2,12 @@
   "name": "ammo",
   "version": "0.0.3",
   "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
   "dependencies": {
-    "express": "3.4.8",
-    "fortune": "^0.2.4",
-    "morgan": "^1.5.0"
+    "jwt-simple": "^0.2.0",
+    "moment": "^2.8.4",
+    "request": "^2.51.0",
+    "sails": "~0.10.5",
+    "sails-mysql": "^0.10.8"
   },
   "devDependencies": {
     "gulp": "^3.8.7",

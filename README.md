@@ -23,4 +23,4 @@ Music Providers:
 4. run `npm install -g gulp`
 5. run `gulp`
 6. run `fig up`
-7. **Linux:** Navigate to [http://localhost:3000](http://localhost:3000) **OSX:** Navigate to your boot2docker vm ip:3000 (get the ip with `boot2docker ip`)
+7. **Linux:** Navigate to [http://localhost:3000](http://localhost:3000) **OSX:** Navigate to [http://dev.ammo.io:3000](http://dev.ammo.io:3000)
