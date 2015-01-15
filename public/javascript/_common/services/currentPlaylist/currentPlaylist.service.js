@@ -2,29 +2,44 @@
   'use strict';
 
   angular
-    .module('ammo.currentPlaylist.service', [])
+    .module('ammo.currentPlaylist.service', [
+      'ammo.playerSettings.service',
+      'ammo.event.service'
+    ])
     .factory('currentPlaylist', currentPlaylistService);
 
-  function currentPlaylistService() {
+  function currentPlaylistService(event, playerSettings) {
     var currentPlaylist,
         nextIndex,
-        service;
+        service,
+        shuffledPlaylist,
+        unshuffledPlaylist;
 
     service = {
       setPlaylist: setPlaylist,
-      nextSong: nextSong
+      nextSong: nextSong,
+      shuffle: shuffle
     };
 
     return service;
 
     ////////////
+
+    function init() {
+      event.subscribe('shuffle', shuffle);
+    }
+
     /**
      * @param {object} playlist actual playlist object retrieved from the server
      * @param {number} index of the current song to set as currentIndex
      */
     function setPlaylist(playlist, index) {
-      currentPlaylist = playlist;
+      currentPlaylist = unshuffledPlaylist = playlist;
       nextIndex = index || 0;
+
+      if (playerSettings.getShuffled()) {
+        service.shuffle(true);
+      }
       return currentPlaylist;
     }
 
@@ -34,7 +49,7 @@
     function nextSong() {
       var nextSong;
 
-      if (!currentPlaylist || nextIndex > currentPlaylist.songs.length) {
+      if (!currentPlaylist || nextIndex > currentPlaylist.length - 1) {
         return null;
       }
 
@@ -50,6 +65,42 @@
     function getSong(index) {
       var songs = currentPlaylist.songs;
       return songs[index];
+    }
+
+    function setShuffle() {
+      shuffledPlaylist = _.clone(unshuffledPlaylist, true);
+      shuffledPlaylist.songs = _.shuffle(shuffledPlaylist.songs);
+      moveCurrentSongToFirst();
+
+      currentPlaylist = shuffledPlaylist;
+      nextIndex = 0;
+
+      return currentPlaylist;
+    }
+
+    /**
+     * @param {boolean} doShuffle: if true shuffle, else unshuffle playlist
+     */
+    function shuffle(doShuffle) {
+      if (doShuffle) {
+        setShuffle();
+      } else {
+        unsetShuffle();
+      }
+    }
+
+    function unsetShuffle() {
+      currentPlaylist = unshuffledPlaylist;
+      return currentPlaylist;
+    }
+
+    function moveCurrentSongToFirst() {
+      var currentSongs  = currentPlaylist.songs,
+          shuffledSongs = shuffledPlaylist.songs,
+          currentSongIndex = nextIndex === 0 ? nextIndex : nextIndex - 1,
+          currentShuffledSongIndex = _.indexOf(shuffledSongs, currentSongs[currentSongIndex]);
+
+      shuffledSongs.unshift(shuffledSongs.splice(currentShuffledSongIndex, 1)[0]);
     }
   }
 })();

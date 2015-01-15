@@ -18,13 +18,13 @@ module.exports = function(config) {
       'build/js/vendor.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'build/js/templates.js',
-      'build/js/bundle.js',
-      'public/**/*.spec.js'
+      'public/**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
+      'public/**/*.scenario.js'
     ],
 
 

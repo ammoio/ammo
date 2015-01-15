@@ -16,7 +16,7 @@
         views: {
           'header@': {
             templateUrl: 'header/header.tpl.html',
-            controller: 'HeaderController as HeaderController'
+            controller: 'HeaderController as headerController'
           }
         }
       });
