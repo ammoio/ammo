@@ -17,12 +17,12 @@
       mute: youtubePlayer.mute,
       pause: youtubePlayer.pause,
       play: youtubePlayer.play,
+      resume: youtubePlayer.resume,
       search: youtubeSearch.search,
       seekTo: youtubePlayer.seekTo,
       setVolume: youtubePlayer.setVolume,
       stop: youtubePlayer.stop,
-      unmute: youtubePlayer.unmute,
-      unpause: youtubePlayer.unpause
+      unmute: youtubePlayer.unmute
     };
   }
 }());
