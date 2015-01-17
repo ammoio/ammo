@@ -3,8 +3,8 @@
 
   angular
     .module('ammo.providers.service', [
-      'ammo.youtube.service',
-      'ammo.soundcloud.service'
+      'ammo.soundcloud.service',
+      'ammo.youtube.service'
     ])
     .factory('providers', providersService);
 

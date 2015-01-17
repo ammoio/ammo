@@ -2,10 +2,13 @@
   'use strict';
 
   angular
-    .module('ammo.soundcloud.player.service', ['ammo.event.service'])
+    .module('ammo.soundcloud.player.service', [
+      'ammo.constants.service',
+      'ammo.event.service'
+    ])
     .factory('soundcloudPlayer', soundcloudPlayerService);
 
-  function soundcloudPlayerService($q, $timeout, event) {
+  function soundcloudPlayerService($q, $timeout, constants, event) {
     var playerLoaded = false,
         service,
         soundcloud;
@@ -32,7 +35,8 @@
         .then(function successLoadPlayer() {
           return setStream(song);
         })
-        .then(function successSetStream() {
+        .then(function successSetStream(scObject) {
+          soundcloud = scObject;
           soundcloud.play();
         })
         .catch(function errorLoadPlayer() {
@@ -91,8 +95,7 @@
           }
         }
       }, function(scObject) {
-        soundcloud = scObject;
-        deferred.resolve();
+        deferred.resolve(scObject);
       });
 
       return deferred.promise;
@@ -119,7 +122,7 @@
         $timeout.cancel(rejectTimer);
 
         SC.initialize({
-          client_id: '456165005356d6638c4eabfc515d11aa'
+          client_id: constants.soundcloudClientId
         });
         playerLoaded = true;
 
