@@ -70,12 +70,12 @@
         return $http.get('https://www.googleapis.com/youtube/v3/search',
           {
             params: {
-              part: 'snippet',
+              key: apiKey,
               maxResults: limit,
+              part: 'snippet',
               q: query,
-              type: 'video',
-              videoCategoryId: 10, // Music Category
-              key: apiKey
+              safeSearch: 'none',
+              type: 'video'
             }
           }
         );
@@ -147,8 +147,8 @@
        */
       function timeToSeconds(time) {
         var hours = time.match(/(\d+)(?=[H])/ig) || [0],
-          minutes = time.match(/(\d+)(?=[M])/ig) || [0],
-          seconds = time.match(/(\d+)(?=[S])/ig) || [0];
+            minutes = time.match(/(\d+)(?=[M])/ig) || [0],
+            seconds = time.match(/(\d+)(?=[S])/ig) || [0];
 
         return (parseInt(hours, 10) * 60 * 60) + parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
       }

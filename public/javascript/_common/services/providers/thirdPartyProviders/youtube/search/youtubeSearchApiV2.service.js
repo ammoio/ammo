@@ -54,11 +54,10 @@
           {
             timeout: constants.searchTimeout,
             params: {
-              'v': 2,
               'alt': 'jsonc',
               'max-results': limit,
               'q': query,
-              'category': 'Music'
+              'v': 2
             }
           });
       }
