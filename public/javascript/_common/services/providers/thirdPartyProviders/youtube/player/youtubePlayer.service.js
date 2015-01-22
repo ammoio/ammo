@@ -14,11 +14,11 @@
       mute: mute,
       pause: pause,
       play: play,
+      resume: resume,
       seekTo: seekTo,
       setVolume: setVolume,
       stop: stop,
-      unmute: unmute,
-      unpause: unpause
+      unmute: unmute
     };
     return service;
 
@@ -46,10 +46,10 @@
     }
 
     /**
-     * Unpause the youtube player, this is different than the play function since we
+     * Resume the youtube player, this is different than the play function since we
      * are not loading the song to the player in this function.
      */
-    function unpause() {
+    function resume() {
       youtube.playVideo();
     }
 

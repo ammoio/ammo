@@ -3,16 +3,18 @@
 
   angular
     .module('ammo.providers.service', [
+      'ammo.soundcloud.service',
       'ammo.youtube.service'
     ])
     .factory('providers', providersService);
 
-    function providersService($log, $q, youtube) {
+    function providersService($log, $q, youtube, soundcloud) {
       var providers,
           service;
 
       providers = {
-        youtube: youtube
+        youtube: youtube,
+        soundcloud: soundcloud
       };
 
       service = {
@@ -29,7 +31,7 @@
        */
       function get(providerName) {
         if (!providers[providerName]) {
-          $log.error('Unknown provider ' + JSON.stringify(providerName))
+          $log.error('Unknown provider ' + JSON.stringify(providerName));
         }
         return providers[providerName];
       }
