@@ -17,18 +17,18 @@ describe('youtubeSearch Service', function () {
   }));
 
   describe('API Version', function() {
-    it('should call API v2 by default', function() {
+    it('should call API v3 by default', function() {
       youtubeSearch.search('query');
 
-      expect(mockV2.search).toHaveBeenCalled();
-      expect(mockV3.search).not.toHaveBeenCalled();
+      expect(mockV3.search).toHaveBeenCalled();
+      expect(mockV2.search).not.toHaveBeenCalled();
     });
 
-    it('should call API v3 if specified', function() {
-      youtubeSearch.search('query', 5, 3);
+    it('should call API v2 if specified', function() {
+      youtubeSearch.search('query', 5, 2);
 
-      expect(mockV2.search).not.toHaveBeenCalled();
-      expect(mockV3.search).toHaveBeenCalled();
+      expect(mockV3.search).not.toHaveBeenCalled();
+      expect(mockV2.search).toHaveBeenCalled();
     });
   });
 
@@ -36,13 +36,13 @@ describe('youtubeSearch Service', function () {
     it('should default to 5 if not specified', function() {
       youtubeSearch.search('query');
 
-      expect(mockV2.search).toHaveBeenCalledWith('query', 5);
+      expect(mockV3.search).toHaveBeenCalledWith('query', 5);
     });
 
     it('should be called with a specified limit', function() {
       youtubeSearch.search('query', 10);
 
-      expect(mockV2.search).toHaveBeenCalledWith('query', 10);
+      expect(mockV3.search).toHaveBeenCalledWith('query', 10);
     });
-  })
+  });
 });

@@ -27,7 +27,7 @@
      */
     function search(query, limit, version) {
       limit = limit || 5;
-      version = version || 2;
+      version = version || 3;
 
       if (version === 2) {
         return youtubeSearchApiV2.search(query, limit);
