@@ -4,8 +4,16 @@ node:
    - .:/ammo
   links:
    - mysql
+   - rt  
   ports:
    - "3000:3000"
+
+rt:
+  build: ./ammo-rt
+  volumes:
+   - ./ammo-rt:/ammo-rt
+  ports:
+   - "3001:3001"
 
 mysql:
   image: mysql
