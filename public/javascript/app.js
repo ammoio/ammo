@@ -32,6 +32,9 @@
       'ammo.Timer.service',
 
       // Directives
-      'ammo.song.directive'
+      'ammo.song.directive',
+
+      // Third party modules
+      'ngMaterial'
     ]);
 })();

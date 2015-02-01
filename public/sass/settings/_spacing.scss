@@ -1,0 +1,44 @@
+// =============================================================================
+// SPACING
+// =============================================================================
+
+// Spacing Rhythm
+// -----------------------------------------------------------------------------
+//
+// Create consistent spacing patterns in your entire projects aesthetics.
+// Build your components margins, paddings, etc based off these spacing vars.
+//
+// -----------------------------------------------------------------------------
+
+// Base Spacing
+$spacingRhythm:                 $fontSizeBase * $lineHeightBase;
+
+
+// Spacing Map
+// -----------------------------------------------------------------------------
+
+$spacingMap: (
+    base:                       1rem,
+    single:                     $spacingRhythm,
+    double:                     $spacingRhythm * 2,
+    half:                       $spacingRhythm / 2,
+    third:                      $spacingRhythm / 3,
+    quarter:                    $spacingRhythm / 4,
+    fifth:                      $spacingRhythm / 5,
+    sixth:                      $spacingRhythm / 6,
+    eighth:                     $spacingRhythm / 8
+);
+
+
+// Spacing Function
+// -----------------------------------------------------------------------------
+
+@function spacing($key) {
+
+    @if map-has-key($spacingMap, $key) {
+        @return map-get($spacingMap, $key);
+    }
+
+    @warn "Unknown `#{$key}` in $spacingMap.";
+    @return null;
+}
